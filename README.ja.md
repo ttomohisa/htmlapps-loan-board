@@ -34,14 +34,18 @@ GitHub Pagesから最初のHTMLを読み込んだ後、備品・貸出先・貸�
 
 ### Webで使う
 
-[デモを開く](https://ttomohisa.github.io/htmlapps-loan-board/)だけで利用できます。インストールやアカウント登録は不要です。
+[GitHub PagesでLoan Boardを開く](https://ttomohisa.github.io/htmlapps-loan-board/)だけで利用できます。インストールやアカウント登録は不要です。
 
-### 単一HTMLをビルドして使う
+### 単一HTMLを直接使う
+
+[loan-board.html](loan-board.html) をリポジトリからダウンロードして、最新のChromiumベースブラウザ、Firefox、Safariで開いてください。
+
+### 自分でビルドする
 
 1. このリポジトリをダウンロードまたはクローンします。
 2. Windowsで `build-standalone.bat` を実行します。
-3. `dist/index.html` と `loan-board.html` が生成されます。
-4. 生成したHTMLを最新のChromiumベースブラウザ、Firefox、Safariで開きます。
+3. `dist/index.html`, `dist/index.self-extract.html`, `loan-board.html` が生成されます。
+4. 生成したHTMLをブラウザで開きます。
 
 このアプリは外部ライブラリを使用していないため、通常のビルドで追加パッケージの取得は発生しません。Python、Node.js、ローカルWebサーバーは不要です。
 
@@ -111,7 +115,7 @@ CSVはUTF-8 BOM付き、CRLF、全セルquoteで出力します。ユーザー�
 
 公開URL:
 
-`https://ttomohisa.github.io/htmlapps-loan-board/`
+[https://ttomohisa.github.io/htmlapps-loan-board/](https://ttomohisa.github.io/htmlapps-loan-board/)
 
 ## 開発とビルド
 
