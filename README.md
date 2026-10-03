@@ -1,95 +1,120 @@
 # Loan Board
 
-Loan Board is a browser-based equipment checkout and return board for events, schools, shoots, stages, clubs, and other short-term lending situations.
+Loan Board is a browser-based equipment checkout and return board for short-term lending at events, schools, shoots, stages, clubs, and internal activities.
 
-The current milestone is **v0.8.0 (CSV Export)**.
+The current milestone is **v0.9.0 Release Candidate**. The v1.0.0 candidate feature set is in place, and this release focuses on usability and full regression checks.
 
-## v0.8.0 features
+## Main features
+
 - Add / edit equipment and borrowers
 - Sequential batch equipment creation
 - Equipment archive / restore
 - Multi-item checkout
 - Full and partial returns
 - Outstanding board
-- Undo the latest checkout / return
+- Clear zero-outstanding completion state
+- Undo the latest compatible checkout / return
 - Checkout / Return / Undo history
+- History search, filtering, and ordering
 - Browser autosave
 - JSON backup / restore
-- **Outstanding CSV**
-- **Operation history CSV**
-- **Equipment CSV**
+- Outstanding / operation-history / equipment CSV exports
 - Japanese / English
 - Desktop, tablet, and smartphone layouts
 - Fully local processing
 - No runtime network access
-- Single-HTML build
+- Single-HTML builds
 
-## CSV exports
+## Core flow
 
-Data management provides three CSV exports.
+```text
+Register equipment
+↓
+Choose a borrower
+↓
+Check out equipment
+↓
+Review the outstanding board
+↓
+Return all / return some
+↓
+Outstanding 0
+```
 
-### Outstanding CSV
+## v0.9.0 UX polish
 
-Exports every currently checked-out item as **one item per row**.
+A normal, non-fixed navigation near the top jumps to:
 
-It includes board, borrower, borrower note, equipment, category, item code, checkout timestamp, and equipment note.
+- Board
+- Checkout
+- Return
+- History
+- Manage
+- Data
 
-When nothing is outstanding, the app can still save a valid header-only CSV.
+It does not cover mobile content. The six actions wrap from six columns to three and then two at narrow widths.
 
-### Operation history CSV
+Mobile touch targets were also adjusted for small action buttons, borrower suggestions, selection clearing, and Toast Undo.
 
-Exports Checkout / Return / Undo as **one event-item pair per row**.
+## Persistence and backup
 
-A checkout containing multiple items therefore becomes multiple rows.
+Operational data is automatically saved in this browser.
 
-The export includes Event ID, action, timestamp, borrower, item details, whether the source event has been undone, and the related Event ID for Undo.
+Autosave is not cloud sync. Clearing site data, private browsing, or browser-specific `file://` storage behavior can make saved data unavailable.
 
-### Equipment CSV
+Keep **JSON backups** for important operations.
 
-Exports every equipment item, including archived items.
+JSON is the full-state restore format. CSV is for spreadsheet review and analysis and is not a restore format.
 
-It includes current status, archive state, current borrower, checkout timestamp, creation time, and update time.
+## CSV
 
-## Spreadsheet compatibility and safety
+Three exports are available:
 
-CSV output uses:
-- UTF-8 with BOM
-- CRLF line endings
-- comma-separated fields
-- every field quoted
-- escaped double quotes
+- Outstanding CSV
+- Operation history CSV
+- Equipment CSV
 
-User-entered cells beginning with formula-triggering characters such as `=`, `+`, `-`, or `@` are protected before export so spreadsheet software does not interpret them as formulas.
-
-## CSV is not a backup
-
-CSV is for **review and analysis**.
-
-Use **JSON backup** when you need to restore the complete Loan Board state.
-
-CSV Import / Restore is not supported.
-
-## Persistence
-
-Browser autosave and JSON backup / restore from v0.7.0 remain available.
-
-Autosave is not cloud sync and can be removed by browser site-data settings. Keep JSON backups for important operations.
+CSV uses UTF-8 with BOM, CRLF, quoted cells, and spreadsheet formula-injection protection for user-entered values beginning with formula-triggering characters.
 
 ## Privacy
 
-CSV generation, JSON backup, and autosave are all processed on the device. Equipment, borrower, loan, history, and export data are not uploaded to an external server. There is no runtime CDN, API, analytics, or telemetry.
+Entries, loan state, history, autosave, JSON, and CSV are processed on the device. User data is not uploaded to an external server.
+
+There is no runtime CDN, API, analytics, or telemetry.
+
+## Release Candidate
+
+The v1.0.0 regression matrix is maintained in `RELEASE_CHECKLIST.md`.
+
+It covers:
+
+- Desktop / mobile
+- Japanese / English
+- Long equipment, borrower, and file names
+- Empty / completed / error states
+- Checkout / Return / Partial Return / Undo
+- Autosave / reload restore
+- JSON backup / restore
+- All three CSV exports
+- Standalone / self-extract
+- CSP / runtime network blocking
+- Cloudflare PR Preview
 
 ## Single HTML / offline
+
 The build produces `dist/index.html`, `dist/index.self-extract.html`, and `loan-board.html` with no runtime network dependency.
 
 ## Roadmap
-v0.9.0 UX / Release Candidate → v1.0.0 Stable
+
+v0.9.0 Release Candidate → v1.0.0 Stable
 
 ## Development
+
 ```powershell
 powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -File .\scripts\check-powershell-syntax.ps1
 powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -File .\scripts\check-repository.ps1
 ```
 
 ## License
+
 MIT License
