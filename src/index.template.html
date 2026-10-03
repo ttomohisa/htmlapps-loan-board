@@ -415,6 +415,30 @@
       padding: 22px 16px; border: 1px dashed #b9c8c3; border-radius: 13px;
       background: var(--surface-muted); color: var(--muted); text-align: center; font-size: 13px; line-height: 1.55;
     }
+    .data-shell { margin-top: 18px; overflow: hidden; }
+    .data-body { padding: 18px; display: grid; gap: 16px; }
+    .storage-status {
+      display: grid; grid-template-columns: auto minmax(0,1fr); gap: 10px 12px; align-items: start;
+      padding: 13px 14px; border: 1px solid #bdd7cf; border-radius: 13px; background: var(--brand-soft);
+    }
+    .storage-status.error { border-color: #e1c79d; background: var(--warning-soft); }
+    .storage-status-dot {
+      width: 10px; height: 10px; margin-top: 5px; border-radius: 999px; background: var(--brand);
+    }
+    .storage-status.error .storage-status-dot { background: var(--warning); }
+    .storage-status-copy { min-width: 0; }
+    .storage-status-copy strong { display: block; color: var(--brand-strong); font-size: 14px; overflow-wrap: anywhere; }
+    .storage-status.error .storage-status-copy strong { color: var(--warning); }
+    .storage-status-copy p { margin: 4px 0 0; color: #4a6159; font-size: 12px; line-height: 1.55; overflow-wrap: anywhere; }
+    .storage-status.error .storage-status-copy p { color: #745f3d; }
+    .data-actions { display: flex; flex-wrap: wrap; gap: 9px; }
+    .button.danger { color: #8a3b32; border-color: #dcb8b3; background: #fffafa; }
+    .button.danger:hover { border-color: #c98d85; background: #fff4f2; }
+    .data-note {
+      margin: 0; padding: 11px 12px; border-radius: 11px; background: var(--surface-muted);
+      color: var(--muted); font-size: 12px; line-height: 1.6;
+    }
+    .data-file-name { color: var(--muted); font-size: 12px; overflow-wrap: anywhere; }
     .build-details { margin-top: 18px; }
     details.shell { padding: 0; }
     details summary {
@@ -488,13 +512,15 @@
       .outstanding-item { grid-template-columns: 1fr; }
       .outstanding-item-time { white-space: normal; }
       .outstanding-actions .button { flex: 1 1 100%; }
-      .panel-head, .panel-body, .checkout-body, .return-body, .history-body { padding-left: 15px; padding-right: 15px; }
+      .panel-head, .panel-body, .checkout-body, .return-body, .history-body, .data-body { padding-left: 15px; padding-right: 15px; }
       .checkout-grid, .return-grid { grid-template-columns: 1fr; }
       .checkout-footer { align-items: stretch; flex-direction: column; }
       .checkout-footer .button { width: 100%; }
       .form-row, .batch-grid, .batch-number-grid, .item-management-tools { grid-template-columns: 1fr; }
       .record { grid-template-columns: 1fr; align-items: start; }
       .record-actions .button { width: 100%; }
+      .data-actions { display: grid; grid-template-columns: 1fr; }
+      .data-actions .button { width: 100%; }
       .history-toolbar { grid-template-columns: 1fr; align-items: stretch; }
       .history-search { max-width: none; }
       .history-row { grid-template-columns: 1fr; gap: 7px; }
@@ -527,7 +553,7 @@
           <img id="appBrandIcon" src="__APP_ICON_DATA_URI__" alt="">
         </div>
         <div class="brand-copy">
-          <p class="brand-name"><span id="brandName">貸出・返却ボード</span><span class="version-badge" id="versionBadge">v0.6.0</span></p>
+          <p class="brand-name"><span id="brandName">貸出・返却ボード</span><span class="version-badge" id="versionBadge">v0.7.0</span></p>
           <p class="brand-meta" data-i18n="brandMeta">完全ローカル処理 · 単一HTML</p>
         </div>
       </div>
@@ -543,8 +569,8 @@
   <main class="main">
     <section class="hero" aria-labelledby="heroTitle">
       <div>
-        <h2 id="heroTitle" data-i18n="introTitle">備品をまとめて登録・整理</h2>
-        <p data-i18n="lead">連番の備品をまとめて登録し、使わない備品は履歴を残したままアーカイブできます。</p>
+        <h2 id="heroTitle" data-i18n="introTitle">端末に自動保存して、JSONでバックアップ</h2>
+        <p data-i18n="lead">貸出・返却・履歴をこのブラウザーに自動保存し、必要に応じてJSONファイルへバックアップできます。</p>
       </div>
       <div class="local-badge">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 5 6v5c0 4.6 2.8 8 7 10 4.2-2 7-5.4 7-10V6z"/><path d="m9 12 2 2 4-5"/></svg>
@@ -554,10 +580,10 @@
 
     <div class="version-note" role="note">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 10v6M12 7h.01"/></svg>
-      <span data-i18n="devNotice">v0.6.0では連番一括登録と備品アーカイブを利用できます。登録内容と履歴はまだメモリ上だけに保持され、ページを再読み込みすると消えます。保存・復元はv0.7.0で追加予定です。</span>
+      <span data-i18n="devNotice">v0.7.0ではこのブラウザーへの自動保存とJSONバックアップ・復元を利用できます。ブラウザーのサイトデータを削除すると自動保存データは消えるため、重要な運用ではJSONバックアップを併用してください。</span>
     </div>
 
-    <!-- APP:BEGIN Loan Board v0.6.0 item management workspace -->
+    <!-- APP:BEGIN Loan Board v0.7.0 persistence backup workspace -->
     <section class="shell board-shell" aria-labelledby="boardTitle">
       <div class="board-top">
         <label class="field" for="boardName">
@@ -565,7 +591,7 @@
           <input class="input" id="boardName" type="text" maxlength="100" autocomplete="off" data-i18n-placeholder="boardNamePlaceholder" placeholder="2026年度 文化祭">
           <span class="field-hint" data-i18n="boardNameHint">イベント名や運用名を付けておくと、今どの貸出を管理しているか分かりやすくなります。</span>
         </label>
-        <span class="status-chip" data-i18n="milestoneStatus">v0.6.0 備品管理</span>
+        <span class="status-chip" data-i18n="milestoneStatus">v0.7.0 保存・バックアップ</span>
       </div>
       <div class="summary-grid" aria-live="polite">
         <div class="summary-card outstanding" id="outstandingSummaryCard"><strong class="summary-value" id="outstandingCount">0</strong><span class="summary-label" data-i18n="outstandingCountLabel">未返却</span></div>
@@ -760,6 +786,32 @@
         </div>
       </section>
     </div>
+    <section class="shell data-shell" id="dataSection" aria-labelledby="dataTitle">
+      <div class="panel-head">
+        <div>
+          <h3 id="dataTitle" data-i18n="dataTitle">データ管理</h3>
+          <p data-i18n="dataLead">このブラウザーへの自動保存、JSONバックアップ、復元を管理します。</p>
+        </div>
+      </div>
+      <div class="data-body">
+        <div class="storage-status" id="storageStatus" role="status" aria-live="polite">
+          <span class="storage-status-dot" aria-hidden="true"></span>
+          <div class="storage-status-copy">
+            <strong id="storageStatusTitle"></strong>
+            <p id="storageStatusBody"></p>
+          </div>
+        </div>
+        <div class="data-actions">
+          <button class="button primary" id="downloadBackupButton" type="button" data-i18n="downloadBackup">JSONバックアップを保存</button>
+          <label class="button" for="restoreBackupInput" data-i18n="restoreBackup">JSONバックアップから復元</label>
+          <input class="sr-only" id="restoreBackupInput" type="file" accept=".json,application/json">
+          <button class="button danger" id="resetDataButton" type="button" data-i18n="resetData">新しいボードにリセット</button>
+        </div>
+        <div class="data-file-name" id="restoreFileName" hidden></div>
+        <p class="data-note" data-i18n="storageNote">自動保存データはこのブラウザー内に保存されます。ブラウザーのサイトデータ削除、プライベートブラウズ、ファイルの開き方や保存場所の変更などで利用できなくなる場合があります。重要な運用ではJSONバックアップを併用してください。</p>
+      </div>
+    </section>
+
     <!-- APP:END -->
 
     <details class="shell build-details">
@@ -855,17 +907,17 @@
       </div>
       <div class="dialog-body">
         <!-- APP:HELP:BEGIN -->
-        <h3 data-i18n="helpBasicsTitle">v0.6.0の基本操作</h3>
+        <h3 data-i18n="helpBasicsTitle">v0.7.0の基本操作</h3>
         <ol>
-          <li data-i18n="helpStep1">「連番をまとめて登録」では、共通名・開始番号・登録数・桁数から複数の備品を一度に作成できます。</li>
-          <li data-i18n="helpStep2">使わなくなった備品はアーカイブできます。貸出中の備品は、返却するまでアーカイブできません。</li>
-          <li data-i18n="helpStep3">アーカイブしても過去の貸出・返却履歴は残り、「アーカイブ済み」表示からいつでも復帰できます。</li>
+          <li data-i18n="helpStep1">備品・貸出先・貸出状態・履歴・アーカイブ状態は、このブラウザーへ自動保存されます。</li>
+          <li data-i18n="helpStep2">「JSONバックアップを保存」で、ボード全体を1つのJSONファイルとして保存できます。</li>
+          <li data-i18n="helpStep3">JSONバックアップから復元すると、現在のボード全体をバックアップ内容で置き換えます。復元前に確認が表示されます。</li>
         </ol>
         <h3 data-i18n="helpPrivacyTitle">プライバシー</h3>
         <p data-i18n="helpPrivacyBody">入力内容、貸出状態、返却状態、操作履歴はブラウザー内で処理され、このアプリから外部サーバーへ送信されません。ランタイムの外部通信も行いません。</p>
         <h3 data-i18n="helpNotesTitle">現在の制限</h3>
         <ul>
-          <li data-i18n="helpNoteStorage">v0.6.0では備品・貸出先・貸出返却状態・履歴・アーカイブ状態はメモリ上だけに保持され、再読み込みすると消えます。</li>
+          <li data-i18n="helpNoteStorage">自動保存はブラウザー内の保存領域を使います。サイトデータ削除やブラウザー設定などで消える場合があるため、重要なデータはJSONバックアップも保存してください。</li>
           <li data-i18n="helpNoteUndo">Undoは履歴を削除せず、取り消しイベントを追加して状態を戻します。</li>
           <li data-i18n="helpNoteData">電話番号や住所など、貸出管理に不要な個人情報は入力しないことを推奨します。</li>
         </ul>
@@ -981,9 +1033,9 @@
 
       const translations = {
         ja: {
-          brandMeta:'完全ローカル処理 · 単一HTML',introTitle:'備品をまとめて登録・整理',lead:'連番の備品をまとめて登録し、使わない備品は履歴を残したままアーカイブできます。',localBadge:'完全ローカル処理',
-          devNotice:'v0.6.0では連番一括登録と備品アーカイブを利用できます。登録内容と履歴はまだメモリ上だけに保持され、ページを再読み込みすると消えます。保存・復元はv0.7.0で追加予定です。',
-          boardNameLabel:'ボード名',boardNamePlaceholder:'2026年度 文化祭',boardNameHint:'イベント名や運用名を付けておくと、今どの貸出を管理しているか分かりやすくなります。',milestoneStatus:'v0.6.0 備品管理',
+          brandMeta:'完全ローカル処理 · 単一HTML',introTitle:'端末に自動保存して、JSONでバックアップ',lead:'貸出・返却・履歴をこのブラウザーに自動保存し、必要に応じてJSONファイルへバックアップできます。',localBadge:'完全ローカル処理',
+          devNotice:'v0.7.0ではこのブラウザーへの自動保存とJSONバックアップ・復元を利用できます。ブラウザーのサイトデータを削除すると自動保存データは消えるため、重要な運用ではJSONバックアップを併用してください。',
+          boardNameLabel:'ボード名',boardNamePlaceholder:'2026年度 文化祭',boardNameHint:'イベント名や運用名を付けておくと、今どの貸出を管理しているか分かりやすくなります。',milestoneStatus:'v0.7.0 保存・バックアップ',
           itemsCountLabel:'備品',borrowersCountLabel:'貸出先',checkedOutCountLabel:'貸出中',
           outstandingCountLabel:'未返却',outstandingBorrowersLabel:'貸出先',availabilitySummaryLabel:'利用可能 / 全備品',
           outstandingBoardTitle:'未返却ボード',outstandingBoardLead:'誰が何を持っているかを貸出先ごとに確認します。返却操作もここから始められます。',
@@ -1005,14 +1057,14 @@
           emptyItemsTitle:'まだ備品がありません',emptyItemsBody:'上のフォームから備品を追加すると、ここに一覧が表示されます。',emptyBorrowersTitle:'まだ貸出先がありません',emptyBorrowersBody:'名前や班名を追加すると、ここから確認・編集できます。',
           available:'利用可能',checkedOut:'貸出中',lentToPrefix:'貸出先',checkedOutAtPrefix:'貸出',categoryPrefix:'カテゴリ',codePrefix:'コード',borrowedItemsPrefix:'貸出中',
           edit:'編集',editItemTitle:'備品を編集',editBorrowerTitle:'貸出先を編集',cancel:'キャンセル',saveChanges:'変更を保存',itemAdded:'備品を追加しました',borrowerAdded:'貸出先を追加しました',itemUpdated:'備品を更新しました',borrowerUpdated:'貸出先を更新しました',close:'閉じる',
-          helpTitle:'使い方と注意事項',helpBasicsTitle:'v0.6.0の基本操作',helpStep1:'「連番をまとめて登録」では、共通名・開始番号・登録数・桁数から複数の備品を一度に作成できます。',helpStep2:'使わなくなった備品はアーカイブできます。貸出中の備品は、返却するまでアーカイブできません。',helpStep3:'アーカイブしても過去の貸出・返却履歴は残り、「アーカイブ済み」表示からいつでも復帰できます。',
-          helpPrivacyTitle:'プライバシー',helpPrivacyBody:'入力内容、貸出状態、返却状態、操作履歴はブラウザー内で処理され、このアプリから外部サーバーへ送信されません。ランタイムの外部通信も行いません。',helpNotesTitle:'現在の制限',helpNoteStorage:'v0.6.0では備品・貸出先・貸出返却状態・履歴・アーカイブ状態はメモリ上だけに保持され、再読み込みすると消えます。',helpNoteUndo:'Undoは履歴を削除せず、取り消しイベントを追加して状態を戻します。',helpNoteData:'電話番号や住所など、貸出管理に不要な個人情報は入力しないことを推奨します。',helpOffline:'配布用HTMLは単体で開けます。必要なコードはHTML内に含まれます。',
-          buildInfo:'ビルド情報',appVersion:'アプリバージョン',builtAt:'生成日時',dependencies:'内包依存数',footer:'端末内で動作する単一HTMLアプリ'
+          helpTitle:'使い方と注意事項',helpBasicsTitle:'v0.7.0の基本操作',helpStep1:'備品・貸出先・貸出状態・履歴・アーカイブ状態は、このブラウザーへ自動保存されます。',helpStep2:'「JSONバックアップを保存」で、ボード全体を1つのJSONファイルとして保存できます。',helpStep3:'JSONバックアップから復元すると、現在のボード全体をバックアップ内容で置き換えます。復元前に確認が表示されます。',
+          helpPrivacyTitle:'プライバシー',helpPrivacyBody:'入力内容、貸出状態、返却状態、操作履歴はブラウザー内で処理され、このアプリから外部サーバーへ送信されません。ランタイムの外部通信も行いません。',helpNotesTitle:'現在の制限',helpNoteStorage:'自動保存はブラウザー内の保存領域を使います。サイトデータ削除やブラウザー設定などで消える場合があるため、重要なデータはJSONバックアップも保存してください。',helpNoteUndo:'Undoは履歴を削除せず、取り消しイベントを追加して状態を戻します。',helpNoteData:'電話番号や住所など、貸出管理に不要な個人情報は入力しないことを推奨します。',helpOffline:'配布用HTMLは単体で開けます。必要なコードはHTML内に含まれます。',
+          dataTitle:'データ管理',dataLead:'このブラウザーへの自動保存、JSONバックアップ、復元を管理します。',downloadBackup:'JSONバックアップを保存',restoreBackup:'JSONバックアップから復元',resetData:'新しいボードにリセット',storageNote:'自動保存データはこのブラウザー内に保存されます。ブラウザーのサイトデータ削除、プライベートブラウズ、ファイルの開き方や保存場所の変更などで利用できなくなる場合があります。重要な運用ではJSONバックアップを併用してください。',storageReadyTitle:'自動保存を利用できます',storageReadyBody:'変更するとこのブラウザーへ自動保存されます。',storageSavingTitle:'保存中…',storageSavingBody:'このブラウザーへ変更内容を保存しています。',storageSavedTitle:'このブラウザーに保存済み',storageSavedBody:'最終保存',storageUnavailableTitle:'自動保存を利用できません',storageUnavailableBody:'このブラウザーの保存領域へ書き込めません。JSONバックアップをご利用ください。',storageLoadErrorTitle:'保存データを読み込めませんでした',storageLoadErrorBody:'既存の自動保存データは上書きしていません。JSONバックアップから復元するか、新しいボードにリセットしてください。',restoredOnLoad:'前回の自動保存データを復元しました',backupSaved:'JSONバックアップを保存しました',backupInvalid:'このファイルはLoan Boardの有効なJSONバックアップではありません。',backupTooLarge:'バックアップファイルが大きすぎます。',restoreConfirm:'現在のボード全体をバックアップ内容で置き換えます。復元しますか？',restoreComplete:'JSONバックアップから復元しました',resetConfirm:'備品・貸出先・貸出状態・履歴をすべて削除して、新しいボードにしますか？',resetComplete:'新しいボードにリセットしました',selectedBackupFile:'選択したファイル',buildInfo:'ビルド情報',appVersion:'アプリバージョン',builtAt:'生成日時',dependencies:'内包依存数',footer:'端末内で動作する単一HTMLアプリ'
         },
         en: {
-          brandMeta:'Fully local · Single HTML',introTitle:'Register and organize equipment in batches',lead:'Create numbered equipment in batches and archive items you no longer use without removing their history.',localBadge:'Fully local processing',
-          devNotice:'v0.6.0 adds sequential batch registration and equipment archiving. Equipment, borrowers, loan state, and history are still kept in memory only and disappear on reload. Persistence is planned for v0.7.0.',
-          boardNameLabel:'Board name',boardNamePlaceholder:'School Festival 2026',boardNameHint:'Use an event or operation name so it is clear which lending session this board represents.',milestoneStatus:'v0.6.0 Item Management',
+          brandMeta:'Fully local · Single HTML',introTitle:'Autosave on this device and back up as JSON',lead:'Automatically save checkout, return, and history data in this browser and export a JSON backup when needed.',localBadge:'Fully local processing',
+          devNotice:'v0.7.0 adds browser autosave and JSON backup / restore. Browser storage can be cleared by site-data settings, so keep JSON backups for important operations.',
+          boardNameLabel:'Board name',boardNamePlaceholder:'School Festival 2026',boardNameHint:'Use an event or operation name so it is clear which lending session this board represents.',milestoneStatus:'v0.7.0 Persistence / Backup',
           itemsCountLabel:'Equipment',borrowersCountLabel:'Borrowers',checkedOutCountLabel:'Checked out',
           outstandingCountLabel:'Outstanding',outstandingBorrowersLabel:'Borrowers',availabilitySummaryLabel:'Available / total',
           outstandingBoardTitle:'Outstanding board',outstandingBoardLead:'See who currently has each item, grouped by borrower, and start return actions here.',
@@ -1034,17 +1086,23 @@
           emptyItemsTitle:'No equipment yet',emptyItemsBody:'Add equipment with the form above and it will appear here.',emptyBorrowersTitle:'No borrowers yet',emptyBorrowersBody:'Add a person or team and it will appear here for review and editing.',
           available:'Available',checkedOut:'Checked out',lentToPrefix:'Borrower',checkedOutAtPrefix:'Checked out',categoryPrefix:'Category',codePrefix:'Code',borrowedItemsPrefix:'Checked out',
           edit:'Edit',editItemTitle:'Edit equipment',editBorrowerTitle:'Edit borrower',cancel:'Cancel',saveChanges:'Save changes',itemAdded:'Equipment added',borrowerAdded:'Borrower added',itemUpdated:'Equipment updated',borrowerUpdated:'Borrower updated',close:'Close',
-          helpTitle:'How to use & notes',helpBasicsTitle:'Basics in v0.6.0',helpStep1:'Add numbered equipment in a batch by entering a shared name, start number, quantity, and digit width.',helpStep2:'Archive equipment you no longer use. Checked-out equipment must be returned before it can be archived.',helpStep3:'Archiving keeps past checkout and return history. Archived equipment can be restored at any time.',
-          helpPrivacyTitle:'Privacy',helpPrivacyBody:'Entries, loan state, return state, and operation history are processed in the browser and are not sent to an external server. The runtime makes no external network request.',helpNotesTitle:'Current limitations',helpNoteStorage:'In v0.6.0, equipment, borrowers, loan state, history, and archive state exist only in memory and disappear on reload.',helpNoteUndo:'Undo keeps the original history and adds an undo event while restoring state.',helpNoteData:'Avoid entering phone numbers, addresses, or other personal information that is unnecessary for lending.',helpOffline:'The distributable HTML opens by itself and includes the required code.',
-          buildInfo:'Build information',appVersion:'App version',builtAt:'Built at',dependencies:'Embedded dependencies',footer:'Single HTML app that runs on this device'
+          helpTitle:'How to use & notes',helpBasicsTitle:'Basics in v0.7.0',helpStep1:'Equipment, borrowers, loan state, history, and archive state are automatically saved in this browser.',helpStep2:'Use Save JSON backup to export the whole board as one JSON file.',helpStep3:'Restoring a JSON backup replaces the entire current board. A confirmation is shown before replacement.',
+          helpPrivacyTitle:'Privacy',helpPrivacyBody:'Entries, loan state, return state, and operation history are processed in the browser and are not sent to an external server. The runtime makes no external network request.',helpNotesTitle:'Current limitations',helpNoteStorage:'Autosave uses browser storage, which can be cleared by browser settings or become unavailable depending on how the file is opened. Keep JSON backups for important data.',helpNoteUndo:'Undo keeps the original history and adds an undo event while restoring state.',helpNoteData:'Avoid entering phone numbers, addresses, or other personal information that is unnecessary for lending.',helpOffline:'The distributable HTML opens by itself and includes the required code.',
+          dataTitle:'Data management',dataLead:'Manage browser autosave, JSON backup, and restore.',downloadBackup:'Save JSON backup',restoreBackup:'Restore JSON backup',resetData:'Reset to a new board',storageNote:'Autosave is stored in this browser. It can become unavailable after clearing site data, in private browsing, or depending on how or where a local file is opened. Keep JSON backups for important operations.',storageReadyTitle:'Autosave is available',storageReadyBody:'Changes will be saved automatically in this browser.',storageSavingTitle:'Saving…',storageSavingBody:'Saving changes in this browser.',storageSavedTitle:'Saved in this browser',storageSavedBody:'Last saved',storageUnavailableTitle:'Autosave is unavailable',storageUnavailableBody:'This browser cannot write to its local storage. Use JSON backups instead.',storageLoadErrorTitle:'Saved data could not be loaded',storageLoadErrorBody:'The existing autosave data has not been overwritten. Restore a JSON backup or reset to a new board.',restoredOnLoad:'Restored the previous autosave data',backupSaved:'JSON backup saved',backupInvalid:'This file is not a valid Loan Board JSON backup.',backupTooLarge:'The backup file is too large.',restoreConfirm:'Replace the entire current board with this backup?',restoreComplete:'Restored from JSON backup',resetConfirm:'Delete all equipment, borrowers, loan state, and history and start a new board?',resetComplete:'Reset to a new board',selectedBackupFile:'Selected file',buildInfo:'Build information',appVersion:'App version',builtAt:'Built at',dependencies:'Embedded dependencies',footer:'Single HTML app that runs on this device'
         }
       };
 
       const $ = selector => document.querySelector(selector);
       const languageKey=APP_CONFIG.slug+':language';
+      const storageKey=APP_CONFIG.slug+':state:v1';
+      const STORAGE_FORMAT='browser-kitty-loan-board-state';
+      const BACKUP_FORMAT='browser-kitty-loan-board-backup';
+      const STORAGE_SCHEMA_VERSION=1;
+      const MAX_BACKUP_BYTES=10*1024*1024;
       let language=readLanguage();
-      const initialNow=new Date().toISOString();
-      const state={board:{id:createId('board'),name:language==='ja'?'新しい貸出ボード':'New loan board',createdAt:initialNow,updatedAt:initialNow},items:[],borrowers:[],events:[]};
+      const storageControl={mode:'ready',lastSavedAt:null,blocked:false,loaded:false};
+      let persistTimer=0;
+      let state=loadInitialState();
       const checkoutState={selectedBorrowerId:null,selectedItemIds:new Set()};
       const returnState={selectedBorrowerId:null,partialMode:false,selectedItemIds:new Set()};
 
@@ -1052,6 +1110,86 @@
       function readLanguage(){try{const saved=localStorage.getItem(languageKey);if(saved==='ja'||saved==='en')return saved;}catch{}return(navigator.language||'').toLowerCase().startsWith('ja')?'ja':'en';}
       function saveLanguage(){try{localStorage.setItem(languageKey,language);}catch{}}
       function t(key){return translations[language]?.[key]??translations.en[key]??key;}
+
+      function createInitialState(){
+        const now=new Date().toISOString();
+        return {board:{id:createId('board'),name:language==='ja'?'新しい貸出ボード':'New loan board',createdAt:now,updatedAt:now},items:[],borrowers:[],events:[]};
+      }
+      function snapshotState(){return {board:{...state.board},items:state.items.map(item=>({...item})),borrowers:state.borrowers.map(borrower=>({...borrower})),events:state.events.map(event=>({...event,itemIds:[...(event.itemIds||[])],itemSnapshots:Array.isArray(event.itemSnapshots)?event.itemSnapshots.map(snapshot=>({...snapshot})):event.itemSnapshots}))};}
+      function requiredText(value,max,label){if(typeof value!=='string'||!value.trim())throw new Error(label);return value.slice(0,max);}
+      function optionalText(value,max){return typeof value==='string'?value.slice(0,max):'';}
+      function optionalIso(value){return typeof value==='string'&&!Number.isNaN(Date.parse(value))?value:'';}
+      function normalizeStateData(raw){
+        if(!raw||typeof raw!=='object'||Array.isArray(raw))throw new Error('state');
+        if(!raw.board||typeof raw.board!=='object'||!Array.isArray(raw.items)||!Array.isArray(raw.borrowers)||!Array.isArray(raw.events))throw new Error('shape');
+        if(raw.items.length>10000||raw.borrowers.length>10000||raw.events.length>100000)throw new Error('limits');
+        const board={id:requiredText(raw.board.id,200,'board.id'),name:typeof raw.board.name==='string'?raw.board.name.slice(0,100):'',createdAt:optionalIso(raw.board.createdAt)||new Date().toISOString(),updatedAt:optionalIso(raw.board.updatedAt)||new Date().toISOString()};
+        const borrowerIds=new Set(),itemIds=new Set(),eventIds=new Set();
+        const borrowers=raw.borrowers.map(entry=>{if(!entry||typeof entry!=='object')throw new Error('borrower');const borrowerId=requiredText(entry.borrowerId,200,'borrower.id');if(borrowerIds.has(borrowerId))throw new Error('borrower.duplicate');borrowerIds.add(borrowerId);return{borrowerId,name:requiredText(entry.name,120,'borrower.name'),note:optionalText(entry.note,500),archived:Boolean(entry.archived),createdAt:optionalIso(entry.createdAt)||board.createdAt,updatedAt:optionalIso(entry.updatedAt)||board.updatedAt};});
+        const items=raw.items.map(entry=>{if(!entry||typeof entry!=='object')throw new Error('item');const itemId=requiredText(entry.itemId,200,'item.id');if(itemIds.has(itemId))throw new Error('item.duplicate');itemIds.add(itemId);const status=entry.status==='checked-out'?'checked-out':entry.status==='available'?'available':null;if(!status)throw new Error('item.status');const archived=Boolean(entry.archived);let currentBorrowerId=null,currentCheckoutAt=null;if(status==='checked-out'){currentBorrowerId=requiredText(entry.currentBorrowerId,200,'item.borrower');currentCheckoutAt=optionalIso(entry.currentCheckoutAt);if(!currentCheckoutAt||archived)throw new Error('item.checkout');}return{itemId,name:requiredText(entry.name,120,'item.name'),category:optionalText(entry.category,80),code:optionalText(entry.code,80),note:optionalText(entry.note,500),status,currentBorrowerId,currentCheckoutAt,archived,createdAt:optionalIso(entry.createdAt)||board.createdAt,updatedAt:optionalIso(entry.updatedAt)||board.updatedAt};});
+        items.forEach(item=>{if(item.status==='checked-out'&&!borrowerIds.has(item.currentBorrowerId))throw new Error('item.borrower.missing');});
+        const events=raw.events.map(entry=>{if(!entry||typeof entry!=='object')throw new Error('event');const eventId=requiredText(entry.eventId,200,'event.id');if(eventIds.has(eventId))throw new Error('event.duplicate');eventIds.add(eventId);if(!['checkout','return','undo'].includes(entry.type))throw new Error('event.type');const borrowerId=requiredText(entry.borrowerId,200,'event.borrower');if(!borrowerIds.has(borrowerId))throw new Error('event.borrower.missing');if(!Array.isArray(entry.itemIds)||entry.itemIds.some(id=>typeof id!=='string'||!itemIds.has(id)))throw new Error('event.items');const timestamp=optionalIso(entry.timestamp);if(!timestamp)throw new Error('event.timestamp');const event={eventId,type:entry.type,borrowerId,itemIds:[...entry.itemIds],timestamp,note:optionalText(entry.note,500)};if(entry.type==='return'){event.itemSnapshots=Array.isArray(entry.itemSnapshots)?entry.itemSnapshots.map(snapshot=>{if(!snapshot||typeof snapshot!=='object'||typeof snapshot.itemId!=='string'||!itemIds.has(snapshot.itemId))throw new Error('event.snapshot');return{itemId:snapshot.itemId,checkoutAt:optionalIso(snapshot.checkoutAt)||timestamp};}):[];}if(entry.type==='undo'){event.relatedEventId=requiredText(entry.relatedEventId,200,'event.related');if(!['checkout','return'].includes(entry.reversedType))throw new Error('event.reversed');event.reversedType=entry.reversedType;}return event;});
+        events.filter(event=>event.type==='undo').forEach(event=>{if(!eventIds.has(event.relatedEventId))throw new Error('event.related.missing');});
+        return {board,items,borrowers,events};
+      }
+      function parseStateEnvelope(envelope,format){
+        if(!envelope||typeof envelope!=='object'||envelope.format!==format||envelope.schemaVersion!==STORAGE_SCHEMA_VERSION||envelope.appSlug!==APP_CONFIG.slug)throw new Error('envelope');
+        return normalizeStateData(envelope.data);
+      }
+      function loadInitialState(){
+        let raw;
+        try{raw=localStorage.getItem(storageKey);}catch{storageControl.mode='unavailable';storageControl.blocked=true;return createInitialState();}
+        if(!raw)return createInitialState();
+        try{
+          const envelope=JSON.parse(raw),loaded=parseStateEnvelope(envelope,STORAGE_FORMAT);
+          storageControl.mode='saved';storageControl.lastSavedAt=optionalIso(envelope.savedAt)||null;storageControl.loaded=true;return loaded;
+        }catch{storageControl.mode='load-error';storageControl.blocked=true;return createInitialState();}
+      }
+      function storageEnvelope(savedAt){return{format:STORAGE_FORMAT,schemaVersion:STORAGE_SCHEMA_VERSION,appSlug:APP_CONFIG.slug,appVersion:APP_CONFIG.version,savedAt,data:snapshotState()};}
+      function backupEnvelope(){const exportedAt=new Date().toISOString();return{format:BACKUP_FORMAT,schemaVersion:STORAGE_SCHEMA_VERSION,appSlug:APP_CONFIG.slug,appVersion:APP_CONFIG.version,exportedAt,data:snapshotState()};}
+      function renderStorageStatus(){
+        const root=$('#storageStatus');if(!root)return;
+        const title=$('#storageStatusTitle'),body=$('#storageStatusBody');
+        root.classList.toggle('error',storageControl.mode==='unavailable'||storageControl.mode==='load-error');
+        if(storageControl.mode==='saving'){title.textContent=t('storageSavingTitle');body.textContent=t('storageSavingBody');return;}
+        if(storageControl.mode==='saved'){title.textContent=t('storageSavedTitle');body.textContent=t('storageSavedBody')+(storageControl.lastSavedAt?' · '+formatDateTime(storageControl.lastSavedAt):'');return;}
+        if(storageControl.mode==='unavailable'){title.textContent=t('storageUnavailableTitle');body.textContent=t('storageUnavailableBody');return;}
+        if(storageControl.mode==='load-error'){title.textContent=t('storageLoadErrorTitle');body.textContent=t('storageLoadErrorBody');return;}
+        title.textContent=t('storageReadyTitle');body.textContent=t('storageReadyBody');
+      }
+      function persistState(){
+        clearTimeout(persistTimer);persistTimer=0;
+        if(storageControl.blocked){renderStorageStatus();return false;}
+        const savedAt=new Date().toISOString();
+        try{localStorage.setItem(storageKey,JSON.stringify(storageEnvelope(savedAt)));storageControl.mode='saved';storageControl.lastSavedAt=savedAt;renderStorageStatus();return true;}
+        catch{storageControl.mode='unavailable';storageControl.blocked=true;renderStorageStatus();return false;}
+      }
+      function schedulePersist(){
+        if(storageControl.blocked){renderStorageStatus();return;}
+        clearTimeout(persistTimer);storageControl.mode='saving';renderStorageStatus();persistTimer=window.setTimeout(persistState,220);
+      }
+      function clearUiSelections(){checkoutState.selectedBorrowerId=null;checkoutState.selectedItemIds.clear();returnState.selectedBorrowerId=null;returnState.partialMode=false;returnState.selectedItemIds.clear();$('#checkoutBorrowerQuery').value='';$('#checkoutItemSearch').value='';$('#historySearch').value='';$('#itemManagementSearch').value='';}
+      function safeFilePart(value){return String(value||'').trim().replace(/[\\/:*?"<>|]+/g,'-').replace(/\s+/g,'-').replace(/-+/g,'-').replace(/^-|-$/g,'').slice(0,48);}
+      function backupFilename(){const stamp=new Date().toISOString().replace(/[-:]/g,'').replace(/\.\d{3}Z$/,'Z'),board=safeFilePart(state.board.name)||'board';return APP_CONFIG.slug+'-'+board+'-'+stamp+'.json';}
+      function downloadJsonBackup(){
+        const json=JSON.stringify(backupEnvelope(),null,2),url=URL.createObjectURL(new Blob([json],{type:'application/json;charset=utf-8'})),link=document.createElement('a');
+        link.href=url;link.download=backupFilename();document.body.append(link);link.click();link.remove();window.setTimeout(()=>URL.revokeObjectURL(url),0);showToast(t('backupSaved'));
+      }
+      function restoreState(nextState){state=nextState;clearUiSelections();storageControl.blocked=false;storageControl.mode='ready';storageControl.lastSavedAt=null;render();persistState();}
+      function resetAllData(){
+        if(!window.confirm(t('resetConfirm')))return;
+        try{localStorage.removeItem(storageKey);}catch{}
+        state=createInitialState();clearUiSelections();storageControl.blocked=false;storageControl.mode='ready';storageControl.lastSavedAt=null;render();persistState();showToast(t('resetComplete'));
+      }
+      async function restoreBackupFile(file){
+        $('#restoreFileName').hidden=false;$('#restoreFileName').textContent=t('selectedBackupFile')+': '+file.name;
+        if(file.size>MAX_BACKUP_BYTES){showToast(t('backupTooLarge'));return;}
+        try{
+          const envelope=JSON.parse(await file.text()),nextState=parseStateEnvelope(envelope,BACKUP_FORMAT);
+          if(!window.confirm(t('restoreConfirm')))return;
+          restoreState(nextState);showToast(t('restoreComplete'));
+        }catch{showToast(t('backupInvalid'));}
+      }
 
       const AppToast=(()=>{const root=$('#appToast'),message=$('#appToastMessage'),action=$('#appToastAction');let timer=0,actionHandler=null;
         function dismiss(){clearTimeout(timer);timer=0;root.classList.remove('show');actionHandler=null;}
@@ -1249,10 +1387,10 @@
           row.append(time,main,actions);root.append(row);
         });
       }
-      function render(){$('#boardName').value=state.board.name;updateCounts();renderOutstandingBoard();renderCheckout();renderReturn();renderHistory();renderBatchPreview();renderItems();renderBorrowers();}
+      function render(){$('#boardName').value=state.board.name;updateCounts();renderOutstandingBoard();renderCheckout();renderReturn();renderHistory();renderBatchPreview();renderItems();renderBorrowers();renderStorageStatus();schedulePersist();}
       function trimmedValue(selector){return $(selector).value.trim();}
 
-      $('#boardName').addEventListener('input',event=>{state.board.name=event.currentTarget.value;state.board.updatedAt=new Date().toISOString();});
+      $('#boardName').addEventListener('input',event=>{state.board.name=event.currentTarget.value;state.board.updatedAt=new Date().toISOString();schedulePersist();});
       $('#itemForm').addEventListener('submit',event=>{event.preventDefault();const name=trimmedValue('#itemName');if(!name){$('#itemName').focus();return;}createItem({name,category:trimmedValue('#itemCategory'),code:trimmedValue('#itemCode'),note:trimmedValue('#itemNote')});event.currentTarget.reset();render();$('#itemName').focus();showToast(t('itemAdded'));});
       $('#batchItemForm').addEventListener('input',renderBatchPreview);
       $('#batchItemForm').addEventListener('change',renderBatchPreview);
@@ -1296,6 +1434,10 @@
       $('#historyOrder').addEventListener('change',renderHistory);
       $('#historyList').addEventListener('click',event=>{const button=event.target.closest('[data-history-undo]');if(!button)return;undoEvent(button.dataset.historyUndo);});
 
+      $('#downloadBackupButton').addEventListener('click',downloadJsonBackup);
+      $('#restoreBackupInput').addEventListener('change',async event=>{const file=event.currentTarget.files?.[0];event.currentTarget.value='';if(file)await restoreBackupFile(file);});
+      $('#resetDataButton').addEventListener('click',resetAllData);
+
       function openItemEdit(id){const item=state.items.find(x=>x.itemId===id);if(!item)return;$('#editItemId').value=item.itemId;$('#editItemName').value=item.name;$('#editItemCategory').value=item.category;$('#editItemCode').value=item.code;$('#editItemNote').value=item.note;$('#itemEditDialog').showModal();requestAnimationFrame(()=>$('#editItemName').focus());}
       function openBorrowerEdit(id){const b=state.borrowers.find(x=>x.borrowerId===id);if(!b)return;$('#editBorrowerId').value=b.borrowerId;$('#editBorrowerName').value=b.name;$('#editBorrowerNote').value=b.note;$('#borrowerEditDialog').showModal();requestAnimationFrame(()=>$('#editBorrowerName').focus());}
       document.addEventListener('click',event=>{const edit=event.target.closest('[data-edit-type]');if(edit){if(edit.dataset.editType==='item')openItemEdit(edit.dataset.editId);if(edit.dataset.editType==='borrower')openBorrowerEdit(edit.dataset.editId);return;}const close=event.target.closest('[data-dialog-close]');if(close){const dialog=document.getElementById(close.dataset.dialogClose);if(dialog?.open)dialog.close();}});
@@ -1304,6 +1446,7 @@
       function closeDialogFromBackdrop(dialog,event){const rect=dialog.getBoundingClientRect(),outside=event.clientX<rect.left||event.clientX>rect.right||event.clientY<rect.top||event.clientY>rect.bottom;if(outside)dialog.close();}
       ['itemEditDialog','borrowerEditDialog','helpDialog'].forEach(id=>{const dialog=document.getElementById(id);dialog.addEventListener('click',event=>closeDialogFromBackdrop(dialog,event));});
       const helpDialog=$('#helpDialog');$('#helpButton').addEventListener('click',()=>helpDialog.showModal());$('#closeHelpButton').addEventListener('click',()=>helpDialog.close());
+      window.addEventListener('pagehide',()=>{if(persistTimer)persistState();});
       $('#languageButton').addEventListener('click',()=>{language=language==='ja'?'en':'ja';saveLanguage();applyLanguage();});
 
       $('#versionBadge').textContent = 'v' + APP_CONFIG.version;
@@ -1311,7 +1454,10 @@
       $('#builtAt').textContent = BUILD_MANIFEST.generatedAtUtc || '—';
       $('#dependencyCount').textContent = String(BUILD_MANIFEST.dependencies?.length || 0);
 
+      const loadedFromStorage=storageControl.loaded,loadFailed=storageControl.mode==='load-error';
       applyLanguage();
+      if(loadedFromStorage)showToast(t('restoredOnLoad'));
+      if(loadFailed)showToast(t('storageLoadErrorTitle'));
     })();
   </script>
 </body>
