@@ -1,15 +1,15 @@
 {
   "$schema": "./schemas/app-config.schema.json",
-  "name": "Single HTML App Starter",
-  "nameJa": "単一HTMLアプリ スターター",
-  "slug": "single-html-app-starter",
-  "version": "1.3.0",
-  "description": "A reusable starter for privacy-friendly, fully self-contained browser apps.",
-  "descriptionJa": "プライバシーに配慮した完全内包型ブラウザーアプリの再利用テンプレートです。",
+  "name": "Loan Board",
+  "nameJa": "貸出・返却ボード",
+  "slug": "loan-board",
+  "version": "0.1.0",
+  "description": "Track equipment and borrowers locally in the browser, with a foundation for fast checkout and return workflows.",
+  "descriptionJa": "備品と貸出先をブラウザー内で管理し、素早い貸出・返却フローへつなげるための基礎を提供します。",
   "defaultLanguage": "auto",
   "repository": {
-    "owner": "OWNER",
-    "name": "single-html-app-template"
+    "owner": "ttomohisa",
+    "name": "htmlapps-loan-board"
   },
   "build": {
     "output": "dist/index.html",

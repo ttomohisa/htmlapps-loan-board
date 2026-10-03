@@ -1,128 +1,244 @@
-# APP_SPEC.md
-
-This file is the product contract for the application created from this template. Replace the starter specification below before asking an LLM to build a new product.
+# Loan Board / 貸出・返却ボード — APP_SPEC
 
 ## 1. Product identity
 
-- **Working name:** Single HTML App Starter
-- **One-sentence purpose:** Demonstrate the template's local-first, responsive, bilingual, single-file application foundation.
-- **Primary users:** Developers and LLM coding agents starting a new browser utility.
-- **Release artifacts:** `dist/index.html`, `dist/index.self-extract.html`, and a repository-root copy of the readable build named from `repository.name` with a leading `htmlapps-` removed
+- **Name:** Loan Board / 貸出・返却ボード
+- **English helper:** Equipment Checkout & Return
+- **Version in this implementation:** v0.1.0
+- **Purpose:** 誰に何を貸していて、最後に何が返ってきていないかを1台の端末ですぐ確認できる貸出・返却ボードを作る。
+- **Primary users:** イベント受付、学校、撮影・舞台現場、部活・サークル、社内イベントなどの備品担当。
+- **Primary operating model:** 受付担当者が1台のPC・タブレット・スマートフォンで操作する。
+- **Release artifacts:** \`dist/index.html\`, \`dist/index.self-extract.html\`, \`loan-board.html\`.
 
-## 2. Problem and outcome
+## 2. Product outcome
 
-The starter must make the repository's constraints visible and testable without pretending to be a finished end-user product. A user can enter text, see basic counts, copy it, save it, and persist it locally.
+Loan Boardは高度な資産管理システムではない。中心となる成果は、イベントや現場の終了時に **「未返却 0」** を確認できることである。
 
-A successful replacement app should state here:
+最終的な主要フロー:
 
-- What concrete problem it solves.
-- Who experiences the problem.
-- What result the user gets in one session.
-- Why a local single-HTML implementation is useful.
+1. 備品を登録する。
+2. 貸出先を選ぶ。
+3. 複数備品を貸し出す。
+4. 全返却または部分返却する。
+5. 未返却だけを確認する。
+6. 最後に「すべて返却済み」を確認する。
 
-## 3. Core user flow
+## 3. v0.1.0 scope
 
-1. Open the page locally or through GitHub Pages.
-2. Enter or paste text.
-3. See character, word, and line counts update immediately.
-4. Edit the suggested output filename, then copy or download the text.
-5. Use Clear or Restore sample and undo the reversible change from the toast when needed.
-6. Reload and recover the locally saved text.
+v0.1.0は基礎データと画面骨格を完成させる段階であり、貸出・返却処理そのものはまだ実装しない。
 
-## 4. Functional requirements
+### Included
 
-- Provide a responsive text area.
-- Calculate Unicode-aware character count.
-- Calculate approximate word and line counts.
-- Copy text with a compatibility fallback.
-- Download UTF-8 plain text with a user-editable output filename and a predictable `.txt` extension.
-- Save the current text in local storage when available.
-- Use the reusable `AppToast.show()` Undo pattern for reversible Clear / Restore sample operations. Reserve `AppConfirm.ask()` for irreversible or high-risk actions.
-- Switch Japanese and English without reloading.
-- Use a light-only interface; do not add a dark-mode or theme switcher.
-- Expose build version, generation timestamp, and embedded dependency count.
+- Boardモデル
+- Itemモデル
+- Borrowerモデル
+- Eventモデルの空配列
+- Board名の編集
+- Itemの追加・編集
+- Borrowerの追加・編集
+- Item / Borrowerの空状態と一覧
+- Itemの状態 \`available\` の表示
+- 件数サマリー
+- 日本語 / 英語切替
+- PC / タブレット / スマートフォン対応
+- キーボード操作と可視フォーカス
+- ヘルプ
+- 完全ローカル処理
+- 実行時外部通信なし
+- 単一HTMLビルド
 
-## 5. Data and privacy
+### Explicitly not included in v0.1.0
 
-- Input text remains in browser memory and local storage.
-- The app performs no runtime network request.
-- There is no server-side storage, login, analytics, telemetry, or tracking.
-- Download occurs only after a user action.
+- 貸出
+- 返却
+- 部分返却
+- Undo
+- 履歴UI
+- 連番登録
+- 永続保存
+- JSONバックアップ
+- CSV出力
+- アーカイブ
+- QR / バーコード
 
-## 6. Non-goals
+v0.1.0ではBoard / Item / Borrowerの業務データはメモリ上のみ保持し、再読み込みで消える。言語設定のみローカル保存してよい。この制約は画面とヘルプで明示する。
 
-- Collaborative editing.
-- Cloud synchronization.
-- Rich text formatting.
-- Server-side conversion.
-- Account management.
+## 4. Data model
 
-## 7. UX and accessibility
+### Board
 
-- Mobile-first responsive layout from 320px upward.
-- All controls have visible labels or accessible names.
-- Keyboard focus is visible.
-- Motion respects `prefers-reduced-motion`.
-- Reversible changes provide a visible Undo action in the reusable toast.
-- Irreversible or high-risk destructive actions use the reusable confirmation component, centered on desktop and presented as a safe-area-aware bottom sheet on smartphones.
-- Status messages use an `aria-live` region.
-- If the finished app needs persistent smartphone access to 3-5 sections or workflow actions, reuse `components/mobile-bottom-bar.html` rather than inventing another fixed bottom bar. For long multi-section tools, prefer its mobile page-tab mode (`data-mobile-page-target`) so tapping a bottom tab shows only that group on smartphones while desktop still shows all sections. Keep unavailable actions disabled until their prerequisites exist.
+- \`id\`
+- \`name\`
+- \`createdAt\`
+- \`updatedAt\`
 
-## 8. Performance expectations
+v1.0.0までは1データセットにつき1 Boardを基本とする。
 
-- Initial UI should become interactive without network access.
-- Input updates should remain smooth for at least 100,000 characters on a typical desktop browser.
-- Avoid rebuilding large DOM sections on every keystroke.
+### Item
 
-## 9. Browser target
+- \`itemId\`
+- \`name\` — required
+- \`category\` — optional
+- \`code\` — optional
+- \`note\` — optional
+- \`status\` — v0.1.0では \`available\`
+- \`archived\` — v0.1.0では常に false
+- \`createdAt\`
+- \`updatedAt\`
 
-Current stable desktop and mobile versions of Chromium, Firefox, and Safari. Direct `file://` opening is required.
+原則として **1個体 = 1 Item** とする。
 
-## 10. Acceptance criteria
+### Borrower
 
-- `build-standalone.ps1` produces the readable HTML, a gzip self-extracting variant, and an exact repository-root copy named from `repository.name` with a leading `htmlapps-` removed (for example `htmlapps-tap-counter` → `tap-counter.html`).
-- Embedded asset bytes are Base64-encoded exactly once; the complete asset-bundle JSON is not wrapped in a second Base64 layer.
-- Assets configured with `gzip` / `auto` can be read through the async embedded-asset API, and the build writes `build-size-report.json`.
-- `scripts/verify-standalone.ps1` passes.
-- The self-extract loader is ASCII-only, inherits the embedded favicon from the readable HTML, and restores the source HTML byte-for-byte.
-- The generated HTML contains no unresolved build placeholder.
-- The generated HTML contains no external script, stylesheet, frame, module import, or CSS asset URL.
-- Runtime CSP includes `connect-src 'none'`.
-- The full core user flow works after opening either generated HTML directly.
-- No data leaves the page.
-- Japanese and English copy both fit at 360px width.
-- Clear happens immediately but offers Undo for long enough to recover the previous text.
-- The output filename can be edited before download; invalid filename characters are sanitized and an empty name falls back to the app slug.
+- \`borrowerId\`
+- \`name\` — required
+- \`note\` — optional
+- \`archived\` — v0.1.0では常に false
+- \`createdAt\`
+- \`updatedAt\`
 
-## 11. Open decisions for a new app
+個人名・班名・部署名を同じ概念として扱う。電話番号・メール・住所は標準項目にしない。
 
-Replace these with explicit decisions before implementation:
+### Event
 
-- Maximum accepted input size.
-- Supported input file types.
-- Export file formats, default filename, editable filename behavior, sanitization, and extension rules.
-- Persistence strategy and reset behavior.
-- Undo/redo scope.
-- Error and recovery behavior, including stale async-result invalidation when inputs can change during processing.
-- Explicit async phases (`empty`, `ready`, `loading-runtime` if needed, `processing`, `result`, `error`) for heavy processing apps.
-- Mobile relationship between previews and their directly related controls.
-- Smartphone navigation model: bottom-tab page switching, section-scrolling bottom bar, workflow-action bar, or no fixed bottom bar.
-- Media coordinate/orientation strategy when drawing overlays.
-- Required third-party libraries.
-- Whether the app intentionally needs peer-to-peer WebRTC. If so, decide whether the fully serverless same-LAN QR pairing component is appropriate, what DataChannels are required, and how paired-device data is described to users.
-- Whether bilingual UI is required.
+将来の貸出・返却・取消履歴用。v0.1.0では \`events: []\` のみ用意する。
 
-## In-app help
+将来のイベント種別:
 
-The upper-right header includes a compact help button. It opens a bilingual “使い方と注意事項” dialog containing:
+- \`checkout\`
+- \`return\`
+- \`undo\`
 
-- the real user workflow,
-- privacy and local-processing behavior,
-- limitations and data-loss risks,
-- any browser or device constraints relevant to the app.
+## 5. v1.0.0 invariant rules
 
-Acceptance criteria: help content is updated together with each user-facing behavior change, contains no leftover starter instructions, and remains fully scrollable at narrow smartphone widths / short viewport heights so the final item and close control are always reachable.
+今後の実装でも以下を壊さない。
 
-## WebRTC readiness requirement
+- 同じItemを同時に複数Borrowerへ貸し出さない。
+- 貸出中Itemを削除・アーカイブしない。
+- 履歴を持つItem / Borrowerは物理削除よりアーカイブを優先する。
+- 一般ユーザー向けUIに不要な技術用語を出さない。
+- ユーザーデータを外部へ送信しない。
+- 取り消せる操作は確認ダイアログ乱用よりUndoを優先する。
 
-When an app uses peer-to-peer WebRTC DataChannels, define which reliable channel represents application readiness. Custom channel layouts must set `readyChannelLabel`; do not define application-ready from ICE/PeerConnection `connected` alone.
+## 6. Planned screen model for v1.0.0
+
+1. ボード
+2. 貸出
+3. 返却
+4. 備品・貸出先管理
+5. データ管理
+
+v0.1.0は「備品・貸出先管理」とBoard基礎部分のみを先行実装する。
+
+## 7. UX requirements
+
+- 320px幅から利用できること。
+- 長い備品名・貸出先名で横スクロールを発生させないこと。
+- タッチ操作できる十分なボタンサイズを持つこと。
+- モーダルは短いスマートフォン画面でも最後までスクロールできること。
+- 色だけで状態を伝えないこと。
+- フォーム要素にはラベルを持たせること。
+- \`Esc\` でダイアログを閉じられること。
+- \`prefers-reduced-motion\` を尊重すること。
+- 絵文字を主要UIアイコンとして使わないこと。
+
+## 8. Privacy and runtime boundary
+
+- Runtime CDN: none
+- Runtime API: none
+- Analytics / telemetry: none
+- External fonts: none
+- User-data upload: none
+- CSP: \`connect-src 'none'\`
+- Direct \`file://\` opening: required
+- Third-party runtime dependencies in v0.1.0: none
+
+「完全ローカル処理」と表示するのは、実装がこの条件を満たす場合に限る。
+
+## 9. v0.1.0 acceptance criteria
+
+- Board名を編集できる。
+- Itemを名前必須で追加できる。
+- Itemの名前・カテゴリ・コード・メモを編集できる。
+- Borrowerを名前必須で追加できる。
+- Borrowerの名前・メモを編集できる。
+- 追加・編集結果が一覧と件数へ即時反映される。
+- Item / Borrowerが0件のとき次の操作を説明する空状態を表示する。
+- Itemは「利用可能 / Available」と表示される。
+- 貸出・返却の非動作ボタンを置かない。
+- 再読み込みで業務データが消えるv0.1.0制約を明示する。
+- 日本語 / 英語をリロードなしで切り替えられる。
+- 360px幅で横スクロールしない。
+- \`dist/index.html\`, self-extract版、\`loan-board.html\` が生成される。
+- Runtime CSPに \`connect-src 'none'\` が含まれる。
+- テンプレートのrepository checkが成功する。
+
+## 10. Development plan
+
+### v0.1.0 — Core Data / 基礎データ
+
+Board / Item / Borrower / Event基礎、登録・編集、レスポンシブUI。
+
+### v0.2.0 — Checkout / 貸出
+
+貸出先選択、利用可能Item検索・複数選択、Checkoutイベント、二重貸出防止。
+
+### v0.3.0 — Return / 返却
+
+貸出中Borrower一覧、全返却、部分返却、Returnイベント。
+
+### v0.4.0 — Loan Board / 未返却ボード
+
+未返却数、貸出先別グループ、貸出日時、未返却0完了状態。
+
+### v0.5.0 — Undo / History
+
+貸出・返却Undo、トースト、履歴、検索。
+
+### v0.6.0 — Item Management
+
+連番一括登録、カテゴリ、コード、アーカイブ、整合性保護。
+
+### v0.7.0 — Persistence
+
+IndexedDB等による自動保存、起動時復元、JSONバックアップ・復元。
+
+### v0.8.0 — Export
+
+未返却CSV、履歴CSV、備品CSV、編集可能な出力ファイル名。
+
+### v0.9.0 — UX / Release Candidate
+
+スマートフォン下部ナビ、全状態仕上げ、日本語/英語、README、スクリーンショット、回帰確認。
+
+### v1.0.0 — Stable Release
+
+全体回帰、単一HTML、外部通信、CSP、保存・復元、CSV、主要ブラウザ・スマートフォンの最終確認。
+
+## 11. v1.0.0 non-goals
+
+- 複数端末リアルタイム同期
+- アカウント
+- クラウド共有
+- 予約
+- 決済
+- 料金請求
+- メール / SMS通知
+- 複数拠点管理
+- ERP / 会計連携
+- サーバー側API保存
+
+## 12. Future candidates after v1
+
+- QR / バーコード読み取り
+- CSVインポート
+- 返却期限
+- 延滞表示
+- 故障 / 紛失状態
+- 数量備品
+- QR付きラベル
+- 複数Board
+
+## In-app help contract
+
+ヘッダー右上のヘルプから、現在のバージョンで実際にできる操作、完全ローカル処理、v0.1.0では再読み込みで登録内容が消えること、貸出・返却は次段階であることを説明する。実装段階が進むたびにヘルプも同じ変更で更新する。
