@@ -3,141 +3,206 @@
 ## 1. Product identity
 - **Name:** Loan Board / 貸出・返却ボード
 - **English helper:** Equipment Checkout & Return
-- **Version:** v0.6.0
-- **Purpose:** 誰に何を貸していて、何が返ってきていないかを確認しながら、備品を現場で扱いやすい単位で登録・整理する。
+- **Version:** v0.7.0
+- **Purpose:** 誰に何を貸していて、何が返ってきていないかを確認しながら、貸出・返却データを端末内で継続して利用できるようにする。
 - **Primary outcome:** **未返却 0** を明確に確認できること。
 - **Release artifacts:** `dist/index.html`, `dist/index.self-extract.html`, `loan-board.html`.
 
-## 2. v0.6.0 scope — Item Management / 備品管理
+## 2. v0.7.0 scope — Persistence / Backup
 
-v0.5.0までの貸出・返却・未返却ボード・Undo・履歴に加え、備品登録と整理を強化する。
+v0.6.0までの貸出・返却・未返却ボード・Undo・履歴・備品管理に加え、ブラウザー内自動保存とJSONバックアップ / 復元を実装する。
 
-### Sequential batch creation
-- 共通の備品名
-- 開始番号
-- 登録数
-- 桁数
-- 共通カテゴリ
-- 任意の管理コードprefix
-- 登録前プレビュー
-- 一度に最大500件
-- 番号は0〜999999の範囲内
-- 生成される管理コードと既存Itemの重複を検出
+### Browser autosave
+保存対象:
+- Board
+- Items
+- Borrowers
+- Events
+- Item archive state
+- Current checkout state stored on each Item
+
+保存しないもの:
+- 検索文字列
+- UIの選択状態
+- 開いているダイアログ
+- 履歴フィルタ
+- 備品表示フィルタ
+- 言語設定（既存のlanguage用localStorage keyで別管理）
+
+保存先:
+- `localStorage`
+- key: `loan-board:state:v1`（実際には `APP_CONFIG.slug + ':state:v1'`）
+
+## 3. Storage envelope
+
+自動保存データは次のenvelopeで保持する。
+
+```json
+{
+  "format": "browser-kitty-loan-board-state",
+  "schemaVersion": 1,
+  "appSlug": "loan-board",
+  "appVersion": "0.7.0",
+  "savedAt": "ISO-8601",
+  "data": {
+    "board": {},
+    "items": [],
+    "borrowers": [],
+    "events": []
+  }
+}
+```
+
+### Autosave behavior
+- 業務データを変更した後、約220msのdebounceで保存する。
+- Board名の入力中もdebounce保存する。
+- ページ離脱時に保存待ちがあればflushする。
+- 保存成功時は「保存済み」と最終保存時刻を表示する。
+- localStorageへ書き込めない場合はアプリ本体を止めず、自動保存のみ無効としてJSONバックアップを案内する。
+
+## 4. Load safety
+
+起動時に自動保存データがある場合:
+1. JSON parse
+2. envelope format確認
+3. schema version確認
+4. appSlug確認
+5. Board / Item / Borrower / Event構造確認
+6. ID重複確認
+7. Itemの貸出状態とBorrower参照確認
+8. EventのItem / Borrower参照確認
+9. UndoのrelatedEventId確認
+
+すべて成功した場合だけstateとして採用する。
+
+### Corrupted autosave rule
+保存データが壊れている場合:
+- 空stateで画面を起動する。
+- **壊れた既存localStorageを自動上書きしない。**
+- 自動保存をblockedにする。
+- 「保存データを読み込めませんでした」と表示する。
+- JSONバックアップから復元、または明示的なリセットを待つ。
+
+## 5. JSON backup
+
+バックアップenvelope:
+
+```json
+{
+  "format": "browser-kitty-loan-board-backup",
+  "schemaVersion": 1,
+  "appSlug": "loan-board",
+  "appVersion": "0.7.0",
+  "exportedAt": "ISO-8601",
+  "data": {
+    "board": {},
+    "items": [],
+    "borrowers": [],
+    "events": []
+  }
+}
+```
+
+ファイル名には:
+- app slug
+- Board名
+- timestamp
+
+を含める。
 
 例:
 
 ```text
-共通名: 無線機
-開始番号: 1
-登録数: 20
-桁数: 2
-管理コードprefix: RADIO-
-
-無線機 01 / RADIO-01
-無線機 02 / RADIO-02
-...
-無線機 20 / RADIO-20
+loan-board-2026年度-文化祭-20261003T105000Z.json
 ```
 
-### Item management
-- 備品名 / カテゴリ / 管理コード / メモで検索
-- 有効 / アーカイブ済み / すべて の表示切替
-- 有効件数 / アーカイブ件数を表示
-- available Itemをアーカイブ
-- archived Itemを復帰
-- checked-out Itemはアーカイブ不可
-- アーカイブしてもItem IDと過去履歴を保持
-- archived ItemはCheckout候補へ出さない
-- archived Itemは未返却ボードへ出さない
+JSONバックアップは**完全復元用**であり、CSV exportとは役割を分ける。
 
-## 3. Item model
+## 6. Restore
 
-`itemId`, `name`, `category`, `code`, `note`, `status`, `currentBorrowerId`, `currentCheckoutAt`, `archived`, `createdAt`, `updatedAt`
+JSON復元時:
+- 最大10 MiB。
+- backup formatを確認。
+- schemaVersionを確認。
+- appSlugを確認。
+- autosaveと同じstate validationを実施。
+- validation完了後に確認ダイアログを表示。
+- 確認後、現在のBoard / Items / Borrowers / Eventsをまとめて置換。
+- Checkout / Return画面の一時選択状態をクリア。
+- 復元したstateをlocalStorageへ保存。
+- validationまたはJSON parseに失敗した場合、現在stateは変更しない。
 
-### Archive semantics
-アーカイブは削除ではない。
+## 7. Reset
 
-- `archived = true` にする。
-- Item自体は `state.items` に残す。
-- Historyの `itemIds` はそのまま解決できる。
-- Restoreでは `archived = false` に戻す。
-- checked-out中のItemはアーカイブしない。
+「新しいボードにリセット」は破壊的操作。
 
-## 4. Batch creation rules
-- `namePrefix` は必須。
-- `start`: 0〜999999。
-- `count`: 1〜500。
-- `digits`: 1〜6。
-- `start + count - 1 <= 999999`。
-- Item名は `namePrefix + " " + zero-padded number`。
-- code prefixが空ならcodeは空。
-- code prefixがある場合は `prefix + zero-padded number`。
-- 生成codeが既存Item（archivedを含む）と重複する場合は一括登録不可。
-- 一括登録は貸出・返却Historyには記録しない。
+- 確認を表示。
+- 現在のBoard / Items / Borrowers / Eventsを破棄。
+- localStorageのstate keyを削除。
+- 新しい空Boardを生成。
+- 新しい空Boardを自動保存する。
 
-## 5. Archive / Undo interaction
-アーカイブは貸出・返却Eventではないが、Undoの安全性に影響する。
+## 8. Browser-storage limitations
 
-- Checkout中Itemはアーカイブ不可。
-- Return後にItemをアーカイブした場合、そのReturnはUndo不可。
-- Restoreして現在状態が再びReturn直後と整合し、Return Eventが履歴の最後にある場合はUndo可能。
-- Undo判定では対象Itemがarchivedでないことを確認する。
-- 古いEventへ遡ってUndoしないv0.5.0のルールを維持する。
+自動保存はサーバー同期ではない。
 
-## 6. Existing invariants
+- 同じ端末・同じブラウザーの保存領域を利用する。
+- ブラウザーのサイトデータ削除で消える。
+- プライベートブラウズ等では永続化されない場合がある。
+- `file://` ではブラウザーやファイルの開き方・保存場所により保存領域の扱いが異なる場合がある。
+- 複数端末間で同期しない。
+- 重要な運用ではJSONバックアップを併用する。
+
+UI上もこの制約を明示する。
+
+## 9. Existing invariants
 - checked-out Itemを二重貸出しない。
 - archived Itemを貸し出さない。
-- Return確定時に対象Borrowerへの貸出状態を再検証する。
-- 未返却ボードは有効なchecked-out Itemだけを表示する。
-- 未返却0では完了状態を表示する。
+- checked-out Itemをアーカイブしない。
+- Return確定時にBorrower一致を再検証する。
 - Undoは履歴の最後にある整合するCheckout / Returnだけ。
+- archived ItemをUndoでchecked-outへ戻さない。
+- HistoryのItem / Borrower参照を保持する。
 
-## 7. Header contract
+## 10. Header contract
 作業時点の最新 `htmlapps-template` のヘッダー構造を維持する。
 
-- canonical faviconと同じアプリアイコン
-- アプリ名 + version badge
-- 補助文
-- 言語切替 + ヘルプ
+## 11. Privacy / runtime
+- Runtime CDN: none
+- API: none
+- analytics: none
+- telemetry: none
+- external font: none
+- user-data upload: none
+- CSP: `connect-src 'none'`
+- direct `file://`: required
+- third-party runtime dependencies: none
 
-## 8. UX / accessibility
-- 単品登録を残し、連番登録は必要なときだけ展開する。
-- 一括登録前に生成例を表示する。
-- 貸出中Itemのアーカイブ操作はdisabledにし、理由をtitle / aria-labelで説明する。
-- 長い名前・コードでも横スクロールを出さない。
-- 320px幅から利用可能。
-- スマートフォンでは一括登録フォームを1列にする。
-- 可視Focus、ラベル、Esc、reduced-motion。
-- 絵文字を主要UIアイコンにしない。
+自動保存、JSON書き出し、JSON読み込みはすべて端末内で処理する。
 
-## 9. Privacy / runtime
-Runtime CDN / API / analytics / telemetry / external font / user-data upload: none.
-CSPは `connect-src 'none'`。direct `file://` required。third-party runtime dependencies: none。
-
-v0.6.0では業務データ・履歴・アーカイブ状態はメモリ上だけに保持し、再読み込みで消える。
-
-## 10. v0.6.0 acceptance criteria
-- 単品登録を引き続き利用できる。
-- 共通名・開始番号・件数・桁数から連番Itemを生成できる。
-- 生成前にプレビューを確認できる。
-- 最大500件の上限がある。
-- 0〜999999を超える連番は登録できない。
-- code prefix付き連番を生成できる。
-- 既存codeとの重複を検出できる。
-- Itemを名前 / カテゴリ / code / メモで検索できる。
-- 有効 / archived / すべてを切り替えられる。
-- available Itemをアーカイブできる。
-- checked-out Itemをアーカイブできない。
-- archived ItemをRestoreできる。
-- archived ItemがCheckout候補へ出ない。
-- archived Itemの過去Historyが表示される。
-- archive後に不整合なReturn Undoを表示しない。
+## 12. v0.7.0 acceptance criteria
+- Item / Borrower追加後に自動保存される。
+- Checkout / Return / Undo後に自動保存される。
+- Archive / Restore後に自動保存される。
+- Board名変更が自動保存される。
+- 再読み込み後にstateを復元できる。
+- 保存状態と最終保存時刻を確認できる。
+- localStorage書き込み失敗時もアプリ本体は利用できる。
+- 壊れたautosaveを自動上書きしない。
+- JSONバックアップを保存できる。
+- JSONバックアップにBoard / Items / Borrowers / Eventsが含まれる。
+- JSONバックアップから全stateを復元できる。
+- 不正JSONを復元しない。
+- 他アプリ形式のJSONを復元しない。
+- 復元前に確認が表示される。
+- Reset前に確認が表示される。
+- 自動保存の限界をUIとREADMEで説明する。
 - 日本語 / 英語。
 - 360px幅で横スクロールなし。
 - standalone / self-extract / root HTML生成。
 - repository check成功。
 
-## 11. Roadmap
+## 13. Roadmap
 - **v0.1.0:** Core Data
 - **v0.2.0:** Checkout
 - **v0.3.0:** Return / partial return

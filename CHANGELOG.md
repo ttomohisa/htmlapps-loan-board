@@ -2,6 +2,22 @@
 
 All notable Loan Board changes are recorded here.
 
+## [0.7.0] - 2026-10-03
+
+### Added
+- Browser-local autosave for board, equipment, borrowers, loan state, history, and archive state.
+- Automatic validated restore on reload.
+- Save-status UI with last-saved time.
+- Full-state JSON backup download.
+- Validated JSON backup restore with replacement confirmation.
+- Reset-to-new-board action with destructive confirmation.
+- Backup schema / app-format validation and a 10 MiB restore limit.
+
+### Changed
+- Corrupted autosave data is no longer at risk of being overwritten by an empty state; autosave is blocked until explicit recovery or reset.
+- Page exit flushes pending autosave work.
+- Documentation now distinguishes browser autosave from JSON backup and future CSV export.
+
 ## [0.6.0] - 2026-10-03
 
 ### Added

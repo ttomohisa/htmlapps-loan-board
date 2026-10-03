@@ -2,80 +2,70 @@
 
 Loan Board is a browser-based equipment checkout and return board for events, schools, shoots, stages, clubs, and other short-term lending situations.
 
-The current milestone is **v0.6.0 (Item Management / Sequential Creation)**.
+The current milestone is **v0.7.0 (Persistence / JSON Backup)**.
 
-## v0.6.0 features
+## v0.7.0 features
 - Add / edit equipment and borrowers
-- **Create numbered equipment in a batch**
-- Preview generated names and codes before creation
-- Optional item-code prefix
-- Detect generated item-code conflicts
-- Search equipment
-- Filter Active / Archived / All
-- Archive and restore unused equipment
-- Prevent archiving checked-out equipment
-- Multi-item checkout with double-checkout prevention
+- Sequential batch equipment creation
+- Equipment archive / restore
+- Multi-item checkout
 - Full and partial returns
-- Outstanding board and completed state
+- Outstanding board
 - Undo the latest checkout / return
 - Checkout / Return / Undo history
-- History search, action filter, and ordering
+- **Browser autosave**
+- **Automatic restore after reload**
+- **Save status and last-saved time**
+- **JSON backup**
+- **Full-state restore from JSON backup**
 - Japanese / English
 - Desktop, tablet, and smartphone layouts
 - Fully local processing
 - No runtime network access
 - Single-HTML build
 
-## Sequential batch creation
+## Browser autosave
 
-For 20 radios, enter:
+Equipment, borrowers, loan state, history, archive state, and board name are automatically stored in browser-local storage.
 
-```text
-Shared equipment name: Radio
-Start number: 1
-Quantity: 20
-Digits: 2
-Item-code prefix: RADIO-
-```
+After reload, saved data is validated before it is used.
 
-The app previews and creates:
+If saved data is malformed, Loan Board **does not automatically overwrite it with an empty state**. Autosave is blocked until you restore a JSON backup or explicitly reset to a new board.
 
-```text
-Radio 01 / RADIO-01
-Radio 02 / RADIO-02
-...
-Radio 20 / RADIO-20
-```
+## JSON backup
 
-A batch can contain up to 500 items, and generated numbers may not exceed 999999.
+Save JSON backup exports the complete board state:
 
-When an item-code prefix is used, generated codes are checked against all existing equipment, including archived items.
+- Board
+- Items
+- Borrowers
+- Checkout / Return / Undo Events
+- Archive state
+- Current checkout state
 
-## Archive
+Unlike CSV, JSON backup is intended for **full Loan Board restoration**.
 
-Archive equipment you no longer use instead of deleting it.
+Restore validates the file format, schema, references, and loan state before asking for confirmation to replace the current board.
 
-Archived equipment is removed from checkout choices but remains available to History by its original item ID. It can be restored later.
+## Storage limitations
 
-**Checked-out equipment cannot be archived.** Return it first.
+Autosave is not cloud sync.
 
-## Undo interaction
+- Clearing browser site data can remove it.
+- Private browsing may not persist it.
+- When the standalone HTML is opened with `file://`, storage behavior can vary by browser and by how or where the file is opened.
+- It does not automatically sync across devices or browsers.
 
-Archiving an item after a return makes that return incompatible with Undo. Undo never restores an archived item into the checked-out state.
-
-## Current limitation
-Equipment, borrowers, loan state, history, and archive state are **in memory only**. Reloading clears the data.
-
-Automatic persistence and JSON backup / restore are planned for v0.7.0.
+For important operations, keep a **JSON backup** as well.
 
 ## Privacy
-The app does not send equipment, borrower, loan state, or history to an external server. There is no runtime CDN, API, analytics, or telemetry.
+Autosave and JSON backup are processed on the device. Equipment, borrower, loan, history, and backup data are not uploaded to an external server. There is no runtime CDN, API, analytics, or telemetry.
 
 ## Single HTML / offline
 The build produces `dist/index.html`, `dist/index.self-extract.html`, and `loan-board.html` with no runtime network dependency.
 
 ## Roadmap
-v0.7.0 Persistence / Backup → v0.8.0 CSV → v0.9.0 RC → v1.0.0 Stable
+v0.8.0 CSV → v0.9.0 RC → v1.0.0 Stable
 
 ## Development
 ```powershell
