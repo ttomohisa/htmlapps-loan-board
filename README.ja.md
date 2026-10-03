@@ -1,72 +1,87 @@
 # Loan Board / 貸出・返却ボード
 
-イベント、学校、撮影現場、舞台、社内行事などの短期貸出で、**誰が何を持っていて、何がまだ返ってきていないか**を1台の端末で確認するブラウザーアプリです。
+[![GitHub Pages](https://github.com/ttomohisa/htmlapps-loan-board/actions/workflows/deploy-pages.yml/badge.svg)](https://github.com/ttomohisa/htmlapps-loan-board/actions/workflows/deploy-pages.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Single HTML](https://img.shields.io/badge/distribution-single%20HTML-0ea5e9)](https://ttomohisa.github.io/htmlapps-loan-board/)
 
-現在は **v0.9.0 Release Candidate** です。v1.0.0向けの主要機能は揃っており、この版では操作性と全体回帰を中心に確認します。
+[English README](README.md)
+
+イベント、学校、撮影現場、舞台、社内行事などの短期貸出で、**誰が何を持っていて、何がまだ返ってきていないか**を1台の端末で確認する、完全ローカル処理の貸出・返却ボードです。
+
+## 🚀 デモ
+
+### [GitHub PagesでLoan Boardを開く](https://ttomohisa.github.io/htmlapps-loan-board/)
+
+GitHub Pagesから最初のHTMLを読み込んだ後、備品・貸出先・貸出状態・履歴・バックアップ・CSVはブラウザー内で処理されます。Loan Boardへ入力したユーザーデータをアプリから外部サーバーへ送信しません。
+
+[![Loan Boardの画面](assets/screenshot.png)](https://ttomohisa.github.io/htmlapps-loan-board/)
 
 ## 主な機能
 
-- 備品 / 貸出先の登録・編集
-- 連番の備品をまとめて登録
-- 備品のアーカイブ / 復帰
-- 複数備品をまとめて貸出
-- 全返却 / 部分返却
-- 未返却ボード
-- 未返却0の完了状態
-- 直前の貸出 / 返却のUndo
-- Checkout / Return / Undo履歴
-- 履歴検索・絞り込み・並び順
-- ブラウザー内自動保存
-- JSONバックアップ / 復元
-- 未返却一覧 / 操作履歴 / 備品一覧のCSV
-- 日本語 / 英語
-- PC / タブレット / スマートフォン
-- 完全ローカル処理
-- 実行時外部通信なし
-- 単一HTML
+- **誰が何を持っているかを未返却ボードで確認** — 貸出先ごとに現在の未返却備品をまとめて確認できます。
+- **複数備品をまとめて貸出** — 受付で貸出先を選び、利用可能な備品を複数選択して一度に記録できます。
+- **全返却 / 部分返却** — 一括返却だけでなく、返ってきた備品だけを選んで返却できます。
+- **返却漏れを「未返却 0」まで管理** — すべて戻ったときは完了状態を明確に表示します。
+- **連番の備品をまとめて登録** — 「無線機 01〜20」のような個体を、番号・桁数・管理コード付きで一括作成できます。
+- **直前操作のUndoと履歴** — Checkout / Return / Undoを履歴として残し、現在状態と整合する直前操作だけを元に戻せます。
+- **ブラウザー内へ自動保存** — 再読み込み後も保存データを検証して復元します。
+- **JSONバックアップ / 復元** — Board、備品、貸出先、貸出状態、履歴をまとめて退避・復元できます。
+- **CSV出力** — 未返却一覧、操作履歴、備品一覧をExcel等で確認・集計できます。
+- **PC / スマートフォン・日本語 / 英語** — 1台の受付端末で使いやすいUIを用意しています。
+- **単一HTML・実行時外部通信なし** — 必要なアプリコードをHTMLへ内包し、CSPで `connect-src 'none'` を指定します。
 
-## 基本フロー
+## すぐに使う
 
-```text
-備品を登録
-↓
-貸出先を選ぶ
-↓
-備品を貸し出す
-↓
-未返却ボードで確認
-↓
-全返却 / 部分返却
-↓
-未返却 0
-```
+### Webで使う
 
-## v0.9.0のUX調整
+[デモを開く](https://ttomohisa.github.io/htmlapps-loan-board/)だけで利用できます。インストールやアカウント登録は不要です。
 
-画面上部に、次の6エリアへ移動する通常のナビゲーションを追加しています。
+### 単一HTMLをビルドして使う
 
-- ボード
-- 貸出
-- 返却
-- 履歴
-- 登録・管理
-- データ
+1. このリポジトリをダウンロードまたはクローンします。
+2. Windowsで `build-standalone.bat` を実行します。
+3. `dist/index.html` と `loan-board.html` が生成されます。
+4. 生成したHTMLを最新のChromiumベースブラウザ、Firefox、Safariで開きます。
 
-固定の下部バーではないため、スマートフォンでコンテンツを隠しません。幅に応じて6列 → 3列 → 2列へ折り返します。
+このアプリは外部ライブラリを使用していないため、通常のビルドで追加パッケージの取得は発生しません。Python、Node.js、ローカルWebサーバーは不要です。
 
-スマートフォンでは、小さい操作ボタン、貸出先候補、選択解除、ToastのUndoなどのタップ領域も調整しています。
+## 使い方
 
-## 保存とバックアップ
+1. ボード名にイベント名や運用名を入力します。
+2. 「登録・管理」で備品を登録します。多数の同種備品は「連番をまとめて登録」を使えます。
+3. 必要に応じて貸出先を登録します。貸出操作中に新しい貸出先をその場で追加することもできます。
+4. 「貸出」で貸出先と複数の備品を選び、貸出を確定します。
+5. 「未返却ボード」で、現在誰が何を持っているかを確認します。
+6. 返却時は「全返却」または「一部だけ返却」を使います。
+7. 最後に「未返却 0」を確認します。
 
-業務データはこのブラウザーへ自動保存します。
+### Undo
 
-ただし、自動保存はクラウド同期ではありません。ブラウザーのサイトデータ削除、プライベートブラウズ、`file://` の扱いなどによって保存データが利用できなくなる場合があります。
+貸出・返却直後の通知から、現在の状態と整合する直前操作だけを元に戻せます。
 
-重要な運用では **JSONバックアップ**を併用してください。
+Undoしても元の履歴は削除しません。元Eventを残したままUndo Eventを追加します。
 
-JSONはLoan Board全体の復元用です。CSVはExcel等での確認・集計用で、復元形式ではありません。
+### 備品のアーカイブ
 
-## CSV
+使わなくなった備品は削除ではなくアーカイブできます。
+
+アーカイブした備品は貸出候補から外れますが、過去の履歴は残ります。貸出中の備品は返却してからアーカイブしてください。
+
+## 保存・バックアップ
+
+### 自動保存
+
+Board、備品、貸出先、現在の貸出状態、履歴、アーカイブ状態をこのブラウザーへ自動保存します。
+
+保存データを読み込めない場合、空データで既存の保存内容を自動上書きしません。JSONバックアップから復元するか、明示的に新しいボードへリセットしてください。
+
+### JSONバックアップ
+
+JSONは **Loan Board全体を復元するための形式**です。
+
+復元時はformat、schema、ID、参照関係、貸出状態を確認し、問題がなければ現在のボードを置き換える確認を表示します。
+
+### CSV
 
 次の3種類を保存できます。
 
@@ -74,47 +89,88 @@ JSONはLoan Board全体の復元用です。CSVはExcel等での確認・集計�
 - 操作履歴CSV
 - 備品一覧CSV
 
-UTF-8 BOM付き、CRLF、全セルquoteで出力します。ユーザー入力が `=`, `+`, `-`, `@` 等で始まる場合のformula injection対策も行います。
+CSVはUTF-8 BOM付き、CRLF、全セルquoteで出力します。ユーザー入力が `=`, `+`, `-`, `@` などで始まる場合は、表計算ソフトで数式として評価されにくい形へ保護します。
 
-## プライバシー
+**CSVは確認・集計用で、完全復元用のバックアップではありません。**
 
-入力内容、貸出状態、履歴、自動保存、JSON、CSVは端末内で処理します。ユーザーデータを外部サーバーへ送信しません。
+## スマートフォン
 
-ランタイムCDN、API、分析、テレメトリも使用しません。
+上部の操作ナビから「ボード / 貸出 / 返却 / 履歴 / 登録・管理 / データ」へ移動できます。
 
-## Release Candidate
+狭い画面ではナビやフォームが折り返され、ダイアログは画面下から表示されます。固定の下部バーは使わないため、コンテンツを隠しません。
 
-v1.0.0前の確認項目は `RELEASE_CHECKLIST.md` にまとめています。
+![Loan Boardのスマートフォン画面](assets/screenshot-mobile.png)
 
-主な確認範囲:
+## GitHub Pagesで公開する
 
-- PC / スマートフォン
-- 日本語 / 英語
-- 長い備品名 / 貸出先名 / ファイル名
-- 空状態 / 完了状態 / エラー状態
-- Checkout / Return / Partial Return / Undo
-- 自動保存 / reload復元
-- JSON backup / restore
-- CSV 3種
-- standalone / self-extract
-- CSP / 外部通信
-- Cloudflare PR Preview
+このリポジトリには、standalone HTMLをビルドしてGitHub Pagesへ公開するworkflowが含まれています。
 
-## 単一HTML / オフライン
+1. **Settings → Pages → Build and deployment → Source** で **GitHub Actions** を選択します。
+2. `main` へpushするか、Actionsから **Deploy standalone app to GitHub Pages** を実行します。
+3. repository checkとstandalone buildが成功するとPagesへ公開されます。
 
-`dist/index.html`, `dist/index.self-extract.html`, `loan-board.html` を生成します。実行時の外部ネットワーク依存はありません。
+公開URL:
 
-## Roadmap
+`https://ttomohisa.github.io/htmlapps-loan-board/`
 
-v0.9.0 Release Candidate → v1.0.0 正式版
+## 開発とビルド
 
-## Development
+```text
+.
+├─ src/index.template.html       # アプリ本体
+├─ assets/favicon.svg            # favicon / header icon
+├─ app.config.json               # 名前・version・build設定
+├─ APP_SPEC.md                   # 仕様
+├─ RELEASE_CHECKLIST.md          # v1.0.0回帰項目
+├─ build-standalone.bat          # Windows用build入口
+├─ build-standalone.ps1          # standalone HTML builder
+├─ scripts/check-repository.ps1  # repository / build検証
+└─ .github/workflows/
+   ├─ build-standalone.yml       # Pull Request build
+   ├─ preview.yml                # Cloudflare PR Preview
+   └─ deploy-pages.yml           # main → GitHub Pages
+```
+
+ローカル検証:
 
 ```powershell
 powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -File .\scripts\check-powershell-syntax.ps1
 powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -File .\scripts\check-repository.ps1
 ```
 
-## License
+buildでは `dist/index.html`, `dist/index.self-extract.html`, `loan-board.html` を生成し、外部runtime参照、未解決placeholder、CSP、favicon/header iconなどを検査します。
 
-MIT License
+## プライバシーと通信
+
+Loan Boardは備品名、貸出先、貸出状態、履歴、JSON、CSVを端末内で処理します。
+
+生成HTMLには `connect-src 'none'` を含むContent Security Policyを設定し、実行時の外部通信を許可しません。
+
+GitHub Pages版ではページを開くためのHTML配信は発生しますが、Loan Boardへ入力したユーザーデータはアプリから送信されません。
+
+## 制限事項
+
+- 複数端末間の同期には対応していません。
+- 予約、返却期限、延長、通知には対応していません。
+- 請求・決済を行うレンタル業務向けシステムではありません。
+- QRコード / バーコード読み取りには対応していません。
+- 自動保存はブラウザーの保存領域を使うため、site data削除、private browsing、`file://` の扱いなどによって利用できなくなる場合があります。
+- 重要な運用ではJSONバックアップを併用してください。
+- CSVからLoan Board全体を復元することはできません。
+- v1.0.0は1台の端末で行う短期貸出を主な対象としています。
+
+## 使用ライブラリ
+
+v1.0.0のアプリruntimeは外部ライブラリを使用していません。ブラウザーAPIとsystem fontを直接利用します。
+
+詳細は [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) を確認してください。
+
+## コントリビューション
+
+バグ報告や機能提案はGitHub Issuesからお願いします。開発への参加方法は [CONTRIBUTING.md](CONTRIBUTING.md) を確認してください。
+
+## ライセンス
+
+Copyright © 2026 ttomohisa
+
+このプロジェクトは [MIT License](LICENSE) で公開されています。
