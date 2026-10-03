@@ -255,6 +255,43 @@
       background: var(--brand-soft); border-radius: 999px; padding: 4px 8px; font-weight: 800;
     }
     .record-status::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--brand); }
+    .item-create-section { display: grid; gap: 12px; }
+    .batch-create {
+      border: 1px solid var(--line); border-radius: 13px; background: var(--surface-muted); overflow: hidden;
+    }
+    .batch-create summary {
+      min-height: 46px; padding: 11px 13px; cursor: pointer; list-style: none;
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      color: var(--brand-strong); font-weight: 800;
+    }
+    .batch-create summary::-webkit-details-marker { display: none; }
+    .batch-create summary::after { content: "+"; font-size: 20px; line-height: 1; font-weight: 500; }
+    .batch-create[open] summary::after { content: "−"; }
+    .batch-create[open] summary { border-bottom: 1px solid var(--line); background: #fff; }
+    .batch-body { display: grid; gap: 12px; padding: 13px; }
+    .batch-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 10px; }
+    .batch-number-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 10px; }
+    .batch-preview {
+      min-width: 0; padding: 11px 12px; border: 1px dashed #aebfba; border-radius: 11px;
+      background: #fff; color: #43534d; font-size: 12px; line-height: 1.55; overflow-wrap: anywhere;
+    }
+    .batch-preview strong { color: var(--text); }
+    .batch-preview.error { border-color: #dfc6a1; background: var(--warning-soft); color: var(--warning); }
+    .item-management-tools {
+      display: grid; grid-template-columns: minmax(0,1fr) auto; align-items: end; gap: 10px;
+    }
+    .item-management-summary {
+      display: flex; flex-wrap: wrap; gap: 6px 12px; margin: 10px 0 0;
+      color: var(--muted); font-size: 12px;
+    }
+    .record.archived { background: #f7f8f8; border-style: dashed; }
+    .record.archived .record-title { color: #54615c; }
+    .record-status.archived { background: #eef0ef; color: #606b67; }
+    .record-status.archived::before { background: #8b9692; }
+    .record-actions { display: flex; flex-wrap: wrap; gap: 7px; justify-content: flex-end; }
+    .button.archive-action { color: #58645f; }
+    .button.restore-action { color: var(--brand-strong); border-color: #9ab8ae; }
+    .button:disabled { opacity: .52; cursor: not-allowed; }
 .checkout-shell { margin-bottom: 18px; overflow: hidden; }
     .checkout-body { padding: 18px; }
     .checkout-grid { display: grid; grid-template-columns: minmax(0, .82fr) minmax(0, 1.18fr); gap: 18px; }
@@ -455,7 +492,7 @@
       .checkout-grid, .return-grid { grid-template-columns: 1fr; }
       .checkout-footer { align-items: stretch; flex-direction: column; }
       .checkout-footer .button { width: 100%; }
-      .form-row { grid-template-columns: 1fr; }
+      .form-row, .batch-grid, .batch-number-grid, .item-management-tools { grid-template-columns: 1fr; }
       .record { grid-template-columns: 1fr; align-items: start; }
       .record-actions .button { width: 100%; }
       .history-toolbar { grid-template-columns: 1fr; align-items: stretch; }
@@ -490,7 +527,7 @@
           <img id="appBrandIcon" src="__APP_ICON_DATA_URI__" alt="">
         </div>
         <div class="brand-copy">
-          <p class="brand-name"><span id="brandName">貸出・返却ボード</span><span class="version-badge" id="versionBadge">v0.5.0</span></p>
+          <p class="brand-name"><span id="brandName">貸出・返却ボード</span><span class="version-badge" id="versionBadge">v0.6.0</span></p>
           <p class="brand-meta" data-i18n="brandMeta">完全ローカル処理 · 単一HTML</p>
         </div>
       </div>
@@ -506,8 +543,8 @@
   <main class="main">
     <section class="hero" aria-labelledby="heroTitle">
       <div>
-        <h2 id="heroTitle" data-i18n="introTitle">貸出・返却を安心して記録</h2>
-        <p data-i18n="lead">貸出・返却の操作履歴を確認し、直前の操作は元に戻せます。誰が何を持っているかも未返却ボードですぐ確認できます。</p>
+        <h2 id="heroTitle" data-i18n="introTitle">備品をまとめて登録・整理</h2>
+        <p data-i18n="lead">連番の備品をまとめて登録し、使わない備品は履歴を残したままアーカイブできます。</p>
       </div>
       <div class="local-badge">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 5 6v5c0 4.6 2.8 8 7 10 4.2-2 7-5.4 7-10V6z"/><path d="m9 12 2 2 4-5"/></svg>
@@ -517,10 +554,10 @@
 
     <div class="version-note" role="note">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 10v6M12 7h.01"/></svg>
-      <span data-i18n="devNotice">v0.5.0では貸出・返却のUndoと履歴を利用できます。登録内容と履歴はまだメモリ上だけに保持され、ページを再読み込みすると消えます。連番登録・備品管理はv0.6.0で追加予定です。</span>
+      <span data-i18n="devNotice">v0.6.0では連番一括登録と備品アーカイブを利用できます。登録内容と履歴はまだメモリ上だけに保持され、ページを再読み込みすると消えます。保存・復元はv0.7.0で追加予定です。</span>
     </div>
 
-    <!-- APP:BEGIN Loan Board v0.5.0 undo history workspace -->
+    <!-- APP:BEGIN Loan Board v0.6.0 item management workspace -->
     <section class="shell board-shell" aria-labelledby="boardTitle">
       <div class="board-top">
         <label class="field" for="boardName">
@@ -528,7 +565,7 @@
           <input class="input" id="boardName" type="text" maxlength="100" autocomplete="off" data-i18n-placeholder="boardNamePlaceholder" placeholder="2026年度 文化祭">
           <span class="field-hint" data-i18n="boardNameHint">イベント名や運用名を付けておくと、今どの貸出を管理しているか分かりやすくなります。</span>
         </label>
-        <span class="status-chip" data-i18n="milestoneStatus">v0.5.0 Undo・履歴</span>
+        <span class="status-chip" data-i18n="milestoneStatus">v0.6.0 備品管理</span>
       </div>
       <div class="summary-grid" aria-live="polite">
         <div class="summary-card outstanding" id="outstandingSummaryCard"><strong class="summary-value" id="outstandingCount">0</strong><span class="summary-label" data-i18n="outstandingCountLabel">未返却</span></div>
@@ -633,18 +670,82 @@
 
     <div class="workspace-grid">
       <section class="shell panel" aria-labelledby="itemsTitle">
-        <div class="panel-head"><div><h3 id="itemsTitle" data-i18n="itemsTitle">備品</h3><p data-i18n="itemsLead">1個体を1件として登録します。貸出中の備品は貸出先と時刻を確認できます。</p></div><span class="count-badge" id="itemPanelCount" aria-hidden="true">0</span></div>
+        <div class="panel-head">
+          <div>
+            <h3 id="itemsTitle" data-i18n="itemsTitle">備品</h3>
+            <p data-i18n="itemsLead">1件ずつの登録に加え、連番をまとめて登録できます。使わない備品は履歴を残したままアーカイブできます。</p>
+          </div>
+          <span class="count-badge" id="itemPanelCount" aria-hidden="true">0</span>
+        </div>
         <div class="panel-body">
-          <form class="form-grid" id="itemForm">
-            <label class="field" for="itemName"><span class="field-label" data-i18n="itemNameLabel">備品名 *</span><input class="input" id="itemName" name="itemName" type="text" maxlength="120" required autocomplete="off" data-i18n-placeholder="itemNamePlaceholder" placeholder="無線機 01"></label>
-            <div class="form-row">
-              <label class="field" for="itemCategory"><span class="field-label" data-i18n="categoryLabel">カテゴリ</span><input class="input" id="itemCategory" name="itemCategory" type="text" maxlength="80" autocomplete="off" data-i18n-placeholder="categoryPlaceholder" placeholder="無線機"></label>
-              <label class="field" for="itemCode"><span class="field-label" data-i18n="codeLabel">管理コード</span><input class="input" id="itemCode" name="itemCode" type="text" maxlength="80" autocomplete="off" data-i18n-placeholder="codePlaceholder" placeholder="RADIO-01"></label>
-            </div>
-            <label class="field" for="itemNote"><span class="field-label" data-i18n="noteLabel">メモ</span><textarea class="textarea" id="itemNote" name="itemNote" maxlength="500" data-i18n-placeholder="itemNotePlaceholder" placeholder="受け渡し時に確認したいことなど"></textarea></label>
-            <div class="button-row"><button class="button primary" type="submit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span data-i18n="addItem">備品を追加</span></button></div>
-          </form>
-          <div class="list-divider"></div><div class="list" id="itemList"></div>
+          <div class="item-create-section">
+            <form class="form-grid" id="itemForm">
+              <label class="field" for="itemName"><span class="field-label" data-i18n="itemNameLabel">備品名 *</span><input class="input" id="itemName" name="itemName" type="text" maxlength="120" required autocomplete="off" data-i18n-placeholder="itemNamePlaceholder" placeholder="無線機 01"></label>
+              <div class="form-row">
+                <label class="field" for="itemCategory"><span class="field-label" data-i18n="categoryLabel">カテゴリ</span><input class="input" id="itemCategory" name="itemCategory" type="text" maxlength="80" autocomplete="off" data-i18n-placeholder="categoryPlaceholder" placeholder="無線機"></label>
+                <label class="field" for="itemCode"><span class="field-label" data-i18n="codeLabel">管理コード</span><input class="input" id="itemCode" name="itemCode" type="text" maxlength="80" autocomplete="off" data-i18n-placeholder="codePlaceholder" placeholder="RADIO-01"></label>
+              </div>
+              <label class="field" for="itemNote"><span class="field-label" data-i18n="noteLabel">メモ</span><textarea class="textarea" id="itemNote" name="itemNote" maxlength="500" data-i18n-placeholder="itemNotePlaceholder" placeholder="受け渡し時に確認したいことなど"></textarea></label>
+              <div class="button-row"><button class="button primary" type="submit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span data-i18n="addItem">備品を追加</span></button></div>
+            </form>
+
+            <details class="batch-create" id="batchCreateDetails">
+              <summary data-i18n="batchCreateTitle">連番をまとめて登録</summary>
+              <form class="batch-body" id="batchItemForm">
+                <div class="batch-grid">
+                  <label class="field" for="batchNamePrefix">
+                    <span class="field-label" data-i18n="batchNamePrefixLabel">備品名の共通部分 *</span>
+                    <input class="input" id="batchNamePrefix" type="text" maxlength="110" required autocomplete="off" data-i18n-placeholder="batchNamePrefixPlaceholder" placeholder="無線機">
+                  </label>
+                  <label class="field" for="batchCategory">
+                    <span class="field-label" data-i18n="categoryLabel">カテゴリ</span>
+                    <input class="input" id="batchCategory" type="text" maxlength="80" autocomplete="off" data-i18n-placeholder="categoryPlaceholder" placeholder="無線機">
+                  </label>
+                </div>
+                <div class="batch-number-grid">
+                  <label class="field" for="batchStartNumber">
+                    <span class="field-label" data-i18n="batchStartLabel">開始番号</span>
+                    <input class="input" id="batchStartNumber" type="number" min="0" max="999999" step="1" value="1" inputmode="numeric">
+                  </label>
+                  <label class="field" for="batchCount">
+                    <span class="field-label" data-i18n="batchCountLabel">登録数</span>
+                    <input class="input" id="batchCount" type="number" min="1" max="500" step="1" value="20" inputmode="numeric">
+                  </label>
+                  <label class="field" for="batchDigits">
+                    <span class="field-label" data-i18n="batchDigitsLabel">桁数</span>
+                    <input class="input" id="batchDigits" type="number" min="1" max="6" step="1" value="2" inputmode="numeric">
+                  </label>
+                </div>
+                <label class="field" for="batchCodePrefix">
+                  <span class="field-label" data-i18n="batchCodePrefixLabel">管理コードの共通部分</span>
+                  <input class="input" id="batchCodePrefix" type="text" maxlength="72" autocomplete="off" data-i18n-placeholder="batchCodePrefixPlaceholder" placeholder="RADIO-">
+                  <span class="field-hint" data-i18n="batchCodePrefixHint">空欄なら管理コードは付けません。入力すると番号を続けて付けます。</span>
+                </label>
+                <div class="batch-preview" id="batchPreview" aria-live="polite"></div>
+                <div class="button-row">
+                  <button class="button primary" id="batchAddButton" type="submit" disabled data-i18n="batchAdd">まとめて追加</button>
+                </div>
+              </form>
+            </details>
+          </div>
+
+          <div class="list-divider"></div>
+          <div class="item-management-tools">
+            <label class="field" for="itemManagementSearch">
+              <span class="field-label" data-i18n="itemSearchLabel">備品を検索</span>
+              <input class="input" id="itemManagementSearch" type="search" autocomplete="off" data-i18n-placeholder="itemSearchPlaceholder" placeholder="備品名・カテゴリ・コード">
+            </label>
+            <label class="field" for="itemStatusFilter">
+              <span class="field-label" data-i18n="itemStatusFilterLabel">表示</span>
+              <select class="history-select" id="itemStatusFilter">
+                <option value="active" data-i18n="itemFilterActive">使用中</option>
+                <option value="archived" data-i18n="itemFilterArchived">アーカイブ済み</option>
+                <option value="all" data-i18n="itemFilterAll">すべて</option>
+              </select>
+            </label>
+          </div>
+          <div class="item-management-summary" id="itemManagementSummary" aria-live="polite"></div>
+          <div class="list" id="itemList"></div>
         </div>
       </section>
       <section class="shell panel" aria-labelledby="borrowersTitle">
@@ -754,17 +855,17 @@
       </div>
       <div class="dialog-body">
         <!-- APP:HELP:BEGIN -->
-        <h3 data-i18n="helpBasicsTitle">v0.5.0の基本操作</h3>
+        <h3 data-i18n="helpBasicsTitle">v0.6.0の基本操作</h3>
         <ol>
-          <li data-i18n="helpStep1">貸出・返却を行うと、操作直後の通知に「元に戻す」が表示されます。</li>
-          <li data-i18n="helpStep2">履歴では貸出・返却・取り消しを新しい順に確認でき、貸出先名・備品名・コードで検索できます。</li>
-          <li data-i18n="helpStep3">履歴から取り消せるのは現在の状態と整合する直前操作だけです。任意の古い操作を直接取り消すことはできません。</li>
+          <li data-i18n="helpStep1">「連番をまとめて登録」では、共通名・開始番号・登録数・桁数から複数の備品を一度に作成できます。</li>
+          <li data-i18n="helpStep2">使わなくなった備品はアーカイブできます。貸出中の備品は、返却するまでアーカイブできません。</li>
+          <li data-i18n="helpStep3">アーカイブしても過去の貸出・返却履歴は残り、「アーカイブ済み」表示からいつでも復帰できます。</li>
         </ol>
         <h3 data-i18n="helpPrivacyTitle">プライバシー</h3>
         <p data-i18n="helpPrivacyBody">入力内容、貸出状態、返却状態、操作履歴はブラウザー内で処理され、このアプリから外部サーバーへ送信されません。ランタイムの外部通信も行いません。</p>
         <h3 data-i18n="helpNotesTitle">現在の制限</h3>
         <ul>
-          <li data-i18n="helpNoteStorage">v0.5.0では備品・貸出先・貸出返却状態・履歴はメモリ上だけに保持され、再読み込みすると消えます。</li>
+          <li data-i18n="helpNoteStorage">v0.6.0では備品・貸出先・貸出返却状態・履歴・アーカイブ状態はメモリ上だけに保持され、再読み込みすると消えます。</li>
           <li data-i18n="helpNoteUndo">Undoは履歴を削除せず、取り消しイベントを追加して状態を戻します。</li>
           <li data-i18n="helpNoteData">電話番号や住所など、貸出管理に不要な個人情報は入力しないことを推奨します。</li>
         </ul>
@@ -880,9 +981,9 @@
 
       const translations = {
         ja: {
-          brandMeta:'完全ローカル処理 · 単一HTML',introTitle:'貸出・返却を安心して記録',lead:'貸出・返却の操作履歴を確認し、直前の操作は元に戻せます。誰が何を持っているかも未返却ボードですぐ確認できます。',localBadge:'完全ローカル処理',
-          devNotice:'v0.5.0では貸出・返却のUndoと履歴を利用できます。登録内容と履歴はまだメモリ上だけに保持され、ページを再読み込みすると消えます。連番登録・備品管理はv0.6.0で追加予定です。',
-          boardNameLabel:'ボード名',boardNamePlaceholder:'2026年度 文化祭',boardNameHint:'イベント名や運用名を付けておくと、今どの貸出を管理しているか分かりやすくなります。',milestoneStatus:'v0.5.0 Undo・履歴',
+          brandMeta:'完全ローカル処理 · 単一HTML',introTitle:'備品をまとめて登録・整理',lead:'連番の備品をまとめて登録し、使わない備品は履歴を残したままアーカイブできます。',localBadge:'完全ローカル処理',
+          devNotice:'v0.6.0では連番一括登録と備品アーカイブを利用できます。登録内容と履歴はまだメモリ上だけに保持され、ページを再読み込みすると消えます。保存・復元はv0.7.0で追加予定です。',
+          boardNameLabel:'ボード名',boardNamePlaceholder:'2026年度 文化祭',boardNameHint:'イベント名や運用名を付けておくと、今どの貸出を管理しているか分かりやすくなります。',milestoneStatus:'v0.6.0 備品管理',
           itemsCountLabel:'備品',borrowersCountLabel:'貸出先',checkedOutCountLabel:'貸出中',
           outstandingCountLabel:'未返却',outstandingBorrowersLabel:'貸出先',availabilitySummaryLabel:'利用可能 / 全備品',
           outstandingBoardTitle:'未返却ボード',outstandingBoardLead:'誰が何を持っているかを貸出先ごとに確認します。返却操作もここから始められます。',
@@ -898,20 +999,20 @@
           noOutstandingTitle:'現在、貸出中の備品はありません',noOutstandingBody:'貸し出した備品があると、ここに返却する相手が表示されます。',selectReturnBorrower:'返却する貸出先を選択してください。',
           returnSelectedBorrower:'返却する貸出先',allReturn:'すべて返却',partialReturn:'一部だけ返却',cancelPartial:'部分返却をやめる',returnSelected:'選択した備品を返却',returnSelectedCount:'返却選択中',
           returnedAll:'すべて返却しました',returnedPartial:'点を返却しました',remainingPrefix:'残り',remainingSuffix:'点',returnItemHint:'返ってきた備品だけを選択してください。',
-          itemsTitle:'備品',itemsLead:'1個体を1件として登録します。貸出中の備品は貸出先と時刻を確認できます。',borrowersTitle:'貸出先',borrowersLead:'個人名、班名、部署名などを登録します。現在の貸出点数も確認できます。',
+          itemsTitle:'備品',itemsLead:'1件ずつの登録に加え、連番をまとめて登録できます。使わない備品は履歴を残したままアーカイブできます。',batchCreateTitle:'連番をまとめて登録',batchNamePrefixLabel:'備品名の共通部分 *',batchNamePrefixPlaceholder:'無線機',batchStartLabel:'開始番号',batchCountLabel:'登録数',batchDigitsLabel:'桁数',batchCodePrefixLabel:'管理コードの共通部分',batchCodePrefixPlaceholder:'RADIO-',batchCodePrefixHint:'空欄なら管理コードは付けません。入力すると番号を続けて付けます。',batchPreviewLabel:'登録予定',batchAdd:'まとめて追加',batchAdded:'件の備品を追加しました',batchInvalid:'共通名・開始番号・登録数・桁数を確認してください。',batchDuplicateCode:'生成される管理コードが既存の備品と重複します。',itemSearchLabel:'備品を検索',itemSearchPlaceholder:'備品名・カテゴリ・コード',itemStatusFilterLabel:'表示',itemFilterActive:'使用中',itemFilterArchived:'アーカイブ済み',itemFilterAll:'すべて',activeItemsLabel:'使用中',archivedItemsLabel:'アーカイブ',archived:'アーカイブ済み',archive:'アーカイブ',restore:'復帰',archiveBlocked:'貸出中の備品は返却してからアーカイブしてください。',archiveBlockedTitle:'貸出中はアーカイブできません',itemArchived:'備品をアーカイブしました',itemRestored:'備品を復帰しました',itemNoMatch:'条件に一致する備品はありません。',borrowersTitle:'貸出先',borrowersLead:'個人名、班名、部署名などを登録します。現在の貸出点数も確認できます。',
           itemNameLabel:'備品名 *',itemNamePlaceholder:'無線機 01',categoryLabel:'カテゴリ',categoryPlaceholder:'無線機',codeLabel:'管理コード',codePlaceholder:'RADIO-01',noteLabel:'メモ',itemNotePlaceholder:'受け渡し時に確認したいことなど',addItem:'備品を追加',
           borrowerNameLabel:'名前 / 班名 *',borrowerNamePlaceholder:'警備1班',borrowerNotePlaceholder:'担当者名など、必要最小限の補足',addBorrower:'貸出先を追加',
           emptyItemsTitle:'まだ備品がありません',emptyItemsBody:'上のフォームから備品を追加すると、ここに一覧が表示されます。',emptyBorrowersTitle:'まだ貸出先がありません',emptyBorrowersBody:'名前や班名を追加すると、ここから確認・編集できます。',
           available:'利用可能',checkedOut:'貸出中',lentToPrefix:'貸出先',checkedOutAtPrefix:'貸出',categoryPrefix:'カテゴリ',codePrefix:'コード',borrowedItemsPrefix:'貸出中',
           edit:'編集',editItemTitle:'備品を編集',editBorrowerTitle:'貸出先を編集',cancel:'キャンセル',saveChanges:'変更を保存',itemAdded:'備品を追加しました',borrowerAdded:'貸出先を追加しました',itemUpdated:'備品を更新しました',borrowerUpdated:'貸出先を更新しました',close:'閉じる',
-          helpTitle:'使い方と注意事項',helpBasicsTitle:'v0.5.0の基本操作',helpStep1:'貸出・返却を行うと、操作直後の通知に「元に戻す」が表示されます。',helpStep2:'履歴では貸出・返却・取り消しを検索でき、操作種別と新しい順 / 古い順でも絞れます。',helpStep3:'Undoできるのは履歴の最後にある未Undoの貸出または返却だけです。Undo後にさらに古い操作へ遡ることはできません。',
-          helpPrivacyTitle:'プライバシー',helpPrivacyBody:'入力内容、貸出状態、返却状態、操作履歴はブラウザー内で処理され、このアプリから外部サーバーへ送信されません。ランタイムの外部通信も行いません。',helpNotesTitle:'現在の制限',helpNoteStorage:'v0.5.0では備品・貸出先・貸出返却状態・履歴はメモリ上だけに保持され、再読み込みすると消えます。',helpNoteUndo:'Undoは履歴を削除せず、取り消しイベントを追加して状態を戻します。',helpNoteData:'電話番号や住所など、貸出管理に不要な個人情報は入力しないことを推奨します。',helpOffline:'配布用HTMLは単体で開けます。必要なコードはHTML内に含まれます。',
+          helpTitle:'使い方と注意事項',helpBasicsTitle:'v0.6.0の基本操作',helpStep1:'「連番をまとめて登録」では、共通名・開始番号・登録数・桁数から複数の備品を一度に作成できます。',helpStep2:'使わなくなった備品はアーカイブできます。貸出中の備品は、返却するまでアーカイブできません。',helpStep3:'アーカイブしても過去の貸出・返却履歴は残り、「アーカイブ済み」表示からいつでも復帰できます。',
+          helpPrivacyTitle:'プライバシー',helpPrivacyBody:'入力内容、貸出状態、返却状態、操作履歴はブラウザー内で処理され、このアプリから外部サーバーへ送信されません。ランタイムの外部通信も行いません。',helpNotesTitle:'現在の制限',helpNoteStorage:'v0.6.0では備品・貸出先・貸出返却状態・履歴・アーカイブ状態はメモリ上だけに保持され、再読み込みすると消えます。',helpNoteUndo:'Undoは履歴を削除せず、取り消しイベントを追加して状態を戻します。',helpNoteData:'電話番号や住所など、貸出管理に不要な個人情報は入力しないことを推奨します。',helpOffline:'配布用HTMLは単体で開けます。必要なコードはHTML内に含まれます。',
           buildInfo:'ビルド情報',appVersion:'アプリバージョン',builtAt:'生成日時',dependencies:'内包依存数',footer:'端末内で動作する単一HTMLアプリ'
         },
         en: {
-          brandMeta:'Fully local · Single HTML',introTitle:'Track checkout and return with confidence',lead:'Review checkout and return history and undo the most recent compatible operation, while keeping outstanding equipment visible at a glance.',localBadge:'Fully local processing',
-          devNotice:'v0.5.0 adds Undo and History. Equipment, borrowers, loan state, and history are still kept in memory only and disappear on reload. Item management improvements are planned for v0.6.0.',
-          boardNameLabel:'Board name',boardNamePlaceholder:'School Festival 2026',boardNameHint:'Use an event or operation name so it is clear which lending session this board represents.',milestoneStatus:'v0.5.0 Undo / History',
+          brandMeta:'Fully local · Single HTML',introTitle:'Register and organize equipment in batches',lead:'Create numbered equipment in batches and archive items you no longer use without removing their history.',localBadge:'Fully local processing',
+          devNotice:'v0.6.0 adds sequential batch registration and equipment archiving. Equipment, borrowers, loan state, and history are still kept in memory only and disappear on reload. Persistence is planned for v0.7.0.',
+          boardNameLabel:'Board name',boardNamePlaceholder:'School Festival 2026',boardNameHint:'Use an event or operation name so it is clear which lending session this board represents.',milestoneStatus:'v0.6.0 Item Management',
           itemsCountLabel:'Equipment',borrowersCountLabel:'Borrowers',checkedOutCountLabel:'Checked out',
           outstandingCountLabel:'Outstanding',outstandingBorrowersLabel:'Borrowers',availabilitySummaryLabel:'Available / total',
           outstandingBoardTitle:'Outstanding board',outstandingBoardLead:'See who currently has each item, grouped by borrower, and start return actions here.',
@@ -927,14 +1028,14 @@
           noOutstandingTitle:'No equipment is currently checked out',noOutstandingBody:'Borrowers with checked-out equipment will appear here.',selectReturnBorrower:'Choose a borrower to return equipment.',
           returnSelectedBorrower:'Borrower to return',allReturn:'Return all',partialReturn:'Return some',cancelPartial:'Cancel partial return',returnSelected:'Return selected items',returnSelectedCount:'Selected for return',
           returnedAll:'All items returned',returnedPartial:' item(s) returned',remainingPrefix:'Remaining',remainingSuffix:' item(s)',returnItemHint:'Select only the items that have been returned.',
-          itemsTitle:'Equipment',itemsLead:'Register each physical item separately. Checked-out items show their borrower and checkout time.',borrowersTitle:'Borrowers',borrowersLead:'Register a person, team, or department and see the number of items they currently hold.',
+          itemsTitle:'Equipment',itemsLead:'Add equipment one at a time or create numbered items in a batch. Archive unused items without removing their history.',batchCreateTitle:'Add numbered equipment in a batch',batchNamePrefixLabel:'Shared equipment name *',batchNamePrefixPlaceholder:'Radio',batchStartLabel:'Start number',batchCountLabel:'Quantity',batchDigitsLabel:'Digits',batchCodePrefixLabel:'Item-code prefix',batchCodePrefixPlaceholder:'RADIO-',batchCodePrefixHint:'Leave blank for no item code. When entered, the number is appended.',batchPreviewLabel:'Preview',batchAdd:'Add batch',batchAdded:' equipment item(s) added',batchInvalid:'Check the shared name, start number, quantity, and digits.',batchDuplicateCode:'A generated item code conflicts with existing equipment.',itemSearchLabel:'Search equipment',itemSearchPlaceholder:'Equipment, category, or code',itemStatusFilterLabel:'Show',itemFilterActive:'Active',itemFilterArchived:'Archived',itemFilterAll:'All',activeItemsLabel:'Active',archivedItemsLabel:'Archived',archived:'Archived',archive:'Archive',restore:'Restore',archiveBlocked:'Return checked-out equipment before archiving it.',archiveBlockedTitle:'Checked-out equipment cannot be archived',itemArchived:'Equipment archived',itemRestored:'Equipment restored',itemNoMatch:'No equipment matches the current filters.',borrowersTitle:'Borrowers',borrowersLead:'Register a person, team, or department and see the number of items they currently hold.',
           itemNameLabel:'Equipment name *',itemNamePlaceholder:'Radio 01',categoryLabel:'Category',categoryPlaceholder:'Radio',codeLabel:'Item code',codePlaceholder:'RADIO-01',noteLabel:'Notes',itemNotePlaceholder:'Anything to verify when handing over the item',addItem:'Add equipment',
           borrowerNameLabel:'Name / team *',borrowerNamePlaceholder:'Security Team 1',borrowerNotePlaceholder:'Only the minimum extra context you need',addBorrower:'Add borrower',
           emptyItemsTitle:'No equipment yet',emptyItemsBody:'Add equipment with the form above and it will appear here.',emptyBorrowersTitle:'No borrowers yet',emptyBorrowersBody:'Add a person or team and it will appear here for review and editing.',
           available:'Available',checkedOut:'Checked out',lentToPrefix:'Borrower',checkedOutAtPrefix:'Checked out',categoryPrefix:'Category',codePrefix:'Code',borrowedItemsPrefix:'Checked out',
           edit:'Edit',editItemTitle:'Edit equipment',editBorrowerTitle:'Edit borrower',cancel:'Cancel',saveChanges:'Save changes',itemAdded:'Equipment added',borrowerAdded:'Borrower added',itemUpdated:'Equipment updated',borrowerUpdated:'Borrower updated',close:'Close',
-          helpTitle:'How to use & notes',helpBasicsTitle:'Basics in v0.5.0',helpStep1:'After a checkout or return, the notification includes an Undo action.',helpStep2:'History can be searched by borrower, equipment, or code, filtered by action, and ordered newest or oldest first.',helpStep3:'Undo is available only when the last history event itself is an un-undone checkout or return. After Undo, the app does not walk backward to older operations.',
-          helpPrivacyTitle:'Privacy',helpPrivacyBody:'Entries, loan state, return state, and operation history are processed in the browser and are not sent to an external server. The runtime makes no external network request.',helpNotesTitle:'Current limitations',helpNoteStorage:'In v0.5.0, equipment, borrowers, loan state, and history exist only in memory and disappear on reload.',helpNoteUndo:'Undo keeps the original history and adds an undo event while restoring state.',helpNoteData:'Avoid entering phone numbers, addresses, or other personal information that is unnecessary for lending.',helpOffline:'The distributable HTML opens by itself and includes the required code.',
+          helpTitle:'How to use & notes',helpBasicsTitle:'Basics in v0.6.0',helpStep1:'Add numbered equipment in a batch by entering a shared name, start number, quantity, and digit width.',helpStep2:'Archive equipment you no longer use. Checked-out equipment must be returned before it can be archived.',helpStep3:'Archiving keeps past checkout and return history. Archived equipment can be restored at any time.',
+          helpPrivacyTitle:'Privacy',helpPrivacyBody:'Entries, loan state, return state, and operation history are processed in the browser and are not sent to an external server. The runtime makes no external network request.',helpNotesTitle:'Current limitations',helpNoteStorage:'In v0.6.0, equipment, borrowers, loan state, history, and archive state exist only in memory and disappear on reload.',helpNoteUndo:'Undo keeps the original history and adds an undo event while restoring state.',helpNoteData:'Avoid entering phone numbers, addresses, or other personal information that is unnecessary for lending.',helpOffline:'The distributable HTML opens by itself and includes the required code.',
           buildInfo:'Build information',appVersion:'App version',builtAt:'Built at',dependencies:'Embedded dependencies',footer:'Single HTML app that runs on this device'
         }
       };
@@ -964,6 +1065,28 @@
       function availableItems(){return state.items.filter(item=>!item.archived&&item.status==='available');}
       function checkedOutItemsForBorrower(id){return state.items.filter(item=>!item.archived&&item.status==='checked-out'&&item.currentBorrowerId===id);}
       function borrowersWithOutstanding(){return state.borrowers.filter(b=>!b.archived&&checkedOutItemsForBorrower(b.borrowerId).length>0);}
+      function createItem({name,category='',code='',note=''}){const now=new Date().toISOString();const item={itemId:createId('item'),name,category,code,note,status:'available',currentBorrowerId:null,currentCheckoutAt:null,archived:false,createdAt:now,updatedAt:now};state.items.push(item);return item;}
+      function padNumber(value,digits){return String(value).padStart(digits,'0');}
+      function batchValues(){
+        const namePrefix=$('#batchNamePrefix').value.trim(),start=Number.parseInt($('#batchStartNumber').value,10),count=Number.parseInt($('#batchCount').value,10),digits=Number.parseInt($('#batchDigits').value,10),category=$('#batchCategory').value.trim(),codePrefix=$('#batchCodePrefix').value.trim();
+        const valid=Boolean(namePrefix)&&Number.isInteger(start)&&start>=0&&start<=999999&&Number.isInteger(count)&&count>=1&&count<=500&&Number.isInteger(digits)&&digits>=1&&digits<=6;
+        return {namePrefix,start,count,digits,category,codePrefix,valid};
+      }
+      function generatedBatch(values){if(!values.valid)return[];return Array.from({length:values.count},(_,index)=>{const number=values.start+index,padded=padNumber(number,values.digits);return{name:values.namePrefix+' '+padded,category:values.category,code:values.codePrefix?values.codePrefix+padded:'',note:''};});}
+      function batchAddLabel(count){return language==='ja'?count+'件をまとめて追加':'Add '+count+' item'+(count===1?'':'s');}
+      function hasBatchCodeConflict(items){
+        const existing=new Set(state.items.map(item=>normalizeSearch(item.code)).filter(Boolean)),generated=new Set();
+        for(const item of items){const code=normalizeSearch(item.code);if(!code)continue;if(existing.has(code)||generated.has(code))return true;generated.add(code);}
+        return false;
+      }
+      function canUndoEventNow(event){
+        if(!event)return false;
+        const items=(event.itemIds||[]).map(itemById);
+        if(items.some(item=>!item||item.archived))return false;
+        if(event.type==='checkout')return items.every(item=>item.status==='checked-out'&&item.currentBorrowerId===event.borrowerId&&item.currentCheckoutAt===event.timestamp);
+        if(event.type==='return'){const snapshots=new Map((event.itemSnapshots||[]).map(snapshot=>[snapshot.itemId,snapshot]));return items.every(item=>item.status==='available'&&!item.currentBorrowerId&&snapshots.has(item.itemId));}
+        return false;
+      }
       function formatDateTime(iso){if(!iso)return'';try{return new Intl.DateTimeFormat(language==='ja'?'ja-JP':'en',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'}).format(new Date(iso));}catch{return iso;}}
       function checkoutMessage(name,count){return language==='ja'?name+'に'+count+'点を貸し出しました':'Checked out '+count+' item'+(count===1?'':'s')+' to '+name;}
       function checkoutButtonLabel(name,count){if(!name||count<1)return t('checkoutButtonEmpty');return language==='ja'?name+'に'+count+'点を貸し出す':'Check out '+count+' item'+(count===1?'':'s')+' to '+name;}
@@ -974,7 +1097,7 @@
       function lastUndoableEvent(){
         const event=state.events[state.events.length-1];
         if(!event||!(event.type==='checkout'||event.type==='return')||isEventUndone(event.eventId))return null;
-        return event;
+        return canUndoEventNow(event)?event:null;
       }
       function itemById(id){return state.items.find(item=>item.itemId===id)||null;}
       function historyActionText(event){
@@ -1002,13 +1125,13 @@
         const now=new Date().toISOString();
 
         if(target.type==='checkout'){
-          const valid=items.every(item=>item.status==='checked-out'&&item.currentBorrowerId===target.borrowerId&&item.currentCheckoutAt===target.timestamp);
+          const valid=items.every(item=>!item.archived&&item.status==='checked-out'&&item.currentBorrowerId===target.borrowerId&&item.currentCheckoutAt===target.timestamp);
           if(!valid){showToast(t('undoUnavailable'));return false;}
           items.forEach(item=>{item.status='available';item.currentBorrowerId=null;item.currentCheckoutAt=null;item.updatedAt=now;});
         }else if(target.type==='return'){
           const snapshots=Array.isArray(target.itemSnapshots)?target.itemSnapshots:[];
           const snapshotMap=new Map(snapshots.map(snapshot=>[snapshot.itemId,snapshot]));
-          const valid=items.every(item=>item.status==='available'&&snapshotMap.has(item.itemId));
+          const valid=items.every(item=>!item.archived&&item.status==='available'&&!item.currentBorrowerId&&snapshotMap.has(item.itemId));
           if(!valid){showToast(t('undoUnavailable'));return false;}
           items.forEach(item=>{const snapshot=snapshotMap.get(item.itemId);item.status='checked-out';item.currentBorrowerId=target.borrowerId;item.currentCheckoutAt=snapshot.checkoutAt||target.timestamp;item.updatedAt=now;});
         }else{
@@ -1028,13 +1151,30 @@
       function updateCounts(){
         const activeItems=state.items.filter(item=>!item.archived),checked=activeItems.filter(item=>item.status==='checked-out').length,activeBorrowers=borrowersWithOutstanding().length,available=activeItems.filter(item=>item.status==='available').length;
         $('#outstandingCount').textContent=String(checked);$('#outstandingBorrowerCount').textContent=String(activeBorrowers);$('#availableSummary').textContent=available+' / '+activeItems.length;$('#outstandingSummaryCard').classList.toggle('has-outstanding',checked>0);
-        $('#itemPanelCount').textContent=String(state.items.length);$('#borrowerPanelCount').textContent=String(state.borrowers.length);$('#returnCheckedOutCount').textContent=String(checked);
+        $('#itemPanelCount').textContent=String(activeItems.length);$('#borrowerPanelCount').textContent=String(state.borrowers.length);$('#returnCheckedOutCount').textContent=String(checked);
       }
       function makeEmptyState(titleKey,bodyKey,iconPath){const root=document.createElement('div');root.className='empty-state';const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');svg.setAttribute('viewBox','0 0 24 24');svg.setAttribute('fill','none');svg.setAttribute('stroke','currentColor');svg.setAttribute('stroke-width','1.8');svg.setAttribute('stroke-linecap','round');svg.setAttribute('stroke-linejoin','round');svg.setAttribute('aria-hidden','true');const path=document.createElementNS('http://www.w3.org/2000/svg','path');path.setAttribute('d',iconPath);svg.append(path);const strong=document.createElement('strong');strong.textContent=t(titleKey);const p=document.createElement('p');p.textContent=t(bodyKey);root.append(svg,strong,p);return root;}
       function metaPart(text){const span=document.createElement('span');span.textContent=text;return span;}
-      function makeRecord({title,meta=[],note='',id,type,statusKey=''}){const root=document.createElement('article');root.className='record';const main=document.createElement('div');main.className='record-main';const heading=document.createElement('div');heading.className='record-title';heading.textContent=title;main.append(heading);const metaRow=document.createElement('div');metaRow.className='record-meta';if(statusKey){const status=document.createElement('span');status.className='record-status'+(statusKey==='checkedOut'?' checked-out':'');status.textContent=t(statusKey);metaRow.append(status);}meta.filter(Boolean).forEach(v=>metaRow.append(metaPart(v)));if(metaRow.childElementCount)main.append(metaRow);if(note){const noteEl=document.createElement('div');noteEl.className='record-note';noteEl.textContent=note;main.append(noteEl);}const actions=document.createElement('div');actions.className='record-actions';const edit=document.createElement('button');edit.className='button small';edit.type='button';edit.dataset.editType=type;edit.dataset.editId=id;edit.textContent=t('edit');actions.append(edit);root.append(main,actions);return root;}
+      function makeRecord({title,meta=[],note='',id,type,statusKey='',archived=false,archiveDisabled=false}){const root=document.createElement('article');root.className='record'+(archived?' archived':'');const main=document.createElement('div');main.className='record-main';const heading=document.createElement('div');heading.className='record-title';heading.textContent=title;main.append(heading);const metaRow=document.createElement('div');metaRow.className='record-meta';if(statusKey){const status=document.createElement('span');status.className='record-status'+(statusKey==='checkedOut'?' checked-out':statusKey==='archived'?' archived':'');status.textContent=t(statusKey);metaRow.append(status);}meta.filter(Boolean).forEach(v=>metaRow.append(metaPart(v)));if(metaRow.childElementCount)main.append(metaRow);if(note){const noteEl=document.createElement('div');noteEl.className='record-note';noteEl.textContent=note;main.append(noteEl);}const actions=document.createElement('div');actions.className='record-actions';const edit=document.createElement('button');edit.className='button small';edit.type='button';edit.dataset.editType=type;edit.dataset.editId=id;edit.textContent=t('edit');actions.append(edit);if(type==='item'){const stateButton=document.createElement('button');stateButton.className='button small '+(archived?'restore-action':'archive-action');stateButton.type='button';if(archived){stateButton.dataset.restoreItem=id;stateButton.textContent=t('restore');}else{stateButton.dataset.archiveItem=id;stateButton.textContent=t('archive');stateButton.disabled=archiveDisabled;if(archiveDisabled){stateButton.title=t('archiveBlockedTitle');stateButton.setAttribute('aria-label',t('archiveBlockedTitle'));}}actions.append(stateButton);}root.append(main,actions);return root;}
 
-      function renderItems(){const list=$('#itemList');list.replaceChildren();if(!state.items.length){list.append(makeEmptyState('emptyItemsTitle','emptyItemsBody','M5 8.5 12 4l7 4.5v8L12 21l-7-4.5zM5 8.5 12 13l7-4.5M12 13v8'));return;}state.items.forEach(item=>{const meta=[];if(item.category)meta.push(t('categoryPrefix')+': '+item.category);if(item.code)meta.push(t('codePrefix')+': '+item.code);if(item.status==='checked-out'){const borrower=borrowerById(item.currentBorrowerId);if(borrower)meta.push(t('lentToPrefix')+': '+borrower.name);if(item.currentCheckoutAt)meta.push(t('checkedOutAtPrefix')+': '+formatDateTime(item.currentCheckoutAt));}list.append(makeRecord({title:item.name,meta,note:item.note,id:item.itemId,type:'item',statusKey:item.status==='checked-out'?'checkedOut':'available'}));});}
+      function renderBatchPreview(){
+        const preview=$('#batchPreview'),button=$('#batchAddButton'),values=batchValues(),items=generatedBatch(values);
+        preview.classList.remove('error');
+        if(!values.valid){preview.textContent=t('batchInvalid');preview.classList.add('error');button.disabled=true;button.textContent=t('batchAdd');return;}
+        if(hasBatchCodeConflict(items)){preview.textContent=t('batchDuplicateCode');preview.classList.add('error');button.disabled=true;button.textContent=batchAddLabel(items.length);return;}
+        const names=items.map(item=>item.name),sample=names.length<=5?names:[...names.slice(0,4),'…',names[names.length-1]];
+        preview.replaceChildren();const strong=document.createElement('strong');strong.textContent=t('batchPreviewLabel')+': ';preview.append(strong,document.createTextNode(sample.join(' / ')));if(values.codePrefix){preview.append(document.createElement('br'),document.createTextNode(t('codePrefix')+': '+items[0].code+(items.length>1?' … '+items[items.length-1].code:'')));}
+        button.disabled=false;button.textContent=batchAddLabel(items.length);
+      }
+      function renderItems(){
+        const list=$('#itemList'),query=normalizeSearch($('#itemManagementSearch').value),filter=$('#itemStatusFilter').value,activeCount=state.items.filter(item=>!item.archived).length,archivedCount=state.items.filter(item=>item.archived).length;
+        $('#itemManagementSummary').textContent=t('activeItemsLabel')+': '+activeCount+' · '+t('archivedItemsLabel')+': '+archivedCount;
+        list.replaceChildren();
+        const filtered=state.items.filter(item=>(filter==='all'||(filter==='active'&&!item.archived)||(filter==='archived'&&item.archived))&&(!query||[item.name,item.category,item.code,item.note].some(value=>normalizeSearch(value).includes(query))));
+        if(!state.items.length){list.append(makeEmptyState('emptyItemsTitle','emptyItemsBody','M5 8.5 12 4l7 4.5v8L12 21l-7-4.5zM5 8.5 12 13l7-4.5M12 13v8'));return;}
+        if(!filtered.length){const empty=document.createElement('div');empty.className='history-empty';empty.textContent=t('itemNoMatch');list.append(empty);return;}
+        filtered.forEach(item=>{const meta=[];if(item.category)meta.push(t('categoryPrefix')+': '+item.category);if(item.code)meta.push(t('codePrefix')+': '+item.code);if(item.status==='checked-out'){const borrower=borrowerById(item.currentBorrowerId);if(borrower)meta.push(t('lentToPrefix')+': '+borrower.name);if(item.currentCheckoutAt)meta.push(t('checkedOutAtPrefix')+': '+formatDateTime(item.currentCheckoutAt));}list.append(makeRecord({title:item.name,meta,note:item.note,id:item.itemId,type:'item',statusKey:item.archived?'archived':item.status==='checked-out'?'checkedOut':'available',archived:item.archived,archiveDisabled:item.status==='checked-out'}));});
+      }
       function renderBorrowers(){const list=$('#borrowerList');list.replaceChildren();if(!state.borrowers.length){list.append(makeEmptyState('emptyBorrowersTitle','emptyBorrowersBody','M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75'));return;}state.borrowers.forEach(b=>{const count=checkedOutItemsForBorrower(b.borrowerId).length;list.append(makeRecord({title:b.name,meta:count?[t('borrowedItemsPrefix')+': '+count]:[],note:b.note,id:b.borrowerId,type:'borrower'}));});}
 
       function renderBorrowerSuggestions(){const list=$('#checkoutBorrowerSuggestions');list.replaceChildren();const query=normalizeSearch($('#checkoutBorrowerQuery').value);if(checkoutState.selectedBorrowerId)return;state.borrowers.filter(b=>!b.archived&&(!query||normalizeSearch(b.name).includes(query))).slice(0,8).forEach(b=>{const button=document.createElement('button');button.className='suggestion-button';button.type='button';button.dataset.checkoutBorrowerId=b.borrowerId;const strong=document.createElement('strong');strong.textContent=b.name;const status=document.createElement('span');status.textContent=t('existingBorrower');button.append(strong,status);list.append(button);});const raw=$('#checkoutBorrowerQuery').value.trim();const exact=raw&&state.borrowers.some(b=>normalizeSearch(b.name)===normalizeSearch(raw));if(raw&&!exact){const button=document.createElement('button');button.className='suggestion-button new-entry';button.type='button';button.dataset.newCheckoutBorrower=raw;const strong=document.createElement('strong');strong.textContent=raw;const status=document.createElement('span');status.textContent=t('addNewBorrowerPrefix');button.append(strong,status);list.append(button);}if(!list.childElementCount){const note=document.createElement('div');note.className='checkout-empty';note.textContent=t('noBorrowerSuggestion');list.append(note);}}
@@ -1109,11 +1249,17 @@
           row.append(time,main,actions);root.append(row);
         });
       }
-      function render(){$('#boardName').value=state.board.name;updateCounts();renderOutstandingBoard();renderCheckout();renderReturn();renderHistory();renderItems();renderBorrowers();}
+      function render(){$('#boardName').value=state.board.name;updateCounts();renderOutstandingBoard();renderCheckout();renderReturn();renderHistory();renderBatchPreview();renderItems();renderBorrowers();}
       function trimmedValue(selector){return $(selector).value.trim();}
 
       $('#boardName').addEventListener('input',event=>{state.board.name=event.currentTarget.value;state.board.updatedAt=new Date().toISOString();});
-      $('#itemForm').addEventListener('submit',event=>{event.preventDefault();const name=trimmedValue('#itemName');if(!name){$('#itemName').focus();return;}const now=new Date().toISOString();state.items.push({itemId:createId('item'),name,category:trimmedValue('#itemCategory'),code:trimmedValue('#itemCode'),note:trimmedValue('#itemNote'),status:'available',currentBorrowerId:null,currentCheckoutAt:null,archived:false,createdAt:now,updatedAt:now});event.currentTarget.reset();render();$('#itemName').focus();showToast(t('itemAdded'));});
+      $('#itemForm').addEventListener('submit',event=>{event.preventDefault();const name=trimmedValue('#itemName');if(!name){$('#itemName').focus();return;}createItem({name,category:trimmedValue('#itemCategory'),code:trimmedValue('#itemCode'),note:trimmedValue('#itemNote')});event.currentTarget.reset();render();$('#itemName').focus();showToast(t('itemAdded'));});
+      $('#batchItemForm').addEventListener('input',renderBatchPreview);
+      $('#batchItemForm').addEventListener('change',renderBatchPreview);
+      $('#batchItemForm').addEventListener('submit',event=>{event.preventDefault();const values=batchValues(),items=generatedBatch(values);if(!values.valid){renderBatchPreview();$('#batchNamePrefix').focus();return;}if(hasBatchCodeConflict(items)){renderBatchPreview();return;}items.forEach(createItem);const count=items.length;event.currentTarget.reset();$('#batchStartNumber').value='1';$('#batchCount').value='20';$('#batchDigits').value='2';render();showToast(count+t('batchAdded'));});
+      $('#itemManagementSearch').addEventListener('input',renderItems);
+      $('#itemStatusFilter').addEventListener('change',renderItems);
+      $('#itemList').addEventListener('click',event=>{const archive=event.target.closest('[data-archive-item]'),restore=event.target.closest('[data-restore-item]');if(archive){const item=itemById(archive.dataset.archiveItem);if(!item)return;if(item.status==='checked-out'){showToast(t('archiveBlocked'));return;}item.archived=true;item.updatedAt=new Date().toISOString();checkoutState.selectedItemIds.delete(item.itemId);render();showToast(t('itemArchived'));return;}if(restore){const item=itemById(restore.dataset.restoreItem);if(!item)return;item.archived=false;item.updatedAt=new Date().toISOString();render();showToast(t('itemRestored'));}});
       $('#borrowerForm').addEventListener('submit',event=>{event.preventDefault();const name=trimmedValue('#borrowerName');if(!name){$('#borrowerName').focus();return;}const now=new Date().toISOString();state.borrowers.push({borrowerId:createId('borrower'),name,note:trimmedValue('#borrowerNote'),archived:false,createdAt:now,updatedAt:now});event.currentTarget.reset();render();$('#borrowerName').focus();showToast(t('borrowerAdded'));});
       $('#checkoutBorrowerQuery').addEventListener('input',()=>{checkoutState.selectedBorrowerId=null;renderCheckout();});
       $('#checkoutItemSearch').addEventListener('input',renderCheckout);
