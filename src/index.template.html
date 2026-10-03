@@ -803,7 +803,7 @@
         </div>
         <div class="data-actions">
           <button class="button primary" id="downloadBackupButton" type="button" data-i18n="downloadBackup">JSONバックアップを保存</button>
-          <label class="button" for="restoreBackupInput" data-i18n="restoreBackup">JSONバックアップから復元</label>
+          <button class="button" id="restoreBackupButton" type="button" data-i18n="restoreBackup">JSONバックアップから復元</button>
           <input class="sr-only" id="restoreBackupInput" type="file" accept=".json,application/json">
           <button class="button danger" id="resetDataButton" type="button" data-i18n="resetData">新しいボードにリセット</button>
         </div>
@@ -1435,6 +1435,7 @@
       $('#historyList').addEventListener('click',event=>{const button=event.target.closest('[data-history-undo]');if(!button)return;undoEvent(button.dataset.historyUndo);});
 
       $('#downloadBackupButton').addEventListener('click',downloadJsonBackup);
+      $('#restoreBackupButton').addEventListener('click',()=>$('#restoreBackupInput').click());
       $('#restoreBackupInput').addEventListener('change',async event=>{const file=event.currentTarget.files?.[0];event.currentTarget.value='';if(file)await restoreBackupFile(file);});
       $('#resetDataButton').addEventListener('click',resetAllData);
 
