@@ -4,123 +4,78 @@
 
 - **Name:** Loan Board / 貸出・返却ボード
 - **English helper:** Equipment Checkout & Return
-- **Version:** v0.9.0
-- **Status:** Release Candidate
+- **Version:** v1.0.0
+- **Status:** Stable Release
 - **Purpose:** 誰に何を貸していて、何がまだ返ってきていないかを1台の端末で管理する。
 - **Primary outcome:** **未返却 0** を明確に確認できること。
-- **Primary environment:** 受付等で使う1台のPC / タブレット / スマートフォン。
+- **Primary environment:** 受付などで使う1台のPC / タブレット / スマートフォン。
+- **Runtime model:** ブラウザー内処理。ユーザーデータの外部送信なし。
 - **Release artifacts:** `dist/index.html`, `dist/index.self-extract.html`, `loan-board.html`.
 
-## 2. v0.9.0 scope — UX / Release Candidate
+## 2. Stable v1.0.0 feature set
 
-v0.8.0までで予定していたv1.0.0向け主要機能は揃っている。
-
-v0.9.0では新しい業務機能を増やさず、次を優先する。
-
-- 主要操作への移動
-- PC / スマートフォンの操作性
-- タップ領域
-- 長い名前 / メモ
-- 空状態 / 完了状態 / エラー状態
-- ダイアログの収まり
-- 日本語 / 英語
-- 自動保存 / JSON backup / restore
-- CSV export
-- Undo / History
-- standalone / self-extract
-- runtime external network block
-- v1.0.0向け回帰確認
-
-## 3. Main navigation
-
-Heroと未返却ボードの間に、固定ではない主要操作ナビを置く。
-
-項目:
-- Board / ボード
-- Checkout / 貸出
-- Return / 返却
-- History / 履歴
-- Manage / 登録・管理
-- Data / データ
-
-### Rules
-- fixed bottom barにはしない。
-- コンテンツを隠さない。
-- 6項目をPCでは6列。
-- 820px以下では3列。
-- 380px以下では2列。
-- 各ターゲットへanchor navigation。
-- sticky header分を `scroll-margin-top` で補正。
-- 1項目あたり最低46pxの高さ。
-- アイコンはSVG。
-- 日本語 / 英語を切り替える。
-
-## 4. Mobile / touch polish
-
-### Touch targets
-- 通常button: 44px以上を維持。
-- mobileのsmall button: 44px以上。
-- Checkout貸出先suggestion: 44px以上。
-- 貸出先選択解除button: 44×44px。
-- ToastのUndo action: 40px以上。
-
-### Dialogs
-- mobileではbottom-sheet形式を維持。
-- `100vw`。
-- 最大 `90dvh`。
-- bodyのみscroll可能。
-- footer actionはsafe-areaを考慮。
-- 長いdialog titleは折り返せる。
-
-## 5. Core feature set frozen for v1.0.0 candidate
-
-### Setup / item management
+### Board / outstanding
 - Board名
-- Item単品登録
-- Item連番一括登録
-- category / code / note
-- Item archive / restore
-- checked-out Itemのarchive禁止
-- Borrower登録 / 編集
+- 未返却件数
+- 未返却の貸出先数
+- 利用可能 / 全備品
+- 貸出先ごとの未返却一覧
+- 未返却0の完了状態
+- 未返却ボードから返却操作へ移動
+
+### Equipment
+- 1備品 = 1 Item
+- 備品名 / category / 管理code / note
+- 単品登録
+- 連番一括登録
+- 一括登録preview
+- 一括登録は最大500件
+- 生成code重複check
+- 検索
+- active / archived / all filter
+- archive / restore
+- checked-out Itemはarchive不可
+
+### Borrowers
+- 貸出先名 / note
+- 登録 / 編集
+- Checkout中の新規作成
 
 ### Checkout
-- 既存Borrower選択
-- Checkout中にBorrower新規作成
+- Borrower選択
 - 複数Item選択
-- double-checkout禁止
-- Checkout Event
+- available Itemのみ候補
+- archived Item除外
+- double checkout防止
+- Checkout Event記録
 
 ### Return
 - 現在借りているBorrowerだけ表示
-- Return all
-- Partial return
-- Return Event
-- Return後にItemをavailableへ戻す
-
-### Outstanding board
-- Outstanding count
-- Borrower count
-- available / total
-- Borrower単位group
-- Return all
-- Partial returnへの導線
-- outstanding 0 complete state
+- 全返却
+- 部分返却
+- Return Event記録
+- Itemをavailableへ戻す
 
 ### Undo / History
 - 最後の整合するCheckout / ReturnだけUndo
-- 元Eventを削除せずUndo Event追加
-- Return Undoで元checkout time復元
+- 元Eventは削除しない
+- Undo Eventを追加
+- Return Undoで元checkout timestampを復元
 - History search
-- Action filter
-- Newest / oldest order
+- Checkout / Return / Undo filter
+- newest / oldest order
 
-### Persistence
+### Persistence / backup
 - browser local autosave
 - validated startup restore
-- corrupt autosaveを自動上書きしない
-- JSON backup / restore
-- restore validation
-- destructive reset confirmation
+- corrupt autosaveを空stateで自動上書きしない
+- 保存状態 / 最終保存時刻
+- JSON backup
+- JSON restore
+- backup format / schema / IDs / references / loan state validation
+- restore前確認
+- 10 MiB restore limit
+- reset前確認
 
 ### CSV
 - Outstanding CSV
@@ -128,148 +83,200 @@ Heroと未返却ボードの間に、固定ではない主要操作ナビを置�
 - Equipment CSV
 - UTF-8 BOM
 - CRLF
-- quote escaping
-- formula injection protection
-- CSVはrestore formatではない
+- every cell quoted
+- embedded quote escape
+- spreadsheet formula injection protection
+- CSVは完全復元formatではない
 
-## 6. Empty / success / failure states
+### UI / language
+- Japanese / English
+- desktop / tablet / smartphone
+- operation navigation
+- 320px minimum layout target
+- sticky header anchor offset
+- visible focus
+- mobile touch targets
+- long-content wrapping
+- mobile dialog containment
+- reduced-motion
 
-必須状態:
-- Item 0
-- Borrower 0
-- available Item 0
-- outstanding 0
-- Return対象0
-- History 0
-- History filter no-match
-- Item filter no-match
-- Batch invalid
-- Batch code duplicate
-- Autosave unavailable
-- Autosave load-error
-- Backup invalid
-- Backup too large
-- Backup restore complete
-- Reset complete
-- Checkout complete
-- Return complete
-- Undo complete
+## 3. Core workflow
 
-エラー時に業務dataを不要に破棄しない。
+```text
+備品を登録
+↓
+貸出先を選ぶ
+↓
+備品を貸し出す
+↓
+未返却ボードで確認
+↓
+全返却 / 部分返却
+↓
+未返却 0
+```
 
-## 7. Long-content rules
+v1.0.0は、同じ受付端末で短期貸出を記録する用途を対象とする。
 
-以下は横スクロールの原因にしない。
-- Board name
-- Item name
-- Borrower name
+## 4. Data model
+
+### Board
+- id
+- name
+- createdAt
+- updatedAt
+
+### Item
+- itemId
+- name
 - category
 - code
 - note
-- selected backup filename
-- History item list
-- Dialog title
+- status: `available | checked-out`
+- currentBorrowerId
+- currentCheckoutAt
+- archived
+- createdAt
+- updatedAt
 
-必要箇所は `min-width: 0` / `overflow-wrap: anywhere` / wrapping layoutを使う。
+### Borrower
+- borrowerId
+- name
+- note
+- archived
+- createdAt
+- updatedAt
 
-## 8. Privacy / runtime
+### Event
+- eventId
+- type: `checkout | return | undo`
+- borrowerId
+- itemIds
+- timestamp
+- note
+- return: itemSnapshots
+- undo: relatedEventId / reversedType
+
+Historyは削除せず、Undoもeventとして残す。
+
+## 5. Operational invariants
+
+- checked-out Itemを二重貸出しない。
+- archived Itemを貸し出さない。
+- checked-out Itemをarchiveしない。
+- Return時にBorrower一致を再検証する。
+- Outstanding boardはactive + checked-out Itemだけを表示する。
+- Undoは履歴の最後にある現在stateと整合するCheckout / Returnだけ。
+- archived ItemをUndoでchecked-outへ戻さない。
+- EventからItem / Borrowerを追跡できる状態を維持する。
+
+## 6. Persistence
+
+Autosaveは `localStorage` を使用する。
+
+- key: `APP_CONFIG.slug + ':state:v1'`
+- debounce save
+- pagehide時にpending saveをflush
+- load時にformat / schema / appSlug / references / stateをvalidation
+- load error時は既存storageを自動上書きしない
+
+Autosaveはcloud syncではない。
+
+ブラウザーのsite data削除、private browsing、`file://` のstorage behaviorなどで利用できなくなる場合があるため、重要な運用ではJSON backupを併用する。
+
+## 7. JSON backup
+
+JSON backupはLoan Board全体の復元format。
+
+含む:
+- Board
+- Items
+- Borrowers
+- Events
+- archive state
+- current checkout state
+
+Restore:
+- 10 MiB limit
+- format / schema / appSlug validation
+- data structure / duplicate IDs / references validation
+- replacement confirmation
+- UI selections clear
+- restored stateをautosave
+
+CSVはbackup replacementではない。
+
+## 8. CSV export
+
+### Outstanding
+1 checked-out Item = 1 row.
+
+### History
+1 Event × 1 Item = 1 row.
+
+### Equipment
+1 Item = 1 row. archived Itemも含む。
+
+Common:
+- UTF-8 BOM
+- CRLF
+- all fields quoted
+- embedded quotes escaped
+- formula-triggering user input protected
+- Board名 / kind / timestampをfilenameに含む
+
+## 9. Privacy / runtime
 
 - Runtime CDN: none
-- API: none
+- Runtime API: none
 - analytics: none
 - telemetry: none
 - external font: none
 - user-data upload: none
-- CSP: `connect-src 'none'`
 - third-party runtime dependencies: none
-- direct `file://`: supported target
+- CSP: `connect-src 'none'`
+- direct local opening target
 
-Autosave、JSON、CSVは端末内で処理する。
+GitHub Pages版では最初のHTML配信は発生するが、Loan Boardへ入力したユーザーデータはアプリから外部送信しない。
 
-「完全ローカル処理」の説明は、実行時にユーザーデータを外部へ送信しない実装を前提とする。
+## 10. Intended use
 
-## 9. Persistence caveat
+適する用途:
+- 学園祭 / 学校行事
+- 地域イベント
+- 撮影 / 映像制作
+- 舞台 / ライブ / 展示
+- 社内イベント / 研修
+- 部活 / サークル
 
-Browser autosaveはcloud syncではない。
+v1.0.0で対象外:
+- 複数端末の同期
+- cloud共有
+- 予約
+- 期限 / overdue通知
+- 請求 / 決済
+- 大規模な在庫管理
+- QR / barcode scan
 
-- browser site data削除で消える可能性がある。
-- private browsingでは永続化されない場合がある。
-- `file://` のstorage behaviorはbrowser / file location等で差があり得る。
-- 別端末同期はしない。
-- 重要な運用はJSON backupを併用する。
+## 11. Release requirements
 
-## 10. Release Candidate regression matrix
-
-### Desktop
-- 1280px前後
-- Japanese
-- English
-- long content
-- keyboard focus
-- dialogs
-- JSON / CSV download
-
-### Mobile
-- 360px
-- 320px minimum layout
-- Japanese
-- English
-- no horizontal page scroll
-- buttons / touch targets
-- dialog overflow
-- safe-area
-- long filename
-- outstanding / checkout / return flow
-
-### State transitions
-- empty → register → checkout → partial return → full return
-- checkout → Undo
-- return → Undo
-- archive / restore
-- reload restore
-- JSON backup → reset → JSON restore
-- corrupt autosave protection
-- invalid JSON rejection
-- 3 CSV exports
-
-### Build
-- PowerShell syntax / encoding
-- repository check
-- readable standalone
-- self-extract
-- root HTML copy
-- CSP / network block
-- canonical favicon / header icon
+- current `htmlapps-template` header structure
+- user-provided Loan Board SVG used for favicon and header icon
+- Japanese / English
+- PC / smartphone
+- 320px minimum layout target
+- standalone / self-extract / root HTML generation
+- `connect-src 'none'`
+- no external runtime script / stylesheet / module / frame URL
+- favicon and header icon identical
 - Cloudflare PR Preview HTTP 200
+- README Japanese / English
+- release screenshots
+- CHANGELOG
+- `RELEASE_CHECKLIST.md`
 
-Detailed manual checks are maintained in `RELEASE_CHECKLIST.md`.
+## 12. Versioning
 
-## 11. v0.9.0 acceptance criteria
+Semantic Versioning.
 
-- v0.8.0 features remain available.
-- Main operation navigation reaches all six primary areas.
-- Navigation wraps without horizontal page scrolling at mobile widths.
-- Sticky header does not cover anchor targets.
-- Key mobile touch targets meet the intended sizes.
-- Dialog title can wrap.
-- Long names / notes / filenames do not force page overflow.
-- Japanese / English labels exist for new RC UI.
-- Autosave / JSON / CSV behavior is unchanged functionally.
-- Header remains aligned with current `htmlapps-template`.
-- 360px and 320px layout rules are represented in CSS.
-- standalone / self-extract / root HTML generation succeeds.
-- repository check succeeds.
-- PR Preview returns HTTP 200.
-
-## 12. Roadmap
-
-- **v0.1.0:** Core Data
-- **v0.2.0:** Checkout
-- **v0.3.0:** Return / partial return
-- **v0.4.0:** Outstanding board
-- **v0.5.0:** Undo / History
-- **v0.6.0:** Item Management / sequential creation
-- **v0.7.0:** Persistence / backup
-- **v0.8.0:** CSV export
-- **v0.9.0:** UX / Release Candidate
-- **v1.0.0:** Stable Release
+**v1.0.0** freezes the first stable Loan Board data model and user workflow described in this specification.
