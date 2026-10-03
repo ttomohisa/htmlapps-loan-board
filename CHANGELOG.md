@@ -2,6 +2,22 @@
 
 All notable Loan Board changes are recorded here.
 
+## [0.9.0] - 2026-10-03
+
+### Added
+- Non-fixed operation navigation for Board, Checkout, Return, History, Manage, and Data.
+- Anchor offsets that account for the sticky application header.
+- v1.0.0 manual regression matrix in `RELEASE_CHECKLIST.md`.
+
+### Changed
+- Product-facing hero copy now describes the complete lending workflow instead of the latest milestone feature.
+- Mobile small-action buttons use larger touch targets.
+- Borrower suggestion and selection-clear controls use larger touch targets.
+- Toast actions are easier to tap and long Toast text can wrap.
+- Long dialog titles can wrap.
+- Operation navigation wraps to 3 columns on mobile and 2 columns at very narrow widths.
+- Help, README files, and product specification now describe the Release Candidate state.
+
 ## [0.8.0] - 2026-10-03
 
 ### Added
