@@ -2,6 +2,23 @@
 
 All notable Loan Board changes are recorded here.
 
+## [1.0.0] - 2026-10-04
+
+### Added
+- Stable v1.0.0 release documentation and final product specification.
+- Final Loan Board icon supplied for both favicon and header branding.
+- English release screenshot target for the finalized README.
+
+### Changed
+- Version badge, app configuration, and in-app help moved from Release Candidate to v1.0.0 stable.
+- Release Candidate notice removed from the application.
+- Japanese and English README files rewritten around the stable product workflow, following the established PDF Organizer repository structure.
+- Product documentation now clearly separates browser autosave, full-state JSON backup / restore, and review-oriented CSV export.
+
+### Verified
+- Core workflow remains equipment registration → checkout → outstanding review → full / partial return → outstanding 0.
+- Browser autosave, JSON backup / restore, Undo / History, archive / restore, and all three CSV exports remain part of the stable feature set.
+
 ## [0.9.0] - 2026-10-03
 
 ### Added
