@@ -34,14 +34,18 @@ GitHub Pages delivers the initial HTML. After it loads, equipment, borrowers, lo
 
 ### Use the web demo
 
-Just [open the demo](https://ttomohisa.github.io/htmlapps-loan-board/). No installation or account is required.
+Just [open Loan Board on GitHub Pages](https://ttomohisa.github.io/htmlapps-loan-board/). No installation or account is required.
 
-### Build and use the standalone HTML
+### Use the standalone HTML directly
+
+Download [loan-board.html](https://github.com/ttomohisa/htmlapps-loan-board/blob/main/loan-board.html) from this repository and open it in a current Chromium-based browser, Firefox, or Safari.
+
+### Build it yourself
 
 1. Download or clone this repository.
 2. Run `build-standalone.bat` on Windows.
-3. The build creates `dist/index.html` and `loan-board.html`.
-4. Open the generated HTML in a current Chromium-based browser, Firefox, or Safari.
+3. The build creates `dist/index.html`, `dist/index.self-extract.html`, and `loan-board.html`.
+4. Open the generated HTML in your browser.
 
 The v1.0.0 runtime has no third-party library dependency, so the normal app build does not need to download additional packages. Python, Node.js, and a local web server are not required.
 
@@ -111,7 +115,7 @@ This repository includes a workflow that builds the standalone HTML and deploys 
 
 Published URL:
 
-`https://ttomohisa.github.io/htmlapps-loan-board/`
+[https://ttomohisa.github.io/htmlapps-loan-board/](https://ttomohisa.github.io/htmlapps-loan-board/)
 
 ## Development and build layout
 

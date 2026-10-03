@@ -1,0 +1,1578 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="color-scheme" content="light">
+  <meta name="theme-color" content="#16624f">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src data: blob:; style-src 'unsafe-inline'; script-src 'unsafe-inline' blob:; connect-src 'none'; worker-src blob:; object-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'">
+  <link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMTA5NSAxMDk1IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxyZWN0IHg9Ijk1IiB5PSI5NSIgd2lkdGg9IjkwNSIgaGVpZ2h0PSI5MDUiIHJ4PSIyMjYuMiIgZmlsbD0iIzA4Njk0ZSIvPjxnIGZpbGw9IiNmY2ZjZmMiPjxwYXRoIGQ9Ik0zMDIgMzA2aC0zMmMtMjkgMC00NCAxNS00NCA0NHY0MTNjMCAyOSAxNSA0MyA0NCA0M2gyNjV2LTQ3SDI3MWMtMTUgMC0yMy03LTIzLTIyVjM1MmMwLTE1IDctMjIgMjItMjJoMzJ6Ii8+PHBhdGggZD0ibTU3OCAyODNoMzFjNDUgMCA2NyAyMyA2NyA2OHY0NmMtMTcgOC0zMiAyMC00NCAzNHYtNzhjMC0xNi03LTIzLTIzLTIzaC0zMXoiLz48cGF0aCBkPSJNMzgxIDI1N2M4LTMzIDI5LTUwIDU5LTUwczUxIDE3IDYwIDUwaDM0YzE2IDAgMjQgOCAyNCAyNHY0MGMwIDE2LTggMjQtMjQgMjRIMzQ2Yy0xNiAwLTI0LTgtMjQtMjR2LTQwYzAtMTYgOC0yNCAyNC0yNHoiLz48Y2lyY2xlIGN4PSI0NDAiIGN5PSIyNjUiIHI9IjI0IiBmaWxsPSIjMDg2OTRlIi8+PGNpcmNsZSBjeD0iMzI2IiBjeT0iNDMwIiByPSI0MCIvPjxyZWN0IHg9IjM5NSIgeT0iNDExIiB3aWR0aD0iMTk2IiBoZWlnaHQ9IjM4IiByeD0iMTkiLz48Y2lyY2xlIGN4PSIzMjYiIGN5PSI1NDkiIHI9IjQwIi8+PHJlY3QgeD0iMzk1IiB5PSI1MzEiIHdpZHRoPSIxOTYiIGhlaWdodD0iMzYiIHJ4PSIxOCIvPjxjaXJjbGUgY3g9IjMyNiIgY3k9IjY3MiIgcj0iNDQiLz48Y2lyY2xlIGN4PSIzMjYiIGN5PSI2NzIiIHI9IjI3IiBmaWxsPSIjMDg2OTRlIi8+PHJlY3QgeD0iMzk1IiB5PSI2NTMiIHdpZHRoPSIxNTAiIGhlaWdodD0iMzYiIHJ4PSIxOCIvPjxwYXRoIGQ9Im02NDcgNTMyYy0xMyAwLTIyLTExLTIyLTI3IDAtNjIgNTItMTA1IDEyNS0xMDVoMzB2LTIzYzAtMTMgMTQtMTggMjMtOWw0NCA0MmM3IDcgNyAxNSAwIDIybC00NCA0MmMtOSA5LTIzIDQtMjMtOXYtMThoLTI4Yy02MSAwLTEwMCAyNy0xMDAgNzEgMCA4LTEgMTQtNSAxNHoiLz48cGF0aCBkPSJtODQ5IDQ3OWMxMyAwIDIzIDExIDIzIDI4IDAgNTUtNDAgOTItOTkgOTJoLTUwdjE4YzAgMTMtMTQgMTgtMjMgOWwtNDQtNDFjLTctNy03LTE1IDAtMjJsNDQtNDBjOS05IDIzLTQgMjMgOXYxOWg1MWM0NSAwIDc0LTIwIDc0LTUzIDAtMTEgMC0xOSAxLTE5eiIvPjxwYXRoIGQ9Im02NTIgNjg2di0xM2MwLTIzIDEyLTM0IDM1LTM0aDc3YzIzIDAgMzUgMTEgMzUgMzR2MTNoLTI5di0xMGMwLTYtMy05LTEwLTloLTY5Yy04IDAtMTEgMy0xMSA5djEweiIvPjxyZWN0IHg9IjU1MCIgeT0iNjk5IiB3aWR0aD0iMzUwIiBoZWlnaHQ9IjE5MSIgcng9IjMxIi8+PHJlY3QgeD0iNTk5IiB5PSI2OTkiIHdpZHRoPSIzMCIgaGVpZ2h0PSIxODMiIHJ4PSIxMiIgZmlsbD0iIzA4Njk0ZSIvPjxyZWN0IHg9IjgyMSIgeT0iNjk5IiB3aWR0aD0iMzAiIGhlaWdodD0iMTgzIiByeD0iMTIiIGZpbGw9IiMwODY5NGUiLz48cmVjdCB4PSI1NTAiIHk9Ijc2NiIgd2lkdGg9IjM1MCIgaGVpZ2h0PSIxNyIgZmlsbD0iIzA4Njk0ZSIvPjxyZWN0IHg9IjY4NiIgeT0iNzQ5IiB3aWR0aD0iNzkiIGhlaWdodD0iNjQiIHJ4PSIxMyIgZmlsbD0iIzA4Njk0ZSIvPjxyZWN0IHg9IjcwMyIgeT0iNzY2IiB3aWR0aD0iNDQiIGhlaWdodD0iMjkiLz48L2c+PC9zdmc+Cg==">
+  <title>貸出・返却ボード</title>
+  <style>
+    :root {
+      --brand: #16624f;
+      --brand-strong: #0f4d3e;
+      --brand-soft: #e7f1ee;
+      --bg: #f5f7f6;
+      --surface: #ffffff;
+      --surface-muted: #f8faf9;
+      --text: #17201d;
+      --muted: #60706a;
+      --line: #d8e0dd;
+      --danger: #a52a2a;
+      --danger-soft: #fff1f1;
+      --warning: #8a5a00;
+      --warning-soft: #fff8e6;
+      --shadow: 0 8px 28px rgba(26, 48, 41, .08);
+      --shadow-sm: 0 1px 2px rgba(25, 28, 24, .08), 0 1px 6px rgba(25, 28, 24, .04);
+      --surface-hover: #eef3f1;
+      --line-strong: #b8c4bf;
+      --focus: #4d8bc7;
+      --header-height: 66px;
+      --radius: 18px;
+      --radius-sm: 12px;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background: var(--bg);
+    }
+    * { box-sizing: border-box; }
+    html { min-width: 320px; background: var(--bg); }
+    body { margin: 0; min-height: 100vh; background: var(--bg); color: var(--text); }
+    button, input, textarea { font: inherit; }
+    button { cursor: pointer; }
+    button:disabled { cursor: not-allowed; opacity: .5; }
+    :focus-visible { outline: 3px solid rgba(22, 98, 79, .28); outline-offset: 2px; }
+    .sr-only {
+      position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+      overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+    }
+    .app-header {
+      position: sticky;
+      z-index: 30;
+      top: 0;
+      min-height: var(--header-height);
+      border-bottom: 1px solid color-mix(in srgb, var(--line) 82%, transparent);
+      background: color-mix(in srgb, var(--bg) 92%, transparent);
+      backdrop-filter: blur(16px) saturate(1.2);
+    }
+    .header-inner {
+      width: min(1180px, 100%);
+      min-height: var(--header-height);
+      margin: 0 auto;
+      padding: 10px clamp(14px, 2.8vw, 30px);
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .brand { display: flex; align-items: center; gap: 10px; min-width: 0; }
+    .brand-mark {
+      display: block; width: 38px; height: 38px; flex: 0 0 auto;
+      border-radius: 11px; overflow: hidden; box-shadow: var(--shadow-sm);
+    }
+    .brand-mark img { width: 100%; height: 100%; display: block; }
+    .brand-copy { min-width: 0; }
+    .brand-name {
+      margin: 0; font-size: 17px; line-height: 1.2; letter-spacing: .01em;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 800;
+    }
+    .version-badge {
+      display: inline-flex; align-items: center; margin-left: 7px; padding: 1px 6px;
+      border: 1px solid var(--line); border-radius: 999px; color: var(--muted);
+      background: var(--surface-muted); font-size: 10px; font-weight: 650; vertical-align: 2px;
+    }
+    .brand-meta {
+      margin: 2px 0 0; color: var(--muted); font-size: 12px; white-space: nowrap;
+      overflow: hidden; text-overflow: ellipsis;
+    }
+    .header-actions { margin-left: auto; display: flex; align-items: center; gap: 12px; }
+    .language-button {
+      min-width: 0; padding: 5px 1px; border: 0; background: transparent;
+      color: var(--muted); font-size: 12px; font-weight: 750; letter-spacing: .02em;
+      cursor: pointer; transition: color .16s ease, opacity .16s ease;
+    }
+    .language-button:hover { color: var(--text); }
+    .language-button:active { opacity: .65; }
+    .icon-button {
+      display: inline-grid; place-items: center; width: 38px; height: 38px; padding: 0;
+      border: 1px solid var(--line); border-radius: 10px; background: var(--surface);
+      color: var(--text); cursor: pointer;
+      transition: border-color .16s ease, background .16s ease, transform .16s ease;
+    }
+    .icon-button:hover { border-color: var(--line-strong); background: var(--surface-hover); }
+    .icon-button:active { transform: translateY(1px); }
+    .icon-button svg { width: 18px; height: 18px; display: block; }
+    .header-icon-button {
+      width: auto; height: auto; padding: 5px 1px; border: 0; border-radius: 0;
+      background: transparent; color: var(--muted); transition: color .16s ease, opacity .16s ease;
+    }
+    .header-icon-button:hover { border-color: transparent; background: transparent; color: var(--text); }
+    .header-icon-button:active { transform: none; opacity: .65; }
+    .header-icon-button svg { width: 20px; height: 20px; }
+    .main { max-width: 1180px; margin: 0 auto; padding: 28px 20px 70px; }
+    .hero {
+      display: flex; align-items: flex-start; justify-content: space-between; gap: 24px;
+      margin-bottom: 22px;
+    }
+    .hero h2 { margin: 0; font-size: clamp(25px, 4vw, 38px); letter-spacing: -.03em; line-height: 1.15; }
+    .hero p { margin: 10px 0 0; max-width: 760px; color: var(--muted); line-height: 1.7; }
+    .local-badge {
+      flex: 0 0 auto; display: inline-flex; align-items: center; gap: 7px;
+      color: var(--brand-strong); background: var(--brand-soft); border: 1px solid #c8ddd6;
+      border-radius: 999px; padding: 8px 11px; font-size: 12px; font-weight: 800;
+    }
+    .local-badge svg { width: 17px; height: 17px; }
+    .version-note {
+      margin-bottom: 20px; display: flex; align-items: flex-start; gap: 10px;
+      border: 1px solid #ecd8a4; background: var(--warning-soft); color: #5f460e;
+      border-radius: var(--radius-sm); padding: 12px 14px; line-height: 1.55; font-size: 13px;
+    }
+    .version-note svg { width: 19px; height: 19px; flex: 0 0 auto; margin-top: 1px; }
+    .operation-nav {
+      margin-bottom: 18px; padding: 9px;
+      display: grid; grid-template-columns: repeat(6,minmax(0,1fr)); gap: 8px;
+    }
+    .operation-nav a {
+      min-width: 0; min-height: 46px; padding: 8px 9px;
+      border-radius: 11px; color: var(--text); text-decoration: none;
+      display: flex; align-items: center; justify-content: center; gap: 7px;
+      font-size: 12px; font-weight: 800; text-align: center; line-height: 1.25;
+      overflow-wrap: anywhere;
+    }
+    .operation-nav a:hover { background: var(--surface-hover); color: var(--brand-strong); }
+    .operation-nav svg { width: 17px; height: 17px; flex: 0 0 auto; }
+    #boardSection, #checkoutSection, #returnSection, #historySection, #managementSection, #dataSection {
+      scroll-margin-top: calc(var(--header-height) + 14px);
+    }
+    .shell {
+      background: var(--surface); border: 1px solid var(--line);
+      border-radius: var(--radius); box-shadow: var(--shadow);
+    }
+    .board-shell { padding: 20px; margin-bottom: 18px; }
+    .board-top {
+      display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 18px; align-items: end;
+    }
+    .field { display: grid; gap: 7px; min-width: 0; }
+    .field-label { font-size: 13px; font-weight: 750; }
+    .field-hint { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.45; }
+    .input, .textarea {
+      width: 100%; border: 1px solid #bdc9c5; border-radius: 11px;
+      background: #fff; color: var(--text); padding: 11px 12px;
+      min-height: 44px;
+    }
+    .textarea { min-height: 84px; resize: vertical; line-height: 1.5; }
+    .input:hover, .textarea:hover { border-color: #94aaa2; }
+    .input:focus, .textarea:focus { border-color: var(--brand); }
+    .status-chip {
+      display: inline-flex; align-items: center; gap: 6px; white-space: nowrap;
+      border-radius: 999px; background: var(--brand-soft); color: var(--brand-strong);
+      padding: 7px 10px; font-size: 12px; font-weight: 800;
+    }
+    .summary-grid {
+      display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 12px;
+      margin-top: 18px;
+    }
+    .summary-card {
+      border: 1px solid var(--line); background: var(--surface-muted);
+      border-radius: 14px; padding: 14px;
+    }
+    .summary-value { display: block; font-size: 28px; font-weight: 850; color: var(--brand-strong); line-height: 1; }
+    .summary-label { display: block; margin-top: 7px; color: var(--muted); font-size: 12px; font-weight: 700; }
+    .summary-card.outstanding.has-outstanding { border-color: #e6ca8e; background: var(--warning-soft); }
+    .summary-card.outstanding.has-outstanding .summary-value { color: var(--warning); }
+    .outstanding-board { margin-top: 18px; padding-top: 18px; border-top: 1px solid var(--line); }
+    .outstanding-board-head {
+      display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; margin-bottom: 12px;
+    }
+    .outstanding-board-head h3 { margin: 0; font-size: 18px; }
+    .outstanding-board-head p { margin: 5px 0 0; color: var(--muted); font-size: 13px; line-height: 1.5; }
+    .outstanding-list { display: grid; gap: 12px; }
+    .outstanding-group {
+      min-width: 0; border: 1px solid var(--line); border-radius: 14px; background: var(--surface-muted); overflow: hidden;
+    }
+    .outstanding-group-head {
+      display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;
+      padding: 13px 14px; border-bottom: 1px solid var(--line); background: var(--surface);
+    }
+    .outstanding-group-title { min-width: 0; }
+    .outstanding-group-title strong { display: block; font-size: 16px; overflow-wrap: anywhere; }
+    .outstanding-group-title span { display: block; margin-top: 3px; color: var(--muted); font-size: 11px; }
+    .outstanding-items { display: grid; }
+    .outstanding-item {
+      min-width: 0; display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 10px; align-items: center;
+      padding: 11px 14px; border-bottom: 1px solid var(--line);
+    }
+    .outstanding-item:last-child { border-bottom: 0; }
+    .outstanding-item-copy { min-width: 0; }
+    .outstanding-item-name { display: block; font-weight: 800; overflow-wrap: anywhere; }
+    .outstanding-item-meta { display: flex; flex-wrap: wrap; gap: 4px 9px; margin-top: 4px; color: var(--muted); font-size: 11px; }
+    .outstanding-item-time { flex: 0 0 auto; color: var(--muted); font-size: 11px; white-space: nowrap; }
+    .outstanding-actions {
+      display: flex; flex-wrap: wrap; gap: 9px; padding: 12px 14px; border-top: 1px solid var(--line); background: var(--surface);
+    }
+    .board-complete {
+      display: grid; place-items: center; min-height: 190px; padding: 24px 18px;
+      border: 1px solid #bdd7cf; border-radius: 14px; background: var(--brand-soft); text-align: center;
+    }
+    .board-complete svg { width: 42px; height: 42px; color: var(--brand); }
+    .board-complete strong { display: block; margin-top: 10px; color: var(--brand-strong); font-size: 18px; }
+    .board-complete p { margin: 6px 0 0; color: #45665d; font-size: 13px; line-height: 1.55; }
+    .board-complete .button { margin-top: 14px; }
+    .workspace-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 18px; }
+    .panel { min-width: 0; overflow: hidden; }
+    .panel-head {
+      display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;
+      padding: 18px 18px 14px; border-bottom: 1px solid var(--line);
+    }
+    .panel-head h3 { margin: 0; font-size: 18px; }
+    .panel-head p { margin: 5px 0 0; color: var(--muted); font-size: 13px; line-height: 1.5; }
+    .count-badge {
+      flex: 0 0 auto; min-width: 34px; height: 30px; padding: 0 10px;
+      display: inline-grid; place-items: center; border-radius: 999px;
+      background: var(--brand-soft); color: var(--brand-strong); font-size: 12px; font-weight: 800;
+    }
+    .panel-body { padding: 18px; }
+    .form-grid { display: grid; gap: 12px; }
+    .form-row { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 10px; }
+    .button-row { display: flex; align-items: center; flex-wrap: wrap; gap: 9px; }
+    .button {
+      min-height: 44px; border: 1px solid #b8c6c1; border-radius: 11px;
+      background: #fff; color: var(--text); padding: 9px 14px; font-weight: 750;
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    }
+    .button svg { width: 18px; height: 18px; }
+    .button:hover { border-color: #8ca39b; background: #fbfcfc; }
+    .button.primary { background: var(--brand); color: #fff; border-color: var(--brand); }
+    .button.primary:hover { background: var(--brand-strong); border-color: var(--brand-strong); }
+    .button.small { min-height: 38px; padding: 7px 10px; font-size: 13px; }
+    .list-divider { height: 1px; background: var(--line); margin: 18px 0; }
+    .list { display: grid; gap: 10px; }
+    .empty-state {
+      border: 1px dashed #b9c8c3; background: var(--surface-muted);
+      border-radius: 14px; padding: 20px; text-align: center;
+    }
+    .empty-state svg { width: 34px; height: 34px; color: var(--brand); margin-bottom: 8px; }
+    .empty-state strong { display: block; font-size: 15px; }
+    .empty-state p { margin: 7px auto 0; max-width: 360px; color: var(--muted); font-size: 13px; line-height: 1.55; }
+    .record {
+      min-width: 0; border: 1px solid var(--line); border-radius: 14px;
+      padding: 13px; display: grid; grid-template-columns: minmax(0,1fr) auto;
+      gap: 12px; align-items: center; background: #fff;
+    }
+    .record-main { min-width: 0; }
+    .record-title { font-weight: 800; overflow-wrap: anywhere; line-height: 1.4; }
+    .record-meta {
+      margin-top: 5px; display: flex; flex-wrap: wrap; gap: 6px 10px;
+      color: var(--muted); font-size: 12px; line-height: 1.45;
+    }
+    .record-note { margin-top: 7px; color: #46554f; font-size: 12px; line-height: 1.5; overflow-wrap: anywhere; white-space: pre-wrap; }
+    .record-actions { flex: 0 0 auto; }
+    .record-status {
+      display: inline-flex; align-items: center; gap: 5px; color: var(--brand-strong);
+      background: var(--brand-soft); border-radius: 999px; padding: 4px 8px; font-weight: 800;
+    }
+    .record-status::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--brand); }
+    .item-create-section { display: grid; gap: 12px; }
+    .batch-create {
+      border: 1px solid var(--line); border-radius: 13px; background: var(--surface-muted); overflow: hidden;
+    }
+    .batch-create summary {
+      min-height: 46px; padding: 11px 13px; cursor: pointer; list-style: none;
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      color: var(--brand-strong); font-weight: 800;
+    }
+    .batch-create summary::-webkit-details-marker { display: none; }
+    .batch-create summary::after { content: "+"; font-size: 20px; line-height: 1; font-weight: 500; }
+    .batch-create[open] summary::after { content: "−"; }
+    .batch-create[open] summary { border-bottom: 1px solid var(--line); background: #fff; }
+    .batch-body { display: grid; gap: 12px; padding: 13px; }
+    .batch-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 10px; }
+    .batch-number-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 10px; }
+    .batch-preview {
+      min-width: 0; padding: 11px 12px; border: 1px dashed #aebfba; border-radius: 11px;
+      background: #fff; color: #43534d; font-size: 12px; line-height: 1.55; overflow-wrap: anywhere;
+    }
+    .batch-preview strong { color: var(--text); }
+    .batch-preview.error { border-color: #dfc6a1; background: var(--warning-soft); color: var(--warning); }
+    .item-management-tools {
+      display: grid; grid-template-columns: minmax(0,1fr) auto; align-items: end; gap: 10px;
+    }
+    .item-management-summary {
+      display: flex; flex-wrap: wrap; gap: 6px 12px; margin: 10px 0 0;
+      color: var(--muted); font-size: 12px;
+    }
+    .record.archived { background: #f7f8f8; border-style: dashed; }
+    .record.archived .record-title { color: #54615c; }
+    .record-status.archived { background: #eef0ef; color: #606b67; }
+    .record-status.archived::before { background: #8b9692; }
+    .record-actions { display: flex; flex-wrap: wrap; gap: 7px; justify-content: flex-end; }
+    .button.archive-action { color: #58645f; }
+    .button.restore-action { color: var(--brand-strong); border-color: #9ab8ae; }
+    .button:disabled { opacity: .52; cursor: not-allowed; }
+.checkout-shell { margin-bottom: 18px; overflow: hidden; }
+    .checkout-body { padding: 18px; }
+    .checkout-grid { display: grid; grid-template-columns: minmax(0, .82fr) minmax(0, 1.18fr); gap: 18px; }
+    .checkout-column { min-width: 0; display: grid; align-content: start; gap: 12px; }
+    .suggestion-list { display: grid; gap: 7px; max-height: 220px; overflow: auto; }
+    .suggestion-button {
+      width: 100%; min-height: 44px; border: 1px solid var(--line); border-radius: 11px;
+      background: var(--surface-muted); color: var(--text); padding: 9px 11px;
+      display: flex; align-items: center; justify-content: space-between; gap: 10px; text-align: left;
+    }
+    .suggestion-button:hover { border-color: var(--line-strong); background: var(--surface-hover); }
+    .suggestion-button strong { min-width: 0; overflow-wrap: anywhere; }
+    .suggestion-button span { flex: 0 0 auto; color: var(--muted); font-size: 11px; }
+    .suggestion-button.new-entry { border-style: dashed; color: var(--brand-strong); background: var(--brand-soft); }
+    .selected-borrower {
+      display: flex; align-items: center; justify-content: space-between; gap: 10px;
+      border: 1px solid #bdd7cf; border-radius: 12px; background: var(--brand-soft); padding: 10px 12px;
+    }
+    .selected-borrower[hidden] { display: none; }
+    .selected-borrower-copy { min-width: 0; }
+    .selected-borrower-copy span { display: block; color: var(--muted); font-size: 11px; }
+    .selected-borrower-copy strong { display: block; margin-top: 2px; overflow-wrap: anywhere; color: var(--brand-strong); }
+    .clear-selection {
+      flex: 0 0 auto; width: 44px; height: 44px; border: 0; border-radius: 10px;
+      background: transparent; color: var(--brand-strong); display: grid; place-items: center;
+    }
+    .clear-selection:hover { background: rgba(22,98,79,.09); }
+    .clear-selection svg { width: 17px; height: 17px; }
+    .picker-meta { display: flex; align-items: center; justify-content: space-between; gap: 12px; color: var(--muted); font-size: 12px; }
+    .checkout-item-list { display: grid; gap: 8px; max-height: 330px; overflow: auto; padding-right: 2px; }
+    .checkout-choice {
+      display: grid; grid-template-columns: auto minmax(0,1fr); gap: 11px; align-items: start;
+      min-width: 0; border: 1px solid var(--line); border-radius: 12px; background: #fff; padding: 11px 12px; cursor: pointer;
+    }
+    .checkout-choice:hover { border-color: #9fb2ab; background: #fbfcfb; }
+    .checkout-choice:has(input:checked) { border-color: var(--brand); background: var(--brand-soft); }
+    .checkout-choice input { width: 20px; height: 20px; margin: 1px 0 0; accent-color: var(--brand); }
+    .checkout-choice-copy { min-width: 0; }
+    .checkout-choice-title { display: block; font-weight: 800; overflow-wrap: anywhere; }
+    .checkout-choice-meta { display: flex; flex-wrap: wrap; gap: 4px 9px; margin-top: 4px; color: var(--muted); font-size: 11px; }
+    .checkout-empty { border: 1px dashed #b9c8c3; border-radius: 12px; background: var(--surface-muted); padding: 16px; color: var(--muted); font-size: 13px; line-height: 1.55; }
+    .checkout-footer {
+      margin-top: 16px; padding-top: 15px; border-top: 1px solid var(--line);
+      display: flex; align-items: center; justify-content: space-between; gap: 14px;
+    }
+    .checkout-summary { min-width: 0; color: var(--muted); font-size: 13px; line-height: 1.5; }
+    .checkout-summary strong { color: var(--text); }
+    .record-status.checked-out { color: #704800; background: #fff3d2; }
+    .record-status.checked-out::before { background: #b67800; }
+        .return-shell { margin: 18px 0; overflow: hidden; }
+    .return-body { padding: 18px; }
+    .return-grid { display: grid; grid-template-columns: minmax(0,.78fr) minmax(0,1.22fr); gap: 18px; }
+    .return-borrower-list { display: grid; gap: 8px; max-height: 330px; overflow: auto; }
+    .return-borrower-button {
+      width: 100%; min-height: 46px; padding: 10px 12px; border: 1px solid var(--line);
+      border-radius: 12px; background: var(--surface); color: var(--text);
+      display: flex; align-items: center; justify-content: space-between; gap: 12px; text-align: left;
+    }
+    .return-borrower-button:hover { border-color: var(--line-strong); background: var(--surface-hover); }
+    .return-borrower-button.active { border-color: var(--brand); background: var(--brand-soft); }
+    .return-borrower-button strong { min-width: 0; overflow-wrap: anywhere; }
+    .return-borrower-button span {
+      flex: 0 0 auto; min-width: 30px; padding: 3px 8px; border-radius: 999px;
+      background: var(--surface-muted); color: var(--muted); font-size: 11px; font-weight: 800; text-align: center;
+    }
+    .return-borrower-button.active span { background: #fff; color: var(--brand-strong); }
+    .return-detail { min-width: 0; border: 1px solid var(--line); border-radius: 14px; background: var(--surface-muted); padding: 14px; }
+    .return-detail-head {
+      display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;
+      padding-bottom: 12px; border-bottom: 1px solid var(--line);
+    }
+    .return-detail-title { min-width: 0; }
+    .return-detail-title span { display: block; color: var(--muted); font-size: 11px; }
+    .return-detail-title strong { display: block; margin-top: 3px; font-size: 17px; overflow-wrap: anywhere; }
+    .return-list { display: grid; gap: 8px; margin-top: 12px; }
+    .return-item {
+      display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 10px; align-items: center;
+      padding: 10px 11px; border: 1px solid var(--line); border-radius: 11px; background: var(--surface);
+    }
+    .return-item.selectable { grid-template-columns: auto minmax(0,1fr); cursor: pointer; }
+    .return-item.selectable:has(input:checked) { border-color: var(--brand); background: var(--brand-soft); }
+    .return-item input { width: 20px; height: 20px; margin: 0; accent-color: var(--brand); }
+    .return-item-copy { min-width: 0; }
+    .return-item-name { display: block; font-weight: 800; overflow-wrap: anywhere; }
+    .return-item-meta { display: flex; flex-wrap: wrap; gap: 4px 9px; margin-top: 4px; color: var(--muted); font-size: 11px; }
+    .return-actions { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 14px; }
+    .return-actions .button.primary { order: -1; }
+    .return-selected-note { margin-top: 10px; color: var(--muted); font-size: 12px; line-height: 1.5; }
+    .button.secondary-accent { border-color: #9ab8ae; color: var(--brand-strong); background: #fff; }
+    .button.secondary-accent:hover { border-color: var(--brand); background: var(--brand-soft); }
+    .history-shell { margin: 18px 0; overflow: hidden; }
+    .history-body { padding: 18px; }
+    .history-toolbar {
+      display: grid; grid-template-columns: minmax(0,1fr) auto auto; align-items: end; gap: 10px; margin-bottom: 14px;
+    }
+    .history-search { min-width: 0; }
+    .history-select {
+      min-height: 44px; border: 1px solid #bdc9c5; border-radius: 11px;
+      background: #fff; color: var(--text); padding: 9px 34px 9px 11px;
+    }
+    .history-list { display: grid; gap: 9px; }
+    .history-row {
+      min-width: 0; display: grid; grid-template-columns: 86px minmax(0,1fr) auto; gap: 12px; align-items: start;
+      padding: 12px 13px; border: 1px solid var(--line); border-radius: 13px; background: var(--surface);
+    }
+    .history-time { color: var(--muted); font-size: 11px; line-height: 1.45; white-space: nowrap; }
+    .history-main { min-width: 0; }
+    .history-title-line { display: flex; flex-wrap: wrap; align-items: center; gap: 7px; }
+    .history-action { font-weight: 850; }
+    .history-borrower { color: var(--brand-strong); font-weight: 750; overflow-wrap: anywhere; }
+    .history-items { margin-top: 5px; color: #43534d; font-size: 12px; line-height: 1.5; overflow-wrap: anywhere; }
+    .history-badge {
+      display: inline-flex; align-items: center; min-height: 22px; padding: 2px 7px;
+      border: 1px solid var(--line); border-radius: 999px; background: var(--surface-muted);
+      color: var(--muted); font-size: 10px; font-weight: 800;
+    }
+    .history-badge.undo { border-color: #c7dcd5; background: var(--brand-soft); color: var(--brand-strong); }
+    .history-badge.undone { border-color: #e4d4ad; background: var(--warning-soft); color: var(--warning); }
+    .history-actions { display: flex; align-items: center; justify-content: flex-end; min-width: 92px; }
+    .history-empty {
+      padding: 22px 16px; border: 1px dashed #b9c8c3; border-radius: 13px;
+      background: var(--surface-muted); color: var(--muted); text-align: center; font-size: 13px; line-height: 1.55;
+    }
+    .data-shell { margin-top: 18px; overflow: hidden; }
+    .data-body { padding: 18px; display: grid; gap: 16px; }
+    .storage-status {
+      display: grid; grid-template-columns: auto minmax(0,1fr); gap: 10px 12px; align-items: start;
+      padding: 13px 14px; border: 1px solid #bdd7cf; border-radius: 13px; background: var(--brand-soft);
+    }
+    .storage-status.error { border-color: #e1c79d; background: var(--warning-soft); }
+    .storage-status-dot {
+      width: 10px; height: 10px; margin-top: 5px; border-radius: 999px; background: var(--brand);
+    }
+    .storage-status.error .storage-status-dot { background: var(--warning); }
+    .storage-status-copy { min-width: 0; }
+    .storage-status-copy strong { display: block; color: var(--brand-strong); font-size: 14px; overflow-wrap: anywhere; }
+    .storage-status.error .storage-status-copy strong { color: var(--warning); }
+    .storage-status-copy p { margin: 4px 0 0; color: #4a6159; font-size: 12px; line-height: 1.55; overflow-wrap: anywhere; }
+    .storage-status.error .storage-status-copy p { color: #745f3d; }
+    .data-actions { display: flex; flex-wrap: wrap; gap: 9px; }
+    .data-group { display: grid; gap: 10px; padding-top: 2px; }
+    .data-group + .data-group { padding-top: 15px; border-top: 1px solid var(--line); }
+    .data-group-head h4 { margin: 0; font-size: 14px; }
+    .data-group-head p { margin: 4px 0 0; color: var(--muted); font-size: 12px; line-height: 1.55; }
+    .csv-actions { display: flex; flex-wrap: wrap; gap: 9px; }
+    .button.danger { color: #8a3b32; border-color: #dcb8b3; background: #fffafa; }
+    .button.danger:hover { border-color: #c98d85; background: #fff4f2; }
+    .data-note {
+      margin: 0; padding: 11px 12px; border-radius: 11px; background: var(--surface-muted);
+      color: var(--muted); font-size: 12px; line-height: 1.6;
+    }
+    .data-file-name { color: var(--muted); font-size: 12px; overflow-wrap: anywhere; }
+    .build-details { margin-top: 18px; }
+    details.shell { padding: 0; }
+    details summary {
+      cursor: pointer; list-style: none; padding: 15px 18px; font-weight: 800;
+    }
+    details summary::-webkit-details-marker { display: none; }
+    .build-grid {
+      border-top: 1px solid var(--line); padding: 14px 18px 18px;
+      display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 10px;
+    }
+    .build-item { min-width: 0; padding: 10px; border-radius: 10px; background: var(--surface-muted); }
+    .build-item span { display: block; color: var(--muted); font-size: 11px; }
+    .build-item strong { display: block; margin-top: 4px; overflow-wrap: anywhere; font-size: 13px; }
+    footer {
+      max-width: 1180px; margin: 0 auto; padding: 0 20px 32px;
+      color: var(--muted); font-size: 12px; text-align: center;
+    }
+    dialog {
+      width: min(560px, calc(100vw - 28px)); max-height: min(760px, calc(100dvh - 28px));
+      padding: 0; border: 1px solid var(--line); border-radius: 18px;
+      box-shadow: 0 24px 70px rgba(13,34,27,.24); color: var(--text);
+    }
+    dialog::backdrop { background: rgba(10,25,20,.38); }
+    .dialog-shell { display: flex; flex-direction: column; max-height: min(760px, calc(100dvh - 28px)); }
+    .dialog-header {
+      flex: 0 0 auto; position: sticky; top: 0; z-index: 2;
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      padding: 14px 16px; border-bottom: 1px solid var(--line); background: #fff;
+    }
+    .dialog-header h2 { min-width: 0; margin: 0; font-size: 18px; overflow-wrap: anywhere; }
+    .dialog-body { overflow: auto; padding: 16px; overscroll-behavior: contain; }
+    .dialog-body h3 { margin: 18px 0 7px; font-size: 15px; }
+    .dialog-body h3:first-child { margin-top: 0; }
+    .dialog-body p, .dialog-body li { color: #43534d; font-size: 13px; line-height: 1.65; }
+    .dialog-body ul, .dialog-body ol { padding-left: 22px; }
+    .dialog-actions {
+      display: flex; justify-content: flex-end; gap: 9px; padding: 13px 16px;
+      border-top: 1px solid var(--line); background: #fff;
+    }
+    .edit-form { display: grid; gap: 12px; }
+    .app-toast {
+      position: fixed; left: 50%; bottom: max(18px, env(safe-area-inset-bottom));
+      transform: translate(-50%, 18px); z-index: 50;
+      display: flex; align-items: center; gap: 10px;
+      max-width: min(560px, calc(100vw - 24px)); padding: 11px 13px;
+      border-radius: 13px; background: #1d2925; color: #fff;
+      box-shadow: 0 16px 45px rgba(0,0,0,.2);
+      opacity: 0; pointer-events: none; transition: .18s ease;
+    }
+    .app-toast.show { opacity: 1; transform: translate(-50%, 0); pointer-events: auto; }
+    .app-toast span { min-width: 0; overflow-wrap: anywhere; }
+    .app-toast button {
+      flex: 0 0 auto; min-height: 40px; border: 0; border-radius: 9px;
+      background: transparent; color: #bfe8dc; font-weight: 800; padding: 8px 7px;
+    }
+    @media (max-width: 820px) {
+      .workspace-grid { grid-template-columns: 1fr; }
+      .board-top { grid-template-columns: 1fr; align-items: start; }
+      .operation-nav { grid-template-columns: repeat(3,minmax(0,1fr)); }
+    }
+    @media (max-width: 620px) {
+      .header-inner { padding: 9px 14px; }
+      .brand-mark { width: 38px; height: 38px; }
+      .brand-meta { display: none; }
+      .header-actions { gap: 10px; }
+      .main { padding: 22px 14px 56px; }
+      .hero { display: grid; gap: 13px; }
+      .local-badge { justify-self: start; }
+      .board-shell { padding: 16px; }
+      .summary-grid { gap: 8px; }
+      .summary-card { padding: 12px 10px; }
+      .summary-value { font-size: 24px; }
+      .outstanding-board-head { display: block; }
+      .outstanding-item { grid-template-columns: 1fr; }
+      .outstanding-item-time { white-space: normal; }
+      .outstanding-actions .button { flex: 1 1 100%; }
+      .panel-head, .panel-body, .checkout-body, .return-body, .history-body, .data-body { padding-left: 15px; padding-right: 15px; }
+      .checkout-grid, .return-grid { grid-template-columns: 1fr; }
+      .checkout-footer { align-items: stretch; flex-direction: column; }
+      .checkout-footer .button { width: 100%; }
+      .form-row, .batch-grid, .batch-number-grid, .item-management-tools { grid-template-columns: 1fr; }
+      .record { grid-template-columns: 1fr; align-items: start; }
+      .record-actions .button { width: 100%; }
+      .button.small { min-height: 44px; }
+      .data-actions, .csv-actions { display: grid; grid-template-columns: 1fr; }
+      .data-actions .button, .csv-actions .button { width: 100%; }
+      .history-toolbar { grid-template-columns: 1fr; align-items: stretch; }
+      .history-search { max-width: none; }
+      .history-row { grid-template-columns: 1fr; gap: 7px; }
+      .history-time { white-space: normal; }
+      .history-actions { min-width: 0; justify-content: flex-start; }
+      .build-grid { grid-template-columns: 1fr; }
+      dialog {
+        width: 100vw; max-width: none; max-height: min(90dvh, 760px);
+        margin: auto 0 0; border-radius: 18px 18px 0 0; border-bottom: 0;
+      }
+      .dialog-shell { max-height: min(90dvh, 760px); padding-bottom: env(safe-area-inset-bottom); }
+      .dialog-actions { padding-bottom: max(13px, env(safe-area-inset-bottom)); }
+    }
+    @media (max-width: 380px) {
+      .operation-nav { grid-template-columns: repeat(2,minmax(0,1fr)); }
+      .summary-grid { grid-template-columns: 1fr; }
+      .summary-card { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+      .summary-label { margin-top: 0; }
+      .brand-name { font-size: 15px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <header class="app-header">
+    <div class="header-inner">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">
+          <img id="appBrandIcon" src="data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMTA5NSAxMDk1IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxyZWN0IHg9Ijk1IiB5PSI5NSIgd2lkdGg9IjkwNSIgaGVpZ2h0PSI5MDUiIHJ4PSIyMjYuMiIgZmlsbD0iIzA4Njk0ZSIvPjxnIGZpbGw9IiNmY2ZjZmMiPjxwYXRoIGQ9Ik0zMDIgMzA2aC0zMmMtMjkgMC00NCAxNS00NCA0NHY0MTNjMCAyOSAxNSA0MyA0NCA0M2gyNjV2LTQ3SDI3MWMtMTUgMC0yMy03LTIzLTIyVjM1MmMwLTE1IDctMjIgMjItMjJoMzJ6Ii8+PHBhdGggZD0ibTU3OCAyODNoMzFjNDUgMCA2NyAyMyA2NyA2OHY0NmMtMTcgOC0zMiAyMC00NCAzNHYtNzhjMC0xNi03LTIzLTIzLTIzaC0zMXoiLz48cGF0aCBkPSJNMzgxIDI1N2M4LTMzIDI5LTUwIDU5LTUwczUxIDE3IDYwIDUwaDM0YzE2IDAgMjQgOCAyNCAyNHY0MGMwIDE2LTggMjQtMjQgMjRIMzQ2Yy0xNiAwLTI0LTgtMjQtMjR2LTQwYzAtMTYgOC0yNCAyNC0yNHoiLz48Y2lyY2xlIGN4PSI0NDAiIGN5PSIyNjUiIHI9IjI0IiBmaWxsPSIjMDg2OTRlIi8+PGNpcmNsZSBjeD0iMzI2IiBjeT0iNDMwIiByPSI0MCIvPjxyZWN0IHg9IjM5NSIgeT0iNDExIiB3aWR0aD0iMTk2IiBoZWlnaHQ9IjM4IiByeD0iMTkiLz48Y2lyY2xlIGN4PSIzMjYiIGN5PSI1NDkiIHI9IjQwIi8+PHJlY3QgeD0iMzk1IiB5PSI1MzEiIHdpZHRoPSIxOTYiIGhlaWdodD0iMzYiIHJ4PSIxOCIvPjxjaXJjbGUgY3g9IjMyNiIgY3k9IjY3MiIgcj0iNDQiLz48Y2lyY2xlIGN4PSIzMjYiIGN5PSI2NzIiIHI9IjI3IiBmaWxsPSIjMDg2OTRlIi8+PHJlY3QgeD0iMzk1IiB5PSI2NTMiIHdpZHRoPSIxNTAiIGhlaWdodD0iMzYiIHJ4PSIxOCIvPjxwYXRoIGQ9Im02NDcgNTMyYy0xMyAwLTIyLTExLTIyLTI3IDAtNjIgNTItMTA1IDEyNS0xMDVoMzB2LTIzYzAtMTMgMTQtMTggMjMtOWw0NCA0MmM3IDcgNyAxNSAwIDIybC00NCA0MmMtOSA5LTIzIDQtMjMtOXYtMThoLTI4Yy02MSAwLTEwMCAyNy0xMDAgNzEgMCA4LTEgMTQtNSAxNHoiLz48cGF0aCBkPSJtODQ5IDQ3OWMxMyAwIDIzIDExIDIzIDI4IDAgNTUtNDAgOTItOTkgOTJoLTUwdjE4YzAgMTMtMTQgMTgtMjMgOWwtNDQtNDFjLTctNy03LTE1IDAtMjJsNDQtNDBjOS05IDIzLTQgMjMgOXYxOWg1MWM0NSAwIDc0LTIwIDc0LTUzIDAtMTEgMC0xOSAxLTE5eiIvPjxwYXRoIGQ9Im02NTIgNjg2di0xM2MwLTIzIDEyLTM0IDM1LTM0aDc3YzIzIDAgMzUgMTEgMzUgMzR2MTNoLTI5di0xMGMwLTYtMy05LTEwLTloLTY5Yy04IDAtMTEgMy0xMSA5djEweiIvPjxyZWN0IHg9IjU1MCIgeT0iNjk5IiB3aWR0aD0iMzUwIiBoZWlnaHQ9IjE5MSIgcng9IjMxIi8+PHJlY3QgeD0iNTk5IiB5PSI2OTkiIHdpZHRoPSIzMCIgaGVpZ2h0PSIxODMiIHJ4PSIxMiIgZmlsbD0iIzA4Njk0ZSIvPjxyZWN0IHg9IjgyMSIgeT0iNjk5IiB3aWR0aD0iMzAiIGhlaWdodD0iMTgzIiByeD0iMTIiIGZpbGw9IiMwODY5NGUiLz48cmVjdCB4PSI1NTAiIHk9Ijc2NiIgd2lkdGg9IjM1MCIgaGVpZ2h0PSIxNyIgZmlsbD0iIzA4Njk0ZSIvPjxyZWN0IHg9IjY4NiIgeT0iNzQ5IiB3aWR0aD0iNzkiIGhlaWdodD0iNjQiIHJ4PSIxMyIgZmlsbD0iIzA4Njk0ZSIvPjxyZWN0IHg9IjcwMyIgeT0iNzY2IiB3aWR0aD0iNDQiIGhlaWdodD0iMjkiLz48L2c+PC9zdmc+Cg==" alt="">
+        </div>
+        <div class="brand-copy">
+          <p class="brand-name"><span id="brandName">貸出・返却ボード</span><span class="version-badge" id="versionBadge">v1.0.0</span></p>
+          <p class="brand-meta" data-i18n="brandMeta">完全ローカル処理 · 単一HTML</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button class="language-button" id="languageButton" type="button" aria-label="Switch language">EN</button>
+        <button class="icon-button header-icon-button" id="helpButton" type="button" data-i18n-title="helpTitle" data-i18n-aria-label="helpTitle" title="使い方と注意事項" aria-label="使い方と注意事項">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.8 9a2.35 2.35 0 1 1 3.72 1.9c-.92.67-1.52 1.12-1.52 2.1"/><path d="M12 17h.01"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="main">
+    <section class="hero" aria-labelledby="heroTitle">
+      <div>
+        <h2 id="heroTitle" data-i18n="introTitle">貸出・返却と未返却を1台で管理</h2>
+        <p data-i18n="lead">誰に何を貸しているかを確認し、返却漏れを未返却0まで管理できます。データはこのブラウザー内で処理します。</p>
+      </div>
+      <div class="local-badge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 5 6v5c0 4.6 2.8 8 7 10 4.2-2 7-5.4 7-10V6z"/><path d="m9 12 2 2 4-5"/></svg>
+        <span data-i18n="localBadge">完全ローカル処理</span>
+      </div>
+    </section>
+
+    <!-- APP:BEGIN Loan Board v1.0.0 stable workspace -->
+    <nav class="shell operation-nav" data-i18n-aria-label="quickNavLabel" aria-label="主要操作">
+      <a href="#boardSection">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16v14H4zM8 9h8M8 13h8"/></svg>
+        <span data-i18n="quickNavBoard">ボード</span>
+      </a>
+      <a href="#checkoutSection">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h11M12 7l5 5-5 5M19 5v14"/></svg>
+        <span data-i18n="quickNavCheckout">貸出</span>
+      </a>
+      <a href="#returnSection">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H8M12 7l-5 5 5 5M5 5v14"/></svg>
+        <span data-i18n="quickNavReturn">返却</span>
+      </a>
+      <a href="#historySection">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 8v5l3 2"/></svg>
+        <span data-i18n="quickNavHistory">履歴</span>
+      </a>
+      <a href="#managementSection">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 7h14v12H5zM8 4h8v3M8 11h8M8 15h5"/></svg>
+        <span data-i18n="quickNavManage">登録・管理</span>
+      </a>
+      <a href="#dataSection">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v11M8 10l4 4 4-4M5 18h14v3H5z"/></svg>
+        <span data-i18n="quickNavData">データ</span>
+      </a>
+    </nav>
+    <section class="shell board-shell" id="boardSection" aria-labelledby="boardTitle">
+      <div class="board-top">
+        <label class="field" for="boardName">
+          <span class="field-label" id="boardTitle" data-i18n="boardNameLabel">ボード名</span>
+          <input class="input" id="boardName" type="text" maxlength="100" autocomplete="off" data-i18n-placeholder="boardNamePlaceholder" placeholder="2026年度 文化祭">
+          <span class="field-hint" data-i18n="boardNameHint">イベント名や運用名を付けておくと、今どの貸出を管理しているか分かりやすくなります。</span>
+        </label>
+        <span class="status-chip" data-i18n="milestoneStatus">v1.0.0</span>
+      </div>
+      <div class="summary-grid" aria-live="polite">
+        <div class="summary-card outstanding" id="outstandingSummaryCard"><strong class="summary-value" id="outstandingCount">0</strong><span class="summary-label" data-i18n="outstandingCountLabel">未返却</span></div>
+        <div class="summary-card"><strong class="summary-value" id="outstandingBorrowerCount">0</strong><span class="summary-label" data-i18n="outstandingBorrowersLabel">貸出先</span></div>
+        <div class="summary-card"><strong class="summary-value" id="availableSummary">0 / 0</strong><span class="summary-label" data-i18n="availabilitySummaryLabel">利用可能 / 全備品</span></div>
+      </div>
+      <div class="outstanding-board">
+        <div class="outstanding-board-head">
+          <div>
+            <h3 data-i18n="outstandingBoardTitle">未返却ボード</h3>
+            <p data-i18n="outstandingBoardLead">誰が何を持っているかを貸出先ごとに確認します。返却操作もここから始められます。</p>
+          </div>
+        </div>
+        <div class="outstanding-list" id="outstandingBoard" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <section class="shell checkout-shell" id="checkoutSection" aria-labelledby="checkoutTitle">
+      <div class="panel-head">
+        <div><h3 id="checkoutTitle" data-i18n="checkoutTitle">貸し出す</h3><p data-i18n="checkoutLead">貸出先を選び、利用可能な備品をまとめて貸し出します。</p></div>
+        <span class="count-badge" id="availableCheckoutCount" aria-hidden="true">0</span>
+      </div>
+      <div class="checkout-body">
+        <div class="checkout-grid">
+          <div class="checkout-column">
+            <label class="field" for="checkoutBorrowerQuery">
+              <span class="field-label" data-i18n="checkoutBorrowerLabel">貸出先</span>
+              <input class="input" id="checkoutBorrowerQuery" type="search" maxlength="120" autocomplete="off" data-i18n-placeholder="checkoutBorrowerPlaceholder" placeholder="名前・班名を検索または入力">
+              <span class="field-hint" data-i18n="checkoutBorrowerHint">既存の貸出先を選ぶか、新しい名前をその場で追加できます。</span>
+            </label>
+            <div class="selected-borrower" id="selectedBorrowerCard" hidden>
+              <div class="selected-borrower-copy"><span data-i18n="selectedBorrowerLabel">選択中の貸出先</span><strong id="selectedBorrowerName"></strong></div>
+              <button class="clear-selection" id="clearBorrowerSelection" type="button" data-i18n-title="clearSelection" data-i18n-aria-label="clearSelection" title="選択を解除" aria-label="選択を解除">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="m7 7 10 10M17 7 7 17"/></svg>
+              </button>
+            </div>
+            <div class="suggestion-list" id="checkoutBorrowerSuggestions" aria-live="polite"></div>
+          </div>
+          <div class="checkout-column">
+            <label class="field" for="checkoutItemSearch"><span class="field-label" data-i18n="checkoutItemsLabel">貸し出す備品</span><input class="input" id="checkoutItemSearch" type="search" autocomplete="off" data-i18n-placeholder="checkoutItemPlaceholder" placeholder="備品名・カテゴリ・コードで検索"></label>
+            <div class="picker-meta"><span><span data-i18n="availableLabel">利用可能</span> <strong id="availableItemCount">0</strong></span><span><span data-i18n="selectedLabel">選択中</span> <strong id="selectedItemCount">0</strong></span></div>
+            <div class="checkout-item-list" id="checkoutItemList"></div>
+          </div>
+        </div>
+        <div class="checkout-footer">
+          <div class="checkout-summary" id="checkoutSummary" aria-live="polite" data-i18n="checkoutSummaryEmpty">貸出先と備品を選択してください。</div>
+          <button class="button primary" id="checkoutButton" type="button" disabled data-i18n="checkoutButtonEmpty">貸出先と備品を選択</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="shell return-shell" id="returnSection" aria-labelledby="returnTitle">
+      <div class="panel-head">
+        <div><h3 id="returnTitle" data-i18n="returnTitle">返却する</h3><p data-i18n="returnLead">現在借りている貸出先から選び、まとめて返却または一部だけ返却します。</p></div>
+        <span class="count-badge" id="returnCheckedOutCount" aria-hidden="true">0</span>
+      </div>
+      <div class="return-body">
+        <div class="return-grid">
+          <div class="checkout-column">
+            <div class="field-label" data-i18n="returnBorrowerLabel">現在借りている貸出先</div>
+            <div class="return-borrower-list" id="returnBorrowerList" aria-live="polite"></div>
+          </div>
+          <div id="returnDetail" aria-live="polite"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="shell history-shell" id="historySection" aria-labelledby="historyTitle">
+      <div class="panel-head">
+        <div>
+          <h3 id="historyTitle" data-i18n="historyTitle">履歴</h3>
+          <p data-i18n="historyLead">貸出・返却・取り消しを新しい順に確認できます。取り消せるのは現在の状態と整合する直前操作です。</p>
+        </div>
+        <span class="count-badge" id="historyCount" aria-hidden="true">0</span>
+      </div>
+      <div class="history-body">
+        <div class="history-toolbar">
+          <label class="field history-search" for="historySearch">
+            <span class="field-label" data-i18n="historySearchLabel">履歴を検索</span>
+            <input class="input" id="historySearch" type="search" autocomplete="off" data-i18n-placeholder="historySearchPlaceholder" placeholder="貸出先名・備品名・コードで検索">
+          </label>
+          <label class="field" for="historyTypeFilter">
+            <span class="field-label" data-i18n="historyTypeLabel">操作</span>
+            <select class="history-select" id="historyTypeFilter">
+              <option value="all" data-i18n="historyTypeAll">すべて</option>
+              <option value="checkout" data-i18n="historyTypeCheckout">貸出</option>
+              <option value="return" data-i18n="historyTypeReturn">返却</option>
+              <option value="undo" data-i18n="historyTypeUndo">Undo</option>
+            </select>
+          </label>
+          <label class="field" for="historyOrder">
+            <span class="field-label" data-i18n="historyOrderLabel">並び順</span>
+            <select class="history-select" id="historyOrder">
+              <option value="newest" data-i18n="historyNewest">新しい順</option>
+              <option value="oldest" data-i18n="historyOldest">古い順</option>
+            </select>
+          </label>
+        </div>
+        <div class="history-list" id="historyList" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <div class="workspace-grid" id="managementSection">
+      <section class="shell panel" aria-labelledby="itemsTitle">
+        <div class="panel-head">
+          <div>
+            <h3 id="itemsTitle" data-i18n="itemsTitle">備品</h3>
+            <p data-i18n="itemsLead">1件ずつの登録に加え、連番をまとめて登録できます。使わない備品は履歴を残したままアーカイブできます。</p>
+          </div>
+          <span class="count-badge" id="itemPanelCount" aria-hidden="true">0</span>
+        </div>
+        <div class="panel-body">
+          <div class="item-create-section">
+            <form class="form-grid" id="itemForm">
+              <label class="field" for="itemName"><span class="field-label" data-i18n="itemNameLabel">備品名 *</span><input class="input" id="itemName" name="itemName" type="text" maxlength="120" required autocomplete="off" data-i18n-placeholder="itemNamePlaceholder" placeholder="無線機 01"></label>
+              <div class="form-row">
+                <label class="field" for="itemCategory"><span class="field-label" data-i18n="categoryLabel">カテゴリ</span><input class="input" id="itemCategory" name="itemCategory" type="text" maxlength="80" autocomplete="off" data-i18n-placeholder="categoryPlaceholder" placeholder="無線機"></label>
+                <label class="field" for="itemCode"><span class="field-label" data-i18n="codeLabel">管理コード</span><input class="input" id="itemCode" name="itemCode" type="text" maxlength="80" autocomplete="off" data-i18n-placeholder="codePlaceholder" placeholder="RADIO-01"></label>
+              </div>
+              <label class="field" for="itemNote"><span class="field-label" data-i18n="noteLabel">メモ</span><textarea class="textarea" id="itemNote" name="itemNote" maxlength="500" data-i18n-placeholder="itemNotePlaceholder" placeholder="受け渡し時に確認したいことなど"></textarea></label>
+              <div class="button-row"><button class="button primary" type="submit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span data-i18n="addItem">備品を追加</span></button></div>
+            </form>
+
+            <details class="batch-create" id="batchCreateDetails">
+              <summary data-i18n="batchCreateTitle">連番をまとめて登録</summary>
+              <form class="batch-body" id="batchItemForm">
+                <div class="batch-grid">
+                  <label class="field" for="batchNamePrefix">
+                    <span class="field-label" data-i18n="batchNamePrefixLabel">備品名の共通部分 *</span>
+                    <input class="input" id="batchNamePrefix" type="text" maxlength="110" required autocomplete="off" data-i18n-placeholder="batchNamePrefixPlaceholder" placeholder="無線機">
+                  </label>
+                  <label class="field" for="batchCategory">
+                    <span class="field-label" data-i18n="categoryLabel">カテゴリ</span>
+                    <input class="input" id="batchCategory" type="text" maxlength="80" autocomplete="off" data-i18n-placeholder="categoryPlaceholder" placeholder="無線機">
+                  </label>
+                </div>
+                <div class="batch-number-grid">
+                  <label class="field" for="batchStartNumber">
+                    <span class="field-label" data-i18n="batchStartLabel">開始番号</span>
+                    <input class="input" id="batchStartNumber" type="number" min="0" max="999999" step="1" value="1" inputmode="numeric">
+                  </label>
+                  <label class="field" for="batchCount">
+                    <span class="field-label" data-i18n="batchCountLabel">登録数</span>
+                    <input class="input" id="batchCount" type="number" min="1" max="500" step="1" value="20" inputmode="numeric">
+                  </label>
+                  <label class="field" for="batchDigits">
+                    <span class="field-label" data-i18n="batchDigitsLabel">桁数</span>
+                    <input class="input" id="batchDigits" type="number" min="1" max="6" step="1" value="2" inputmode="numeric">
+                  </label>
+                </div>
+                <label class="field" for="batchCodePrefix">
+                  <span class="field-label" data-i18n="batchCodePrefixLabel">管理コードの共通部分</span>
+                  <input class="input" id="batchCodePrefix" type="text" maxlength="72" autocomplete="off" data-i18n-placeholder="batchCodePrefixPlaceholder" placeholder="RADIO-">
+                  <span class="field-hint" data-i18n="batchCodePrefixHint">空欄なら管理コードは付けません。入力すると番号を続けて付けます。</span>
+                </label>
+                <div class="batch-preview" id="batchPreview" aria-live="polite"></div>
+                <div class="button-row">
+                  <button class="button primary" id="batchAddButton" type="submit" disabled data-i18n="batchAdd">まとめて追加</button>
+                </div>
+              </form>
+            </details>
+          </div>
+
+          <div class="list-divider"></div>
+          <div class="item-management-tools">
+            <label class="field" for="itemManagementSearch">
+              <span class="field-label" data-i18n="itemSearchLabel">備品を検索</span>
+              <input class="input" id="itemManagementSearch" type="search" autocomplete="off" data-i18n-placeholder="itemSearchPlaceholder" placeholder="備品名・カテゴリ・コード">
+            </label>
+            <label class="field" for="itemStatusFilter">
+              <span class="field-label" data-i18n="itemStatusFilterLabel">表示</span>
+              <select class="history-select" id="itemStatusFilter">
+                <option value="active" data-i18n="itemFilterActive">有効</option>
+                <option value="archived" data-i18n="itemFilterArchived">アーカイブ済み</option>
+                <option value="all" data-i18n="itemFilterAll">すべて</option>
+              </select>
+            </label>
+          </div>
+          <div class="item-management-summary" id="itemManagementSummary" aria-live="polite"></div>
+          <div class="list" id="itemList"></div>
+        </div>
+      </section>
+      <section class="shell panel" aria-labelledby="borrowersTitle">
+        <div class="panel-head"><div><h3 id="borrowersTitle" data-i18n="borrowersTitle">貸出先</h3><p data-i18n="borrowersLead">個人名、班名、部署名などを登録します。現在の貸出点数も確認できます。</p></div><span class="count-badge" id="borrowerPanelCount" aria-hidden="true">0</span></div>
+        <div class="panel-body">
+          <form class="form-grid" id="borrowerForm">
+            <label class="field" for="borrowerName"><span class="field-label" data-i18n="borrowerNameLabel">名前 / 班名 *</span><input class="input" id="borrowerName" name="borrowerName" type="text" maxlength="120" required autocomplete="off" data-i18n-placeholder="borrowerNamePlaceholder" placeholder="警備1班"></label>
+            <label class="field" for="borrowerNote"><span class="field-label" data-i18n="noteLabel">メモ</span><textarea class="textarea" id="borrowerNote" name="borrowerNote" maxlength="500" data-i18n-placeholder="borrowerNotePlaceholder" placeholder="担当者名など、必要最小限の補足"></textarea></label>
+            <div class="button-row"><button class="button primary" type="submit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span data-i18n="addBorrower">貸出先を追加</span></button></div>
+          </form>
+          <div class="list-divider"></div><div class="list" id="borrowerList"></div>
+        </div>
+      </section>
+    </div>
+    <section class="shell data-shell" id="dataSection" aria-labelledby="dataTitle">
+      <div class="panel-head">
+        <div>
+          <h3 id="dataTitle" data-i18n="dataTitle">データ管理</h3>
+          <p data-i18n="dataLead">自動保存・JSONバックアップと、確認・集計用のCSV出力を管理します。</p>
+        </div>
+      </div>
+      <div class="data-body">
+        <div class="storage-status" id="storageStatus" role="status" aria-live="polite">
+          <span class="storage-status-dot" aria-hidden="true"></span>
+          <div class="storage-status-copy">
+            <strong id="storageStatusTitle"></strong>
+            <p id="storageStatusBody"></p>
+          </div>
+        </div>
+
+        <div class="data-group">
+          <div class="data-group-head">
+            <h4 data-i18n="backupGroupTitle">バックアップ / 復元</h4>
+            <p data-i18n="backupGroupLead">Loan Board全体を復元する用途にはJSONバックアップを使用します。</p>
+          </div>
+          <div class="data-actions">
+            <button class="button primary" id="downloadBackupButton" type="button" data-i18n="downloadBackup">JSONバックアップを保存</button>
+            <button class="button" id="restoreBackupButton" type="button" data-i18n="restoreBackup">JSONバックアップから復元</button>
+            <input class="sr-only" id="restoreBackupInput" type="file" accept=".json,application/json">
+            <button class="button danger" id="resetDataButton" type="button" data-i18n="resetData">新しいボードにリセット</button>
+          </div>
+          <div class="data-file-name" id="restoreFileName" hidden></div>
+        </div>
+
+        <div class="data-group">
+          <div class="data-group-head">
+            <h4 data-i18n="csvGroupTitle">CSV出力</h4>
+            <p data-i18n="csvGroupLead">Excelなどで確認・集計するための出力です。CSVからLoan Board全体を復元することはできません。</p>
+          </div>
+          <div class="csv-actions">
+            <button class="button" id="exportOutstandingCsvButton" type="button" data-i18n="exportOutstandingCsv">未返却一覧CSV</button>
+            <button class="button" id="exportHistoryCsvButton" type="button" data-i18n="exportHistoryCsv">操作履歴CSV</button>
+            <button class="button" id="exportItemsCsvButton" type="button" data-i18n="exportItemsCsv">備品一覧CSV</button>
+          </div>
+        </div>
+
+        <p class="data-note" data-i18n="storageNote">自動保存データはこのブラウザー内に保存されます。ブラウザーのサイトデータ削除、プライベートブラウズ、ファイルの開き方や保存場所の変更などで利用できなくなる場合があります。重要な運用ではJSONバックアップを併用してください。</p>
+      </div>
+    </section>
+
+    <!-- APP:END -->
+
+    <details class="shell build-details">
+      <summary data-i18n="buildInfo">ビルド情報</summary>
+      <div class="build-grid">
+        <div class="build-item"><span data-i18n="appVersion">アプリバージョン</span><strong id="buildVersion">—</strong></div>
+        <div class="build-item"><span data-i18n="builtAt">生成日時</span><strong id="builtAt">—</strong></div>
+        <div class="build-item"><span data-i18n="dependencies">内包依存数</span><strong id="dependencyCount">0</strong></div>
+      </div>
+    </details>
+  </main>
+
+  <footer><span id="footerName">貸出・返却ボード</span> · MIT License · <span data-i18n="footer">端末内で動作する単一HTMLアプリ</span></footer>
+
+  <div class="app-toast" id="appToast" role="status" aria-live="polite" aria-atomic="true">
+    <span id="appToastMessage"></span>
+    <button id="appToastAction" type="button" hidden></button>
+  </div>
+
+  <dialog id="itemEditDialog" aria-labelledby="itemEditTitle">
+    <div class="dialog-shell">
+      <div class="dialog-header">
+        <h2 id="itemEditTitle" data-i18n="editItemTitle">備品を編集</h2>
+        <button class="icon-button" type="button" data-dialog-close="itemEditDialog" data-i18n-title="close" data-i18n-aria-label="close" title="閉じる" aria-label="閉じる">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><path d="m7 7 10 10M17 7 7 17"/></svg>
+        </button>
+      </div>
+      <form id="itemEditForm">
+        <div class="dialog-body edit-form">
+          <input id="editItemId" type="hidden">
+          <label class="field" for="editItemName">
+            <span class="field-label" data-i18n="itemNameLabel">備品名 *</span>
+            <input class="input" id="editItemName" type="text" maxlength="120" required autocomplete="off">
+          </label>
+          <div class="form-row">
+            <label class="field" for="editItemCategory">
+              <span class="field-label" data-i18n="categoryLabel">カテゴリ</span>
+              <input class="input" id="editItemCategory" type="text" maxlength="80" autocomplete="off">
+            </label>
+            <label class="field" for="editItemCode">
+              <span class="field-label" data-i18n="codeLabel">管理コード</span>
+              <input class="input" id="editItemCode" type="text" maxlength="80" autocomplete="off">
+            </label>
+          </div>
+          <label class="field" for="editItemNote">
+            <span class="field-label" data-i18n="noteLabel">メモ</span>
+            <textarea class="textarea" id="editItemNote" maxlength="500"></textarea>
+          </label>
+        </div>
+        <div class="dialog-actions">
+          <button class="button" type="button" data-dialog-close="itemEditDialog" data-i18n="cancel">キャンセル</button>
+          <button class="button primary" type="submit" data-i18n="saveChanges">変更を保存</button>
+        </div>
+      </form>
+    </div>
+  </dialog>
+
+  <dialog id="borrowerEditDialog" aria-labelledby="borrowerEditTitle">
+    <div class="dialog-shell">
+      <div class="dialog-header">
+        <h2 id="borrowerEditTitle" data-i18n="editBorrowerTitle">貸出先を編集</h2>
+        <button class="icon-button" type="button" data-dialog-close="borrowerEditDialog" data-i18n-title="close" data-i18n-aria-label="close" title="閉じる" aria-label="閉じる">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><path d="m7 7 10 10M17 7 7 17"/></svg>
+        </button>
+      </div>
+      <form id="borrowerEditForm">
+        <div class="dialog-body edit-form">
+          <input id="editBorrowerId" type="hidden">
+          <label class="field" for="editBorrowerName">
+            <span class="field-label" data-i18n="borrowerNameLabel">名前 / 班名 *</span>
+            <input class="input" id="editBorrowerName" type="text" maxlength="120" required autocomplete="off">
+          </label>
+          <label class="field" for="editBorrowerNote">
+            <span class="field-label" data-i18n="noteLabel">メモ</span>
+            <textarea class="textarea" id="editBorrowerNote" maxlength="500"></textarea>
+          </label>
+        </div>
+        <div class="dialog-actions">
+          <button class="button" type="button" data-dialog-close="borrowerEditDialog" data-i18n="cancel">キャンセル</button>
+          <button class="button primary" type="submit" data-i18n="saveChanges">変更を保存</button>
+        </div>
+      </form>
+    </div>
+  </dialog>
+
+  <dialog id="helpDialog" aria-labelledby="helpTitle">
+    <div class="dialog-shell">
+      <div class="dialog-header">
+        <h2 id="helpTitle" data-i18n="helpTitle">使い方と注意事項</h2>
+        <button class="icon-button" id="closeHelpButton" type="button" data-i18n-title="close" data-i18n-aria-label="close" title="閉じる" aria-label="閉じる">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><path d="m7 7 10 10M17 7 7 17"/></svg>
+        </button>
+      </div>
+      <div class="dialog-body">
+        <!-- APP:HELP:BEGIN -->
+        <h3 data-i18n="helpBasicsTitle">基本操作</h3>
+        <ol>
+          <li data-i18n="helpStep1">画面上部の操作ナビから、未返却ボード・貸出・返却・履歴・登録管理・データ管理へ移動できます。</li>
+          <li data-i18n="helpStep2">貸出・返却・Undo・自動保存・JSONバックアップ・CSV出力を、1台の端末で利用できます。</li>
+          <li data-i18n="helpStep3">CSVは確認・集計用です。Loan Board全体を復元する場合はJSONバックアップを使用してください。</li>
+        </ol>
+        <h3 data-i18n="helpPrivacyTitle">プライバシー</h3>
+        <p data-i18n="helpPrivacyBody">入力内容、貸出状態、返却状態、操作履歴はブラウザー内で処理され、このアプリから外部サーバーへ送信されません。ランタイムの外部通信も行いません。</p>
+        <h3 data-i18n="helpNotesTitle">現在の制限</h3>
+        <ul>
+          <li data-i18n="helpNoteStorage">自動保存はブラウザー内の保存領域を使います。サイトデータ削除やブラウザー設定などで消える場合があるため、重要なデータはJSONバックアップも保存してください。</li>
+          <li data-i18n="helpNoteUndo">Undoは履歴を削除せず、取り消しイベントを追加して状態を戻します。</li>
+          <li data-i18n="helpNoteData">電話番号や住所など、貸出管理に不要な個人情報は入力しないことを推奨します。</li>
+        </ul>
+        <p data-i18n="helpOffline">配布用HTMLは単体で開けます。必要なコードはHTML内に含まれます。</p>
+        <!-- APP:HELP:END -->
+      </div>
+    </div>
+  </dialog>
+
+  <script>
+    (() => {
+      'use strict';
+
+      const APP_CONFIG = {"$schema":"./schemas/app-config.schema.json","name":"Loan Board","nameJa":"貸出・返却ボード","slug":"loan-board","version":"1.0.0","description":"Manage equipment checkout, returns, outstanding items, history, autosave, backups, and CSV exports locally on one device.","descriptionJa":"備品の貸出・返却、未返却、履歴、自動保存、バックアップ、CSV出力を1台の端末内で管理する貸出・返却ボードです。","defaultLanguage":"auto","repository":{"owner":"ttomohisa","name":"htmlapps-loan-board"},"build":{"output":"dist/index.html","blockRuntimeNetwork":true,"selfExtract":{"enabled":true,"output":"dist/index.self-extract.html"},"sizeBudget":{"readableWarningMb":25,"selfExtractWarningMb":12}}};
+      const BUILD_MANIFEST = {"schemaVersion":2,"builder":"single-html-app-template/1.3","generatedAtUtc":"2026-10-03T18:23:05.6553348Z","app":{"name":"Loan Board","slug":"loan-board","version":"1.0.0"},"dependencies":[]};
+      const assetBundle = {"schemaVersion":2,"dependencies":{}};
+      const blobUrls = new Set();
+      const assetByteCache = new Map();
+
+      function decodeBase64Bytes(base64) {
+        const binary = atob(base64);
+        const bytes = new Uint8Array(binary.length);
+        for (let index = 0; index < binary.length; index += 1) bytes[index] = binary.charCodeAt(index);
+        return bytes;
+      }
+
+      function getAsset(dependencyId, assetKey) {
+        const asset = assetBundle.dependencies?.[dependencyId]?.assets?.[assetKey];
+        if (!asset) throw new Error('Embedded asset not found: ' + dependencyId + '/' + assetKey);
+        return asset;
+      }
+
+      async function inflateAsset(asset) {
+        const stored = decodeBase64Bytes(asset.base64);
+        if (!asset.compression || asset.compression === 'none') return stored;
+        if (asset.compression !== 'gzip') throw new Error('Unsupported embedded asset compression: ' + asset.compression);
+        if (typeof DecompressionStream !== 'function') throw new Error('This browser cannot expand gzip-compressed embedded assets.');
+        const stream = new Blob([stored]).stream().pipeThrough(new DecompressionStream('gzip'));
+        const expanded = new Uint8Array(await new Response(stream).arrayBuffer());
+        if (Number.isFinite(asset.originalBytes) && expanded.byteLength !== asset.originalBytes) {
+          throw new Error('Embedded gzip asset size mismatch.');
+        }
+        return expanded;
+      }
+
+      window.StandaloneAssets = Object.freeze({
+        manifest: BUILD_MANIFEST,
+        list() {
+          return Object.entries(assetBundle.dependencies || {}).flatMap(([dependencyId, dependency]) =>
+            Object.keys(dependency.assets || {}).map(assetKey => dependencyId + '/' + assetKey));
+        },
+        has(dependencyId, assetKey) {
+          return Boolean(assetBundle.dependencies?.[dependencyId]?.assets?.[assetKey]);
+        },
+        bytes(dependencyId, assetKey) {
+          const asset = getAsset(dependencyId, assetKey);
+          if (asset.compression && asset.compression !== 'none') throw new Error('Use bytesAsync() for compressed embedded assets.');
+          return decodeBase64Bytes(asset.base64);
+        },
+        async bytesAsync(dependencyId, assetKey) {
+          const cacheKey = dependencyId + '/' + assetKey;
+          if (!assetByteCache.has(cacheKey)) assetByteCache.set(cacheKey, inflateAsset(getAsset(dependencyId, assetKey)));
+          return assetByteCache.get(cacheKey);
+        },
+        text(dependencyId, assetKey) {
+          return new TextDecoder().decode(this.bytes(dependencyId, assetKey));
+        },
+        async textAsync(dependencyId, assetKey) {
+          return new TextDecoder().decode(await this.bytesAsync(dependencyId, assetKey));
+        },
+        blobUrl(dependencyId, assetKey) {
+          const asset = getAsset(dependencyId, assetKey);
+          const url = URL.createObjectURL(new Blob([this.bytes(dependencyId, assetKey)], { type: asset.mime || 'application/octet-stream' }));
+          blobUrls.add(url);
+          return url;
+        },
+        async blobUrlAsync(dependencyId, assetKey) {
+          const asset = getAsset(dependencyId, assetKey);
+          const url = URL.createObjectURL(new Blob([await this.bytesAsync(dependencyId, assetKey)], { type: asset.mime || 'application/octet-stream' }));
+          blobUrls.add(url);
+          return url;
+        },
+        async loadClassicScript(dependencyId, assetKey, globalName) {
+          const sourceUrl = await this.blobUrlAsync(dependencyId, assetKey);
+          try {
+            await new Promise((resolve, reject) => {
+              const script = document.createElement('script');
+              script.src = sourceUrl;
+              script.onload = resolve;
+              script.onerror = () => reject(new Error('Failed to load embedded script.'));
+              document.head.append(script);
+            });
+            return globalName ? window[globalName] : true;
+          } finally {
+            URL.revokeObjectURL(sourceUrl);
+            blobUrls.delete(sourceUrl);
+          }
+        },
+        async importModule(dependencyId, assetKey) {
+          const sourceUrl = await this.blobUrlAsync(dependencyId, assetKey);
+          try { return await import(sourceUrl); }
+          finally {
+            URL.revokeObjectURL(sourceUrl);
+            blobUrls.delete(sourceUrl);
+          }
+        }
+      });
+
+      window.addEventListener('pagehide', () => {
+        blobUrls.forEach(url => URL.revokeObjectURL(url));
+        blobUrls.clear();
+      });
+
+      const translations = {
+        ja: {
+          brandMeta:'完全ローカル処理 · 単一HTML',introTitle:'貸出・返却と未返却を1台で管理',lead:'誰に何を貸しているかを確認し、返却漏れを未返却0まで管理できます。データはこのブラウザー内で処理します。',localBadge:'完全ローカル処理',
+          devNotice:'v1.0.0 正式版',
+          quickNavLabel:'主要操作',quickNavBoard:'ボード',quickNavCheckout:'貸出',quickNavReturn:'返却',quickNavHistory:'履歴',quickNavManage:'登録・管理',quickNavData:'データ',boardNameLabel:'ボード名',boardNamePlaceholder:'2026年度 文化祭',boardNameHint:'イベント名や運用名を付けておくと、今どの貸出を管理しているか分かりやすくなります。',milestoneStatus:'v1.0.0',
+          itemsCountLabel:'備品',borrowersCountLabel:'貸出先',checkedOutCountLabel:'貸出中',
+          outstandingCountLabel:'未返却',outstandingBorrowersLabel:'貸出先',availabilitySummaryLabel:'利用可能 / 全備品',
+          outstandingBoardTitle:'未返却ボード',outstandingBoardLead:'誰が何を持っているかを貸出先ごとに確認します。返却操作もここから始められます。',
+          allReturnedTitle:'すべて返却済みです',allReturnedBody:'未返却の備品はありません。',startCheckout:'貸し出す',firstCheckoutPrefix:'貸出開始',boardReturnAll:'すべて返却',boardPartialReturn:'一部返却',
+          historyTitle:'履歴',historyLead:'貸出・返却・取り消しを新しい順に確認できます。取り消せるのは現在の状態と整合する直前操作です。',
+          historySearchLabel:'履歴を検索',historySearchPlaceholder:'貸出先名・備品名・コードで検索',historyTypeLabel:'操作',historyTypeAll:'すべて',historyTypeCheckout:'貸出',historyTypeReturn:'返却',historyTypeUndo:'Undo',historyOrderLabel:'並び順',historyNewest:'新しい順',historyOldest:'古い順',historyEmpty:'まだ操作履歴はありません。',historyNoMatch:'検索条件に一致する履歴はありません。',
+          historyCheckout:'貸出',historyReturn:'返却',historyUndoCheckout:'貸出を元に戻した',historyUndoReturn:'返却を元に戻した',undone:'取り消し済み',undo:'元に戻す',undoComplete:'操作を元に戻しました',undoUnavailable:'この操作は現在の状態では元に戻せません',
+          checkoutTitle:'貸し出す',checkoutLead:'貸出先を選び、利用可能な備品をまとめて貸し出します。',checkoutBorrowerLabel:'貸出先',checkoutBorrowerPlaceholder:'名前・班名を検索または入力',checkoutBorrowerHint:'既存の貸出先を選ぶか、新しい名前をその場で追加できます。',
+          selectedBorrowerLabel:'選択中の貸出先',clearSelection:'選択を解除',existingBorrower:'登録済み',addNewBorrowerPrefix:'新しい貸出先として追加',noBorrowerSuggestion:'名前や班名を入力してください。',
+          checkoutItemsLabel:'貸し出す備品',checkoutItemPlaceholder:'備品名・カテゴリ・コードで検索',availableLabel:'利用可能',selectedLabel:'選択中',checkoutNoItems:'利用可能な備品がありません。返却すると再び選択できます。',checkoutNoMatch:'検索条件に一致する利用可能な備品がありません。',
+          checkoutSummaryEmpty:'貸出先と備品を選択してください。',checkoutSelectBorrower:'貸出先を選択してください。',checkoutSelectItems:'貸し出す備品を1件以上選択してください。',checkoutButtonEmpty:'貸出先と備品を選択',
+          returnTitle:'返却する',returnLead:'現在借りている貸出先から選び、まとめて返却または一部だけ返却します。',returnBorrowerLabel:'現在借りている貸出先',
+          noOutstandingTitle:'現在、貸出中の備品はありません',noOutstandingBody:'貸し出した備品があると、ここに返却する相手が表示されます。',selectReturnBorrower:'返却する貸出先を選択してください。',
+          returnSelectedBorrower:'返却する貸出先',allReturn:'すべて返却',partialReturn:'一部だけ返却',cancelPartial:'部分返却をやめる',returnSelected:'選択した備品を返却',returnSelectedCount:'返却選択中',
+          returnedAll:'すべて返却しました',returnedPartial:'点を返却しました',remainingPrefix:'残り',remainingSuffix:'点',returnItemHint:'返ってきた備品だけを選択してください。',
+          itemsTitle:'備品',itemsLead:'1件ずつの登録に加え、連番をまとめて登録できます。使わない備品は履歴を残したままアーカイブできます。',batchCreateTitle:'連番をまとめて登録',batchNamePrefixLabel:'備品名の共通部分 *',batchNamePrefixPlaceholder:'無線機',batchStartLabel:'開始番号',batchCountLabel:'登録数',batchDigitsLabel:'桁数',batchCodePrefixLabel:'管理コードの共通部分',batchCodePrefixPlaceholder:'RADIO-',batchCodePrefixHint:'空欄なら管理コードは付けません。入力すると番号を続けて付けます。',batchPreviewLabel:'登録予定',batchAdd:'まとめて追加',batchAdded:'件の備品を追加しました',batchInvalid:'共通名・開始番号・登録数・桁数を確認してください。',batchDuplicateCode:'生成される管理コードが既存の備品と重複します。',itemSearchLabel:'備品を検索',itemSearchPlaceholder:'備品名・カテゴリ・コード',itemStatusFilterLabel:'表示',itemFilterActive:'有効',itemFilterArchived:'アーカイブ済み',itemFilterAll:'すべて',activeItemsLabel:'有効',archivedItemsLabel:'アーカイブ',archived:'アーカイブ済み',archive:'アーカイブ',restore:'復帰',archiveBlocked:'貸出中の備品は返却してからアーカイブしてください。',archiveBlockedTitle:'貸出中はアーカイブできません',itemArchived:'備品をアーカイブしました',itemRestored:'備品を復帰しました',itemNoMatch:'条件に一致する備品はありません。',borrowersTitle:'貸出先',borrowersLead:'個人名、班名、部署名などを登録します。現在の貸出点数も確認できます。',
+          itemNameLabel:'備品名 *',itemNamePlaceholder:'無線機 01',categoryLabel:'カテゴリ',categoryPlaceholder:'無線機',codeLabel:'管理コード',codePlaceholder:'RADIO-01',noteLabel:'メモ',itemNotePlaceholder:'受け渡し時に確認したいことなど',addItem:'備品を追加',
+          borrowerNameLabel:'名前 / 班名 *',borrowerNamePlaceholder:'警備1班',borrowerNotePlaceholder:'担当者名など、必要最小限の補足',addBorrower:'貸出先を追加',
+          emptyItemsTitle:'まだ備品がありません',emptyItemsBody:'上のフォームから備品を追加すると、ここに一覧が表示されます。',emptyBorrowersTitle:'まだ貸出先がありません',emptyBorrowersBody:'名前や班名を追加すると、ここから確認・編集できます。',
+          available:'利用可能',checkedOut:'貸出中',lentToPrefix:'貸出先',checkedOutAtPrefix:'貸出',categoryPrefix:'カテゴリ',codePrefix:'コード',borrowedItemsPrefix:'貸出中',
+          edit:'編集',editItemTitle:'備品を編集',editBorrowerTitle:'貸出先を編集',cancel:'キャンセル',saveChanges:'変更を保存',itemAdded:'備品を追加しました',borrowerAdded:'貸出先を追加しました',itemUpdated:'備品を更新しました',borrowerUpdated:'貸出先を更新しました',close:'閉じる',
+          helpTitle:'使い方と注意事項',helpBasicsTitle:'基本操作',helpStep1:'画面上部の操作ナビから、未返却ボード・貸出・返却・履歴・登録管理・データ管理へ移動できます。',helpStep2:'貸出・返却・Undo・自動保存・JSONバックアップ・CSV出力を、1台の端末で利用できます。',helpStep3:'CSVは確認・集計用です。Loan Board全体を復元する場合はJSONバックアップを使用してください。',
+          helpPrivacyTitle:'プライバシー',helpPrivacyBody:'入力内容、貸出状態、返却状態、操作履歴はブラウザー内で処理され、このアプリから外部サーバーへ送信されません。ランタイムの外部通信も行いません。',helpNotesTitle:'現在の制限',helpNoteStorage:'自動保存はブラウザー内の保存領域を使います。サイトデータ削除やブラウザー設定などで消える場合があるため、重要なデータはJSONバックアップも保存してください。',helpNoteUndo:'Undoは履歴を削除せず、取り消しイベントを追加して状態を戻します。',helpNoteData:'電話番号や住所など、貸出管理に不要な個人情報は入力しないことを推奨します。',helpOffline:'配布用HTMLは単体で開けます。必要なコードはHTML内に含まれます。',
+          dataTitle:'データ管理',dataLead:'自動保存・JSONバックアップと、確認・集計用のCSV出力を管理します。',backupGroupTitle:'バックアップ / 復元',backupGroupLead:'Loan Board全体を復元する用途にはJSONバックアップを使用します。',csvGroupTitle:'CSV出力',csvGroupLead:'Excelなどで確認・集計するための出力です。CSVからLoan Board全体を復元することはできません。',exportOutstandingCsv:'未返却一覧CSV',exportHistoryCsv:'操作履歴CSV',exportItemsCsv:'備品一覧CSV',csvExported:'CSVを保存しました',downloadBackup:'JSONバックアップを保存',restoreBackup:'JSONバックアップから復元',resetData:'新しいボードにリセット',storageNote:'自動保存データはこのブラウザー内に保存されます。ブラウザーのサイトデータ削除、プライベートブラウズ、ファイルの開き方や保存場所の変更などで利用できなくなる場合があります。重要な運用ではJSONバックアップを併用してください。',storageReadyTitle:'自動保存を利用できます',storageReadyBody:'変更するとこのブラウザーへ自動保存されます。',storageSavingTitle:'保存中…',storageSavingBody:'このブラウザーへ変更内容を保存しています。',storageSavedTitle:'このブラウザーに保存済み',storageSavedBody:'最終保存',storageUnavailableTitle:'自動保存を利用できません',storageUnavailableBody:'このブラウザーの保存領域へ書き込めません。JSONバックアップをご利用ください。',storageLoadErrorTitle:'保存データを読み込めませんでした',storageLoadErrorBody:'既存の自動保存データは上書きしていません。JSONバックアップから復元するか、新しいボードにリセットしてください。',restoredOnLoad:'前回の自動保存データを復元しました',backupSaved:'JSONバックアップを保存しました',backupInvalid:'このファイルはLoan Boardの有効なJSONバックアップではありません。',backupTooLarge:'バックアップファイルが大きすぎます。',restoreConfirm:'現在のボード全体をバックアップ内容で置き換えます。復元しますか？',restoreComplete:'JSONバックアップから復元しました',resetConfirm:'備品・貸出先・貸出状態・履歴をすべて削除して、新しいボードにしますか？',resetComplete:'新しいボードにリセットしました',selectedBackupFile:'選択したファイル',buildInfo:'ビルド情報',appVersion:'アプリバージョン',builtAt:'生成日時',dependencies:'内包依存数',footer:'端末内で動作する単一HTMLアプリ'
+        },
+        en: {
+          brandMeta:'Fully local · Single HTML',introTitle:'Manage checkout, return, and outstanding equipment on one device',lead:'See who has what, record returns, and work toward zero outstanding items. Data is processed in this browser.',localBadge:'Fully local processing',
+          devNotice:'v1.0.0 stable release',
+          quickNavLabel:'Main operations',quickNavBoard:'Board',quickNavCheckout:'Checkout',quickNavReturn:'Return',quickNavHistory:'History',quickNavManage:'Manage',quickNavData:'Data',boardNameLabel:'Board name',boardNamePlaceholder:'School Festival 2026',boardNameHint:'Use an event or operation name so it is clear which lending session this board represents.',milestoneStatus:'v1.0.0',
+          itemsCountLabel:'Equipment',borrowersCountLabel:'Borrowers',checkedOutCountLabel:'Checked out',
+          outstandingCountLabel:'Outstanding',outstandingBorrowersLabel:'Borrowers',availabilitySummaryLabel:'Available / total',
+          outstandingBoardTitle:'Outstanding board',outstandingBoardLead:'See who currently has each item, grouped by borrower, and start return actions here.',
+          allReturnedTitle:'Everything has been returned',allReturnedBody:'There is no outstanding equipment.',startCheckout:'Check out equipment',firstCheckoutPrefix:'First checkout',boardReturnAll:'Return all',boardPartialReturn:'Return some',
+          historyTitle:'History',historyLead:'Review checkout, return, and undo events newest first. Only the most recent compatible operation can be undone.',
+          historySearchLabel:'Search history',historySearchPlaceholder:'Search borrower, equipment, or code',historyTypeLabel:'Action',historyTypeAll:'All',historyTypeCheckout:'Checkout',historyTypeReturn:'Return',historyTypeUndo:'Undo',historyOrderLabel:'Order',historyNewest:'Newest first',historyOldest:'Oldest first',historyEmpty:'No operation history yet.',historyNoMatch:'No history matches this search.',
+          historyCheckout:'Checkout',historyReturn:'Return',historyUndoCheckout:'Checkout undone',historyUndoReturn:'Return undone',undone:'Undone',undo:'Undo',undoComplete:'Operation undone',undoUnavailable:'This operation can no longer be undone from the current state',
+          checkoutTitle:'Check out',checkoutLead:'Choose a borrower and check out multiple available items at once.',checkoutBorrowerLabel:'Borrower',checkoutBorrowerPlaceholder:'Search or enter a name / team',checkoutBorrowerHint:'Choose an existing borrower or add a new name here.',
+          selectedBorrowerLabel:'Selected borrower',clearSelection:'Clear selection',existingBorrower:'Saved',addNewBorrowerPrefix:'Add as new borrower',noBorrowerSuggestion:'Enter a person or team name.',
+          checkoutItemsLabel:'Equipment to check out',checkoutItemPlaceholder:'Search by item, category, or code',availableLabel:'Available',selectedLabel:'Selected',checkoutNoItems:'No equipment is currently available. Returned items become available again.',checkoutNoMatch:'No available equipment matches this search.',
+          checkoutSummaryEmpty:'Choose a borrower and at least one item.',checkoutSelectBorrower:'Choose a borrower.',checkoutSelectItems:'Select at least one item to check out.',checkoutButtonEmpty:'Choose borrower and equipment',
+          returnTitle:'Return',returnLead:'Choose a borrower who currently has equipment, then return everything or only selected items.',returnBorrowerLabel:'Borrowers with equipment',
+          noOutstandingTitle:'No equipment is currently checked out',noOutstandingBody:'Borrowers with checked-out equipment will appear here.',selectReturnBorrower:'Choose a borrower to return equipment.',
+          returnSelectedBorrower:'Borrower to return',allReturn:'Return all',partialReturn:'Return some',cancelPartial:'Cancel partial return',returnSelected:'Return selected items',returnSelectedCount:'Selected for return',
+          returnedAll:'All items returned',returnedPartial:' item(s) returned',remainingPrefix:'Remaining',remainingSuffix:' item(s)',returnItemHint:'Select only the items that have been returned.',
+          itemsTitle:'Equipment',itemsLead:'Add equipment one at a time or create numbered items in a batch. Archive unused items without removing their history.',batchCreateTitle:'Add numbered equipment in a batch',batchNamePrefixLabel:'Shared equipment name *',batchNamePrefixPlaceholder:'Radio',batchStartLabel:'Start number',batchCountLabel:'Quantity',batchDigitsLabel:'Digits',batchCodePrefixLabel:'Item-code prefix',batchCodePrefixPlaceholder:'RADIO-',batchCodePrefixHint:'Leave blank for no item code. When entered, the number is appended.',batchPreviewLabel:'Preview',batchAdd:'Add batch',batchAdded:' equipment item(s) added',batchInvalid:'Check the shared name, start number, quantity, and digits.',batchDuplicateCode:'A generated item code conflicts with existing equipment.',itemSearchLabel:'Search equipment',itemSearchPlaceholder:'Equipment, category, or code',itemStatusFilterLabel:'Show',itemFilterActive:'Active',itemFilterArchived:'Archived',itemFilterAll:'All',activeItemsLabel:'Active',archivedItemsLabel:'Archived',archived:'Archived',archive:'Archive',restore:'Restore',archiveBlocked:'Return checked-out equipment before archiving it.',archiveBlockedTitle:'Checked-out equipment cannot be archived',itemArchived:'Equipment archived',itemRestored:'Equipment restored',itemNoMatch:'No equipment matches the current filters.',borrowersTitle:'Borrowers',borrowersLead:'Register a person, team, or department and see the number of items they currently hold.',
+          itemNameLabel:'Equipment name *',itemNamePlaceholder:'Radio 01',categoryLabel:'Category',categoryPlaceholder:'Radio',codeLabel:'Item code',codePlaceholder:'RADIO-01',noteLabel:'Notes',itemNotePlaceholder:'Anything to verify when handing over the item',addItem:'Add equipment',
+          borrowerNameLabel:'Name / team *',borrowerNamePlaceholder:'Security Team 1',borrowerNotePlaceholder:'Only the minimum extra context you need',addBorrower:'Add borrower',
+          emptyItemsTitle:'No equipment yet',emptyItemsBody:'Add equipment with the form above and it will appear here.',emptyBorrowersTitle:'No borrowers yet',emptyBorrowersBody:'Add a person or team and it will appear here for review and editing.',
+          available:'Available',checkedOut:'Checked out',lentToPrefix:'Borrower',checkedOutAtPrefix:'Checked out',categoryPrefix:'Category',codePrefix:'Code',borrowedItemsPrefix:'Checked out',
+          edit:'Edit',editItemTitle:'Edit equipment',editBorrowerTitle:'Edit borrower',cancel:'Cancel',saveChanges:'Save changes',itemAdded:'Equipment added',borrowerAdded:'Borrower added',itemUpdated:'Equipment updated',borrowerUpdated:'Borrower updated',close:'Close',
+          helpTitle:'How to use & notes',helpBasicsTitle:'Basics',helpStep1:'Use the operation navigation near the top to jump to the board, checkout, return, history, registration / management, or data management.',helpStep2:'Checkout, return, Undo, autosave, JSON backup, and CSV export are available on one device.',helpStep3:'CSV is for review and analysis. Use JSON backup when you need to restore the complete Loan Board state.',
+          helpPrivacyTitle:'Privacy',helpPrivacyBody:'Entries, loan state, return state, and operation history are processed in the browser and are not sent to an external server. The runtime makes no external network request.',helpNotesTitle:'Current limitations',helpNoteStorage:'Autosave uses browser storage, which can be cleared by browser settings or become unavailable depending on how the file is opened. Keep JSON backups for important data.',helpNoteUndo:'Undo keeps the original history and adds an undo event while restoring state.',helpNoteData:'Avoid entering phone numbers, addresses, or other personal information that is unnecessary for lending.',helpOffline:'The distributable HTML opens by itself and includes the required code.',
+          dataTitle:'Data management',dataLead:'Manage autosave, JSON backup / restore, and CSV exports for review and analysis.',backupGroupTitle:'Backup / restore',backupGroupLead:'Use JSON backup when you need to restore the complete Loan Board state.',csvGroupTitle:'CSV export',csvGroupLead:'These files are for review and analysis in spreadsheet apps. CSV cannot restore the complete Loan Board state.',exportOutstandingCsv:'Outstanding CSV',exportHistoryCsv:'Operation history CSV',exportItemsCsv:'Equipment CSV',csvExported:'CSV saved',downloadBackup:'Save JSON backup',restoreBackup:'Restore JSON backup',resetData:'Reset to a new board',storageNote:'Autosave is stored in this browser. It can become unavailable after clearing site data, in private browsing, or depending on how or where a local file is opened. Keep JSON backups for important operations.',storageReadyTitle:'Autosave is available',storageReadyBody:'Changes will be saved automatically in this browser.',storageSavingTitle:'Saving…',storageSavingBody:'Saving changes in this browser.',storageSavedTitle:'Saved in this browser',storageSavedBody:'Last saved',storageUnavailableTitle:'Autosave is unavailable',storageUnavailableBody:'This browser cannot write to its local storage. Use JSON backups instead.',storageLoadErrorTitle:'Saved data could not be loaded',storageLoadErrorBody:'The existing autosave data has not been overwritten. Restore a JSON backup or reset to a new board.',restoredOnLoad:'Restored the previous autosave data',backupSaved:'JSON backup saved',backupInvalid:'This file is not a valid Loan Board JSON backup.',backupTooLarge:'The backup file is too large.',restoreConfirm:'Replace the entire current board with this backup?',restoreComplete:'Restored from JSON backup',resetConfirm:'Delete all equipment, borrowers, loan state, and history and start a new board?',resetComplete:'Reset to a new board',selectedBackupFile:'Selected file',buildInfo:'Build information',appVersion:'App version',builtAt:'Built at',dependencies:'Embedded dependencies',footer:'Single HTML app that runs on this device'
+        }
+      };
+
+      const $ = selector => document.querySelector(selector);
+      const languageKey=APP_CONFIG.slug+':language';
+      const storageKey=APP_CONFIG.slug+':state:v1';
+      const STORAGE_FORMAT='browser-kitty-loan-board-state';
+      const BACKUP_FORMAT='browser-kitty-loan-board-backup';
+      const STORAGE_SCHEMA_VERSION=1;
+      const MAX_BACKUP_BYTES=10*1024*1024;
+      let language=readLanguage();
+      const storageControl={mode:'ready',lastSavedAt:null,blocked:false,loaded:false};
+      let persistTimer=0;
+      let state=loadInitialState();
+      const checkoutState={selectedBorrowerId:null,selectedItemIds:new Set()};
+      const returnState={selectedBorrowerId:null,partialMode:false,selectedItemIds:new Set()};
+
+      function createId(prefix){if(globalThis.crypto&&typeof globalThis.crypto.randomUUID==='function')return prefix+'-'+globalThis.crypto.randomUUID();return prefix+'-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,10);}
+      function readLanguage(){try{const saved=localStorage.getItem(languageKey);if(saved==='ja'||saved==='en')return saved;}catch{}return(navigator.language||'').toLowerCase().startsWith('ja')?'ja':'en';}
+      function saveLanguage(){try{localStorage.setItem(languageKey,language);}catch{}}
+      function t(key){return translations[language]?.[key]??translations.en[key]??key;}
+
+      function createInitialState(){
+        const now=new Date().toISOString();
+        return {board:{id:createId('board'),name:language==='ja'?'新しい貸出ボード':'New loan board',createdAt:now,updatedAt:now},items:[],borrowers:[],events:[]};
+      }
+      function snapshotState(){return {board:{...state.board},items:state.items.map(item=>({...item})),borrowers:state.borrowers.map(borrower=>({...borrower})),events:state.events.map(event=>({...event,itemIds:[...(event.itemIds||[])],itemSnapshots:Array.isArray(event.itemSnapshots)?event.itemSnapshots.map(snapshot=>({...snapshot})):event.itemSnapshots}))};}
+      function requiredText(value,max,label){if(typeof value!=='string'||!value.trim())throw new Error(label);return value.slice(0,max);}
+      function optionalText(value,max){return typeof value==='string'?value.slice(0,max):'';}
+      function optionalIso(value){return typeof value==='string'&&!Number.isNaN(Date.parse(value))?value:'';}
+      function normalizeStateData(raw){
+        if(!raw||typeof raw!=='object'||Array.isArray(raw))throw new Error('state');
+        if(!raw.board||typeof raw.board!=='object'||!Array.isArray(raw.items)||!Array.isArray(raw.borrowers)||!Array.isArray(raw.events))throw new Error('shape');
+        if(raw.items.length>10000||raw.borrowers.length>10000||raw.events.length>100000)throw new Error('limits');
+        const board={id:requiredText(raw.board.id,200,'board.id'),name:typeof raw.board.name==='string'?raw.board.name.slice(0,100):'',createdAt:optionalIso(raw.board.createdAt)||new Date().toISOString(),updatedAt:optionalIso(raw.board.updatedAt)||new Date().toISOString()};
+        const borrowerIds=new Set(),itemIds=new Set(),eventIds=new Set();
+        const borrowers=raw.borrowers.map(entry=>{if(!entry||typeof entry!=='object')throw new Error('borrower');const borrowerId=requiredText(entry.borrowerId,200,'borrower.id');if(borrowerIds.has(borrowerId))throw new Error('borrower.duplicate');borrowerIds.add(borrowerId);return{borrowerId,name:requiredText(entry.name,120,'borrower.name'),note:optionalText(entry.note,500),archived:Boolean(entry.archived),createdAt:optionalIso(entry.createdAt)||board.createdAt,updatedAt:optionalIso(entry.updatedAt)||board.updatedAt};});
+        const items=raw.items.map(entry=>{if(!entry||typeof entry!=='object')throw new Error('item');const itemId=requiredText(entry.itemId,200,'item.id');if(itemIds.has(itemId))throw new Error('item.duplicate');itemIds.add(itemId);const status=entry.status==='checked-out'?'checked-out':entry.status==='available'?'available':null;if(!status)throw new Error('item.status');const archived=Boolean(entry.archived);let currentBorrowerId=null,currentCheckoutAt=null;if(status==='checked-out'){currentBorrowerId=requiredText(entry.currentBorrowerId,200,'item.borrower');currentCheckoutAt=optionalIso(entry.currentCheckoutAt);if(!currentCheckoutAt||archived)throw new Error('item.checkout');}return{itemId,name:requiredText(entry.name,120,'item.name'),category:optionalText(entry.category,80),code:optionalText(entry.code,80),note:optionalText(entry.note,500),status,currentBorrowerId,currentCheckoutAt,archived,createdAt:optionalIso(entry.createdAt)||board.createdAt,updatedAt:optionalIso(entry.updatedAt)||board.updatedAt};});
+        items.forEach(item=>{if(item.status==='checked-out'&&!borrowerIds.has(item.currentBorrowerId))throw new Error('item.borrower.missing');});
+        const events=raw.events.map(entry=>{if(!entry||typeof entry!=='object')throw new Error('event');const eventId=requiredText(entry.eventId,200,'event.id');if(eventIds.has(eventId))throw new Error('event.duplicate');eventIds.add(eventId);if(!['checkout','return','undo'].includes(entry.type))throw new Error('event.type');const borrowerId=requiredText(entry.borrowerId,200,'event.borrower');if(!borrowerIds.has(borrowerId))throw new Error('event.borrower.missing');if(!Array.isArray(entry.itemIds)||entry.itemIds.some(id=>typeof id!=='string'||!itemIds.has(id)))throw new Error('event.items');const timestamp=optionalIso(entry.timestamp);if(!timestamp)throw new Error('event.timestamp');const event={eventId,type:entry.type,borrowerId,itemIds:[...entry.itemIds],timestamp,note:optionalText(entry.note,500)};if(entry.type==='return'){event.itemSnapshots=Array.isArray(entry.itemSnapshots)?entry.itemSnapshots.map(snapshot=>{if(!snapshot||typeof snapshot!=='object'||typeof snapshot.itemId!=='string'||!itemIds.has(snapshot.itemId))throw new Error('event.snapshot');return{itemId:snapshot.itemId,checkoutAt:optionalIso(snapshot.checkoutAt)||timestamp};}):[];}if(entry.type==='undo'){event.relatedEventId=requiredText(entry.relatedEventId,200,'event.related');if(!['checkout','return'].includes(entry.reversedType))throw new Error('event.reversed');event.reversedType=entry.reversedType;}return event;});
+        events.filter(event=>event.type==='undo').forEach(event=>{if(!eventIds.has(event.relatedEventId))throw new Error('event.related.missing');});
+        return {board,items,borrowers,events};
+      }
+      function parseStateEnvelope(envelope,format){
+        if(!envelope||typeof envelope!=='object'||envelope.format!==format||envelope.schemaVersion!==STORAGE_SCHEMA_VERSION||envelope.appSlug!==APP_CONFIG.slug)throw new Error('envelope');
+        return normalizeStateData(envelope.data);
+      }
+      function loadInitialState(){
+        let raw;
+        try{raw=localStorage.getItem(storageKey);}catch{storageControl.mode='unavailable';storageControl.blocked=true;return createInitialState();}
+        if(!raw)return createInitialState();
+        try{
+          const envelope=JSON.parse(raw),loaded=parseStateEnvelope(envelope,STORAGE_FORMAT);
+          storageControl.mode='saved';storageControl.lastSavedAt=optionalIso(envelope.savedAt)||null;storageControl.loaded=true;return loaded;
+        }catch{storageControl.mode='load-error';storageControl.blocked=true;return createInitialState();}
+      }
+      function storageEnvelope(savedAt){return{format:STORAGE_FORMAT,schemaVersion:STORAGE_SCHEMA_VERSION,appSlug:APP_CONFIG.slug,appVersion:APP_CONFIG.version,savedAt,data:snapshotState()};}
+      function backupEnvelope(){const exportedAt=new Date().toISOString();return{format:BACKUP_FORMAT,schemaVersion:STORAGE_SCHEMA_VERSION,appSlug:APP_CONFIG.slug,appVersion:APP_CONFIG.version,exportedAt,data:snapshotState()};}
+      function renderStorageStatus(){
+        const root=$('#storageStatus');if(!root)return;
+        const title=$('#storageStatusTitle'),body=$('#storageStatusBody');
+        root.classList.toggle('error',storageControl.mode==='unavailable'||storageControl.mode==='load-error');
+        if(storageControl.mode==='saving'){title.textContent=t('storageSavingTitle');body.textContent=t('storageSavingBody');return;}
+        if(storageControl.mode==='saved'){title.textContent=t('storageSavedTitle');body.textContent=t('storageSavedBody')+(storageControl.lastSavedAt?' · '+formatDateTime(storageControl.lastSavedAt):'');return;}
+        if(storageControl.mode==='unavailable'){title.textContent=t('storageUnavailableTitle');body.textContent=t('storageUnavailableBody');return;}
+        if(storageControl.mode==='load-error'){title.textContent=t('storageLoadErrorTitle');body.textContent=t('storageLoadErrorBody');return;}
+        title.textContent=t('storageReadyTitle');body.textContent=t('storageReadyBody');
+      }
+      function persistState(){
+        clearTimeout(persistTimer);persistTimer=0;
+        if(storageControl.blocked){renderStorageStatus();return false;}
+        const savedAt=new Date().toISOString();
+        try{localStorage.setItem(storageKey,JSON.stringify(storageEnvelope(savedAt)));storageControl.mode='saved';storageControl.lastSavedAt=savedAt;renderStorageStatus();return true;}
+        catch{storageControl.mode='unavailable';storageControl.blocked=true;renderStorageStatus();return false;}
+      }
+      function schedulePersist(){
+        if(storageControl.blocked){renderStorageStatus();return;}
+        clearTimeout(persistTimer);storageControl.mode='saving';renderStorageStatus();persistTimer=window.setTimeout(persistState,220);
+      }
+      function clearUiSelections(){checkoutState.selectedBorrowerId=null;checkoutState.selectedItemIds.clear();returnState.selectedBorrowerId=null;returnState.partialMode=false;returnState.selectedItemIds.clear();$('#checkoutBorrowerQuery').value='';$('#checkoutItemSearch').value='';$('#historySearch').value='';$('#itemManagementSearch').value='';}
+      function safeFilePart(value){return String(value||'').trim().replace(/[\\/:*?"<>|]+/g,'-').replace(/\s+/g,'-').replace(/-+/g,'-').replace(/^-|-$/g,'').slice(0,48);}
+      function backupFilename(){const stamp=new Date().toISOString().replace(/[-:]/g,'').replace(/\.\d{3}Z$/,'Z'),board=safeFilePart(state.board.name)||'board';return APP_CONFIG.slug+'-'+board+'-'+stamp+'.json';}
+      function downloadJsonBackup(){
+        const json=JSON.stringify(backupEnvelope(),null,2),url=URL.createObjectURL(new Blob([json],{type:'application/json;charset=utf-8'})),link=document.createElement('a');
+        link.href=url;link.download=backupFilename();document.body.append(link);link.click();link.remove();window.setTimeout(()=>URL.revokeObjectURL(url),0);showToast(t('backupSaved'));
+      }
+      function csvSafeValue(value){
+        let text=value==null?'':String(value).replace(/\u0000/g,'');
+        if(/^[\t\r\n ]*[=+\-@]/.test(text)||/^[\t\r\n]/.test(text))text="'"+text;
+        return text;
+      }
+      function csvCell(value){return '"'+csvSafeValue(value).replace(/"/g,'""')+'"';}
+      function csvText(headers,rows){return '\uFEFF'+[headers,...rows].map(row=>row.map(csvCell).join(',')).join('\r\n')+'\r\n';}
+      function csvTimestamp(){return new Date().toISOString().replace(/[-:]/g,'').replace(/\.\d{3}Z$/,'Z');}
+      function csvFilename(kind){const board=safeFilePart(state.board.name)||'board';return APP_CONFIG.slug+'-'+board+'-'+kind+'-'+csvTimestamp()+'.csv';}
+      function downloadCsv(kind,headers,rows){
+        const url=URL.createObjectURL(new Blob([csvText(headers,rows)],{type:'text/csv;charset=utf-8'})),link=document.createElement('a');
+        link.href=url;link.download=csvFilename(kind);document.body.append(link);link.click();link.remove();window.setTimeout(()=>URL.revokeObjectURL(url),0);showToast(t('csvExported')+' · '+rows.length);
+      }
+      function csvYesNo(value){return language==='ja'?(value?'はい':'いいえ'):(value?'Yes':'No');}
+      function csvStatus(item){if(item.archived)return language==='ja'?'アーカイブ済み':'Archived';return item.status==='checked-out'?(language==='ja'?'貸出中':'Checked out'):(language==='ja'?'利用可能':'Available');}
+      function csvEventAction(event){
+        if(event.type==='checkout')return language==='ja'?'貸出':'Checkout';
+        if(event.type==='return')return language==='ja'?'返却':'Return';
+        if(event.type==='undo')return event.reversedType==='return'?(language==='ja'?'返却を元に戻した':'Return undone'):(language==='ja'?'貸出を元に戻した':'Checkout undone');
+        return event.type;
+      }
+      function exportOutstandingCsv(){
+        const headers=language==='ja'
+          ?['ボード名','貸出先','貸出先メモ','備品名','カテゴリ','管理コード','貸出日時','備品メモ']
+          :['Board','Borrower','Borrower note','Equipment','Category','Item code','Checked out at','Equipment note'];
+        const rows=state.items.filter(item=>!item.archived&&item.status==='checked-out').map(item=>{const borrower=borrowerById(item.currentBorrowerId);return[state.board.name,borrower?.name||'',borrower?.note||'',item.name,item.category,item.code,item.currentCheckoutAt||'',item.note];});
+        downloadCsv('outstanding',headers,rows);
+      }
+      function exportHistoryCsv(){
+        const headers=language==='ja'
+          ?['ボード名','イベントID','操作','日時','貸出先','備品名','カテゴリ','管理コード','元イベント取消済み','関連イベントID']
+          :['Board','Event ID','Action','Timestamp','Borrower','Equipment','Category','Item code','Source event undone','Related event ID'];
+        const rows=[];
+        state.events.forEach(event=>{const borrower=borrowerById(event.borrowerId),undone=isEventUndone(event.eventId);(event.itemIds||[]).forEach(itemId=>{const item=itemById(itemId);rows.push([state.board.name,event.eventId,csvEventAction(event),event.timestamp,borrower?.name||'',item?.name||itemId,item?.category||'',item?.code||'',csvYesNo(undone),event.relatedEventId||'']);});});
+        downloadCsv('history',headers,rows);
+      }
+      function exportItemsCsv(){
+        const headers=language==='ja'
+          ?['ボード名','備品名','カテゴリ','管理コード','メモ','状態','アーカイブ','現在の貸出先','貸出日時','登録日時','更新日時']
+          :['Board','Equipment','Category','Item code','Note','Status','Archived','Current borrower','Checked out at','Created at','Updated at'];
+        const rows=state.items.map(item=>{const borrower=item.currentBorrowerId?borrowerById(item.currentBorrowerId):null;return[state.board.name,item.name,item.category,item.code,item.note,csvStatus(item),csvYesNo(item.archived),borrower?.name||'',item.currentCheckoutAt||'',item.createdAt||'',item.updatedAt||''];});
+        downloadCsv('equipment',headers,rows);
+      }
+      function restoreState(nextState){state=nextState;clearUiSelections();storageControl.blocked=false;storageControl.mode='ready';storageControl.lastSavedAt=null;render();persistState();}
+      function resetAllData(){
+        if(!window.confirm(t('resetConfirm')))return;
+        try{localStorage.removeItem(storageKey);}catch{}
+        state=createInitialState();clearUiSelections();storageControl.blocked=false;storageControl.mode='ready';storageControl.lastSavedAt=null;render();persistState();showToast(t('resetComplete'));
+      }
+      async function restoreBackupFile(file){
+        $('#restoreFileName').hidden=false;$('#restoreFileName').textContent=t('selectedBackupFile')+': '+file.name;
+        if(file.size>MAX_BACKUP_BYTES){showToast(t('backupTooLarge'));return;}
+        try{
+          const envelope=JSON.parse(await file.text()),nextState=parseStateEnvelope(envelope,BACKUP_FORMAT);
+          if(!window.confirm(t('restoreConfirm')))return;
+          restoreState(nextState);showToast(t('restoreComplete'));
+        }catch{showToast(t('backupInvalid'));}
+      }
+
+      const AppToast=(()=>{const root=$('#appToast'),message=$('#appToastMessage'),action=$('#appToastAction');let timer=0,actionHandler=null;
+        function dismiss(){clearTimeout(timer);timer=0;root.classList.remove('show');actionHandler=null;}
+        function show({message:text='',actionLabel='',onAction=null,duration=3200}={}){clearTimeout(timer);message.textContent=String(text);actionHandler=typeof onAction==='function'?onAction:null;action.textContent=actionLabel||'';action.hidden=!actionHandler||!actionLabel;root.classList.add('show');if(duration>0)timer=window.setTimeout(dismiss,duration);return Object.freeze({dismiss});}
+        action.addEventListener('click',()=>{const handler=actionHandler;dismiss();if(handler)handler();});return Object.freeze({show,dismiss});})();
+      window.AppToast=AppToast;
+      function showToast(message){AppToast.show({message});}
+      function outputFilename(kind){const safeKind=String(kind||'data').replace(/[^a-z0-9-]+/gi,'-').replace(/^-+|-+$/g,'')||'data';return APP_CONFIG.slug+'-'+safeKind;} void outputFilename;
+      function normalizeSearch(value){return String(value||'').trim().toLocaleLowerCase(language==='ja'?'ja':'en');}
+      function borrowerById(id){return state.borrowers.find(b=>b.borrowerId===id)||null;}
+      function availableItems(){return state.items.filter(item=>!item.archived&&item.status==='available');}
+      function checkedOutItemsForBorrower(id){return state.items.filter(item=>!item.archived&&item.status==='checked-out'&&item.currentBorrowerId===id);}
+      function borrowersWithOutstanding(){return state.borrowers.filter(b=>!b.archived&&checkedOutItemsForBorrower(b.borrowerId).length>0);}
+      function createItem({name,category='',code='',note=''}){const now=new Date().toISOString();const item={itemId:createId('item'),name,category,code,note,status:'available',currentBorrowerId:null,currentCheckoutAt:null,archived:false,createdAt:now,updatedAt:now};state.items.push(item);return item;}
+      function padNumber(value,digits){return String(value).padStart(digits,'0');}
+      function batchValues(){
+        const namePrefix=$('#batchNamePrefix').value.trim(),start=Number.parseInt($('#batchStartNumber').value,10),count=Number.parseInt($('#batchCount').value,10),digits=Number.parseInt($('#batchDigits').value,10),category=$('#batchCategory').value.trim(),codePrefix=$('#batchCodePrefix').value.trim();
+        const valid=Boolean(namePrefix)&&Number.isInteger(start)&&start>=0&&start<=999999&&Number.isInteger(count)&&count>=1&&count<=500&&start+count-1<=999999&&Number.isInteger(digits)&&digits>=1&&digits<=6;
+        return {namePrefix,start,count,digits,category,codePrefix,valid};
+      }
+      function generatedBatch(values){if(!values.valid)return[];return Array.from({length:values.count},(_,index)=>{const number=values.start+index,padded=padNumber(number,values.digits);return{name:values.namePrefix+' '+padded,category:values.category,code:values.codePrefix?values.codePrefix+padded:'',note:''};});}
+      function batchAddLabel(count){return language==='ja'?count+'件をまとめて追加':'Add '+count+' item'+(count===1?'':'s');}
+      function hasBatchCodeConflict(items){
+        const existing=new Set(state.items.map(item=>normalizeSearch(item.code)).filter(Boolean)),generated=new Set();
+        for(const item of items){const code=normalizeSearch(item.code);if(!code)continue;if(existing.has(code)||generated.has(code))return true;generated.add(code);}
+        return false;
+      }
+      function canUndoEventNow(event){
+        if(!event)return false;
+        const items=(event.itemIds||[]).map(itemById);
+        if(items.some(item=>!item||item.archived))return false;
+        if(event.type==='checkout')return items.every(item=>item.status==='checked-out'&&item.currentBorrowerId===event.borrowerId&&item.currentCheckoutAt===event.timestamp);
+        if(event.type==='return'){const snapshots=new Map((event.itemSnapshots||[]).map(snapshot=>[snapshot.itemId,snapshot]));return items.every(item=>item.status==='available'&&!item.currentBorrowerId&&snapshots.has(item.itemId));}
+        return false;
+      }
+      function formatDateTime(iso){if(!iso)return'';try{return new Intl.DateTimeFormat(language==='ja'?'ja-JP':'en',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'}).format(new Date(iso));}catch{return iso;}}
+      function checkoutMessage(name,count){return language==='ja'?name+'に'+count+'点を貸し出しました':'Checked out '+count+' item'+(count===1?'':'s')+' to '+name;}
+      function checkoutButtonLabel(name,count){if(!name||count<1)return t('checkoutButtonEmpty');return language==='ja'?name+'に'+count+'点を貸し出す':'Check out '+count+' item'+(count===1?'':'s')+' to '+name;}
+      function returnMessage(name,count,remaining){if(language==='ja')return name+'から'+count+'点を返却しました'+(remaining?'（残り'+remaining+'点）':'');return 'Returned '+count+' item'+(count===1?'':'s')+' from '+name+(remaining?' · '+remaining+' remaining':'');}
+      function returnAllLabel(count){return language==='ja'?count+'点すべて返却':'Return all '+count+' item'+(count===1?'':'s');}
+      function returnSelectedLabel(count){return language==='ja'?'選択した'+count+'点を返却':'Return '+count+' selected item'+(count===1?'':'s');}
+      function isEventUndone(eventId){return state.events.some(event=>event.type==='undo'&&event.relatedEventId===eventId);}
+      function lastUndoableEvent(){
+        const event=state.events[state.events.length-1];
+        if(!event||!(event.type==='checkout'||event.type==='return')||isEventUndone(event.eventId))return null;
+        return canUndoEventNow(event)?event:null;
+      }
+      function itemById(id){return state.items.find(item=>item.itemId===id)||null;}
+      function historyActionText(event){
+        if(event.type==='checkout')return t('historyCheckout');
+        if(event.type==='return')return t('historyReturn');
+        if(event.type==='undo')return event.reversedType==='return'?t('historyUndoReturn'):t('historyUndoCheckout');
+        return event.type;
+      }
+      function eventItemNames(event){return (event.itemIds||[]).map(id=>itemById(id)?.name||id);}
+      function historySearchText(event){
+        const borrower=borrowerById(event.borrowerId);
+        const itemTexts=(event.itemIds||[]).map(id=>{const item=itemById(id);return item?[item.name,item.category,item.code].filter(Boolean).join(' '):id;});
+        return normalizeSearch([historyActionText(event),borrower?.name||'',...itemTexts].join(' '));
+      }
+      function showUndoToast(message,eventId){
+        AppToast.show({message,actionLabel:t('undo'),onAction:()=>undoEvent(eventId),duration:5200});
+      }
+      function undoEvent(eventId){
+        const target=lastUndoableEvent();
+        if(!target||target.eventId!==eventId){showToast(t('undoUnavailable'));return false;}
+        const borrower=borrowerById(target.borrowerId);
+        if(!borrower){showToast(t('undoUnavailable'));return false;}
+        const items=(target.itemIds||[]).map(itemById).filter(Boolean);
+        if(items.length!==(target.itemIds||[]).length){showToast(t('undoUnavailable'));return false;}
+        const now=new Date().toISOString();
+
+        if(target.type==='checkout'){
+          const valid=items.every(item=>!item.archived&&item.status==='checked-out'&&item.currentBorrowerId===target.borrowerId&&item.currentCheckoutAt===target.timestamp);
+          if(!valid){showToast(t('undoUnavailable'));return false;}
+          items.forEach(item=>{item.status='available';item.currentBorrowerId=null;item.currentCheckoutAt=null;item.updatedAt=now;});
+        }else if(target.type==='return'){
+          const snapshots=Array.isArray(target.itemSnapshots)?target.itemSnapshots:[];
+          const snapshotMap=new Map(snapshots.map(snapshot=>[snapshot.itemId,snapshot]));
+          const valid=items.every(item=>!item.archived&&item.status==='available'&&!item.currentBorrowerId&&snapshotMap.has(item.itemId));
+          if(!valid){showToast(t('undoUnavailable'));return false;}
+          items.forEach(item=>{const snapshot=snapshotMap.get(item.itemId);item.status='checked-out';item.currentBorrowerId=target.borrowerId;item.currentCheckoutAt=snapshot.checkoutAt||target.timestamp;item.updatedAt=now;});
+        }else{
+          showToast(t('undoUnavailable'));return false;
+        }
+
+        state.events.push({eventId:createId('event'),type:'undo',borrowerId:target.borrowerId,itemIds:[...(target.itemIds||[])],timestamp:now,note:'',relatedEventId:target.eventId,reversedType:target.type});
+        checkoutState.selectedItemIds.clear();returnState.partialMode=false;returnState.selectedItemIds.clear();
+        render();showToast(t('undoComplete'));return true;
+      }
+
+      function applyLanguage(){
+        document.documentElement.lang=language;document.title=language==='ja'?APP_CONFIG.nameJa:APP_CONFIG.name;$('#brandName').textContent=language==='ja'?APP_CONFIG.nameJa:APP_CONFIG.name;$('#footerName').textContent=language==='ja'?APP_CONFIG.nameJa:APP_CONFIG.name;
+        document.querySelectorAll('[data-i18n]').forEach(el=>{el.textContent=t(el.dataset.i18n);});document.querySelectorAll('[data-i18n-title]').forEach(el=>{el.title=t(el.dataset.i18nTitle);});document.querySelectorAll('[data-i18n-aria-label]').forEach(el=>{el.setAttribute('aria-label',t(el.dataset.i18nAriaLabel));});document.querySelectorAll('[data-i18n-placeholder]').forEach(el=>{el.placeholder=t(el.dataset.i18nPlaceholder);});
+        $('#languageButton').textContent=language==='ja'?'EN':'日本語';$('#languageButton').setAttribute('aria-label',language==='ja'?'英語に切り替え':'Switch to Japanese');render();
+      }
+      function updateCounts(){
+        const activeItems=state.items.filter(item=>!item.archived),checked=activeItems.filter(item=>item.status==='checked-out').length,activeBorrowers=borrowersWithOutstanding().length,available=activeItems.filter(item=>item.status==='available').length;
+        $('#outstandingCount').textContent=String(checked);$('#outstandingBorrowerCount').textContent=String(activeBorrowers);$('#availableSummary').textContent=available+' / '+activeItems.length;$('#outstandingSummaryCard').classList.toggle('has-outstanding',checked>0);
+        $('#itemPanelCount').textContent=String(activeItems.length);$('#borrowerPanelCount').textContent=String(state.borrowers.length);$('#returnCheckedOutCount').textContent=String(checked);
+      }
+      function makeEmptyState(titleKey,bodyKey,iconPath){const root=document.createElement('div');root.className='empty-state';const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');svg.setAttribute('viewBox','0 0 24 24');svg.setAttribute('fill','none');svg.setAttribute('stroke','currentColor');svg.setAttribute('stroke-width','1.8');svg.setAttribute('stroke-linecap','round');svg.setAttribute('stroke-linejoin','round');svg.setAttribute('aria-hidden','true');const path=document.createElementNS('http://www.w3.org/2000/svg','path');path.setAttribute('d',iconPath);svg.append(path);const strong=document.createElement('strong');strong.textContent=t(titleKey);const p=document.createElement('p');p.textContent=t(bodyKey);root.append(svg,strong,p);return root;}
+      function metaPart(text){const span=document.createElement('span');span.textContent=text;return span;}
+      function makeRecord({title,meta=[],note='',id,type,statusKey='',archived=false,archiveDisabled=false}){const root=document.createElement('article');root.className='record'+(archived?' archived':'');const main=document.createElement('div');main.className='record-main';const heading=document.createElement('div');heading.className='record-title';heading.textContent=title;main.append(heading);const metaRow=document.createElement('div');metaRow.className='record-meta';if(statusKey){const status=document.createElement('span');status.className='record-status'+(statusKey==='checkedOut'?' checked-out':statusKey==='archived'?' archived':'');status.textContent=t(statusKey);metaRow.append(status);}meta.filter(Boolean).forEach(v=>metaRow.append(metaPart(v)));if(metaRow.childElementCount)main.append(metaRow);if(note){const noteEl=document.createElement('div');noteEl.className='record-note';noteEl.textContent=note;main.append(noteEl);}const actions=document.createElement('div');actions.className='record-actions';const edit=document.createElement('button');edit.className='button small';edit.type='button';edit.dataset.editType=type;edit.dataset.editId=id;edit.textContent=t('edit');actions.append(edit);if(type==='item'){const stateButton=document.createElement('button');stateButton.className='button small '+(archived?'restore-action':'archive-action');stateButton.type='button';if(archived){stateButton.dataset.restoreItem=id;stateButton.textContent=t('restore');}else{stateButton.dataset.archiveItem=id;stateButton.textContent=t('archive');stateButton.disabled=archiveDisabled;if(archiveDisabled){stateButton.title=t('archiveBlockedTitle');stateButton.setAttribute('aria-label',t('archiveBlockedTitle'));}}actions.append(stateButton);}root.append(main,actions);return root;}
+
+      function renderBatchPreview(){
+        const preview=$('#batchPreview'),button=$('#batchAddButton'),values=batchValues(),items=generatedBatch(values);
+        preview.classList.remove('error');
+        if(!values.valid){preview.textContent=t('batchInvalid');preview.classList.add('error');button.disabled=true;button.textContent=t('batchAdd');return;}
+        if(hasBatchCodeConflict(items)){preview.textContent=t('batchDuplicateCode');preview.classList.add('error');button.disabled=true;button.textContent=batchAddLabel(items.length);return;}
+        const names=items.map(item=>item.name),sample=names.length<=5?names:[...names.slice(0,4),'…',names[names.length-1]];
+        preview.replaceChildren();const strong=document.createElement('strong');strong.textContent=t('batchPreviewLabel')+': ';preview.append(strong,document.createTextNode(sample.join(' / ')));if(values.codePrefix){preview.append(document.createElement('br'),document.createTextNode(t('codePrefix')+': '+items[0].code+(items.length>1?' … '+items[items.length-1].code:'')));}
+        button.disabled=false;button.textContent=batchAddLabel(items.length);
+      }
+      function renderItems(){
+        const list=$('#itemList'),query=normalizeSearch($('#itemManagementSearch').value),filter=$('#itemStatusFilter').value,activeCount=state.items.filter(item=>!item.archived).length,archivedCount=state.items.filter(item=>item.archived).length;
+        $('#itemManagementSummary').textContent=t('activeItemsLabel')+': '+activeCount+' · '+t('archivedItemsLabel')+': '+archivedCount;
+        list.replaceChildren();
+        const filtered=state.items.filter(item=>(filter==='all'||(filter==='active'&&!item.archived)||(filter==='archived'&&item.archived))&&(!query||[item.name,item.category,item.code,item.note].some(value=>normalizeSearch(value).includes(query))));
+        if(!state.items.length){list.append(makeEmptyState('emptyItemsTitle','emptyItemsBody','M5 8.5 12 4l7 4.5v8L12 21l-7-4.5zM5 8.5 12 13l7-4.5M12 13v8'));return;}
+        if(!filtered.length){const empty=document.createElement('div');empty.className='history-empty';empty.textContent=t('itemNoMatch');list.append(empty);return;}
+        filtered.forEach(item=>{const meta=[];if(item.category)meta.push(t('categoryPrefix')+': '+item.category);if(item.code)meta.push(t('codePrefix')+': '+item.code);if(item.status==='checked-out'){const borrower=borrowerById(item.currentBorrowerId);if(borrower)meta.push(t('lentToPrefix')+': '+borrower.name);if(item.currentCheckoutAt)meta.push(t('checkedOutAtPrefix')+': '+formatDateTime(item.currentCheckoutAt));}list.append(makeRecord({title:item.name,meta,note:item.note,id:item.itemId,type:'item',statusKey:item.archived?'archived':item.status==='checked-out'?'checkedOut':'available',archived:item.archived,archiveDisabled:item.status==='checked-out'}));});
+      }
+      function renderBorrowers(){const list=$('#borrowerList');list.replaceChildren();if(!state.borrowers.length){list.append(makeEmptyState('emptyBorrowersTitle','emptyBorrowersBody','M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75'));return;}state.borrowers.forEach(b=>{const count=checkedOutItemsForBorrower(b.borrowerId).length;list.append(makeRecord({title:b.name,meta:count?[t('borrowedItemsPrefix')+': '+count]:[],note:b.note,id:b.borrowerId,type:'borrower'}));});}
+
+      function renderBorrowerSuggestions(){const list=$('#checkoutBorrowerSuggestions');list.replaceChildren();const query=normalizeSearch($('#checkoutBorrowerQuery').value);if(checkoutState.selectedBorrowerId)return;state.borrowers.filter(b=>!b.archived&&(!query||normalizeSearch(b.name).includes(query))).slice(0,8).forEach(b=>{const button=document.createElement('button');button.className='suggestion-button';button.type='button';button.dataset.checkoutBorrowerId=b.borrowerId;const strong=document.createElement('strong');strong.textContent=b.name;const status=document.createElement('span');status.textContent=t('existingBorrower');button.append(strong,status);list.append(button);});const raw=$('#checkoutBorrowerQuery').value.trim();const exact=raw&&state.borrowers.some(b=>normalizeSearch(b.name)===normalizeSearch(raw));if(raw&&!exact){const button=document.createElement('button');button.className='suggestion-button new-entry';button.type='button';button.dataset.newCheckoutBorrower=raw;const strong=document.createElement('strong');strong.textContent=raw;const status=document.createElement('span');status.textContent=t('addNewBorrowerPrefix');button.append(strong,status);list.append(button);}if(!list.childElementCount){const note=document.createElement('div');note.className='checkout-empty';note.textContent=t('noBorrowerSuggestion');list.append(note);}}
+      function renderCheckoutItems(){const list=$('#checkoutItemList');list.replaceChildren();const available=availableItems(),query=normalizeSearch($('#checkoutItemSearch').value),filtered=available.filter(item=>!query||[item.name,item.category,item.code].some(v=>normalizeSearch(v).includes(query)));$('#availableItemCount').textContent=String(available.length);$('#availableCheckoutCount').textContent=String(available.length);Array.from(checkoutState.selectedItemIds).forEach(id=>{if(!available.some(item=>item.itemId===id))checkoutState.selectedItemIds.delete(id);});if(!available.length){const note=document.createElement('div');note.className='checkout-empty';note.textContent=t('checkoutNoItems');list.append(note);return;}if(!filtered.length){const note=document.createElement('div');note.className='checkout-empty';note.textContent=t('checkoutNoMatch');list.append(note);return;}filtered.forEach(item=>{const label=document.createElement('label');label.className='checkout-choice';const cb=document.createElement('input');cb.type='checkbox';cb.value=item.itemId;cb.dataset.checkoutItem=item.itemId;cb.checked=checkoutState.selectedItemIds.has(item.itemId);const copy=document.createElement('span');copy.className='checkout-choice-copy';const title=document.createElement('span');title.className='checkout-choice-title';title.textContent=item.name;copy.append(title);const meta=document.createElement('span');meta.className='checkout-choice-meta';if(item.category)meta.append(metaPart(t('categoryPrefix')+': '+item.category));if(item.code)meta.append(metaPart(t('codePrefix')+': '+item.code));if(meta.childElementCount)copy.append(meta);label.append(cb,copy);list.append(label);});}
+      function renderCheckoutState(){const borrower=borrowerById(checkoutState.selectedBorrowerId),card=$('#selectedBorrowerCard'),button=$('#checkoutButton'),summary=$('#checkoutSummary');card.hidden=!borrower;$('#selectedBorrowerName').textContent=borrower?.name||'';$('#selectedItemCount').textContent=String(checkoutState.selectedItemIds.size);if(!borrower){summary.textContent=t('checkoutSelectBorrower');button.textContent=t('checkoutButtonEmpty');button.disabled=true;}else if(!checkoutState.selectedItemIds.size){summary.textContent=t('checkoutSelectItems');button.textContent=t('checkoutButtonEmpty');button.disabled=true;}else{const count=checkoutState.selectedItemIds.size;summary.replaceChildren();const strong=document.createElement('strong');strong.textContent=borrower.name;summary.append(strong,document.createTextNode(language==='ja'?' に '+count+'点を貸し出します。':' · '+count+' item'+(count===1?'':'s')+' selected'));button.textContent=checkoutButtonLabel(borrower.name,count);button.disabled=false;}}
+      function renderCheckout(){renderBorrowerSuggestions();renderCheckoutItems();renderCheckoutState();}
+
+      function renderReturnBorrowers(){
+        const list=$('#returnBorrowerList');list.replaceChildren();const borrowers=borrowersWithOutstanding();
+        if(!borrowers.length){returnState.selectedBorrowerId=null;returnState.partialMode=false;returnState.selectedItemIds.clear();list.append(makeEmptyState('noOutstandingTitle','noOutstandingBody','M5 12l4 4L19 6'));return;}
+        if(returnState.selectedBorrowerId&&!borrowers.some(b=>b.borrowerId===returnState.selectedBorrowerId)){returnState.selectedBorrowerId=null;returnState.partialMode=false;returnState.selectedItemIds.clear();}
+        borrowers.forEach(b=>{const count=checkedOutItemsForBorrower(b.borrowerId).length;const button=document.createElement('button');button.className='return-borrower-button'+(returnState.selectedBorrowerId===b.borrowerId?' active':'');button.type='button';button.dataset.returnBorrowerId=b.borrowerId;const strong=document.createElement('strong');strong.textContent=b.name;const badge=document.createElement('span');badge.textContent=String(count);button.append(strong,badge);list.append(button);});
+      }
+      function renderReturnDetail(){
+        const root=$('#returnDetail');root.replaceChildren();const borrower=borrowerById(returnState.selectedBorrowerId);
+        if(!borrower){const empty=document.createElement('div');empty.className='checkout-empty';empty.textContent=t('selectReturnBorrower');root.append(empty);return;}
+        const items=checkedOutItemsForBorrower(borrower.borrowerId);if(!items.length){returnState.selectedBorrowerId=null;returnState.partialMode=false;returnState.selectedItemIds.clear();const empty=document.createElement('div');empty.className='checkout-empty';empty.textContent=t('selectReturnBorrower');root.append(empty);return;}
+        Array.from(returnState.selectedItemIds).forEach(id=>{if(!items.some(item=>item.itemId===id))returnState.selectedItemIds.delete(id);});
+        const detail=document.createElement('div');detail.className='return-detail';
+        const head=document.createElement('div');head.className='return-detail-head';const title=document.createElement('div');title.className='return-detail-title';const label=document.createElement('span');label.textContent=t('returnSelectedBorrower');const name=document.createElement('strong');name.textContent=borrower.name;title.append(label,name);const badge=document.createElement('span');badge.className='count-badge';badge.textContent=String(items.length);head.append(title,badge);detail.append(head);
+        const list=document.createElement('div');list.className='return-list';
+        items.forEach(item=>{if(returnState.partialMode){const row=document.createElement('label');row.className='return-item selectable';const cb=document.createElement('input');cb.type='checkbox';cb.value=item.itemId;cb.dataset.returnItem=item.itemId;cb.checked=returnState.selectedItemIds.has(item.itemId);const copy=document.createElement('span');copy.className='return-item-copy';const itemName=document.createElement('span');itemName.className='return-item-name';itemName.textContent=item.name;const meta=document.createElement('span');meta.className='return-item-meta';if(item.category)meta.append(metaPart(t('categoryPrefix')+': '+item.category));if(item.code)meta.append(metaPart(t('codePrefix')+': '+item.code));copy.append(itemName);if(meta.childElementCount)copy.append(meta);row.append(cb,copy);list.append(row);}else{const row=document.createElement('div');row.className='return-item';const copy=document.createElement('span');copy.className='return-item-copy';const itemName=document.createElement('span');itemName.className='return-item-name';itemName.textContent=item.name;const meta=document.createElement('span');meta.className='return-item-meta';if(item.currentCheckoutAt)meta.append(metaPart(t('checkedOutAtPrefix')+': '+formatDateTime(item.currentCheckoutAt)));copy.append(itemName);if(meta.childElementCount)copy.append(meta);row.append(copy);list.append(row);}});
+        detail.append(list);
+        const actions=document.createElement('div');actions.className='return-actions';
+        if(returnState.partialMode){
+          const selectedCount=returnState.selectedItemIds.size;const confirm=document.createElement('button');confirm.className='button primary';confirm.type='button';confirm.id='returnSelectedButton';confirm.disabled=selectedCount<1;confirm.textContent=returnSelectedLabel(selectedCount);const cancel=document.createElement('button');cancel.className='button';cancel.type='button';cancel.id='cancelPartialReturn';cancel.textContent=t('cancelPartial');actions.append(confirm,cancel);const note=document.createElement('div');note.className='return-selected-note';note.textContent=t('returnItemHint')+' '+t('returnSelectedCount')+': '+selectedCount;detail.append(note);
+        }else{
+          const all=document.createElement('button');all.className='button primary';all.type='button';all.id='returnAllButton';all.textContent=returnAllLabel(items.length);const partial=document.createElement('button');partial.className='button secondary-accent';partial.type='button';partial.id='startPartialReturn';partial.textContent=t('partialReturn');actions.append(all,partial);
+        }
+        detail.append(actions);root.append(detail);
+      }
+      function renderOutstandingBoard(){
+        const root=$('#outstandingBoard');root.replaceChildren();const borrowers=borrowersWithOutstanding();
+        if(!borrowers.length){
+          const complete=document.createElement('div');complete.className='board-complete';
+          const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');svg.setAttribute('viewBox','0 0 24 24');svg.setAttribute('fill','none');svg.setAttribute('stroke','currentColor');svg.setAttribute('stroke-width','1.9');svg.setAttribute('stroke-linecap','round');svg.setAttribute('stroke-linejoin','round');svg.setAttribute('aria-hidden','true');const circle=document.createElementNS('http://www.w3.org/2000/svg','circle');circle.setAttribute('cx','12');circle.setAttribute('cy','12');circle.setAttribute('r','9');const path=document.createElementNS('http://www.w3.org/2000/svg','path');path.setAttribute('d','m8 12 2.6 2.6L16.5 9');svg.append(circle,path);
+          const title=document.createElement('strong');title.textContent=t('allReturnedTitle');const body=document.createElement('p');body.textContent=t('allReturnedBody');const button=document.createElement('button');button.className='button primary';button.type='button';button.dataset.boardStartCheckout='1';button.textContent=t('startCheckout');complete.append(svg,title,body,button);root.append(complete);return;
+        }
+        borrowers.forEach(borrower=>{
+          const items=checkedOutItemsForBorrower(borrower.borrowerId).slice().sort((a,b)=>String(a.currentCheckoutAt||'').localeCompare(String(b.currentCheckoutAt||'')));
+          const group=document.createElement('article');group.className='outstanding-group';
+          const head=document.createElement('div');head.className='outstanding-group-head';const title=document.createElement('div');title.className='outstanding-group-title';const name=document.createElement('strong');name.textContent=borrower.name;const first=document.createElement('span');const firstAt=items.map(item=>item.currentCheckoutAt).filter(Boolean).sort()[0];first.textContent=firstAt?t('firstCheckoutPrefix')+': '+formatDateTime(firstAt):'';title.append(name,first);const count=document.createElement('span');count.className='count-badge';count.textContent=String(items.length);head.append(title,count);group.append(head);
+          const itemList=document.createElement('div');itemList.className='outstanding-items';
+          items.forEach(item=>{const row=document.createElement('div');row.className='outstanding-item';const copy=document.createElement('div');copy.className='outstanding-item-copy';const itemName=document.createElement('span');itemName.className='outstanding-item-name';itemName.textContent=item.name;const meta=document.createElement('div');meta.className='outstanding-item-meta';if(item.category)meta.append(metaPart(t('categoryPrefix')+': '+item.category));if(item.code)meta.append(metaPart(t('codePrefix')+': '+item.code));copy.append(itemName);if(meta.childElementCount)copy.append(meta);const time=document.createElement('span');time.className='outstanding-item-time';time.textContent=item.currentCheckoutAt?formatDateTime(item.currentCheckoutAt):'';row.append(copy,time);itemList.append(row);});
+          group.append(itemList);
+          const actions=document.createElement('div');actions.className='outstanding-actions';const all=document.createElement('button');all.className='button primary';all.type='button';all.dataset.boardReturnAll=borrower.borrowerId;all.textContent=returnAllLabel(items.length);const partial=document.createElement('button');partial.className='button secondary-accent';partial.type='button';partial.dataset.boardPartialReturn=borrower.borrowerId;partial.textContent=t('boardPartialReturn');actions.append(all,partial);group.append(actions);root.append(group);
+        });
+      }
+      function renderReturn(){renderReturnBorrowers();renderReturnDetail();}
+      function renderHistory(){
+        const root=$('#historyList');root.replaceChildren();$('#historyCount').textContent=String(state.events.length);
+        if(!state.events.length){const empty=document.createElement('div');empty.className='history-empty';empty.textContent=t('historyEmpty');root.append(empty);return;}
+        const query=normalizeSearch($('#historySearch').value),typeFilter=$('#historyTypeFilter').value,order=$('#historyOrder').value,latest=lastUndoableEvent();
+        let events=state.events.filter(event=>(typeFilter==='all'||event.type===typeFilter)&&(!query||historySearchText(event).includes(query)));
+        if(order==='newest')events=[...events].reverse();
+        if(!events.length){const empty=document.createElement('div');empty.className='history-empty';empty.textContent=t('historyNoMatch');root.append(empty);return;}
+        events.forEach(event=>{
+          const row=document.createElement('article');row.className='history-row';
+          const time=document.createElement('div');time.className='history-time';time.textContent=formatDateTime(event.timestamp);
+          const main=document.createElement('div');main.className='history-main';
+          const titleLine=document.createElement('div');titleLine.className='history-title-line';
+          const action=document.createElement('span');action.className='history-action';action.textContent=historyActionText(event);titleLine.append(action);
+          const borrower=borrowerById(event.borrowerId);if(borrower){const borrowerEl=document.createElement('span');borrowerEl.className='history-borrower';borrowerEl.textContent=borrower.name;titleLine.append(borrowerEl);}
+          if(event.type==='undo'){const badge=document.createElement('span');badge.className='history-badge undo';badge.textContent=t('undo');titleLine.append(badge);}
+          else if(isEventUndone(event.eventId)){const badge=document.createElement('span');badge.className='history-badge undone';badge.textContent=t('undone');titleLine.append(badge);}
+          const items=document.createElement('div');items.className='history-items';items.textContent=eventItemNames(event).join(' · ');
+          main.append(titleLine,items);
+          const actions=document.createElement('div');actions.className='history-actions';
+          if(latest&&latest.eventId===event.eventId&&(event.type==='checkout'||event.type==='return')){
+            const undoButton=document.createElement('button');undoButton.className='button small';undoButton.type='button';undoButton.dataset.historyUndo=event.eventId;undoButton.textContent=t('undo');actions.append(undoButton);
+          }
+          row.append(time,main,actions);root.append(row);
+        });
+      }
+      function render(){$('#boardName').value=state.board.name;updateCounts();renderOutstandingBoard();renderCheckout();renderReturn();renderHistory();renderBatchPreview();renderItems();renderBorrowers();renderStorageStatus();schedulePersist();}
+      function trimmedValue(selector){return $(selector).value.trim();}
+
+      $('#boardName').addEventListener('input',event=>{state.board.name=event.currentTarget.value;state.board.updatedAt=new Date().toISOString();schedulePersist();});
+      $('#itemForm').addEventListener('submit',event=>{event.preventDefault();const name=trimmedValue('#itemName');if(!name){$('#itemName').focus();return;}createItem({name,category:trimmedValue('#itemCategory'),code:trimmedValue('#itemCode'),note:trimmedValue('#itemNote')});event.currentTarget.reset();render();$('#itemName').focus();showToast(t('itemAdded'));});
+      $('#batchItemForm').addEventListener('input',renderBatchPreview);
+      $('#batchItemForm').addEventListener('change',renderBatchPreview);
+      $('#batchItemForm').addEventListener('submit',event=>{event.preventDefault();const values=batchValues(),items=generatedBatch(values);if(!values.valid){renderBatchPreview();$('#batchNamePrefix').focus();return;}if(hasBatchCodeConflict(items)){renderBatchPreview();return;}items.forEach(createItem);const count=items.length;event.currentTarget.reset();$('#batchStartNumber').value='1';$('#batchCount').value='20';$('#batchDigits').value='2';render();showToast(count+t('batchAdded'));});
+      $('#itemManagementSearch').addEventListener('input',renderItems);
+      $('#itemStatusFilter').addEventListener('change',renderItems);
+      $('#itemList').addEventListener('click',event=>{const archive=event.target.closest('[data-archive-item]'),restore=event.target.closest('[data-restore-item]');if(archive){const item=itemById(archive.dataset.archiveItem);if(!item)return;if(item.status==='checked-out'){showToast(t('archiveBlocked'));return;}item.archived=true;item.updatedAt=new Date().toISOString();checkoutState.selectedItemIds.delete(item.itemId);render();showToast(t('itemArchived'));return;}if(restore){const item=itemById(restore.dataset.restoreItem);if(!item)return;item.archived=false;item.updatedAt=new Date().toISOString();render();showToast(t('itemRestored'));}});
+      $('#borrowerForm').addEventListener('submit',event=>{event.preventDefault();const name=trimmedValue('#borrowerName');if(!name){$('#borrowerName').focus();return;}const now=new Date().toISOString();state.borrowers.push({borrowerId:createId('borrower'),name,note:trimmedValue('#borrowerNote'),archived:false,createdAt:now,updatedAt:now});event.currentTarget.reset();render();$('#borrowerName').focus();showToast(t('borrowerAdded'));});
+      $('#checkoutBorrowerQuery').addEventListener('input',()=>{checkoutState.selectedBorrowerId=null;renderCheckout();});
+      $('#checkoutItemSearch').addEventListener('input',renderCheckout);
+      $('#clearBorrowerSelection').addEventListener('click',()=>{checkoutState.selectedBorrowerId=null;$('#checkoutBorrowerQuery').value='';renderCheckout();$('#checkoutBorrowerQuery').focus();});
+      $('#checkoutItemList').addEventListener('change',event=>{const cb=event.target.closest('[data-checkout-item]');if(!cb)return;if(cb.checked)checkoutState.selectedItemIds.add(cb.value);else checkoutState.selectedItemIds.delete(cb.value);renderCheckoutState();});
+      $('#checkoutBorrowerSuggestions').addEventListener('click',event=>{const existing=event.target.closest('[data-checkout-borrower-id]');if(existing){const b=borrowerById(existing.dataset.checkoutBorrowerId);if(!b)return;checkoutState.selectedBorrowerId=b.borrowerId;$('#checkoutBorrowerQuery').value=b.name;renderCheckout();return;}const create=event.target.closest('[data-new-checkout-borrower]');if(create){const name=String(create.dataset.newCheckoutBorrower||'').trim();if(!name)return;const now=new Date().toISOString();const b={borrowerId:createId('borrower'),name,note:'',archived:false,createdAt:now,updatedAt:now};state.borrowers.push(b);checkoutState.selectedBorrowerId=b.borrowerId;$('#checkoutBorrowerQuery').value=b.name;render();showToast(t('borrowerAdded'));}});
+      $('#checkoutButton').addEventListener('click',()=>{const borrower=borrowerById(checkoutState.selectedBorrowerId);if(!borrower){$('#checkoutBorrowerQuery').focus();return;}const selected=state.items.filter(item=>checkoutState.selectedItemIds.has(item.itemId)&&!item.archived&&item.status==='available');if(!selected.length){renderCheckout();return;}const now=new Date().toISOString(),itemIds=selected.map(item=>item.itemId),eventRecord={eventId:createId('event'),type:'checkout',borrowerId:borrower.borrowerId,itemIds,timestamp:now,note:''};selected.forEach(item=>{item.status='checked-out';item.currentBorrowerId=borrower.borrowerId;item.currentCheckoutAt=now;item.updatedAt=now;});state.events.push(eventRecord);checkoutState.selectedItemIds.clear();checkoutState.selectedBorrowerId=null;$('#checkoutBorrowerQuery').value='';$('#checkoutItemSearch').value='';render();showUndoToast(checkoutMessage(borrower.name,selected.length),eventRecord.eventId);$('#checkoutBorrowerQuery').focus();});
+
+      $('#outstandingBoard').addEventListener('click',event=>{
+        if(event.target.closest('[data-board-start-checkout]')){document.getElementById('checkoutSection').scrollIntoView({behavior:'smooth',block:'start'});requestAnimationFrame(()=>$('#checkoutBorrowerQuery').focus());return;}
+        const all=event.target.closest('[data-board-return-all]');if(all){const borrower=borrowerById(all.dataset.boardReturnAll);if(borrower)commitReturn(borrower,checkedOutItemsForBorrower(borrower.borrowerId));return;}
+        const partial=event.target.closest('[data-board-partial-return]');if(partial){const borrower=borrowerById(partial.dataset.boardPartialReturn);if(!borrower)return;returnState.selectedBorrowerId=borrower.borrowerId;returnState.partialMode=true;returnState.selectedItemIds.clear();renderReturn();document.getElementById('returnSection').scrollIntoView({behavior:'smooth',block:'start'});requestAnimationFrame(()=>document.querySelector('[data-return-item]')?.focus());}
+      });
+
+      $('#returnBorrowerList').addEventListener('click',event=>{const button=event.target.closest('[data-return-borrower-id]');if(!button)return;returnState.selectedBorrowerId=button.dataset.returnBorrowerId;returnState.partialMode=false;returnState.selectedItemIds.clear();renderReturn();});
+      $('#returnDetail').addEventListener('change',event=>{const cb=event.target.closest('[data-return-item]');if(!cb)return;if(cb.checked)returnState.selectedItemIds.add(cb.value);else returnState.selectedItemIds.delete(cb.value);renderReturnDetail();});
+      $('#returnDetail').addEventListener('click',event=>{
+        if(event.target.closest('#startPartialReturn')){returnState.partialMode=true;returnState.selectedItemIds.clear();renderReturnDetail();return;}
+        if(event.target.closest('#cancelPartialReturn')){returnState.partialMode=false;returnState.selectedItemIds.clear();renderReturnDetail();return;}
+        const borrower=borrowerById(returnState.selectedBorrowerId);if(!borrower)return;
+        if(event.target.closest('#returnAllButton')){const items=checkedOutItemsForBorrower(borrower.borrowerId);commitReturn(borrower,items);return;}
+        if(event.target.closest('#returnSelectedButton')){const items=checkedOutItemsForBorrower(borrower.borrowerId).filter(item=>returnState.selectedItemIds.has(item.itemId));if(items.length)commitReturn(borrower,items);}
+      });
+      function commitReturn(borrower,items){
+        const valid=items.filter(item=>item.status==='checked-out'&&item.currentBorrowerId===borrower.borrowerId);if(!valid.length){render();return;}
+        const now=new Date().toISOString(),itemIds=valid.map(item=>item.itemId),itemSnapshots=valid.map(item=>({itemId:item.itemId,checkoutAt:item.currentCheckoutAt})),eventRecord={eventId:createId('event'),type:'return',borrowerId:borrower.borrowerId,itemIds,timestamp:now,note:'',itemSnapshots};
+        valid.forEach(item=>{item.status='available';item.currentBorrowerId=null;item.currentCheckoutAt=null;item.updatedAt=now;});
+        state.events.push(eventRecord);
+        const remaining=checkedOutItemsForBorrower(borrower.borrowerId).length;returnState.partialMode=false;returnState.selectedItemIds.clear();if(!remaining)returnState.selectedBorrowerId=null;render();showUndoToast(returnMessage(borrower.name,valid.length,remaining),eventRecord.eventId);
+      }
+
+      $('#historySearch').addEventListener('input',renderHistory);
+      $('#historyTypeFilter').addEventListener('change',renderHistory);
+      $('#historyOrder').addEventListener('change',renderHistory);
+      $('#historyList').addEventListener('click',event=>{const button=event.target.closest('[data-history-undo]');if(!button)return;undoEvent(button.dataset.historyUndo);});
+
+      $('#downloadBackupButton').addEventListener('click',downloadJsonBackup);
+      $('#exportOutstandingCsvButton').addEventListener('click',exportOutstandingCsv);
+      $('#exportHistoryCsvButton').addEventListener('click',exportHistoryCsv);
+      $('#exportItemsCsvButton').addEventListener('click',exportItemsCsv);
+      $('#restoreBackupButton').addEventListener('click',()=>$('#restoreBackupInput').click());
+      $('#restoreBackupInput').addEventListener('change',async event=>{const file=event.currentTarget.files?.[0];event.currentTarget.value='';if(file)await restoreBackupFile(file);});
+      $('#resetDataButton').addEventListener('click',resetAllData);
+
+      function openItemEdit(id){const item=state.items.find(x=>x.itemId===id);if(!item)return;$('#editItemId').value=item.itemId;$('#editItemName').value=item.name;$('#editItemCategory').value=item.category;$('#editItemCode').value=item.code;$('#editItemNote').value=item.note;$('#itemEditDialog').showModal();requestAnimationFrame(()=>$('#editItemName').focus());}
+      function openBorrowerEdit(id){const b=state.borrowers.find(x=>x.borrowerId===id);if(!b)return;$('#editBorrowerId').value=b.borrowerId;$('#editBorrowerName').value=b.name;$('#editBorrowerNote').value=b.note;$('#borrowerEditDialog').showModal();requestAnimationFrame(()=>$('#editBorrowerName').focus());}
+      document.addEventListener('click',event=>{const edit=event.target.closest('[data-edit-type]');if(edit){if(edit.dataset.editType==='item')openItemEdit(edit.dataset.editId);if(edit.dataset.editType==='borrower')openBorrowerEdit(edit.dataset.editId);return;}const close=event.target.closest('[data-dialog-close]');if(close){const dialog=document.getElementById(close.dataset.dialogClose);if(dialog?.open)dialog.close();}});
+      $('#itemEditForm').addEventListener('submit',event=>{event.preventDefault();const item=state.items.find(x=>x.itemId===$('#editItemId').value),name=trimmedValue('#editItemName');if(!item||!name)return;item.name=name;item.category=trimmedValue('#editItemCategory');item.code=trimmedValue('#editItemCode');item.note=trimmedValue('#editItemNote');item.updatedAt=new Date().toISOString();$('#itemEditDialog').close();render();showToast(t('itemUpdated'));});
+      $('#borrowerEditForm').addEventListener('submit',event=>{event.preventDefault();const b=state.borrowers.find(x=>x.borrowerId===$('#editBorrowerId').value),name=trimmedValue('#editBorrowerName');if(!b||!name)return;b.name=name;b.note=trimmedValue('#editBorrowerNote');b.updatedAt=new Date().toISOString();$('#borrowerEditDialog').close();render();showToast(t('borrowerUpdated'));});
+      function closeDialogFromBackdrop(dialog,event){const rect=dialog.getBoundingClientRect(),outside=event.clientX<rect.left||event.clientX>rect.right||event.clientY<rect.top||event.clientY>rect.bottom;if(outside)dialog.close();}
+      ['itemEditDialog','borrowerEditDialog','helpDialog'].forEach(id=>{const dialog=document.getElementById(id);dialog.addEventListener('click',event=>closeDialogFromBackdrop(dialog,event));});
+      const helpDialog=$('#helpDialog');$('#helpButton').addEventListener('click',()=>helpDialog.showModal());$('#closeHelpButton').addEventListener('click',()=>helpDialog.close());
+      window.addEventListener('pagehide',()=>{if(persistTimer)persistState();});
+      $('#languageButton').addEventListener('click',()=>{language=language==='ja'?'en':'ja';saveLanguage();applyLanguage();});
+
+      $('#versionBadge').textContent = 'v' + APP_CONFIG.version;
+      $('#buildVersion').textContent = APP_CONFIG.version;
+      $('#builtAt').textContent = BUILD_MANIFEST.generatedAtUtc || '—';
+      $('#dependencyCount').textContent = String(BUILD_MANIFEST.dependencies?.length || 0);
+
+      const loadedFromStorage=storageControl.loaded,loadFailed=storageControl.mode==='load-error';
+      applyLanguage();
+      if(loadedFromStorage)showToast(t('restoredOnLoad'));
+      if(loadFailed)showToast(t('storageLoadErrorTitle'));
+    })();
+  </script>
+</body>
+</html>
