@@ -2,6 +2,22 @@
 
 All notable Loan Board changes are recorded here.
 
+## [0.6.0] - 2026-10-03
+
+### Added
+- Sequential batch creation with shared name, start number, quantity, and digit width.
+- Optional generated item-code prefix with conflict detection against existing and archived equipment.
+- Batch preview before creation.
+- Equipment search and Active / Archived / All filters.
+- Equipment archive and restore actions.
+
+### Changed
+- The equipment count now represents active, non-archived equipment.
+- Archived equipment is excluded from checkout and outstanding views while remaining resolvable in history.
+- Checked-out equipment cannot be archived.
+- Undo compatibility now rejects archived equipment.
+- Bilingual help, README files, and product specification now cover item management.
+
 ## [0.5.0] - 2026-10-03
 
 ### Added
