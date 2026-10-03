@@ -1,6 +1,6 @@
 # Loan Board v1.0.0 Release Checklist
 
-This checklist is the manual release-candidate regression matrix for Loan Board v0.9.0 → v1.0.0.
+This checklist is the final regression matrix for Loan Board v1.0.0.
 
 ## Automated checks
 
