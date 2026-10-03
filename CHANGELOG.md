@@ -2,6 +2,19 @@
 
 All notable Loan Board changes are recorded here.
 
+## [0.3.0] - 2026-10-03
+
+### Added
+- Return workflow that lists only borrowers with outstanding equipment.
+- Primary full-return action for all items held by a borrower.
+- Partial-return mode with selected-item return.
+- Return event generation.
+- Immediate restoration of returned items to the available checkout pool.
+
+### Changed
+- Summary, equipment list, and borrower counts now update after returns.
+- Bilingual help, README files, and product specification now cover checkout and return.
+
 ## [0.2.0] - 2026-10-03
 
 ### Added

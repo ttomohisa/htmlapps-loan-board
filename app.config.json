@@ -3,9 +3,9 @@
   "name": "Loan Board",
   "nameJa": "貸出・返却ボード",
   "slug": "loan-board",
-  "version": "0.2.0",
-  "description": "Track equipment checkout locally in the browser, including borrower selection, multi-item checkout, and double-checkout prevention.",
-  "descriptionJa": "貸出先を選び、複数備品をまとめて貸し出し、二重貸出を防止するブラウザー内完結の貸出ボードです。",
+  "version": "0.3.0",
+  "description": "Track equipment checkout and return locally in the browser, including full and partial returns with immediate availability updates.",
+  "descriptionJa": "備品の貸出に加え、まとめて返却・部分返却までブラウザー内で管理し、返却後すぐ再貸出できる貸出・返却ボードです。",
   "defaultLanguage": "auto",
   "repository": {
     "owner": "ttomohisa",
