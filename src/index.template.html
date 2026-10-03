@@ -432,6 +432,11 @@
     .storage-status-copy p { margin: 4px 0 0; color: #4a6159; font-size: 12px; line-height: 1.55; overflow-wrap: anywhere; }
     .storage-status.error .storage-status-copy p { color: #745f3d; }
     .data-actions { display: flex; flex-wrap: wrap; gap: 9px; }
+    .data-group { display: grid; gap: 10px; padding-top: 2px; }
+    .data-group + .data-group { padding-top: 15px; border-top: 1px solid var(--line); }
+    .data-group-head h4 { margin: 0; font-size: 14px; }
+    .data-group-head p { margin: 4px 0 0; color: var(--muted); font-size: 12px; line-height: 1.55; }
+    .csv-actions { display: flex; flex-wrap: wrap; gap: 9px; }
     .button.danger { color: #8a3b32; border-color: #dcb8b3; background: #fffafa; }
     .button.danger:hover { border-color: #c98d85; background: #fff4f2; }
     .data-note {
@@ -519,8 +524,8 @@
       .form-row, .batch-grid, .batch-number-grid, .item-management-tools { grid-template-columns: 1fr; }
       .record { grid-template-columns: 1fr; align-items: start; }
       .record-actions .button { width: 100%; }
-      .data-actions { display: grid; grid-template-columns: 1fr; }
-      .data-actions .button { width: 100%; }
+      .data-actions, .csv-actions { display: grid; grid-template-columns: 1fr; }
+      .data-actions .button, .csv-actions .button { width: 100%; }
       .history-toolbar { grid-template-columns: 1fr; align-items: stretch; }
       .history-search { max-width: none; }
       .history-row { grid-template-columns: 1fr; gap: 7px; }
@@ -553,7 +558,7 @@
           <img id="appBrandIcon" src="__APP_ICON_DATA_URI__" alt="">
         </div>
         <div class="brand-copy">
-          <p class="brand-name"><span id="brandName">貸出・返却ボード</span><span class="version-badge" id="versionBadge">v0.7.0</span></p>
+          <p class="brand-name"><span id="brandName">貸出・返却ボード</span><span class="version-badge" id="versionBadge">v0.8.0</span></p>
           <p class="brand-meta" data-i18n="brandMeta">完全ローカル処理 · 単一HTML</p>
         </div>
       </div>
@@ -569,8 +574,8 @@
   <main class="main">
     <section class="hero" aria-labelledby="heroTitle">
       <div>
-        <h2 id="heroTitle" data-i18n="introTitle">端末に自動保存して、JSONでバックアップ</h2>
-        <p data-i18n="lead">貸出・返却・履歴をこのブラウザーに自動保存し、必要に応じてJSONファイルへバックアップできます。</p>
+        <h2 id="heroTitle" data-i18n="introTitle">未返却・履歴・備品をCSV出力</h2>
+        <p data-i18n="lead">未返却一覧・操作履歴・備品一覧をCSVで保存し、Excelなどで確認・集計できます。</p>
       </div>
       <div class="local-badge">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 5 6v5c0 4.6 2.8 8 7 10 4.2-2 7-5.4 7-10V6z"/><path d="m9 12 2 2 4-5"/></svg>
@@ -580,10 +585,10 @@
 
     <div class="version-note" role="note">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 10v6M12 7h.01"/></svg>
-      <span data-i18n="devNotice">v0.7.0ではこのブラウザーへの自動保存とJSONバックアップ・復元を利用できます。ブラウザーのサイトデータを削除すると自動保存データは消えるため、重要な運用ではJSONバックアップを併用してください。</span>
+      <span data-i18n="devNotice">v0.8.0では未返却・履歴・備品をCSV出力できます。CSVは確認・集計用で、完全復元にはJSONバックアップを使用してください。</span>
     </div>
 
-    <!-- APP:BEGIN Loan Board v0.7.0 persistence backup workspace -->
+    <!-- APP:BEGIN Loan Board v0.8.0 csv export workspace -->
     <section class="shell board-shell" aria-labelledby="boardTitle">
       <div class="board-top">
         <label class="field" for="boardName">
@@ -591,7 +596,7 @@
           <input class="input" id="boardName" type="text" maxlength="100" autocomplete="off" data-i18n-placeholder="boardNamePlaceholder" placeholder="2026年度 文化祭">
           <span class="field-hint" data-i18n="boardNameHint">イベント名や運用名を付けておくと、今どの貸出を管理しているか分かりやすくなります。</span>
         </label>
-        <span class="status-chip" data-i18n="milestoneStatus">v0.7.0 保存・バックアップ</span>
+        <span class="status-chip" data-i18n="milestoneStatus">v0.8.0 CSV出力</span>
       </div>
       <div class="summary-grid" aria-live="polite">
         <div class="summary-card outstanding" id="outstandingSummaryCard"><strong class="summary-value" id="outstandingCount">0</strong><span class="summary-label" data-i18n="outstandingCountLabel">未返却</span></div>
@@ -790,7 +795,7 @@
       <div class="panel-head">
         <div>
           <h3 id="dataTitle" data-i18n="dataTitle">データ管理</h3>
-          <p data-i18n="dataLead">このブラウザーへの自動保存、JSONバックアップ、復元を管理します。</p>
+          <p data-i18n="dataLead">自動保存・JSONバックアップと、確認・集計用のCSV出力を管理します。</p>
         </div>
       </div>
       <div class="data-body">
@@ -801,13 +806,33 @@
             <p id="storageStatusBody"></p>
           </div>
         </div>
-        <div class="data-actions">
-          <button class="button primary" id="downloadBackupButton" type="button" data-i18n="downloadBackup">JSONバックアップを保存</button>
-          <button class="button" id="restoreBackupButton" type="button" data-i18n="restoreBackup">JSONバックアップから復元</button>
-          <input class="sr-only" id="restoreBackupInput" type="file" accept=".json,application/json">
-          <button class="button danger" id="resetDataButton" type="button" data-i18n="resetData">新しいボードにリセット</button>
+
+        <div class="data-group">
+          <div class="data-group-head">
+            <h4 data-i18n="backupGroupTitle">バックアップ / 復元</h4>
+            <p data-i18n="backupGroupLead">Loan Board全体を復元する用途にはJSONバックアップを使用します。</p>
+          </div>
+          <div class="data-actions">
+            <button class="button primary" id="downloadBackupButton" type="button" data-i18n="downloadBackup">JSONバックアップを保存</button>
+            <button class="button" id="restoreBackupButton" type="button" data-i18n="restoreBackup">JSONバックアップから復元</button>
+            <input class="sr-only" id="restoreBackupInput" type="file" accept=".json,application/json">
+            <button class="button danger" id="resetDataButton" type="button" data-i18n="resetData">新しいボードにリセット</button>
+          </div>
+          <div class="data-file-name" id="restoreFileName" hidden></div>
         </div>
-        <div class="data-file-name" id="restoreFileName" hidden></div>
+
+        <div class="data-group">
+          <div class="data-group-head">
+            <h4 data-i18n="csvGroupTitle">CSV出力</h4>
+            <p data-i18n="csvGroupLead">Excelなどで確認・集計するための出力です。CSVからLoan Board全体を復元することはできません。</p>
+          </div>
+          <div class="csv-actions">
+            <button class="button" id="exportOutstandingCsvButton" type="button" data-i18n="exportOutstandingCsv">未返却一覧CSV</button>
+            <button class="button" id="exportHistoryCsvButton" type="button" data-i18n="exportHistoryCsv">操作履歴CSV</button>
+            <button class="button" id="exportItemsCsvButton" type="button" data-i18n="exportItemsCsv">備品一覧CSV</button>
+          </div>
+        </div>
+
         <p class="data-note" data-i18n="storageNote">自動保存データはこのブラウザー内に保存されます。ブラウザーのサイトデータ削除、プライベートブラウズ、ファイルの開き方や保存場所の変更などで利用できなくなる場合があります。重要な運用ではJSONバックアップを併用してください。</p>
       </div>
     </section>
@@ -907,11 +932,11 @@
       </div>
       <div class="dialog-body">
         <!-- APP:HELP:BEGIN -->
-        <h3 data-i18n="helpBasicsTitle">v0.7.0の基本操作</h3>
+        <h3 data-i18n="helpBasicsTitle">v0.8.0の基本操作</h3>
         <ol>
-          <li data-i18n="helpStep1">備品・貸出先・貸出状態・履歴・アーカイブ状態は、このブラウザーへ自動保存されます。</li>
-          <li data-i18n="helpStep2">「JSONバックアップを保存」で、ボード全体を1つのJSONファイルとして保存できます。</li>
-          <li data-i18n="helpStep3">JSONバックアップから復元すると、現在のボード全体をバックアップ内容で置き換えます。復元前に確認が表示されます。</li>
+          <li data-i18n="helpStep1">未返却一覧CSVは、現在貸出中の備品を1備品1行で出力します。</li>
+          <li data-i18n="helpStep2">操作履歴CSVは1イベント×1備品を1行として出力し、備品一覧CSVは現在の全備品を出力します。</li>
+          <li data-i18n="helpStep3">CSVはExcel等での確認・集計用です。Loan Board全体の復元にはJSONバックアップを使用してください。</li>
         </ol>
         <h3 data-i18n="helpPrivacyTitle">プライバシー</h3>
         <p data-i18n="helpPrivacyBody">入力内容、貸出状態、返却状態、操作履歴はブラウザー内で処理され、このアプリから外部サーバーへ送信されません。ランタイムの外部通信も行いません。</p>
@@ -1033,9 +1058,9 @@
 
       const translations = {
         ja: {
-          brandMeta:'完全ローカル処理 · 単一HTML',introTitle:'端末に自動保存して、JSONでバックアップ',lead:'貸出・返却・履歴をこのブラウザーに自動保存し、必要に応じてJSONファイルへバックアップできます。',localBadge:'完全ローカル処理',
-          devNotice:'v0.7.0ではこのブラウザーへの自動保存とJSONバックアップ・復元を利用できます。ブラウザーのサイトデータを削除すると自動保存データは消えるため、重要な運用ではJSONバックアップを併用してください。',
-          boardNameLabel:'ボード名',boardNamePlaceholder:'2026年度 文化祭',boardNameHint:'イベント名や運用名を付けておくと、今どの貸出を管理しているか分かりやすくなります。',milestoneStatus:'v0.7.0 保存・バックアップ',
+          brandMeta:'完全ローカル処理 · 単一HTML',introTitle:'未返却・履歴・備品をCSV出力',lead:'未返却一覧・操作履歴・備品一覧をCSVで保存し、Excelなどで確認・集計できます。',localBadge:'完全ローカル処理',
+          devNotice:'v0.8.0では未返却・履歴・備品をCSV出力できます。CSVは確認・集計用で、完全復元にはJSONバックアップを使用してください。',
+          boardNameLabel:'ボード名',boardNamePlaceholder:'2026年度 文化祭',boardNameHint:'イベント名や運用名を付けておくと、今どの貸出を管理しているか分かりやすくなります。',milestoneStatus:'v0.8.0 CSV出力',
           itemsCountLabel:'備品',borrowersCountLabel:'貸出先',checkedOutCountLabel:'貸出中',
           outstandingCountLabel:'未返却',outstandingBorrowersLabel:'貸出先',availabilitySummaryLabel:'利用可能 / 全備品',
           outstandingBoardTitle:'未返却ボード',outstandingBoardLead:'誰が何を持っているかを貸出先ごとに確認します。返却操作もここから始められます。',
@@ -1057,14 +1082,14 @@
           emptyItemsTitle:'まだ備品がありません',emptyItemsBody:'上のフォームから備品を追加すると、ここに一覧が表示されます。',emptyBorrowersTitle:'まだ貸出先がありません',emptyBorrowersBody:'名前や班名を追加すると、ここから確認・編集できます。',
           available:'利用可能',checkedOut:'貸出中',lentToPrefix:'貸出先',checkedOutAtPrefix:'貸出',categoryPrefix:'カテゴリ',codePrefix:'コード',borrowedItemsPrefix:'貸出中',
           edit:'編集',editItemTitle:'備品を編集',editBorrowerTitle:'貸出先を編集',cancel:'キャンセル',saveChanges:'変更を保存',itemAdded:'備品を追加しました',borrowerAdded:'貸出先を追加しました',itemUpdated:'備品を更新しました',borrowerUpdated:'貸出先を更新しました',close:'閉じる',
-          helpTitle:'使い方と注意事項',helpBasicsTitle:'v0.7.0の基本操作',helpStep1:'備品・貸出先・貸出状態・履歴・アーカイブ状態は、このブラウザーへ自動保存されます。',helpStep2:'「JSONバックアップを保存」で、ボード全体を1つのJSONファイルとして保存できます。',helpStep3:'JSONバックアップから復元すると、現在のボード全体をバックアップ内容で置き換えます。復元前に確認が表示されます。',
+          helpTitle:'使い方と注意事項',helpBasicsTitle:'v0.8.0の基本操作',helpStep1:'未返却一覧CSVは、現在貸出中の備品を1備品1行で出力します。',helpStep2:'操作履歴CSVは1イベント×1備品を1行として出力し、備品一覧CSVは現在の全備品を出力します。',helpStep3:'CSVはExcel等での確認・集計用です。Loan Board全体の復元にはJSONバックアップを使用してください。',
           helpPrivacyTitle:'プライバシー',helpPrivacyBody:'入力内容、貸出状態、返却状態、操作履歴はブラウザー内で処理され、このアプリから外部サーバーへ送信されません。ランタイムの外部通信も行いません。',helpNotesTitle:'現在の制限',helpNoteStorage:'自動保存はブラウザー内の保存領域を使います。サイトデータ削除やブラウザー設定などで消える場合があるため、重要なデータはJSONバックアップも保存してください。',helpNoteUndo:'Undoは履歴を削除せず、取り消しイベントを追加して状態を戻します。',helpNoteData:'電話番号や住所など、貸出管理に不要な個人情報は入力しないことを推奨します。',helpOffline:'配布用HTMLは単体で開けます。必要なコードはHTML内に含まれます。',
-          dataTitle:'データ管理',dataLead:'このブラウザーへの自動保存、JSONバックアップ、復元を管理します。',downloadBackup:'JSONバックアップを保存',restoreBackup:'JSONバックアップから復元',resetData:'新しいボードにリセット',storageNote:'自動保存データはこのブラウザー内に保存されます。ブラウザーのサイトデータ削除、プライベートブラウズ、ファイルの開き方や保存場所の変更などで利用できなくなる場合があります。重要な運用ではJSONバックアップを併用してください。',storageReadyTitle:'自動保存を利用できます',storageReadyBody:'変更するとこのブラウザーへ自動保存されます。',storageSavingTitle:'保存中…',storageSavingBody:'このブラウザーへ変更内容を保存しています。',storageSavedTitle:'このブラウザーに保存済み',storageSavedBody:'最終保存',storageUnavailableTitle:'自動保存を利用できません',storageUnavailableBody:'このブラウザーの保存領域へ書き込めません。JSONバックアップをご利用ください。',storageLoadErrorTitle:'保存データを読み込めませんでした',storageLoadErrorBody:'既存の自動保存データは上書きしていません。JSONバックアップから復元するか、新しいボードにリセットしてください。',restoredOnLoad:'前回の自動保存データを復元しました',backupSaved:'JSONバックアップを保存しました',backupInvalid:'このファイルはLoan Boardの有効なJSONバックアップではありません。',backupTooLarge:'バックアップファイルが大きすぎます。',restoreConfirm:'現在のボード全体をバックアップ内容で置き換えます。復元しますか？',restoreComplete:'JSONバックアップから復元しました',resetConfirm:'備品・貸出先・貸出状態・履歴をすべて削除して、新しいボードにしますか？',resetComplete:'新しいボードにリセットしました',selectedBackupFile:'選択したファイル',buildInfo:'ビルド情報',appVersion:'アプリバージョン',builtAt:'生成日時',dependencies:'内包依存数',footer:'端末内で動作する単一HTMLアプリ'
+          dataTitle:'データ管理',dataLead:'自動保存・JSONバックアップと、確認・集計用のCSV出力を管理します。',backupGroupTitle:'バックアップ / 復元',backupGroupLead:'Loan Board全体を復元する用途にはJSONバックアップを使用します。',csvGroupTitle:'CSV出力',csvGroupLead:'Excelなどで確認・集計するための出力です。CSVからLoan Board全体を復元することはできません。',exportOutstandingCsv:'未返却一覧CSV',exportHistoryCsv:'操作履歴CSV',exportItemsCsv:'備品一覧CSV',csvExported:'CSVを保存しました',downloadBackup:'JSONバックアップを保存',restoreBackup:'JSONバックアップから復元',resetData:'新しいボードにリセット',storageNote:'自動保存データはこのブラウザー内に保存されます。ブラウザーのサイトデータ削除、プライベートブラウズ、ファイルの開き方や保存場所の変更などで利用できなくなる場合があります。重要な運用ではJSONバックアップを併用してください。',storageReadyTitle:'自動保存を利用できます',storageReadyBody:'変更するとこのブラウザーへ自動保存されます。',storageSavingTitle:'保存中…',storageSavingBody:'このブラウザーへ変更内容を保存しています。',storageSavedTitle:'このブラウザーに保存済み',storageSavedBody:'最終保存',storageUnavailableTitle:'自動保存を利用できません',storageUnavailableBody:'このブラウザーの保存領域へ書き込めません。JSONバックアップをご利用ください。',storageLoadErrorTitle:'保存データを読み込めませんでした',storageLoadErrorBody:'既存の自動保存データは上書きしていません。JSONバックアップから復元するか、新しいボードにリセットしてください。',restoredOnLoad:'前回の自動保存データを復元しました',backupSaved:'JSONバックアップを保存しました',backupInvalid:'このファイルはLoan Boardの有効なJSONバックアップではありません。',backupTooLarge:'バックアップファイルが大きすぎます。',restoreConfirm:'現在のボード全体をバックアップ内容で置き換えます。復元しますか？',restoreComplete:'JSONバックアップから復元しました',resetConfirm:'備品・貸出先・貸出状態・履歴をすべて削除して、新しいボードにしますか？',resetComplete:'新しいボードにリセットしました',selectedBackupFile:'選択したファイル',buildInfo:'ビルド情報',appVersion:'アプリバージョン',builtAt:'生成日時',dependencies:'内包依存数',footer:'端末内で動作する単一HTMLアプリ'
         },
         en: {
-          brandMeta:'Fully local · Single HTML',introTitle:'Autosave on this device and back up as JSON',lead:'Automatically save checkout, return, and history data in this browser and export a JSON backup when needed.',localBadge:'Fully local processing',
-          devNotice:'v0.7.0 adds browser autosave and JSON backup / restore. Browser storage can be cleared by site-data settings, so keep JSON backups for important operations.',
-          boardNameLabel:'Board name',boardNamePlaceholder:'School Festival 2026',boardNameHint:'Use an event or operation name so it is clear which lending session this board represents.',milestoneStatus:'v0.7.0 Persistence / Backup',
+          brandMeta:'Fully local · Single HTML',introTitle:'Export outstanding, history, and equipment as CSV',lead:'Save outstanding equipment, operation history, and equipment lists as CSV for review or analysis in spreadsheet apps.',localBadge:'Fully local processing',
+          devNotice:'v0.8.0 adds CSV exports for outstanding equipment, operation history, and equipment. CSV is for review and analysis; use JSON backup for full restoration.',
+          boardNameLabel:'Board name',boardNamePlaceholder:'School Festival 2026',boardNameHint:'Use an event or operation name so it is clear which lending session this board represents.',milestoneStatus:'v0.8.0 CSV Export',
           itemsCountLabel:'Equipment',borrowersCountLabel:'Borrowers',checkedOutCountLabel:'Checked out',
           outstandingCountLabel:'Outstanding',outstandingBorrowersLabel:'Borrowers',availabilitySummaryLabel:'Available / total',
           outstandingBoardTitle:'Outstanding board',outstandingBoardLead:'See who currently has each item, grouped by borrower, and start return actions here.',
@@ -1086,9 +1111,9 @@
           emptyItemsTitle:'No equipment yet',emptyItemsBody:'Add equipment with the form above and it will appear here.',emptyBorrowersTitle:'No borrowers yet',emptyBorrowersBody:'Add a person or team and it will appear here for review and editing.',
           available:'Available',checkedOut:'Checked out',lentToPrefix:'Borrower',checkedOutAtPrefix:'Checked out',categoryPrefix:'Category',codePrefix:'Code',borrowedItemsPrefix:'Checked out',
           edit:'Edit',editItemTitle:'Edit equipment',editBorrowerTitle:'Edit borrower',cancel:'Cancel',saveChanges:'Save changes',itemAdded:'Equipment added',borrowerAdded:'Borrower added',itemUpdated:'Equipment updated',borrowerUpdated:'Borrower updated',close:'Close',
-          helpTitle:'How to use & notes',helpBasicsTitle:'Basics in v0.7.0',helpStep1:'Equipment, borrowers, loan state, history, and archive state are automatically saved in this browser.',helpStep2:'Use Save JSON backup to export the whole board as one JSON file.',helpStep3:'Restoring a JSON backup replaces the entire current board. A confirmation is shown before replacement.',
+          helpTitle:'How to use & notes',helpBasicsTitle:'Basics in v0.8.0',helpStep1:'Outstanding CSV exports one row per currently checked-out item.',helpStep2:'History CSV exports one row per event-item pair, while Equipment CSV exports every current equipment item.',helpStep3:'CSV is for spreadsheet review and analysis. Use JSON backup to restore the complete Loan Board state.',
           helpPrivacyTitle:'Privacy',helpPrivacyBody:'Entries, loan state, return state, and operation history are processed in the browser and are not sent to an external server. The runtime makes no external network request.',helpNotesTitle:'Current limitations',helpNoteStorage:'Autosave uses browser storage, which can be cleared by browser settings or become unavailable depending on how the file is opened. Keep JSON backups for important data.',helpNoteUndo:'Undo keeps the original history and adds an undo event while restoring state.',helpNoteData:'Avoid entering phone numbers, addresses, or other personal information that is unnecessary for lending.',helpOffline:'The distributable HTML opens by itself and includes the required code.',
-          dataTitle:'Data management',dataLead:'Manage browser autosave, JSON backup, and restore.',downloadBackup:'Save JSON backup',restoreBackup:'Restore JSON backup',resetData:'Reset to a new board',storageNote:'Autosave is stored in this browser. It can become unavailable after clearing site data, in private browsing, or depending on how or where a local file is opened. Keep JSON backups for important operations.',storageReadyTitle:'Autosave is available',storageReadyBody:'Changes will be saved automatically in this browser.',storageSavingTitle:'Saving…',storageSavingBody:'Saving changes in this browser.',storageSavedTitle:'Saved in this browser',storageSavedBody:'Last saved',storageUnavailableTitle:'Autosave is unavailable',storageUnavailableBody:'This browser cannot write to its local storage. Use JSON backups instead.',storageLoadErrorTitle:'Saved data could not be loaded',storageLoadErrorBody:'The existing autosave data has not been overwritten. Restore a JSON backup or reset to a new board.',restoredOnLoad:'Restored the previous autosave data',backupSaved:'JSON backup saved',backupInvalid:'This file is not a valid Loan Board JSON backup.',backupTooLarge:'The backup file is too large.',restoreConfirm:'Replace the entire current board with this backup?',restoreComplete:'Restored from JSON backup',resetConfirm:'Delete all equipment, borrowers, loan state, and history and start a new board?',resetComplete:'Reset to a new board',selectedBackupFile:'Selected file',buildInfo:'Build information',appVersion:'App version',builtAt:'Built at',dependencies:'Embedded dependencies',footer:'Single HTML app that runs on this device'
+          dataTitle:'Data management',dataLead:'Manage autosave, JSON backup / restore, and CSV exports for review and analysis.',backupGroupTitle:'Backup / restore',backupGroupLead:'Use JSON backup when you need to restore the complete Loan Board state.',csvGroupTitle:'CSV export',csvGroupLead:'These files are for review and analysis in spreadsheet apps. CSV cannot restore the complete Loan Board state.',exportOutstandingCsv:'Outstanding CSV',exportHistoryCsv:'Operation history CSV',exportItemsCsv:'Equipment CSV',csvExported:'CSV saved',downloadBackup:'Save JSON backup',restoreBackup:'Restore JSON backup',resetData:'Reset to a new board',storageNote:'Autosave is stored in this browser. It can become unavailable after clearing site data, in private browsing, or depending on how or where a local file is opened. Keep JSON backups for important operations.',storageReadyTitle:'Autosave is available',storageReadyBody:'Changes will be saved automatically in this browser.',storageSavingTitle:'Saving…',storageSavingBody:'Saving changes in this browser.',storageSavedTitle:'Saved in this browser',storageSavedBody:'Last saved',storageUnavailableTitle:'Autosave is unavailable',storageUnavailableBody:'This browser cannot write to its local storage. Use JSON backups instead.',storageLoadErrorTitle:'Saved data could not be loaded',storageLoadErrorBody:'The existing autosave data has not been overwritten. Restore a JSON backup or reset to a new board.',restoredOnLoad:'Restored the previous autosave data',backupSaved:'JSON backup saved',backupInvalid:'This file is not a valid Loan Board JSON backup.',backupTooLarge:'The backup file is too large.',restoreConfirm:'Replace the entire current board with this backup?',restoreComplete:'Restored from JSON backup',resetConfirm:'Delete all equipment, borrowers, loan state, and history and start a new board?',resetComplete:'Reset to a new board',selectedBackupFile:'Selected file',buildInfo:'Build information',appVersion:'App version',builtAt:'Built at',dependencies:'Embedded dependencies',footer:'Single HTML app that runs on this device'
         }
       };
 
@@ -1174,6 +1199,49 @@
       function downloadJsonBackup(){
         const json=JSON.stringify(backupEnvelope(),null,2),url=URL.createObjectURL(new Blob([json],{type:'application/json;charset=utf-8'})),link=document.createElement('a');
         link.href=url;link.download=backupFilename();document.body.append(link);link.click();link.remove();window.setTimeout(()=>URL.revokeObjectURL(url),0);showToast(t('backupSaved'));
+      }
+      function csvSafeValue(value){
+        let text=value==null?'':String(value).replace(/\u0000/g,'');
+        if(/^[\t\r\n ]*[=+\-@]/.test(text)||/^[\t\r\n]/.test(text))text="'"+text;
+        return text;
+      }
+      function csvCell(value){return '"'+csvSafeValue(value).replace(/"/g,'""')+'"';}
+      function csvText(headers,rows){return '\uFEFF'+[headers,...rows].map(row=>row.map(csvCell).join(',')).join('\r\n')+'\r\n';}
+      function csvTimestamp(){return new Date().toISOString().replace(/[-:]/g,'').replace(/\.\d{3}Z$/,'Z');}
+      function csvFilename(kind){const board=safeFilePart(state.board.name)||'board';return APP_CONFIG.slug+'-'+board+'-'+kind+'-'+csvTimestamp()+'.csv';}
+      function downloadCsv(kind,headers,rows){
+        const url=URL.createObjectURL(new Blob([csvText(headers,rows)],{type:'text/csv;charset=utf-8'})),link=document.createElement('a');
+        link.href=url;link.download=csvFilename(kind);document.body.append(link);link.click();link.remove();window.setTimeout(()=>URL.revokeObjectURL(url),0);showToast(t('csvExported')+' · '+rows.length);
+      }
+      function csvYesNo(value){return language==='ja'?(value?'はい':'いいえ'):(value?'Yes':'No');}
+      function csvStatus(item){if(item.archived)return language==='ja'?'アーカイブ済み':'Archived';return item.status==='checked-out'?(language==='ja'?'貸出中':'Checked out'):(language==='ja'?'利用可能':'Available');}
+      function csvEventAction(event){
+        if(event.type==='checkout')return language==='ja'?'貸出':'Checkout';
+        if(event.type==='return')return language==='ja'?'返却':'Return';
+        if(event.type==='undo')return event.reversedType==='return'?(language==='ja'?'返却を元に戻した':'Return undone'):(language==='ja'?'貸出を元に戻した':'Checkout undone');
+        return event.type;
+      }
+      function exportOutstandingCsv(){
+        const headers=language==='ja'
+          ?['ボード名','貸出先','貸出先メモ','備品名','カテゴリ','管理コード','貸出日時','備品メモ']
+          :['Board','Borrower','Borrower note','Equipment','Category','Item code','Checked out at','Equipment note'];
+        const rows=state.items.filter(item=>!item.archived&&item.status==='checked-out').map(item=>{const borrower=borrowerById(item.currentBorrowerId);return[state.board.name,borrower?.name||'',borrower?.note||'',item.name,item.category,item.code,item.currentCheckoutAt||'',item.note];});
+        downloadCsv('outstanding',headers,rows);
+      }
+      function exportHistoryCsv(){
+        const headers=language==='ja'
+          ?['ボード名','イベントID','操作','日時','貸出先','備品名','カテゴリ','管理コード','元イベント取消済み','関連イベントID']
+          :['Board','Event ID','Action','Timestamp','Borrower','Equipment','Category','Item code','Source event undone','Related event ID'];
+        const rows=[];
+        state.events.forEach(event=>{const borrower=borrowerById(event.borrowerId),undone=isEventUndone(event.eventId);(event.itemIds||[]).forEach(itemId=>{const item=itemById(itemId);rows.push([state.board.name,event.eventId,csvEventAction(event),event.timestamp,borrower?.name||'',item?.name||itemId,item?.category||'',item?.code||'',csvYesNo(undone),event.relatedEventId||'']);});});
+        downloadCsv('history',headers,rows);
+      }
+      function exportItemsCsv(){
+        const headers=language==='ja'
+          ?['ボード名','備品名','カテゴリ','管理コード','メモ','状態','アーカイブ','現在の貸出先','貸出日時','登録日時','更新日時']
+          :['Board','Equipment','Category','Item code','Note','Status','Archived','Current borrower','Checked out at','Created at','Updated at'];
+        const rows=state.items.map(item=>{const borrower=item.currentBorrowerId?borrowerById(item.currentBorrowerId):null;return[state.board.name,item.name,item.category,item.code,item.note,csvStatus(item),csvYesNo(item.archived),borrower?.name||'',item.currentCheckoutAt||'',item.createdAt||'',item.updatedAt||''];});
+        downloadCsv('equipment',headers,rows);
       }
       function restoreState(nextState){state=nextState;clearUiSelections();storageControl.blocked=false;storageControl.mode='ready';storageControl.lastSavedAt=null;render();persistState();}
       function resetAllData(){
@@ -1435,6 +1503,9 @@
       $('#historyList').addEventListener('click',event=>{const button=event.target.closest('[data-history-undo]');if(!button)return;undoEvent(button.dataset.historyUndo);});
 
       $('#downloadBackupButton').addEventListener('click',downloadJsonBackup);
+      $('#exportOutstandingCsvButton').addEventListener('click',exportOutstandingCsv);
+      $('#exportHistoryCsvButton').addEventListener('click',exportHistoryCsv);
+      $('#exportItemsCsvButton').addEventListener('click',exportItemsCsv);
       $('#restoreBackupButton').addEventListener('click',()=>$('#restoreBackupInput').click());
       $('#restoreBackupInput').addEventListener('change',async event=>{const file=event.currentTarget.files?.[0];event.currentTarget.value='';if(file)await restoreBackupFile(file);});
       $('#resetDataButton').addEventListener('click',resetAllData);
