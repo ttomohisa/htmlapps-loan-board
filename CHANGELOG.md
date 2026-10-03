@@ -2,6 +2,19 @@
 
 All notable Loan Board changes are recorded here.
 
+## [0.2.0] - 2026-10-03
+
+### Added
+- Borrower search and inline borrower creation for checkout.
+- Search and multi-select for available equipment.
+- Checkout events and checked-out item state.
+- Double-checkout prevention.
+- Borrower / checkout time display on equipment and checked-out counts on borrowers.
+
+### Changed
+- Header structure and controls now match the current htmlapps-template UI pattern.
+- Updated bilingual help, README files, and product specification for v0.2.0.
+
 ## [0.1.0] - 2026-10-03
 
 ### Added

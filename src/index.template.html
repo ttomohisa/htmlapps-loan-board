@@ -24,6 +24,11 @@
       --warning: #8a5a00;
       --warning-soft: #fff8e6;
       --shadow: 0 8px 28px rgba(26, 48, 41, .08);
+      --shadow-sm: 0 1px 2px rgba(25, 28, 24, .08), 0 1px 6px rgba(25, 28, 24, .04);
+      --surface-hover: #eef3f1;
+      --line-strong: #b8c4bf;
+      --focus: #4d8bc7;
+      --header-height: 66px;
       --radius: 18px;
       --radius-sm: 12px;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -42,26 +47,67 @@
       overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
     }
     .app-header {
-      position: sticky; top: 0; z-index: 20;
-      background: rgba(255,255,255,.96); border-bottom: 1px solid var(--line);
-      backdrop-filter: blur(10px);
+      position: sticky;
+      z-index: 30;
+      top: 0;
+      min-height: var(--header-height);
+      border-bottom: 1px solid color-mix(in srgb, var(--line) 82%, transparent);
+      background: color-mix(in srgb, var(--bg) 92%, transparent);
+      backdrop-filter: blur(16px) saturate(1.2);
     }
     .header-inner {
-      max-width: 1180px; margin: 0 auto; min-height: 68px; padding: 10px 20px;
-      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+      width: min(1180px, 100%);
+      min-height: var(--header-height);
+      margin: 0 auto;
+      padding: 10px clamp(14px, 2.8vw, 30px);
+      display: flex;
+      align-items: center;
+      gap: 14px;
     }
-    .brand { min-width: 0; display: flex; align-items: center; gap: 11px; }
-    .brand img { width: 42px; height: 42px; border-radius: 11px; flex: 0 0 auto; }
+    .brand { display: flex; align-items: center; gap: 10px; min-width: 0; }
+    .brand-mark {
+      display: block; width: 38px; height: 38px; flex: 0 0 auto;
+      border-radius: 11px; overflow: hidden; box-shadow: var(--shadow-sm);
+    }
+    .brand-mark img { width: 100%; height: 100%; display: block; }
     .brand-copy { min-width: 0; }
-    .brand-name { margin: 0; font-size: 17px; font-weight: 800; line-height: 1.25; }
-    .brand-meta { margin: 3px 0 0; color: var(--muted); font-size: 12px; line-height: 1.25; }
-    .header-actions { display: flex; align-items: center; gap: 8px; }
-    .icon-button, .lang-button {
-      min-width: 42px; min-height: 42px; border: 1px solid var(--line); border-radius: 11px;
-      background: var(--surface); color: var(--text); display: inline-grid; place-items: center;
+    .brand-name {
+      margin: 0; font-size: 17px; line-height: 1.2; letter-spacing: .01em;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 800;
     }
-    .icon-button svg { width: 21px; height: 21px; }
-    .lang-button { padding: 0 11px; font-weight: 700; font-size: 13px; }
+    .version-badge {
+      display: inline-flex; align-items: center; margin-left: 7px; padding: 1px 6px;
+      border: 1px solid var(--line); border-radius: 999px; color: var(--muted);
+      background: var(--surface-muted); font-size: 10px; font-weight: 650; vertical-align: 2px;
+    }
+    .brand-meta {
+      margin: 2px 0 0; color: var(--muted); font-size: 12px; white-space: nowrap;
+      overflow: hidden; text-overflow: ellipsis;
+    }
+    .header-actions { margin-left: auto; display: flex; align-items: center; gap: 12px; }
+    .language-button {
+      min-width: 0; padding: 5px 1px; border: 0; background: transparent;
+      color: var(--muted); font-size: 12px; font-weight: 750; letter-spacing: .02em;
+      cursor: pointer; transition: color .16s ease, opacity .16s ease;
+    }
+    .language-button:hover { color: var(--text); }
+    .language-button:active { opacity: .65; }
+    .icon-button {
+      display: inline-grid; place-items: center; width: 38px; height: 38px; padding: 0;
+      border: 1px solid var(--line); border-radius: 10px; background: var(--surface);
+      color: var(--text); cursor: pointer;
+      transition: border-color .16s ease, background .16s ease, transform .16s ease;
+    }
+    .icon-button:hover { border-color: var(--line-strong); background: var(--surface-hover); }
+    .icon-button:active { transform: translateY(1px); }
+    .icon-button svg { width: 18px; height: 18px; display: block; }
+    .header-icon-button {
+      width: auto; height: auto; padding: 5px 1px; border: 0; border-radius: 0;
+      background: transparent; color: var(--muted); transition: color .16s ease, opacity .16s ease;
+    }
+    .header-icon-button:hover { border-color: transparent; background: transparent; color: var(--text); }
+    .header-icon-button:active { transform: none; opacity: .65; }
+    .header-icon-button svg { width: 20px; height: 20px; }
     .main { max-width: 1180px; margin: 0 auto; padding: 28px 20px 70px; }
     .hero {
       display: flex; align-items: flex-start; justify-content: space-between; gap: 24px;
@@ -169,7 +215,56 @@
       background: var(--brand-soft); border-radius: 999px; padding: 4px 8px; font-weight: 800;
     }
     .record-status::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--brand); }
-    .build-details { margin-top: 18px; }
+.checkout-shell { margin-bottom: 18px; overflow: hidden; }
+    .checkout-body { padding: 18px; }
+    .checkout-grid { display: grid; grid-template-columns: minmax(0, .82fr) minmax(0, 1.18fr); gap: 18px; }
+    .checkout-column { min-width: 0; display: grid; align-content: start; gap: 12px; }
+    .suggestion-list { display: grid; gap: 7px; max-height: 220px; overflow: auto; }
+    .suggestion-button {
+      width: 100%; min-height: 42px; border: 1px solid var(--line); border-radius: 11px;
+      background: var(--surface-muted); color: var(--text); padding: 9px 11px;
+      display: flex; align-items: center; justify-content: space-between; gap: 10px; text-align: left;
+    }
+    .suggestion-button:hover { border-color: var(--line-strong); background: var(--surface-hover); }
+    .suggestion-button strong { min-width: 0; overflow-wrap: anywhere; }
+    .suggestion-button span { flex: 0 0 auto; color: var(--muted); font-size: 11px; }
+    .suggestion-button.new-entry { border-style: dashed; color: var(--brand-strong); background: var(--brand-soft); }
+    .selected-borrower {
+      display: flex; align-items: center; justify-content: space-between; gap: 10px;
+      border: 1px solid #bdd7cf; border-radius: 12px; background: var(--brand-soft); padding: 10px 12px;
+    }
+    .selected-borrower[hidden] { display: none; }
+    .selected-borrower-copy { min-width: 0; }
+    .selected-borrower-copy span { display: block; color: var(--muted); font-size: 11px; }
+    .selected-borrower-copy strong { display: block; margin-top: 2px; overflow-wrap: anywhere; color: var(--brand-strong); }
+    .clear-selection {
+      flex: 0 0 auto; width: 34px; height: 34px; border: 0; border-radius: 9px;
+      background: transparent; color: var(--brand-strong); display: grid; place-items: center;
+    }
+    .clear-selection:hover { background: rgba(22,98,79,.09); }
+    .clear-selection svg { width: 17px; height: 17px; }
+    .picker-meta { display: flex; align-items: center; justify-content: space-between; gap: 12px; color: var(--muted); font-size: 12px; }
+    .checkout-item-list { display: grid; gap: 8px; max-height: 330px; overflow: auto; padding-right: 2px; }
+    .checkout-choice {
+      display: grid; grid-template-columns: auto minmax(0,1fr); gap: 11px; align-items: start;
+      min-width: 0; border: 1px solid var(--line); border-radius: 12px; background: #fff; padding: 11px 12px; cursor: pointer;
+    }
+    .checkout-choice:hover { border-color: #9fb2ab; background: #fbfcfb; }
+    .checkout-choice:has(input:checked) { border-color: var(--brand); background: var(--brand-soft); }
+    .checkout-choice input { width: 20px; height: 20px; margin: 1px 0 0; accent-color: var(--brand); }
+    .checkout-choice-copy { min-width: 0; }
+    .checkout-choice-title { display: block; font-weight: 800; overflow-wrap: anywhere; }
+    .checkout-choice-meta { display: flex; flex-wrap: wrap; gap: 4px 9px; margin-top: 4px; color: var(--muted); font-size: 11px; }
+    .checkout-empty { border: 1px dashed #b9c8c3; border-radius: 12px; background: var(--surface-muted); padding: 16px; color: var(--muted); font-size: 13px; line-height: 1.55; }
+    .checkout-footer {
+      margin-top: 16px; padding-top: 15px; border-top: 1px solid var(--line);
+      display: flex; align-items: center; justify-content: space-between; gap: 14px;
+    }
+    .checkout-summary { min-width: 0; color: var(--muted); font-size: 13px; line-height: 1.5; }
+    .checkout-summary strong { color: var(--text); }
+    .record-status.checked-out { color: #704800; background: #fff3d2; }
+    .record-status.checked-out::before { background: #b67800; }
+        .build-details { margin-top: 18px; }
     details.shell { padding: 0; }
     details summary {
       cursor: pointer; list-style: none; padding: 15px 18px; font-weight: 800;
@@ -227,9 +322,10 @@
       .board-top { grid-template-columns: 1fr; align-items: start; }
     }
     @media (max-width: 620px) {
-      .header-inner { padding: 9px 14px; min-height: 62px; }
-      .brand img { width: 38px; height: 38px; }
+      .header-inner { padding: 9px 14px; }
+      .brand-mark { width: 38px; height: 38px; }
       .brand-meta { display: none; }
+      .header-actions { gap: 10px; }
       .main { padding: 22px 14px 56px; }
       .hero { display: grid; gap: 13px; }
       .local-badge { justify-self: start; }
@@ -237,7 +333,10 @@
       .summary-grid { gap: 8px; }
       .summary-card { padding: 12px 10px; }
       .summary-value { font-size: 24px; }
-      .panel-head, .panel-body { padding-left: 15px; padding-right: 15px; }
+      .panel-head, .panel-body, .checkout-body { padding-left: 15px; padding-right: 15px; }
+      .checkout-grid { grid-template-columns: 1fr; }
+      .checkout-footer { align-items: stretch; flex-direction: column; }
+      .checkout-footer .button { width: 100%; }
       .form-row { grid-template-columns: 1fr; }
       .record { grid-template-columns: 1fr; align-items: start; }
       .record-actions .button { width: 100%; }
@@ -264,19 +363,18 @@
   <header class="app-header">
     <div class="header-inner">
       <div class="brand">
-        <img id="appBrandIcon" src="__APP_ICON_DATA_URI__" alt="">
+        <div class="brand-mark" aria-hidden="true">
+          <img id="appBrandIcon" src="__APP_ICON_DATA_URI__" alt="">
+        </div>
         <div class="brand-copy">
-          <h1 class="brand-name" id="brandName">貸出・返却ボード</h1>
-          <p class="brand-meta" data-i18n="brandMeta">完全ローカル処理・単一HTML</p>
+          <p class="brand-name"><span id="brandName">貸出・返却ボード</span><span class="version-badge" id="versionBadge">v0.2.0</span></p>
+          <p class="brand-meta" data-i18n="brandMeta">完全ローカル処理 · 単一HTML</p>
         </div>
       </div>
       <div class="header-actions">
-        <span class="status-chip" id="versionBadge">v0.1.0</span>
-        <button class="lang-button" id="languageButton" type="button">EN</button>
-        <button class="icon-button" id="helpButton" type="button" data-i18n-title="helpTitle" data-i18n-aria-label="helpTitle" title="使い方と注意事項" aria-label="使い方と注意事項">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <circle cx="12" cy="12" r="9"/><path d="M9.8 9a2.35 2.35 0 1 1 3.72 1.9c-.92.67-1.52 1.12-1.52 2.1"/><path d="M12 17h.01"/>
-          </svg>
+        <button class="language-button" id="languageButton" type="button" aria-label="Switch language">EN</button>
+        <button class="icon-button header-icon-button" id="helpButton" type="button" data-i18n-title="helpTitle" data-i18n-aria-label="helpTitle" title="使い方と注意事項" aria-label="使い方と注意事項">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.8 9a2.35 2.35 0 1 1 3.72 1.9c-.92.67-1.52 1.12-1.52 2.1"/><path d="M12 17h.01"/></svg>
         </button>
       </div>
     </div>
@@ -285,8 +383,8 @@
   <main class="main">
     <section class="hero" aria-labelledby="heroTitle">
       <div>
-        <h2 id="heroTitle" data-i18n="introTitle">貸出・返却の準備を整える</h2>
-        <p data-i18n="lead">備品と貸出先を登録し、誰に何を貸しているかを管理するための土台を作ります。最終版では未返却をすぐ確認できるボードになります。</p>
+        <h2 id="heroTitle" data-i18n="introTitle">備品を貸し出す</h2>
+        <p data-i18n="lead">貸出先を選び、利用可能な備品をまとめて貸し出します。貸出中の備品は二重に選べません。</p>
       </div>
       <div class="local-badge">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 5 6v5c0 4.6 2.8 8 7 10 4.2-2 7-5.4 7-10V6z"/><path d="m9 12 2 2 4-5"/></svg>
@@ -296,10 +394,10 @@
 
     <div class="version-note" role="note">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 10v6M12 7h.01"/></svg>
-      <span data-i18n="devNotice">v0.1.0では登録内容はメモリ上だけに保持されます。ページを再読み込みすると消えます。保存・復元はv0.7.0で追加予定です。</span>
+      <span data-i18n="devNotice">v0.2.0では貸出まで利用できます。登録内容と貸出状態はまだメモリ上だけに保持され、ページを再読み込みすると消えます。返却はv0.3.0で追加予定です。</span>
     </div>
 
-    <!-- APP:BEGIN Loan Board v0.1.0 core data workspace -->
+    <!-- APP:BEGIN Loan Board v0.2.0 checkout workspace -->
     <section class="shell board-shell" aria-labelledby="boardTitle">
       <div class="board-top">
         <label class="field" for="boardName">
@@ -307,7 +405,7 @@
           <input class="input" id="boardName" type="text" maxlength="100" autocomplete="off" data-i18n-placeholder="boardNamePlaceholder" placeholder="2026年度 文化祭">
           <span class="field-hint" data-i18n="boardNameHint">イベント名や運用名を付けておくと、今どの貸出を管理しているか分かりやすくなります。</span>
         </label>
-        <span class="status-chip" data-i18n="foundationStatus">v0.1.0 基礎データ</span>
+        <span class="status-chip" data-i18n="milestoneStatus">v0.2.0 貸出</span>
       </div>
       <div class="summary-grid" aria-live="polite">
         <div class="summary-card"><strong class="summary-value" id="itemCount">0</strong><span class="summary-label" data-i18n="itemsCountLabel">備品</span></div>
@@ -316,74 +414,85 @@
       </div>
     </section>
 
+    <section class="shell checkout-shell" aria-labelledby="checkoutTitle">
+      <div class="panel-head">
+        <div>
+          <h3 id="checkoutTitle" data-i18n="checkoutTitle">貸し出す</h3>
+          <p data-i18n="checkoutLead">貸出先を選び、利用可能な備品をまとめて貸し出します。</p>
+        </div>
+        <span class="count-badge" id="availableCheckoutCount" aria-hidden="true">0</span>
+      </div>
+      <div class="checkout-body">
+        <div class="checkout-grid">
+          <div class="checkout-column">
+            <label class="field" for="checkoutBorrowerQuery">
+              <span class="field-label" data-i18n="checkoutBorrowerLabel">貸出先</span>
+              <input class="input" id="checkoutBorrowerQuery" type="search" maxlength="120" autocomplete="off" data-i18n-placeholder="checkoutBorrowerPlaceholder" placeholder="名前・班名を検索または入力">
+              <span class="field-hint" data-i18n="checkoutBorrowerHint">既存の貸出先を選ぶか、新しい名前をその場で追加できます。</span>
+            </label>
+            <div class="selected-borrower" id="selectedBorrowerCard" hidden>
+              <div class="selected-borrower-copy">
+                <span data-i18n="selectedBorrowerLabel">選択中の貸出先</span>
+                <strong id="selectedBorrowerName"></strong>
+              </div>
+              <button class="clear-selection" id="clearBorrowerSelection" type="button" data-i18n-title="clearSelection" data-i18n-aria-label="clearSelection" title="選択を解除" aria-label="選択を解除">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="m7 7 10 10M17 7 7 17"/></svg>
+              </button>
+            </div>
+            <div class="suggestion-list" id="checkoutBorrowerSuggestions" aria-live="polite"></div>
+          </div>
+
+          <div class="checkout-column">
+            <label class="field" for="checkoutItemSearch">
+              <span class="field-label" data-i18n="checkoutItemsLabel">貸し出す備品</span>
+              <input class="input" id="checkoutItemSearch" type="search" autocomplete="off" data-i18n-placeholder="checkoutItemPlaceholder" placeholder="備品名・カテゴリ・コードで検索">
+            </label>
+            <div class="picker-meta">
+              <span><span data-i18n="availableLabel">利用可能</span> <strong id="availableItemCount">0</strong></span>
+              <span><span data-i18n="selectedLabel">選択中</span> <strong id="selectedItemCount">0</strong></span>
+            </div>
+            <div class="checkout-item-list" id="checkoutItemList"></div>
+          </div>
+        </div>
+        <div class="checkout-footer">
+          <div class="checkout-summary" id="checkoutSummary" aria-live="polite" data-i18n="checkoutSummaryEmpty">貸出先と備品を選択してください。</div>
+          <button class="button primary" id="checkoutButton" type="button" disabled data-i18n="checkoutButtonEmpty">貸出先と備品を選択</button>
+        </div>
+      </div>
+    </section>
+
     <div class="workspace-grid">
       <section class="shell panel" aria-labelledby="itemsTitle">
         <div class="panel-head">
-          <div>
-            <h3 id="itemsTitle" data-i18n="itemsTitle">備品</h3>
-            <p data-i18n="itemsLead">1個体を1件として登録します。貸出機能は次の開発段階で追加します。</p>
-          </div>
+          <div><h3 id="itemsTitle" data-i18n="itemsTitle">備品</h3><p data-i18n="itemsLead">1個体を1件として登録します。貸出中の備品も状態と貸出先を確認できます。</p></div>
           <span class="count-badge" id="itemPanelCount" aria-hidden="true">0</span>
         </div>
         <div class="panel-body">
           <form class="form-grid" id="itemForm">
-            <label class="field" for="itemName">
-              <span class="field-label" data-i18n="itemNameLabel">備品名 *</span>
-              <input class="input" id="itemName" name="itemName" type="text" maxlength="120" required autocomplete="off" data-i18n-placeholder="itemNamePlaceholder" placeholder="無線機 01">
-            </label>
+            <label class="field" for="itemName"><span class="field-label" data-i18n="itemNameLabel">備品名 *</span><input class="input" id="itemName" name="itemName" type="text" maxlength="120" required autocomplete="off" data-i18n-placeholder="itemNamePlaceholder" placeholder="無線機 01"></label>
             <div class="form-row">
-              <label class="field" for="itemCategory">
-                <span class="field-label" data-i18n="categoryLabel">カテゴリ</span>
-                <input class="input" id="itemCategory" name="itemCategory" type="text" maxlength="80" autocomplete="off" data-i18n-placeholder="categoryPlaceholder" placeholder="無線機">
-              </label>
-              <label class="field" for="itemCode">
-                <span class="field-label" data-i18n="codeLabel">管理コード</span>
-                <input class="input" id="itemCode" name="itemCode" type="text" maxlength="80" autocomplete="off" data-i18n-placeholder="codePlaceholder" placeholder="RADIO-01">
-              </label>
+              <label class="field" for="itemCategory"><span class="field-label" data-i18n="categoryLabel">カテゴリ</span><input class="input" id="itemCategory" name="itemCategory" type="text" maxlength="80" autocomplete="off" data-i18n-placeholder="categoryPlaceholder" placeholder="無線機"></label>
+              <label class="field" for="itemCode"><span class="field-label" data-i18n="codeLabel">管理コード</span><input class="input" id="itemCode" name="itemCode" type="text" maxlength="80" autocomplete="off" data-i18n-placeholder="codePlaceholder" placeholder="RADIO-01"></label>
             </div>
-            <label class="field" for="itemNote">
-              <span class="field-label" data-i18n="noteLabel">メモ</span>
-              <textarea class="textarea" id="itemNote" name="itemNote" maxlength="500" data-i18n-placeholder="itemNotePlaceholder" placeholder="受け渡し時に確認したいことなど"></textarea>
-            </label>
-            <div class="button-row">
-              <button class="button primary" type="submit">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
-                <span data-i18n="addItem">備品を追加</span>
-              </button>
-            </div>
+            <label class="field" for="itemNote"><span class="field-label" data-i18n="noteLabel">メモ</span><textarea class="textarea" id="itemNote" name="itemNote" maxlength="500" data-i18n-placeholder="itemNotePlaceholder" placeholder="受け渡し時に確認したいことなど"></textarea></label>
+            <div class="button-row"><button class="button primary" type="submit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span data-i18n="addItem">備品を追加</span></button></div>
           </form>
-          <div class="list-divider"></div>
-          <div class="list" id="itemList"></div>
+          <div class="list-divider"></div><div class="list" id="itemList"></div>
         </div>
       </section>
 
       <section class="shell panel" aria-labelledby="borrowersTitle">
         <div class="panel-head">
-          <div>
-            <h3 id="borrowersTitle" data-i18n="borrowersTitle">貸出先</h3>
-            <p data-i18n="borrowersLead">個人名、班名、部署名などを登録します。必要以上の個人情報は持たせません。</p>
-          </div>
+          <div><h3 id="borrowersTitle" data-i18n="borrowersTitle">貸出先</h3><p data-i18n="borrowersLead">個人名、班名、部署名などを登録します。貸出画面からその場で追加することもできます。</p></div>
           <span class="count-badge" id="borrowerPanelCount" aria-hidden="true">0</span>
         </div>
         <div class="panel-body">
           <form class="form-grid" id="borrowerForm">
-            <label class="field" for="borrowerName">
-              <span class="field-label" data-i18n="borrowerNameLabel">名前 / 班名 *</span>
-              <input class="input" id="borrowerName" name="borrowerName" type="text" maxlength="120" required autocomplete="off" data-i18n-placeholder="borrowerNamePlaceholder" placeholder="警備1班">
-            </label>
-            <label class="field" for="borrowerNote">
-              <span class="field-label" data-i18n="noteLabel">メモ</span>
-              <textarea class="textarea" id="borrowerNote" name="borrowerNote" maxlength="500" data-i18n-placeholder="borrowerNotePlaceholder" placeholder="担当者名など、必要最小限の補足"></textarea>
-            </label>
-            <div class="button-row">
-              <button class="button primary" type="submit">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
-                <span data-i18n="addBorrower">貸出先を追加</span>
-              </button>
-            </div>
+            <label class="field" for="borrowerName"><span class="field-label" data-i18n="borrowerNameLabel">名前 / 班名 *</span><input class="input" id="borrowerName" name="borrowerName" type="text" maxlength="120" required autocomplete="off" data-i18n-placeholder="borrowerNamePlaceholder" placeholder="警備1班"></label>
+            <label class="field" for="borrowerNote"><span class="field-label" data-i18n="noteLabel">メモ</span><textarea class="textarea" id="borrowerNote" name="borrowerNote" maxlength="500" data-i18n-placeholder="borrowerNotePlaceholder" placeholder="担当者名など、必要最小限の補足"></textarea></label>
+            <div class="button-row"><button class="button primary" type="submit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span data-i18n="addBorrower">貸出先を追加</span></button></div>
           </form>
-          <div class="list-divider"></div>
-          <div class="list" id="borrowerList"></div>
+          <div class="list-divider"></div><div class="list" id="borrowerList"></div>
         </div>
       </section>
     </div>
@@ -482,18 +591,19 @@
       </div>
       <div class="dialog-body">
         <!-- APP:HELP:BEGIN -->
-        <h3 data-i18n="helpBasicsTitle">v0.1.0の基本操作</h3>
+        <h3 data-i18n="helpBasicsTitle">v0.2.0の基本操作</h3>
         <ol>
-          <li data-i18n="helpStep1">ボード名を入力します。</li>
-          <li data-i18n="helpStep2">備品名を入力し、必要ならカテゴリ・管理コード・メモを付けて追加します。</li>
-          <li data-i18n="helpStep3">貸出先として個人名・班名・部署名などを追加します。一覧の「編集」から内容を修正できます。</li>
+          <li data-i18n="helpStep1">備品と貸出先を登録します。貸出先は貸出画面で名前を入力してその場で追加することもできます。</li>
+          <li data-i18n="helpStep2">「貸し出す」で貸出先を選び、利用可能な備品を1件以上選択して貸出を確定します。</li>
+          <li data-i18n="helpStep3">貸出済みの備品は「貸出中」となり、別の貸出には選択できません。</li>
         </ol>
         <h3 data-i18n="helpPrivacyTitle">プライバシー</h3>
-        <p data-i18n="helpPrivacyBody">入力内容はブラウザー内で処理され、このアプリから外部サーバーへ送信されません。ランタイムの外部通信も行いません。</p>
+        <p data-i18n="helpPrivacyBody">入力内容と貸出状態はブラウザー内で処理され、このアプリから外部サーバーへ送信されません。ランタイムの外部通信も行いません。</p>
         <h3 data-i18n="helpNotesTitle">現在の制限</h3>
         <ul>
-          <li data-i18n="helpNoteStorage">v0.1.0では備品・貸出先の登録内容はメモリ上だけに保持され、再読み込みすると消えます。</li>
-          <li data-i18n="helpNoteCheckout">貸出・返却処理はまだ実装していません。貸出はv0.2.0、返却はv0.3.0で追加します。</li>
+          <li data-i18n="helpNoteStorage">v0.2.0では備品・貸出先・貸出状態はメモリ上だけに保持され、再読み込みすると消えます。</li>
+          <li data-i18n="helpNoteReturn">返却・部分返却はまだ実装していません。v0.3.0で追加します。</li>
+          <li data-i18n="helpNoteUndo">貸出のUndoと履歴画面はv0.5.0で追加予定です。</li>
           <li data-i18n="helpNoteData">電話番号や住所など、貸出管理に不要な個人情報は入力しないことを推奨します。</li>
         </ul>
         <p data-i18n="helpOffline">配布用HTMLは単体で開けます。必要なコードはHTML内に含まれます。</p>
@@ -608,516 +718,145 @@
 
       const translations = {
         ja: {
-          brandMeta: '完全ローカル処理・単一HTML',
-          introTitle: '貸出・返却の準備を整える',
-          lead: '備品と貸出先を登録し、誰に何を貸しているかを管理するための土台を作ります。最終版では未返却をすぐ確認できるボードになります。',
-          localBadge: '完全ローカル処理',
-          devNotice: 'v0.1.0では登録内容はメモリ上だけに保持されます。ページを再読み込みすると消えます。保存・復元はv0.7.0で追加予定です。',
-          boardNameLabel: 'ボード名',
-          boardNamePlaceholder: '2026年度 文化祭',
-          boardNameHint: 'イベント名や運用名を付けておくと、今どの貸出を管理しているか分かりやすくなります。',
-          foundationStatus: 'v0.1.0 基礎データ',
-          itemsCountLabel: '備品',
-          borrowersCountLabel: '貸出先',
-          checkedOutCountLabel: '貸出中',
-          itemsTitle: '備品',
-          itemsLead: '1個体を1件として登録します。貸出機能は次の開発段階で追加します。',
-          borrowersTitle: '貸出先',
-          borrowersLead: '個人名、班名、部署名などを登録します。必要以上の個人情報は持たせません。',
-          itemNameLabel: '備品名 *',
-          itemNamePlaceholder: '無線機 01',
-          categoryLabel: 'カテゴリ',
-          categoryPlaceholder: '無線機',
-          codeLabel: '管理コード',
-          codePlaceholder: 'RADIO-01',
-          noteLabel: 'メモ',
-          itemNotePlaceholder: '受け渡し時に確認したいことなど',
-          addItem: '備品を追加',
-          borrowerNameLabel: '名前 / 班名 *',
-          borrowerNamePlaceholder: '警備1班',
-          borrowerNotePlaceholder: '担当者名など、必要最小限の補足',
-          addBorrower: '貸出先を追加',
-          emptyItemsTitle: 'まだ備品がありません',
-          emptyItemsBody: '上のフォームから備品を追加すると、ここに一覧が表示されます。',
-          emptyBorrowersTitle: 'まだ貸出先がありません',
-          emptyBorrowersBody: '名前や班名を追加すると、ここから確認・編集できます。',
-          available: '利用可能',
-          categoryPrefix: 'カテゴリ',
-          codePrefix: 'コード',
-          edit: '編集',
-          editItemTitle: '備品を編集',
-          editBorrowerTitle: '貸出先を編集',
-          cancel: 'キャンセル',
-          saveChanges: '変更を保存',
-          itemAdded: '備品を追加しました',
-          borrowerAdded: '貸出先を追加しました',
-          itemUpdated: '備品を更新しました',
-          borrowerUpdated: '貸出先を更新しました',
-          close: '閉じる',
-          helpTitle: '使い方と注意事項',
-          helpBasicsTitle: 'v0.1.0の基本操作',
-          helpStep1: 'ボード名を入力します。',
-          helpStep2: '備品名を入力し、必要ならカテゴリ・管理コード・メモを付けて追加します。',
-          helpStep3: '貸出先として個人名・班名・部署名などを追加します。一覧の「編集」から内容を修正できます。',
-          helpPrivacyTitle: 'プライバシー',
-          helpPrivacyBody: '入力内容はブラウザー内で処理され、このアプリから外部サーバーへ送信されません。ランタイムの外部通信も行いません。',
-          helpNotesTitle: '現在の制限',
-          helpNoteStorage: 'v0.1.0では備品・貸出先の登録内容はメモリ上だけに保持され、再読み込みすると消えます。',
-          helpNoteCheckout: '貸出・返却処理はまだ実装していません。貸出はv0.2.0、返却はv0.3.0で追加します。',
-          helpNoteData: '電話番号や住所など、貸出管理に不要な個人情報は入力しないことを推奨します。',
-          helpOffline: '配布用HTMLは単体で開けます。必要なコードはHTML内に含まれます。',
-          buildInfo: 'ビルド情報',
-          appVersion: 'アプリバージョン',
-          builtAt: '生成日時',
-          dependencies: '内包依存数',
-          footer: '端末内で動作する単一HTMLアプリ'
+          brandMeta:'完全ローカル処理 · 単一HTML',introTitle:'備品を貸し出す',lead:'貸出先を選び、利用可能な備品をまとめて貸し出します。貸出中の備品は二重に選べません。',localBadge:'完全ローカル処理',
+          devNotice:'v0.2.0では貸出まで利用できます。登録内容と貸出状態はまだメモリ上だけに保持され、ページを再読み込みすると消えます。返却はv0.3.0で追加予定です。',
+          boardNameLabel:'ボード名',boardNamePlaceholder:'2026年度 文化祭',boardNameHint:'イベント名や運用名を付けておくと、今どの貸出を管理しているか分かりやすくなります。',milestoneStatus:'v0.2.0 貸出',
+          itemsCountLabel:'備品',borrowersCountLabel:'貸出先',checkedOutCountLabel:'貸出中',
+          checkoutTitle:'貸し出す',checkoutLead:'貸出先を選び、利用可能な備品をまとめて貸し出します。',checkoutBorrowerLabel:'貸出先',checkoutBorrowerPlaceholder:'名前・班名を検索または入力',checkoutBorrowerHint:'既存の貸出先を選ぶか、新しい名前をその場で追加できます。',
+          selectedBorrowerLabel:'選択中の貸出先',clearSelection:'選択を解除',existingBorrower:'登録済み',addNewBorrowerPrefix:'新しい貸出先として追加',noBorrowerSuggestion:'名前や班名を入力してください。',
+          checkoutItemsLabel:'貸し出す備品',checkoutItemPlaceholder:'備品名・カテゴリ・コードで検索',availableLabel:'利用可能',selectedLabel:'選択中',checkoutNoItems:'利用可能な備品がありません。備品を追加するか、返却後に再度選択してください。',checkoutNoMatch:'検索条件に一致する利用可能な備品がありません。',
+          checkoutSummaryEmpty:'貸出先と備品を選択してください。',checkoutSelectBorrower:'貸出先を選択してください。',checkoutSelectItems:'貸し出す備品を1件以上選択してください。',checkoutButtonEmpty:'貸出先と備品を選択',
+          itemsTitle:'備品',itemsLead:'1個体を1件として登録します。貸出中の備品も状態と貸出先を確認できます。',borrowersTitle:'貸出先',borrowersLead:'個人名、班名、部署名などを登録します。貸出画面からその場で追加することもできます。',
+          itemNameLabel:'備品名 *',itemNamePlaceholder:'無線機 01',categoryLabel:'カテゴリ',categoryPlaceholder:'無線機',codeLabel:'管理コード',codePlaceholder:'RADIO-01',noteLabel:'メモ',itemNotePlaceholder:'受け渡し時に確認したいことなど',addItem:'備品を追加',
+          borrowerNameLabel:'名前 / 班名 *',borrowerNamePlaceholder:'警備1班',borrowerNotePlaceholder:'担当者名など、必要最小限の補足',addBorrower:'貸出先を追加',
+          emptyItemsTitle:'まだ備品がありません',emptyItemsBody:'上のフォームから備品を追加すると、ここに一覧が表示されます。',emptyBorrowersTitle:'まだ貸出先がありません',emptyBorrowersBody:'名前や班名を追加すると、ここから確認・編集できます。',
+          available:'利用可能',checkedOut:'貸出中',lentToPrefix:'貸出先',checkedOutAtPrefix:'貸出',categoryPrefix:'カテゴリ',codePrefix:'コード',borrowedItemsPrefix:'貸出中',
+          edit:'編集',editItemTitle:'備品を編集',editBorrowerTitle:'貸出先を編集',cancel:'キャンセル',saveChanges:'変更を保存',itemAdded:'備品を追加しました',borrowerAdded:'貸出先を追加しました',itemUpdated:'備品を更新しました',borrowerUpdated:'貸出先を更新しました',close:'閉じる',
+          helpTitle:'使い方と注意事項',helpBasicsTitle:'v0.2.0の基本操作',helpStep1:'備品と貸出先を登録します。貸出先は貸出画面で名前を入力してその場で追加することもできます。',helpStep2:'「貸し出す」で貸出先を選び、利用可能な備品を1件以上選択して貸出を確定します。',helpStep3:'貸出済みの備品は「貸出中」となり、別の貸出には選択できません。',
+          helpPrivacyTitle:'プライバシー',helpPrivacyBody:'入力内容と貸出状態はブラウザー内で処理され、このアプリから外部サーバーへ送信されません。ランタイムの外部通信も行いません。',helpNotesTitle:'現在の制限',helpNoteStorage:'v0.2.0では備品・貸出先・貸出状態はメモリ上だけに保持され、再読み込みすると消えます。',helpNoteReturn:'返却・部分返却はまだ実装していません。v0.3.0で追加します。',helpNoteUndo:'貸出のUndoと履歴画面はv0.5.0で追加予定です。',helpNoteData:'電話番号や住所など、貸出管理に不要な個人情報は入力しないことを推奨します。',helpOffline:'配布用HTMLは単体で開けます。必要なコードはHTML内に含まれます。',
+          buildInfo:'ビルド情報',appVersion:'アプリバージョン',builtAt:'生成日時',dependencies:'内包依存数',footer:'端末内で動作する単一HTMLアプリ'
         },
         en: {
-          brandMeta: 'Fully local · Single HTML',
-          introTitle: 'Set up your checkout board',
-          lead: 'Register equipment and borrowers as the foundation for tracking who has what. The completed app will make outstanding items immediately visible.',
-          localBadge: 'Fully local processing',
-          devNotice: 'In v0.1.0, working data is kept in memory only and is cleared when the page reloads. Persistence and restore are planned for v0.7.0.',
-          boardNameLabel: 'Board name',
-          boardNamePlaceholder: 'School Festival 2026',
-          boardNameHint: 'Use an event or operation name so it is clear which lending session this board represents.',
-          foundationStatus: 'v0.1.0 Core Data',
-          itemsCountLabel: 'Equipment',
-          borrowersCountLabel: 'Borrowers',
-          checkedOutCountLabel: 'Checked out',
-          itemsTitle: 'Equipment',
-          itemsLead: 'Register each physical item separately. Checkout will be added in the next development stage.',
-          borrowersTitle: 'Borrowers',
-          borrowersLead: 'Register a person, team, or department. Avoid collecting personal information that is not needed.',
-          itemNameLabel: 'Equipment name *',
-          itemNamePlaceholder: 'Radio 01',
-          categoryLabel: 'Category',
-          categoryPlaceholder: 'Radio',
-          codeLabel: 'Item code',
-          codePlaceholder: 'RADIO-01',
-          noteLabel: 'Notes',
-          itemNotePlaceholder: 'Anything to verify when handing over the item',
-          addItem: 'Add equipment',
-          borrowerNameLabel: 'Name / team *',
-          borrowerNamePlaceholder: 'Security Team 1',
-          borrowerNotePlaceholder: 'Only the minimum extra context you need',
-          addBorrower: 'Add borrower',
-          emptyItemsTitle: 'No equipment yet',
-          emptyItemsBody: 'Add equipment with the form above and it will appear here.',
-          emptyBorrowersTitle: 'No borrowers yet',
-          emptyBorrowersBody: 'Add a person or team and it will appear here for review and editing.',
-          available: 'Available',
-          categoryPrefix: 'Category',
-          codePrefix: 'Code',
-          edit: 'Edit',
-          editItemTitle: 'Edit equipment',
-          editBorrowerTitle: 'Edit borrower',
-          cancel: 'Cancel',
-          saveChanges: 'Save changes',
-          itemAdded: 'Equipment added',
-          borrowerAdded: 'Borrower added',
-          itemUpdated: 'Equipment updated',
-          borrowerUpdated: 'Borrower updated',
-          close: 'Close',
-          helpTitle: 'How to use & notes',
-          helpBasicsTitle: 'Basics in v0.1.0',
-          helpStep1: 'Enter a board name.',
-          helpStep2: 'Add equipment. Category, item code, and notes are optional.',
-          helpStep3: 'Add people, teams, or departments as borrowers. Use Edit in each list to update an entry.',
-          helpPrivacyTitle: 'Privacy',
-          helpPrivacyBody: 'Your entries are processed in the browser and are not sent to an external server by this app. The runtime makes no external network request.',
-          helpNotesTitle: 'Current limitations',
-          helpNoteStorage: 'In v0.1.0, equipment and borrower data is kept only in memory and disappears when the page reloads.',
-          helpNoteCheckout: 'Checkout and return are not implemented yet. Checkout is planned for v0.2.0 and return for v0.3.0.',
-          helpNoteData: 'Avoid entering phone numbers, addresses, or other personal information that is unnecessary for lending.',
-          helpOffline: 'The distributable HTML opens by itself and includes the required code.',
-          buildInfo: 'Build information',
-          appVersion: 'App version',
-          builtAt: 'Built at',
-          dependencies: 'Embedded dependencies',
-          footer: 'Single HTML app that runs on this device'
+          brandMeta:'Fully local · Single HTML',introTitle:'Check out equipment',lead:'Choose a borrower and check out one or more available items. Items already checked out cannot be selected again.',localBadge:'Fully local processing',
+          devNotice:'v0.2.0 supports checkout. Equipment, borrowers, and checkout state are still kept in memory only and disappear on reload. Return is planned for v0.3.0.',
+          boardNameLabel:'Board name',boardNamePlaceholder:'School Festival 2026',boardNameHint:'Use an event or operation name so it is clear which lending session this board represents.',milestoneStatus:'v0.2.0 Checkout',
+          itemsCountLabel:'Equipment',borrowersCountLabel:'Borrowers',checkedOutCountLabel:'Checked out',
+          checkoutTitle:'Check out',checkoutLead:'Choose a borrower and check out multiple available items at once.',checkoutBorrowerLabel:'Borrower',checkoutBorrowerPlaceholder:'Search or enter a name / team',checkoutBorrowerHint:'Choose an existing borrower or add a new name here.',
+          selectedBorrowerLabel:'Selected borrower',clearSelection:'Clear selection',existingBorrower:'Saved',addNewBorrowerPrefix:'Add as new borrower',noBorrowerSuggestion:'Enter a person or team name.',
+          checkoutItemsLabel:'Equipment to check out',checkoutItemPlaceholder:'Search by item, category, or code',availableLabel:'Available',selectedLabel:'Selected',checkoutNoItems:'No equipment is currently available. Add equipment or try again after items are returned.',checkoutNoMatch:'No available equipment matches this search.',
+          checkoutSummaryEmpty:'Choose a borrower and at least one item.',checkoutSelectBorrower:'Choose a borrower.',checkoutSelectItems:'Select at least one item to check out.',checkoutButtonEmpty:'Choose borrower and equipment',
+          itemsTitle:'Equipment',itemsLead:'Register each physical item separately. Checked-out items show their borrower and status.',borrowersTitle:'Borrowers',borrowersLead:'Register a person, team, or department. You can also add a borrower directly while checking out.',
+          itemNameLabel:'Equipment name *',itemNamePlaceholder:'Radio 01',categoryLabel:'Category',categoryPlaceholder:'Radio',codeLabel:'Item code',codePlaceholder:'RADIO-01',noteLabel:'Notes',itemNotePlaceholder:'Anything to verify when handing over the item',addItem:'Add equipment',
+          borrowerNameLabel:'Name / team *',borrowerNamePlaceholder:'Security Team 1',borrowerNotePlaceholder:'Only the minimum extra context you need',addBorrower:'Add borrower',
+          emptyItemsTitle:'No equipment yet',emptyItemsBody:'Add equipment with the form above and it will appear here.',emptyBorrowersTitle:'No borrowers yet',emptyBorrowersBody:'Add a person or team and it will appear here for review and editing.',
+          available:'Available',checkedOut:'Checked out',lentToPrefix:'Borrower',checkedOutAtPrefix:'Checked out',categoryPrefix:'Category',codePrefix:'Code',borrowedItemsPrefix:'Checked out',
+          edit:'Edit',editItemTitle:'Edit equipment',editBorrowerTitle:'Edit borrower',cancel:'Cancel',saveChanges:'Save changes',itemAdded:'Equipment added',borrowerAdded:'Borrower added',itemUpdated:'Equipment updated',borrowerUpdated:'Borrower updated',close:'Close',
+          helpTitle:'How to use & notes',helpBasicsTitle:'Basics in v0.2.0',helpStep1:'Register equipment and borrowers. You can also add a borrower directly from the checkout field.',helpStep2:'In Check out, choose a borrower and select one or more available items, then confirm checkout.',helpStep3:'Checked-out items are marked as checked out and cannot be selected for another checkout.',
+          helpPrivacyTitle:'Privacy',helpPrivacyBody:'Your entries and checkout state are processed in the browser and are not sent to an external server by this app. The runtime makes no external network request.',helpNotesTitle:'Current limitations',helpNoteStorage:'In v0.2.0, equipment, borrowers, and checkout state exist only in memory and disappear on reload.',helpNoteReturn:'Return and partial return are not implemented yet. They are planned for v0.3.0.',helpNoteUndo:'Checkout Undo and the history screen are planned for v0.5.0.',helpNoteData:'Avoid entering phone numbers, addresses, or other personal information that is unnecessary for lending.',helpOffline:'The distributable HTML opens by itself and includes the required code.',
+          buildInfo:'Build information',appVersion:'App version',builtAt:'Built at',dependencies:'Embedded dependencies',footer:'Single HTML app that runs on this device'
         }
       };
 
       const $ = selector => document.querySelector(selector);
-      const languageKey = APP_CONFIG.slug + ':language';
-      let language = readLanguage();
-      const initialNow = new Date().toISOString();
-      const state = {
-        board: {
-          id: createId('board'),
-          name: language === 'ja' ? '新しい貸出ボード' : 'New loan board',
-          createdAt: initialNow,
-          updatedAt: initialNow
-        },
-        items: [],
-        borrowers: [],
-        events: []
-      };
+      const languageKey=APP_CONFIG.slug+':language';
+      let language=readLanguage();
+      const initialNow=new Date().toISOString();
+      const state={board:{id:createId('board'),name:language==='ja'?'新しい貸出ボード':'New loan board',createdAt:initialNow,updatedAt:initialNow},items:[],borrowers:[],events:[]};
+      const checkoutState={selectedBorrowerId:null,selectedItemIds:new Set()};
 
-      function createId(prefix) {
-        if (globalThis.crypto && typeof globalThis.crypto.randomUUID === 'function') return prefix + '-' + globalThis.crypto.randomUUID();
-        return prefix + '-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 10);
+      function createId(prefix){if(globalThis.crypto&&typeof globalThis.crypto.randomUUID==='function')return prefix+'-'+globalThis.crypto.randomUUID();return prefix+'-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,10);}
+      function readLanguage(){try{const saved=localStorage.getItem(languageKey);if(saved==='ja'||saved==='en')return saved;}catch{}return(navigator.language||'').toLowerCase().startsWith('ja')?'ja':'en';}
+      function saveLanguage(){try{localStorage.setItem(languageKey,language);}catch{}}
+      function t(key){return translations[language]?.[key]??translations.en[key]??key;}
+
+      const AppToast=(()=>{const root=$('#appToast'),message=$('#appToastMessage'),action=$('#appToastAction');let timer=0,actionHandler=null;
+        function dismiss(){clearTimeout(timer);timer=0;root.classList.remove('show');actionHandler=null;}
+        function show({message:text='',actionLabel='',onAction=null,duration=3200}={}){clearTimeout(timer);message.textContent=String(text);actionHandler=typeof onAction==='function'?onAction:null;action.textContent=actionLabel||'';action.hidden=!actionHandler||!actionLabel;root.classList.add('show');if(duration>0)timer=window.setTimeout(dismiss,duration);return Object.freeze({dismiss});}
+        action.addEventListener('click',()=>{const handler=actionHandler;dismiss();if(handler)handler();});return Object.freeze({show,dismiss});})();
+      window.AppToast=AppToast;
+      function showToast(message){AppToast.show({message});}
+      function outputFilename(kind){const safeKind=String(kind||'data').replace(/[^a-z0-9-]+/gi,'-').replace(/^-+|-+$/g,'')||'data';return APP_CONFIG.slug+'-'+safeKind;} void outputFilename;
+      function normalizeSearch(value){return String(value||'').trim().toLocaleLowerCase(language==='ja'?'ja':'en');}
+      function borrowerById(id){return state.borrowers.find(b=>b.borrowerId===id)||null;}
+      function availableItems(){return state.items.filter(item=>!item.archived&&item.status==='available');}
+      function formatDateTime(iso){if(!iso)return'';try{return new Intl.DateTimeFormat(language==='ja'?'ja-JP':'en',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'}).format(new Date(iso));}catch{return iso;}}
+      function checkoutMessage(name,count){return language==='ja'?name+'に'+count+'点を貸し出しました':'Checked out '+count+' item'+(count===1?'':'s')+' to '+name;}
+      function checkoutButtonLabel(name,count){if(!name||count<1)return t('checkoutButtonEmpty');return language==='ja'?name+'に'+count+'点を貸し出す':'Check out '+count+' item'+(count===1?'':'s')+' to '+name;}
+
+      function applyLanguage(){
+        document.documentElement.lang=language;document.title=language==='ja'?APP_CONFIG.nameJa:APP_CONFIG.name;$('#brandName').textContent=language==='ja'?APP_CONFIG.nameJa:APP_CONFIG.name;$('#footerName').textContent=language==='ja'?APP_CONFIG.nameJa:APP_CONFIG.name;
+        document.querySelectorAll('[data-i18n]').forEach(el=>{el.textContent=t(el.dataset.i18n);});
+        document.querySelectorAll('[data-i18n-title]').forEach(el=>{el.title=t(el.dataset.i18nTitle);});
+        document.querySelectorAll('[data-i18n-aria-label]').forEach(el=>{el.setAttribute('aria-label',t(el.dataset.i18nAriaLabel));});
+        document.querySelectorAll('[data-i18n-placeholder]').forEach(el=>{el.placeholder=t(el.dataset.i18nPlaceholder);});
+        $('#languageButton').textContent=language==='ja'?'EN':'日本語';$('#languageButton').setAttribute('aria-label',language==='ja'?'英語に切り替え':'Switch to Japanese');render();
       }
 
-      function readLanguage() {
-        try {
-          const saved = localStorage.getItem(languageKey);
-          if (saved === 'ja' || saved === 'en') return saved;
-        } catch { }
-        return (navigator.language || '').toLowerCase().startsWith('ja') ? 'ja' : 'en';
+      function updateCounts(){
+        const checked=state.items.filter(item=>item.status==='checked-out').length;
+        $('#itemCount').textContent=String(state.items.length);$('#itemPanelCount').textContent=String(state.items.length);$('#borrowerCount').textContent=String(state.borrowers.length);$('#borrowerPanelCount').textContent=String(state.borrowers.length);$('#checkedOutCount').textContent=String(checked);
       }
-
-      function saveLanguage() {
-        try { localStorage.setItem(languageKey, language); } catch { }
+      function makeEmptyState(titleKey,bodyKey,iconPath){
+        const root=document.createElement('div');root.className='empty-state';const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');svg.setAttribute('viewBox','0 0 24 24');svg.setAttribute('fill','none');svg.setAttribute('stroke','currentColor');svg.setAttribute('stroke-width','1.8');svg.setAttribute('stroke-linecap','round');svg.setAttribute('stroke-linejoin','round');svg.setAttribute('aria-hidden','true');const path=document.createElementNS('http://www.w3.org/2000/svg','path');path.setAttribute('d',iconPath);svg.append(path);const strong=document.createElement('strong');strong.textContent=t(titleKey);const p=document.createElement('p');p.textContent=t(bodyKey);root.append(svg,strong,p);return root;
       }
-
-      function t(key) {
-        return translations[language]?.[key] ?? translations.en[key] ?? key;
+      function metaPart(text){const span=document.createElement('span');span.textContent=text;return span;}
+      function makeRecord({title,meta=[],note='',id,type,statusKey=''}) {
+        const root=document.createElement('article');root.className='record';const main=document.createElement('div');main.className='record-main';const heading=document.createElement('div');heading.className='record-title';heading.textContent=title;main.append(heading);
+        const metaRow=document.createElement('div');metaRow.className='record-meta';if(statusKey){const status=document.createElement('span');status.className='record-status'+(statusKey==='checkedOut'?' checked-out':'');status.textContent=t(statusKey);metaRow.append(status);}meta.filter(Boolean).forEach(v=>metaRow.append(metaPart(v)));if(metaRow.childElementCount)main.append(metaRow);
+        if(note){const noteEl=document.createElement('div');noteEl.className='record-note';noteEl.textContent=note;main.append(noteEl);}
+        const actions=document.createElement('div');actions.className='record-actions';const edit=document.createElement('button');edit.className='button small';edit.type='button';edit.dataset.editType=type;edit.dataset.editId=id;edit.textContent=t('edit');actions.append(edit);root.append(main,actions);return root;
       }
-
-      const AppToast = (() => {
-        const root = $('#appToast');
-        const message = $('#appToastMessage');
-        const action = $('#appToastAction');
-        let timer = 0;
-        let actionHandler = null;
-
-        function dismiss() {
-          clearTimeout(timer);
-          timer = 0;
-          root.classList.remove('show');
-          actionHandler = null;
-        }
-
-        function show({ message: text = '', actionLabel = '', onAction = null, duration = 3200 } = {}) {
-          clearTimeout(timer);
-          message.textContent = String(text);
-          actionHandler = typeof onAction === 'function' ? onAction : null;
-          action.textContent = actionLabel || '';
-          action.hidden = !actionHandler || !actionLabel;
-          root.classList.add('show');
-          if (duration > 0) timer = window.setTimeout(dismiss, duration);
-          return Object.freeze({ dismiss });
-        }
-
-        action.addEventListener('click', () => {
-          const handler = actionHandler;
-          dismiss();
-          if (handler) handler();
-        });
-
-        return Object.freeze({ show, dismiss });
-      })();
-      window.AppToast = AppToast;
-
-      function showToast(message) {
-        AppToast.show({ message });
+      function renderItems(){
+        const list=$('#itemList');list.replaceChildren();if(!state.items.length){list.append(makeEmptyState('emptyItemsTitle','emptyItemsBody','M5 8.5 12 4l7 4.5v8L12 21l-7-4.5zM5 8.5 12 13l7-4.5M12 13v8'));return;}
+        state.items.forEach(item=>{const meta=[];if(item.category)meta.push(t('categoryPrefix')+': '+item.category);if(item.code)meta.push(t('codePrefix')+': '+item.code);if(item.status==='checked-out'){const borrower=borrowerById(item.currentBorrowerId);if(borrower)meta.push(t('lentToPrefix')+': '+borrower.name);if(item.currentCheckoutAt)meta.push(t('checkedOutAtPrefix')+': '+formatDateTime(item.currentCheckoutAt));}list.append(makeRecord({title:item.name,meta,note:item.note,id:item.itemId,type:'item',statusKey:item.status==='checked-out'?'checkedOut':'available'}));});
       }
-
-      function outputFilename(kind) {
-        const safeKind = String(kind || 'data').replace(/[^a-z0-9-]+/gi, '-').replace(/^-+|-+$/g, '') || 'data';
-        return APP_CONFIG.slug + '-' + safeKind;
+      function renderBorrowers(){
+        const list=$('#borrowerList');list.replaceChildren();if(!state.borrowers.length){list.append(makeEmptyState('emptyBorrowersTitle','emptyBorrowersBody','M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75'));return;}
+        state.borrowers.forEach(b=>{const count=state.items.filter(item=>item.status==='checked-out'&&item.currentBorrowerId===b.borrowerId).length;list.append(makeRecord({title:b.name,meta:count?[t('borrowedItemsPrefix')+': '+count]:[],note:b.note,id:b.borrowerId,type:'borrower'}));});
       }
-      void outputFilename;
-
-      function applyLanguage() {
-        document.documentElement.lang = language;
-        document.title = language === 'ja' ? APP_CONFIG.nameJa : APP_CONFIG.name;
-        $('#brandName').textContent = language === 'ja' ? APP_CONFIG.nameJa : APP_CONFIG.name;
-        $('#footerName').textContent = language === 'ja' ? APP_CONFIG.nameJa : APP_CONFIG.name;
-
-        document.querySelectorAll('[data-i18n]').forEach(element => {
-          element.textContent = t(element.dataset.i18n);
-        });
-        document.querySelectorAll('[data-i18n-title]').forEach(element => {
-          element.title = t(element.dataset.i18nTitle);
-        });
-        document.querySelectorAll('[data-i18n-aria-label]').forEach(element => {
-          element.setAttribute('aria-label', t(element.dataset.i18nAriaLabel));
-        });
-        document.querySelectorAll('[data-i18n-placeholder]').forEach(element => {
-          element.placeholder = t(element.dataset.i18nPlaceholder);
-        });
-
-        $('#languageButton').textContent = language === 'ja' ? 'EN' : '日本語';
-        $('#languageButton').setAttribute('aria-label', language === 'ja' ? '英語に切り替え' : 'Switch to Japanese');
-        render();
+      function renderBorrowerSuggestions(){
+        const list=$('#checkoutBorrowerSuggestions');list.replaceChildren();const query=normalizeSearch($('#checkoutBorrowerQuery').value);if(checkoutState.selectedBorrowerId)return;
+        state.borrowers.filter(b=>!b.archived&&(!query||normalizeSearch(b.name).includes(query))).slice(0,8).forEach(b=>{const button=document.createElement('button');button.className='suggestion-button';button.type='button';button.dataset.checkoutBorrowerId=b.borrowerId;const strong=document.createElement('strong');strong.textContent=b.name;const status=document.createElement('span');status.textContent=t('existingBorrower');button.append(strong,status);list.append(button);});
+        const raw=$('#checkoutBorrowerQuery').value.trim();const exact=raw&&state.borrowers.some(b=>normalizeSearch(b.name)===normalizeSearch(raw));if(raw&&!exact){const button=document.createElement('button');button.className='suggestion-button new-entry';button.type='button';button.dataset.newCheckoutBorrower=raw;const strong=document.createElement('strong');strong.textContent=raw;const status=document.createElement('span');status.textContent=t('addNewBorrowerPrefix');button.append(strong,status);list.append(button);}
+        if(!list.childElementCount){const note=document.createElement('div');note.className='checkout-empty';note.textContent=t('noBorrowerSuggestion');list.append(note);}
       }
-
-      function updateCounts() {
-        $('#itemCount').textContent = String(state.items.length);
-        $('#itemPanelCount').textContent = String(state.items.length);
-        $('#borrowerCount').textContent = String(state.borrowers.length);
-        $('#borrowerPanelCount').textContent = String(state.borrowers.length);
-        $('#checkedOutCount').textContent = '0';
+      function renderCheckoutItems(){
+        const list=$('#checkoutItemList');list.replaceChildren();const available=availableItems(),query=normalizeSearch($('#checkoutItemSearch').value);const filtered=available.filter(item=>!query||[item.name,item.category,item.code].some(v=>normalizeSearch(v).includes(query)));
+        $('#availableItemCount').textContent=String(available.length);$('#availableCheckoutCount').textContent=String(available.length);
+        Array.from(checkoutState.selectedItemIds).forEach(id=>{if(!available.some(item=>item.itemId===id))checkoutState.selectedItemIds.delete(id);});
+        if(!available.length){const note=document.createElement('div');note.className='checkout-empty';note.textContent=t('checkoutNoItems');list.append(note);return;}
+        if(!filtered.length){const note=document.createElement('div');note.className='checkout-empty';note.textContent=t('checkoutNoMatch');list.append(note);return;}
+        filtered.forEach(item=>{const label=document.createElement('label');label.className='checkout-choice';const cb=document.createElement('input');cb.type='checkbox';cb.value=item.itemId;cb.dataset.checkoutItem=item.itemId;cb.checked=checkoutState.selectedItemIds.has(item.itemId);const copy=document.createElement('span');copy.className='checkout-choice-copy';const title=document.createElement('span');title.className='checkout-choice-title';title.textContent=item.name;copy.append(title);const meta=document.createElement('span');meta.className='checkout-choice-meta';if(item.category)meta.append(metaPart(t('categoryPrefix')+': '+item.category));if(item.code)meta.append(metaPart(t('codePrefix')+': '+item.code));if(meta.childElementCount)copy.append(meta);label.append(cb,copy);list.append(label);});
       }
-
-      function makeEmptyState(titleKey, bodyKey, iconPath) {
-        const root = document.createElement('div');
-        root.className = 'empty-state';
-
-        const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-        svg.setAttribute('viewBox', '0 0 24 24');
-        svg.setAttribute('fill', 'none');
-        svg.setAttribute('stroke', 'currentColor');
-        svg.setAttribute('stroke-width', '1.8');
-        svg.setAttribute('stroke-linecap', 'round');
-        svg.setAttribute('stroke-linejoin', 'round');
-        svg.setAttribute('aria-hidden', 'true');
-        const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-        path.setAttribute('d', iconPath);
-        svg.append(path);
-
-        const strong = document.createElement('strong');
-        strong.textContent = t(titleKey);
-        const p = document.createElement('p');
-        p.textContent = t(bodyKey);
-        root.append(svg, strong, p);
-        return root;
+      function renderCheckoutState(){
+        const borrower=borrowerById(checkoutState.selectedBorrowerId),card=$('#selectedBorrowerCard'),button=$('#checkoutButton'),summary=$('#checkoutSummary');card.hidden=!borrower;$('#selectedBorrowerName').textContent=borrower?.name||'';$('#selectedItemCount').textContent=String(checkoutState.selectedItemIds.size);
+        if(!borrower){summary.textContent=t('checkoutSelectBorrower');button.textContent=t('checkoutButtonEmpty');button.disabled=true;}
+        else if(!checkoutState.selectedItemIds.size){summary.textContent=t('checkoutSelectItems');button.textContent=t('checkoutButtonEmpty');button.disabled=true;}
+        else{const count=checkoutState.selectedItemIds.size;summary.replaceChildren();const strong=document.createElement('strong');strong.textContent=borrower.name;summary.append(strong,document.createTextNode(language==='ja'?' に '+count+'点を貸し出します。':' · '+count+' item'+(count===1?'':'s')+' selected'));button.textContent=checkoutButtonLabel(borrower.name,count);button.disabled=false;}
       }
+      function renderCheckout(){renderBorrowerSuggestions();renderCheckoutItems();renderCheckoutState();}
+      function render(){$('#boardName').value=state.board.name;updateCounts();renderCheckout();renderItems();renderBorrowers();}
+      function trimmedValue(selector){return $(selector).value.trim();}
 
-      function metaPart(text) {
-        const span = document.createElement('span');
-        span.textContent = text;
-        return span;
-      }
+      $('#boardName').addEventListener('input',event=>{state.board.name=event.currentTarget.value;state.board.updatedAt=new Date().toISOString();});
+      $('#itemForm').addEventListener('submit',event=>{event.preventDefault();const name=trimmedValue('#itemName');if(!name){$('#itemName').focus();return;}const now=new Date().toISOString();state.items.push({itemId:createId('item'),name,category:trimmedValue('#itemCategory'),code:trimmedValue('#itemCode'),note:trimmedValue('#itemNote'),status:'available',currentBorrowerId:null,currentCheckoutAt:null,archived:false,createdAt:now,updatedAt:now});event.currentTarget.reset();render();$('#itemName').focus();showToast(t('itemAdded'));});
+      $('#borrowerForm').addEventListener('submit',event=>{event.preventDefault();const name=trimmedValue('#borrowerName');if(!name){$('#borrowerName').focus();return;}const now=new Date().toISOString();state.borrowers.push({borrowerId:createId('borrower'),name,note:trimmedValue('#borrowerNote'),archived:false,createdAt:now,updatedAt:now});event.currentTarget.reset();render();$('#borrowerName').focus();showToast(t('borrowerAdded'));});
+      $('#checkoutBorrowerQuery').addEventListener('input',()=>{checkoutState.selectedBorrowerId=null;renderCheckout();});
+      $('#checkoutItemSearch').addEventListener('input',renderCheckout);
+      $('#clearBorrowerSelection').addEventListener('click',()=>{checkoutState.selectedBorrowerId=null;$('#checkoutBorrowerQuery').value='';renderCheckout();$('#checkoutBorrowerQuery').focus();});
+      $('#checkoutItemList').addEventListener('change',event=>{const cb=event.target.closest('[data-checkout-item]');if(!cb)return;if(cb.checked)checkoutState.selectedItemIds.add(cb.value);else checkoutState.selectedItemIds.delete(cb.value);renderCheckoutState();});
+      $('#checkoutBorrowerSuggestions').addEventListener('click',event=>{const existing=event.target.closest('[data-checkout-borrower-id]');if(existing){const b=borrowerById(existing.dataset.checkoutBorrowerId);if(!b)return;checkoutState.selectedBorrowerId=b.borrowerId;$('#checkoutBorrowerQuery').value=b.name;renderCheckout();return;}const create=event.target.closest('[data-new-checkout-borrower]');if(create){const name=String(create.dataset.newCheckoutBorrower||'').trim();if(!name)return;const now=new Date().toISOString();const b={borrowerId:createId('borrower'),name,note:'',archived:false,createdAt:now,updatedAt:now};state.borrowers.push(b);checkoutState.selectedBorrowerId=b.borrowerId;$('#checkoutBorrowerQuery').value=b.name;render();showToast(t('borrowerAdded'));}});
+      $('#checkoutButton').addEventListener('click',()=>{const borrower=borrowerById(checkoutState.selectedBorrowerId);if(!borrower){$('#checkoutBorrowerQuery').focus();return;}const selected=state.items.filter(item=>checkoutState.selectedItemIds.has(item.itemId)&&!item.archived&&item.status==='available');if(!selected.length){renderCheckout();return;}const now=new Date().toISOString(),itemIds=selected.map(item=>item.itemId);selected.forEach(item=>{item.status='checked-out';item.currentBorrowerId=borrower.borrowerId;item.currentCheckoutAt=now;item.updatedAt=now;});state.events.push({eventId:createId('event'),type:'checkout',borrowerId:borrower.borrowerId,itemIds,timestamp:now,note:''});checkoutState.selectedItemIds.clear();checkoutState.selectedBorrowerId=null;$('#checkoutBorrowerQuery').value='';$('#checkoutItemSearch').value='';render();showToast(checkoutMessage(borrower.name,selected.length));$('#checkoutBorrowerQuery').focus();});
 
-      function makeRecord({ title, meta = [], note = '', id, type, available = false }) {
-        const root = document.createElement('article');
-        root.className = 'record';
-
-        const main = document.createElement('div');
-        main.className = 'record-main';
-
-        const heading = document.createElement('div');
-        heading.className = 'record-title';
-        heading.textContent = title;
-        main.append(heading);
-
-        const metaRow = document.createElement('div');
-        metaRow.className = 'record-meta';
-        if (available) {
-          const status = document.createElement('span');
-          status.className = 'record-status';
-          status.textContent = t('available');
-          metaRow.append(status);
-        }
-        meta.filter(Boolean).forEach(value => metaRow.append(metaPart(value)));
-        if (metaRow.childElementCount) main.append(metaRow);
-
-        if (note) {
-          const noteEl = document.createElement('div');
-          noteEl.className = 'record-note';
-          noteEl.textContent = note;
-          main.append(noteEl);
-        }
-
-        const actions = document.createElement('div');
-        actions.className = 'record-actions';
-        const editButton = document.createElement('button');
-        editButton.className = 'button small';
-        editButton.type = 'button';
-        editButton.dataset.editType = type;
-        editButton.dataset.editId = id;
-        editButton.textContent = t('edit');
-        actions.append(editButton);
-
-        root.append(main, actions);
-        return root;
-      }
-
-      function renderItems() {
-        const list = $('#itemList');
-        list.replaceChildren();
-
-        if (!state.items.length) {
-          list.append(makeEmptyState('emptyItemsTitle', 'emptyItemsBody', 'M5 8.5 12 4l7 4.5v8L12 21l-7-4.5zM5 8.5 12 13l7-4.5M12 13v8'));
-          return;
-        }
-
-        state.items.forEach(item => {
-          const meta = [];
-          if (item.category) meta.push(t('categoryPrefix') + ': ' + item.category);
-          if (item.code) meta.push(t('codePrefix') + ': ' + item.code);
-          list.append(makeRecord({
-            title: item.name,
-            meta,
-            note: item.note,
-            id: item.itemId,
-            type: 'item',
-            available: true
-          }));
-        });
-      }
-
-      function renderBorrowers() {
-        const list = $('#borrowerList');
-        list.replaceChildren();
-
-        if (!state.borrowers.length) {
-          list.append(makeEmptyState('emptyBorrowersTitle', 'emptyBorrowersBody', 'M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75'));
-          return;
-        }
-
-        state.borrowers.forEach(borrower => {
-          list.append(makeRecord({
-            title: borrower.name,
-            note: borrower.note,
-            id: borrower.borrowerId,
-            type: 'borrower'
-          }));
-        });
-      }
-
-      function render() {
-        $('#boardName').value = state.board.name;
-        updateCounts();
-        renderItems();
-        renderBorrowers();
-      }
-
-      function trimmedValue(selector) {
-        return $(selector).value.trim();
-      }
-
-      $('#boardName').addEventListener('input', event => {
-        state.board.name = event.currentTarget.value;
-        state.board.updatedAt = new Date().toISOString();
-      });
-
-      $('#itemForm').addEventListener('submit', event => {
-        event.preventDefault();
-        const name = trimmedValue('#itemName');
-        if (!name) {
-          $('#itemName').focus();
-          return;
-        }
-        const now = new Date().toISOString();
-        state.items.push({
-          itemId: createId('item'),
-          name,
-          category: trimmedValue('#itemCategory'),
-          code: trimmedValue('#itemCode'),
-          note: trimmedValue('#itemNote'),
-          status: 'available',
-          archived: false,
-          createdAt: now,
-          updatedAt: now
-        });
-        event.currentTarget.reset();
-        render();
-        $('#itemName').focus();
-        showToast(t('itemAdded'));
-      });
-
-      $('#borrowerForm').addEventListener('submit', event => {
-        event.preventDefault();
-        const name = trimmedValue('#borrowerName');
-        if (!name) {
-          $('#borrowerName').focus();
-          return;
-        }
-        const now = new Date().toISOString();
-        state.borrowers.push({
-          borrowerId: createId('borrower'),
-          name,
-          note: trimmedValue('#borrowerNote'),
-          archived: false,
-          createdAt: now,
-          updatedAt: now
-        });
-        event.currentTarget.reset();
-        render();
-        $('#borrowerName').focus();
-        showToast(t('borrowerAdded'));
-      });
-
-      function openItemEdit(id) {
-        const item = state.items.find(candidate => candidate.itemId === id);
-        if (!item) return;
-        $('#editItemId').value = item.itemId;
-        $('#editItemName').value = item.name;
-        $('#editItemCategory').value = item.category;
-        $('#editItemCode').value = item.code;
-        $('#editItemNote').value = item.note;
-        $('#itemEditDialog').showModal();
-        requestAnimationFrame(() => $('#editItemName').focus());
-      }
-
-      function openBorrowerEdit(id) {
-        const borrower = state.borrowers.find(candidate => candidate.borrowerId === id);
-        if (!borrower) return;
-        $('#editBorrowerId').value = borrower.borrowerId;
-        $('#editBorrowerName').value = borrower.name;
-        $('#editBorrowerNote').value = borrower.note;
-        $('#borrowerEditDialog').showModal();
-        requestAnimationFrame(() => $('#editBorrowerName').focus());
-      }
-
-      document.addEventListener('click', event => {
-        const editButton = event.target.closest('[data-edit-type]');
-        if (editButton) {
-          if (editButton.dataset.editType === 'item') openItemEdit(editButton.dataset.editId);
-          if (editButton.dataset.editType === 'borrower') openBorrowerEdit(editButton.dataset.editId);
-          return;
-        }
-
-        const closeButton = event.target.closest('[data-dialog-close]');
-        if (closeButton) {
-          const dialog = document.getElementById(closeButton.dataset.dialogClose);
-          if (dialog?.open) dialog.close();
-        }
-      });
-
-      $('#itemEditForm').addEventListener('submit', event => {
-        event.preventDefault();
-        const item = state.items.find(candidate => candidate.itemId === $('#editItemId').value);
-        const name = trimmedValue('#editItemName');
-        if (!item || !name) return;
-        item.name = name;
-        item.category = trimmedValue('#editItemCategory');
-        item.code = trimmedValue('#editItemCode');
-        item.note = trimmedValue('#editItemNote');
-        item.updatedAt = new Date().toISOString();
-        $('#itemEditDialog').close();
-        render();
-        showToast(t('itemUpdated'));
-      });
-
-      $('#borrowerEditForm').addEventListener('submit', event => {
-        event.preventDefault();
-        const borrower = state.borrowers.find(candidate => candidate.borrowerId === $('#editBorrowerId').value);
-        const name = trimmedValue('#editBorrowerName');
-        if (!borrower || !name) return;
-        borrower.name = name;
-        borrower.note = trimmedValue('#editBorrowerNote');
-        borrower.updatedAt = new Date().toISOString();
-        $('#borrowerEditDialog').close();
-        render();
-        showToast(t('borrowerUpdated'));
-      });
-
-      function closeDialogFromBackdrop(dialog, event) {
-        const rect = dialog.getBoundingClientRect();
-        const outside = event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom;
-        if (outside) dialog.close();
-      }
-
-      ['itemEditDialog', 'borrowerEditDialog', 'helpDialog'].forEach(id => {
-        const dialog = document.getElementById(id);
-        dialog.addEventListener('click', event => closeDialogFromBackdrop(dialog, event));
-      });
-
-      const helpDialog = $('#helpDialog');
-      $('#helpButton').addEventListener('click', () => helpDialog.showModal());
-      $('#closeHelpButton').addEventListener('click', () => helpDialog.close());
-
-      $('#languageButton').addEventListener('click', () => {
-        language = language === 'ja' ? 'en' : 'ja';
-        saveLanguage();
-        applyLanguage();
-      });
+      function openItemEdit(id){const item=state.items.find(x=>x.itemId===id);if(!item)return;$('#editItemId').value=item.itemId;$('#editItemName').value=item.name;$('#editItemCategory').value=item.category;$('#editItemCode').value=item.code;$('#editItemNote').value=item.note;$('#itemEditDialog').showModal();requestAnimationFrame(()=>$('#editItemName').focus());}
+      function openBorrowerEdit(id){const b=state.borrowers.find(x=>x.borrowerId===id);if(!b)return;$('#editBorrowerId').value=b.borrowerId;$('#editBorrowerName').value=b.name;$('#editBorrowerNote').value=b.note;$('#borrowerEditDialog').showModal();requestAnimationFrame(()=>$('#editBorrowerName').focus());}
+      document.addEventListener('click',event=>{const edit=event.target.closest('[data-edit-type]');if(edit){if(edit.dataset.editType==='item')openItemEdit(edit.dataset.editId);if(edit.dataset.editType==='borrower')openBorrowerEdit(edit.dataset.editId);return;}const close=event.target.closest('[data-dialog-close]');if(close){const dialog=document.getElementById(close.dataset.dialogClose);if(dialog?.open)dialog.close();}});
+      $('#itemEditForm').addEventListener('submit',event=>{event.preventDefault();const item=state.items.find(x=>x.itemId===$('#editItemId').value),name=trimmedValue('#editItemName');if(!item||!name)return;item.name=name;item.category=trimmedValue('#editItemCategory');item.code=trimmedValue('#editItemCode');item.note=trimmedValue('#editItemNote');item.updatedAt=new Date().toISOString();$('#itemEditDialog').close();render();showToast(t('itemUpdated'));});
+      $('#borrowerEditForm').addEventListener('submit',event=>{event.preventDefault();const b=state.borrowers.find(x=>x.borrowerId===$('#editBorrowerId').value),name=trimmedValue('#editBorrowerName');if(!b||!name)return;b.name=name;b.note=trimmedValue('#editBorrowerNote');b.updatedAt=new Date().toISOString();$('#borrowerEditDialog').close();render();showToast(t('borrowerUpdated'));});
+      function closeDialogFromBackdrop(dialog,event){const rect=dialog.getBoundingClientRect(),outside=event.clientX<rect.left||event.clientX>rect.right||event.clientY<rect.top||event.clientY>rect.bottom;if(outside)dialog.close();}
+      ['itemEditDialog','borrowerEditDialog','helpDialog'].forEach(id=>{const dialog=document.getElementById(id);dialog.addEventListener('click',event=>closeDialogFromBackdrop(dialog,event));});
+      const helpDialog=$('#helpDialog');$('#helpButton').addEventListener('click',()=>helpDialog.showModal());$('#closeHelpButton').addEventListener('click',()=>helpDialog.close());
+      $('#languageButton').addEventListener('click',()=>{language=language==='ja'?'en':'ja';saveLanguage();applyLanguage();});
 
       $('#versionBadge').textContent = 'v' + APP_CONFIG.version;
       $('#buildVersion').textContent = APP_CONFIG.version;
