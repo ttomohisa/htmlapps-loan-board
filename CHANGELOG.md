@@ -2,6 +2,20 @@
 
 All notable Loan Board changes are recorded here.
 
+## [0.8.0] - 2026-10-03
+
+### Added
+- Outstanding CSV export with one row per currently checked-out item.
+- Operation-history CSV export with one row per event-item pair.
+- Equipment CSV export including active and archived equipment.
+- UTF-8 BOM and CRLF for spreadsheet-friendly CSV files.
+- Spreadsheet formula-injection protection for user-entered CSV cells.
+
+### Changed
+- Data management now separates full JSON backup / restore from review-and-analysis CSV exports.
+- CSV filenames include the board name, export kind, and timestamp.
+- Bilingual help, README files, and product specification now document CSV semantics and limitations.
+
 ## [0.7.0] - 2026-10-03
 
 ### Added
