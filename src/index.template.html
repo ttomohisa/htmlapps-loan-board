@@ -348,9 +348,13 @@
     .history-shell { margin: 18px 0; overflow: hidden; }
     .history-body { padding: 18px; }
     .history-toolbar {
-      display: flex; align-items: end; justify-content: space-between; gap: 12px; margin-bottom: 14px;
+      display: grid; grid-template-columns: minmax(0,1fr) auto auto; align-items: end; gap: 10px; margin-bottom: 14px;
     }
-    .history-search { flex: 1 1 380px; max-width: 620px; }
+    .history-search { min-width: 0; }
+    .history-select {
+      min-height: 44px; border: 1px solid #bdc9c5; border-radius: 11px;
+      background: #fff; color: var(--text); padding: 9px 34px 9px 11px;
+    }
     .history-list { display: grid; gap: 9px; }
     .history-row {
       min-width: 0; display: grid; grid-template-columns: 86px minmax(0,1fr) auto; gap: 12px; align-items: start;
@@ -454,7 +458,7 @@
       .form-row { grid-template-columns: 1fr; }
       .record { grid-template-columns: 1fr; align-items: start; }
       .record-actions .button { width: 100%; }
-      .history-toolbar { align-items: stretch; flex-direction: column; }
+      .history-toolbar { grid-template-columns: 1fr; align-items: stretch; }
       .history-search { max-width: none; }
       .history-row { grid-template-columns: 1fr; gap: 7px; }
       .history-time { white-space: normal; }
@@ -605,6 +609,22 @@
           <label class="field history-search" for="historySearch">
             <span class="field-label" data-i18n="historySearchLabel">履歴を検索</span>
             <input class="input" id="historySearch" type="search" autocomplete="off" data-i18n-placeholder="historySearchPlaceholder" placeholder="貸出先名・備品名・コードで検索">
+          </label>
+          <label class="field" for="historyTypeFilter">
+            <span class="field-label" data-i18n="historyTypeLabel">操作</span>
+            <select class="history-select" id="historyTypeFilter">
+              <option value="all" data-i18n="historyTypeAll">すべて</option>
+              <option value="checkout" data-i18n="historyTypeCheckout">貸出</option>
+              <option value="return" data-i18n="historyTypeReturn">返却</option>
+              <option value="undo" data-i18n="historyTypeUndo">Undo</option>
+            </select>
+          </label>
+          <label class="field" for="historyOrder">
+            <span class="field-label" data-i18n="historyOrderLabel">並び順</span>
+            <select class="history-select" id="historyOrder">
+              <option value="newest" data-i18n="historyNewest">新しい順</option>
+              <option value="oldest" data-i18n="historyOldest">古い順</option>
+            </select>
           </label>
         </div>
         <div class="history-list" id="historyList" aria-live="polite"></div>
@@ -868,7 +888,7 @@
           outstandingBoardTitle:'未返却ボード',outstandingBoardLead:'誰が何を持っているかを貸出先ごとに確認します。返却操作もここから始められます。',
           allReturnedTitle:'すべて返却済みです',allReturnedBody:'未返却の備品はありません。',startCheckout:'貸し出す',firstCheckoutPrefix:'貸出開始',boardReturnAll:'すべて返却',boardPartialReturn:'一部返却',
           historyTitle:'履歴',historyLead:'貸出・返却・取り消しを新しい順に確認できます。取り消せるのは現在の状態と整合する直前操作です。',
-          historySearchLabel:'履歴を検索',historySearchPlaceholder:'貸出先名・備品名・コードで検索',historyEmpty:'まだ操作履歴はありません。',historyNoMatch:'検索条件に一致する履歴はありません。',
+          historySearchLabel:'履歴を検索',historySearchPlaceholder:'貸出先名・備品名・コードで検索',historyTypeLabel:'操作',historyTypeAll:'すべて',historyTypeCheckout:'貸出',historyTypeReturn:'返却',historyTypeUndo:'Undo',historyOrderLabel:'並び順',historyNewest:'新しい順',historyOldest:'古い順',historyEmpty:'まだ操作履歴はありません。',historyNoMatch:'検索条件に一致する履歴はありません。',
           historyCheckout:'貸出',historyReturn:'返却',historyUndoCheckout:'貸出を元に戻した',historyUndoReturn:'返却を元に戻した',undone:'取り消し済み',undo:'元に戻す',undoComplete:'操作を元に戻しました',undoUnavailable:'この操作は現在の状態では元に戻せません',
           checkoutTitle:'貸し出す',checkoutLead:'貸出先を選び、利用可能な備品をまとめて貸し出します。',checkoutBorrowerLabel:'貸出先',checkoutBorrowerPlaceholder:'名前・班名を検索または入力',checkoutBorrowerHint:'既存の貸出先を選ぶか、新しい名前をその場で追加できます。',
           selectedBorrowerLabel:'選択中の貸出先',clearSelection:'選択を解除',existingBorrower:'登録済み',addNewBorrowerPrefix:'新しい貸出先として追加',noBorrowerSuggestion:'名前や班名を入力してください。',
@@ -884,7 +904,7 @@
           emptyItemsTitle:'まだ備品がありません',emptyItemsBody:'上のフォームから備品を追加すると、ここに一覧が表示されます。',emptyBorrowersTitle:'まだ貸出先がありません',emptyBorrowersBody:'名前や班名を追加すると、ここから確認・編集できます。',
           available:'利用可能',checkedOut:'貸出中',lentToPrefix:'貸出先',checkedOutAtPrefix:'貸出',categoryPrefix:'カテゴリ',codePrefix:'コード',borrowedItemsPrefix:'貸出中',
           edit:'編集',editItemTitle:'備品を編集',editBorrowerTitle:'貸出先を編集',cancel:'キャンセル',saveChanges:'変更を保存',itemAdded:'備品を追加しました',borrowerAdded:'貸出先を追加しました',itemUpdated:'備品を更新しました',borrowerUpdated:'貸出先を更新しました',close:'閉じる',
-          helpTitle:'使い方と注意事項',helpBasicsTitle:'v0.5.0の基本操作',helpStep1:'貸出・返却を行うと、操作直後の通知に「元に戻す」が表示されます。',helpStep2:'履歴では貸出・返却・取り消しを新しい順に確認でき、貸出先名・備品名・コードで検索できます。',helpStep3:'履歴から取り消せるのは現在の状態と整合する直前操作だけです。任意の古い操作を直接取り消すことはできません。',
+          helpTitle:'使い方と注意事項',helpBasicsTitle:'v0.5.0の基本操作',helpStep1:'貸出・返却を行うと、操作直後の通知に「元に戻す」が表示されます。',helpStep2:'履歴では貸出・返却・取り消しを検索でき、操作種別と新しい順 / 古い順でも絞れます。',helpStep3:'Undoできるのは履歴の最後にある未Undoの貸出または返却だけです。Undo後にさらに古い操作へ遡ることはできません。',
           helpPrivacyTitle:'プライバシー',helpPrivacyBody:'入力内容、貸出状態、返却状態、操作履歴はブラウザー内で処理され、このアプリから外部サーバーへ送信されません。ランタイムの外部通信も行いません。',helpNotesTitle:'現在の制限',helpNoteStorage:'v0.5.0では備品・貸出先・貸出返却状態・履歴はメモリ上だけに保持され、再読み込みすると消えます。',helpNoteUndo:'Undoは履歴を削除せず、取り消しイベントを追加して状態を戻します。',helpNoteData:'電話番号や住所など、貸出管理に不要な個人情報は入力しないことを推奨します。',helpOffline:'配布用HTMLは単体で開けます。必要なコードはHTML内に含まれます。',
           buildInfo:'ビルド情報',appVersion:'アプリバージョン',builtAt:'生成日時',dependencies:'内包依存数',footer:'端末内で動作する単一HTMLアプリ'
         },
@@ -897,7 +917,7 @@
           outstandingBoardTitle:'Outstanding board',outstandingBoardLead:'See who currently has each item, grouped by borrower, and start return actions here.',
           allReturnedTitle:'Everything has been returned',allReturnedBody:'There is no outstanding equipment.',startCheckout:'Check out equipment',firstCheckoutPrefix:'First checkout',boardReturnAll:'Return all',boardPartialReturn:'Return some',
           historyTitle:'History',historyLead:'Review checkout, return, and undo events newest first. Only the most recent compatible operation can be undone.',
-          historySearchLabel:'Search history',historySearchPlaceholder:'Search borrower, equipment, or code',historyEmpty:'No operation history yet.',historyNoMatch:'No history matches this search.',
+          historySearchLabel:'Search history',historySearchPlaceholder:'Search borrower, equipment, or code',historyTypeLabel:'Action',historyTypeAll:'All',historyTypeCheckout:'Checkout',historyTypeReturn:'Return',historyTypeUndo:'Undo',historyOrderLabel:'Order',historyNewest:'Newest first',historyOldest:'Oldest first',historyEmpty:'No operation history yet.',historyNoMatch:'No history matches this search.',
           historyCheckout:'Checkout',historyReturn:'Return',historyUndoCheckout:'Checkout undone',historyUndoReturn:'Return undone',undone:'Undone',undo:'Undo',undoComplete:'Operation undone',undoUnavailable:'This operation can no longer be undone from the current state',
           checkoutTitle:'Check out',checkoutLead:'Choose a borrower and check out multiple available items at once.',checkoutBorrowerLabel:'Borrower',checkoutBorrowerPlaceholder:'Search or enter a name / team',checkoutBorrowerHint:'Choose an existing borrower or add a new name here.',
           selectedBorrowerLabel:'Selected borrower',clearSelection:'Clear selection',existingBorrower:'Saved',addNewBorrowerPrefix:'Add as new borrower',noBorrowerSuggestion:'Enter a person or team name.',
@@ -913,7 +933,7 @@
           emptyItemsTitle:'No equipment yet',emptyItemsBody:'Add equipment with the form above and it will appear here.',emptyBorrowersTitle:'No borrowers yet',emptyBorrowersBody:'Add a person or team and it will appear here for review and editing.',
           available:'Available',checkedOut:'Checked out',lentToPrefix:'Borrower',checkedOutAtPrefix:'Checked out',categoryPrefix:'Category',codePrefix:'Code',borrowedItemsPrefix:'Checked out',
           edit:'Edit',editItemTitle:'Edit equipment',editBorrowerTitle:'Edit borrower',cancel:'Cancel',saveChanges:'Save changes',itemAdded:'Equipment added',borrowerAdded:'Borrower added',itemUpdated:'Equipment updated',borrowerUpdated:'Borrower updated',close:'Close',
-          helpTitle:'How to use & notes',helpBasicsTitle:'Basics in v0.5.0',helpStep1:'After a checkout or return, the notification includes an Undo action.',helpStep2:'History shows checkout, return, and undo events newest first and can be searched by borrower, equipment, or code.',helpStep3:'History can undo only the most recent operation that is compatible with the current state. Arbitrary older events cannot be directly undone.',
+          helpTitle:'How to use & notes',helpBasicsTitle:'Basics in v0.5.0',helpStep1:'After a checkout or return, the notification includes an Undo action.',helpStep2:'History can be searched by borrower, equipment, or code, filtered by action, and ordered newest or oldest first.',helpStep3:'Undo is available only when the last history event itself is an un-undone checkout or return. After Undo, the app does not walk backward to older operations.',
           helpPrivacyTitle:'Privacy',helpPrivacyBody:'Entries, loan state, return state, and operation history are processed in the browser and are not sent to an external server. The runtime makes no external network request.',helpNotesTitle:'Current limitations',helpNoteStorage:'In v0.5.0, equipment, borrowers, loan state, and history exist only in memory and disappear on reload.',helpNoteUndo:'Undo keeps the original history and adds an undo event while restoring state.',helpNoteData:'Avoid entering phone numbers, addresses, or other personal information that is unnecessary for lending.',helpOffline:'The distributable HTML opens by itself and includes the required code.',
           buildInfo:'Build information',appVersion:'App version',builtAt:'Built at',dependencies:'Embedded dependencies',footer:'Single HTML app that runs on this device'
         }
@@ -952,9 +972,9 @@
       function returnSelectedLabel(count){return language==='ja'?'選択した'+count+'点を返却':'Return '+count+' selected item'+(count===1?'':'s');}
       function isEventUndone(eventId){return state.events.some(event=>event.type==='undo'&&event.relatedEventId===eventId);}
       function lastUndoableEvent(){
-        const undone=new Set(state.events.filter(event=>event.type==='undo'&&event.relatedEventId).map(event=>event.relatedEventId));
-        for(let index=state.events.length-1;index>=0;index-=1){const event=state.events[index];if((event.type==='checkout'||event.type==='return')&&!undone.has(event.eventId))return event;}
-        return null;
+        const event=state.events[state.events.length-1];
+        if(!event||!(event.type==='checkout'||event.type==='return')||isEventUndone(event.eventId))return null;
+        return event;
       }
       function itemById(id){return state.items.find(item=>item.itemId===id)||null;}
       function historyActionText(event){
@@ -1067,8 +1087,9 @@
       function renderHistory(){
         const root=$('#historyList');root.replaceChildren();$('#historyCount').textContent=String(state.events.length);
         if(!state.events.length){const empty=document.createElement('div');empty.className='history-empty';empty.textContent=t('historyEmpty');root.append(empty);return;}
-        const query=normalizeSearch($('#historySearch').value),latest=lastUndoableEvent();
-        const events=state.events.slice().reverse().filter(event=>!query||historySearchText(event).includes(query));
+        const query=normalizeSearch($('#historySearch').value),typeFilter=$('#historyTypeFilter').value,order=$('#historyOrder').value,latest=lastUndoableEvent();
+        let events=state.events.filter(event=>(typeFilter==='all'||event.type===typeFilter)&&(!query||historySearchText(event).includes(query)));
+        if(order==='newest')events=[...events].reverse();
         if(!events.length){const empty=document.createElement('div');empty.className='history-empty';empty.textContent=t('historyNoMatch');root.append(empty);return;}
         events.forEach(event=>{
           const row=document.createElement('article');row.className='history-row';
@@ -1125,6 +1146,8 @@
       }
 
       $('#historySearch').addEventListener('input',renderHistory);
+      $('#historyTypeFilter').addEventListener('change',renderHistory);
+      $('#historyOrder').addEventListener('change',renderHistory);
       $('#historyList').addEventListener('click',event=>{const button=event.target.closest('[data-history-undo]');if(!button)return;undoEvent(button.dataset.historyUndo);});
 
       function openItemEdit(id){const item=state.items.find(x=>x.itemId===id);if(!item)return;$('#editItemId').value=item.itemId;$('#editItemName').value=item.name;$('#editItemCategory').value=item.category;$('#editItemCode').value=item.code;$('#editItemNote').value=item.note;$('#itemEditDialog').showModal();requestAnimationFrame(()=>$('#editItemName').focus());}
