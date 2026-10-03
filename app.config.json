@@ -4,8 +4,8 @@
   "nameJa": "貸出・返却ボード",
   "slug": "loan-board",
   "version": "0.5.0",
-  "description": "Track equipment checkout and return locally with an outstanding board, searchable history, and safe undo for the most recent compatible operation.",
-  "descriptionJa": "未返却ボードに加え、貸出・返却の検索可能な履歴と、現在状態に整合する直近操作のUndoを備えたブラウザー内完結の貸出・返却ボードです。",
+  "description": "Track equipment checkout and return locally with an outstanding board, searchable history, and safe undo for the latest checkout or return.",
+  "descriptionJa": "未返却ボードに加え、検索・絞り込み可能な履歴と、直前の貸出または返却だけを安全にUndoできるブラウザー内完結の貸出・返却ボードです。",
   "defaultLanguage": "auto",
   "repository": {
     "owner": "ttomohisa",
