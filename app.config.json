@@ -3,9 +3,9 @@
   "name": "Loan Board",
   "nameJa": "貸出・返却ボード",
   "slug": "loan-board",
-  "version": "0.7.0",
-  "description": "Track equipment checkout and return locally with browser autosave, JSON backup and restore, an outstanding board, Undo, and searchable history.",
-  "descriptionJa": "ブラウザー内自動保存とJSONバックアップ・復元に対応し、未返却ボード・Undo・履歴・備品管理まで端末内で完結する貸出・返却ボードです。",
+  "version": "0.8.0",
+  "description": "Track equipment checkout and return locally with CSV exports for outstanding equipment, operation history, and equipment lists, plus autosave and JSON backup.",
+  "descriptionJa": "未返却一覧・操作履歴・備品一覧のCSV出力に対応し、自動保存・JSONバックアップ・未返却ボード・Undoまで端末内で完結する貸出・返却ボードです。",
   "defaultLanguage": "auto",
   "repository": {
     "owner": "ttomohisa",
