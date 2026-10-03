@@ -2,6 +2,20 @@
 
 All notable Loan Board changes are recorded here.
 
+## [0.5.0] - 2026-10-03
+
+### Added
+- Undo action in checkout and return completion toasts.
+- Safe LIFO undo for the most recent compatible checkout / return event.
+- Undo events that preserve original history instead of deleting it.
+- Restoration of original checkout timestamps when a return is undone.
+- Searchable history for checkout, return, and undo operations.
+- History search by borrower, equipment, category, and code.
+- Undone status on original events.
+
+### Changed
+- Bilingual help, README files, and product specification now describe Undo and History.
+
 ## [0.4.0] - 2026-10-03
 
 ### Added

@@ -345,6 +345,35 @@
     .return-selected-note { margin-top: 10px; color: var(--muted); font-size: 12px; line-height: 1.5; }
     .button.secondary-accent { border-color: #9ab8ae; color: var(--brand-strong); background: #fff; }
     .button.secondary-accent:hover { border-color: var(--brand); background: var(--brand-soft); }
+    .history-shell { margin: 18px 0; overflow: hidden; }
+    .history-body { padding: 18px; }
+    .history-toolbar {
+      display: flex; align-items: end; justify-content: space-between; gap: 12px; margin-bottom: 14px;
+    }
+    .history-search { flex: 1 1 380px; max-width: 620px; }
+    .history-list { display: grid; gap: 9px; }
+    .history-row {
+      min-width: 0; display: grid; grid-template-columns: 86px minmax(0,1fr) auto; gap: 12px; align-items: start;
+      padding: 12px 13px; border: 1px solid var(--line); border-radius: 13px; background: var(--surface);
+    }
+    .history-time { color: var(--muted); font-size: 11px; line-height: 1.45; white-space: nowrap; }
+    .history-main { min-width: 0; }
+    .history-title-line { display: flex; flex-wrap: wrap; align-items: center; gap: 7px; }
+    .history-action { font-weight: 850; }
+    .history-borrower { color: var(--brand-strong); font-weight: 750; overflow-wrap: anywhere; }
+    .history-items { margin-top: 5px; color: #43534d; font-size: 12px; line-height: 1.5; overflow-wrap: anywhere; }
+    .history-badge {
+      display: inline-flex; align-items: center; min-height: 22px; padding: 2px 7px;
+      border: 1px solid var(--line); border-radius: 999px; background: var(--surface-muted);
+      color: var(--muted); font-size: 10px; font-weight: 800;
+    }
+    .history-badge.undo { border-color: #c7dcd5; background: var(--brand-soft); color: var(--brand-strong); }
+    .history-badge.undone { border-color: #e4d4ad; background: var(--warning-soft); color: var(--warning); }
+    .history-actions { display: flex; align-items: center; justify-content: flex-end; min-width: 92px; }
+    .history-empty {
+      padding: 22px 16px; border: 1px dashed #b9c8c3; border-radius: 13px;
+      background: var(--surface-muted); color: var(--muted); text-align: center; font-size: 13px; line-height: 1.55;
+    }
     .build-details { margin-top: 18px; }
     details.shell { padding: 0; }
     details summary {
@@ -418,13 +447,18 @@
       .outstanding-item { grid-template-columns: 1fr; }
       .outstanding-item-time { white-space: normal; }
       .outstanding-actions .button { flex: 1 1 100%; }
-      .panel-head, .panel-body, .checkout-body, .return-body { padding-left: 15px; padding-right: 15px; }
+      .panel-head, .panel-body, .checkout-body, .return-body, .history-body { padding-left: 15px; padding-right: 15px; }
       .checkout-grid, .return-grid { grid-template-columns: 1fr; }
       .checkout-footer { align-items: stretch; flex-direction: column; }
       .checkout-footer .button { width: 100%; }
       .form-row { grid-template-columns: 1fr; }
       .record { grid-template-columns: 1fr; align-items: start; }
       .record-actions .button { width: 100%; }
+      .history-toolbar { align-items: stretch; flex-direction: column; }
+      .history-search { max-width: none; }
+      .history-row { grid-template-columns: 1fr; gap: 7px; }
+      .history-time { white-space: normal; }
+      .history-actions { min-width: 0; justify-content: flex-start; }
       .build-grid { grid-template-columns: 1fr; }
       dialog {
         width: 100vw; max-width: none; max-height: min(90dvh, 760px);
@@ -452,7 +486,7 @@
           <img id="appBrandIcon" src="__APP_ICON_DATA_URI__" alt="">
         </div>
         <div class="brand-copy">
-          <p class="brand-name"><span id="brandName">貸出・返却ボード</span><span class="version-badge" id="versionBadge">v0.4.0</span></p>
+          <p class="brand-name"><span id="brandName">貸出・返却ボード</span><span class="version-badge" id="versionBadge">v0.5.0</span></p>
           <p class="brand-meta" data-i18n="brandMeta">完全ローカル処理 · 単一HTML</p>
         </div>
       </div>
@@ -468,8 +502,8 @@
   <main class="main">
     <section class="hero" aria-labelledby="heroTitle">
       <div>
-        <h2 id="heroTitle" data-i18n="introTitle">未返却をすぐ確認</h2>
-        <p data-i18n="lead">誰が何を持っているかを貸出先ごとにまとめ、最後に未返却が0になったことを確認できます。</p>
+        <h2 id="heroTitle" data-i18n="introTitle">貸出・返却を安心して記録</h2>
+        <p data-i18n="lead">貸出・返却の操作履歴を確認し、直前の操作は元に戻せます。誰が何を持っているかも未返却ボードですぐ確認できます。</p>
       </div>
       <div class="local-badge">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 5 6v5c0 4.6 2.8 8 7 10 4.2-2 7-5.4 7-10V6z"/><path d="m9 12 2 2 4-5"/></svg>
@@ -479,10 +513,10 @@
 
     <div class="version-note" role="note">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 10v6M12 7h.01"/></svg>
-      <span data-i18n="devNotice">v0.4.0では未返却ボードまで利用できます。登録内容と貸出状態はまだメモリ上だけに保持され、ページを再読み込みすると消えます。Undo・履歴はv0.5.0で追加予定です。</span>
+      <span data-i18n="devNotice">v0.5.0では貸出・返却のUndoと履歴を利用できます。登録内容と履歴はまだメモリ上だけに保持され、ページを再読み込みすると消えます。連番登録・備品管理はv0.6.0で追加予定です。</span>
     </div>
 
-    <!-- APP:BEGIN Loan Board v0.4.0 outstanding board workspace -->
+    <!-- APP:BEGIN Loan Board v0.5.0 undo history workspace -->
     <section class="shell board-shell" aria-labelledby="boardTitle">
       <div class="board-top">
         <label class="field" for="boardName">
@@ -555,6 +589,25 @@
           </div>
           <div id="returnDetail" aria-live="polite"></div>
         </div>
+      </div>
+    </section>
+
+    <section class="shell history-shell" aria-labelledby="historyTitle">
+      <div class="panel-head">
+        <div>
+          <h3 id="historyTitle" data-i18n="historyTitle">履歴</h3>
+          <p data-i18n="historyLead">貸出・返却・取り消しを新しい順に確認できます。取り消せるのは現在の状態と整合する直前操作です。</p>
+        </div>
+        <span class="count-badge" id="historyCount" aria-hidden="true">0</span>
+      </div>
+      <div class="history-body">
+        <div class="history-toolbar">
+          <label class="field history-search" for="historySearch">
+            <span class="field-label" data-i18n="historySearchLabel">履歴を検索</span>
+            <input class="input" id="historySearch" type="search" autocomplete="off" data-i18n-placeholder="historySearchPlaceholder" placeholder="貸出先名・備品名・コードで検索">
+          </label>
+        </div>
+        <div class="history-list" id="historyList" aria-live="polite"></div>
       </div>
     </section>
 
@@ -681,18 +734,18 @@
       </div>
       <div class="dialog-body">
         <!-- APP:HELP:BEGIN -->
-        <h3 data-i18n="helpBasicsTitle">v0.4.0の基本操作</h3>
+        <h3 data-i18n="helpBasicsTitle">v0.5.0の基本操作</h3>
         <ol>
-          <li data-i18n="helpStep1">備品を貸し出すと、未返却ボードに貸出先ごとの未返却備品が自動で表示されます。</li>
-          <li data-i18n="helpStep2">未返却ボードから「すべて返却」するか、「一部返却」から返ってきた備品だけを選択します。</li>
-          <li data-i18n="helpStep3">すべて戻ると未返却が0になり、「すべて返却済みです」と表示されます。</li>
+          <li data-i18n="helpStep1">貸出・返却を行うと、操作直後の通知に「元に戻す」が表示されます。</li>
+          <li data-i18n="helpStep2">履歴では貸出・返却・取り消しを新しい順に確認でき、貸出先名・備品名・コードで検索できます。</li>
+          <li data-i18n="helpStep3">履歴から取り消せるのは現在の状態と整合する直前操作だけです。任意の古い操作を直接取り消すことはできません。</li>
         </ol>
         <h3 data-i18n="helpPrivacyTitle">プライバシー</h3>
-        <p data-i18n="helpPrivacyBody">入力内容、貸出状態、返却状態はブラウザー内で処理され、このアプリから外部サーバーへ送信されません。ランタイムの外部通信も行いません。</p>
+        <p data-i18n="helpPrivacyBody">入力内容、貸出状態、返却状態、操作履歴はブラウザー内で処理され、このアプリから外部サーバーへ送信されません。ランタイムの外部通信も行いません。</p>
         <h3 data-i18n="helpNotesTitle">現在の制限</h3>
         <ul>
-          <li data-i18n="helpNoteStorage">v0.4.0では備品・貸出先・貸出返却状態はメモリ上だけに保持され、再読み込みすると消えます。</li>
-          <li data-i18n="helpNoteUndo">貸出・返却のUndoと履歴画面はv0.5.0で追加予定です。</li>
+          <li data-i18n="helpNoteStorage">v0.5.0では備品・貸出先・貸出返却状態・履歴はメモリ上だけに保持され、再読み込みすると消えます。</li>
+          <li data-i18n="helpNoteUndo">Undoは履歴を削除せず、取り消しイベントを追加して状態を戻します。</li>
           <li data-i18n="helpNoteData">電話番号や住所など、貸出管理に不要な個人情報は入力しないことを推奨します。</li>
         </ul>
         <p data-i18n="helpOffline">配布用HTMLは単体で開けます。必要なコードはHTML内に含まれます。</p>
@@ -807,13 +860,16 @@
 
       const translations = {
         ja: {
-          brandMeta:'完全ローカル処理 · 単一HTML',introTitle:'未返却をすぐ確認',lead:'誰が何を持っているかを貸出先ごとにまとめ、最後に未返却が0になったことを確認できます。',localBadge:'完全ローカル処理',
-          devNotice:'v0.4.0では未返却ボードまで利用できます。登録内容と貸出状態はまだメモリ上だけに保持され、ページを再読み込みすると消えます。Undo・履歴はv0.5.0で追加予定です。',
-          boardNameLabel:'ボード名',boardNamePlaceholder:'2026年度 文化祭',boardNameHint:'イベント名や運用名を付けておくと、今どの貸出を管理しているか分かりやすくなります。',milestoneStatus:'v0.4.0 未返却ボード',
+          brandMeta:'完全ローカル処理 · 単一HTML',introTitle:'貸出・返却を安心して記録',lead:'貸出・返却の操作履歴を確認し、直前の操作は元に戻せます。誰が何を持っているかも未返却ボードですぐ確認できます。',localBadge:'完全ローカル処理',
+          devNotice:'v0.5.0では貸出・返却のUndoと履歴を利用できます。登録内容と履歴はまだメモリ上だけに保持され、ページを再読み込みすると消えます。連番登録・備品管理はv0.6.0で追加予定です。',
+          boardNameLabel:'ボード名',boardNamePlaceholder:'2026年度 文化祭',boardNameHint:'イベント名や運用名を付けておくと、今どの貸出を管理しているか分かりやすくなります。',milestoneStatus:'v0.5.0 Undo・履歴',
           itemsCountLabel:'備品',borrowersCountLabel:'貸出先',checkedOutCountLabel:'貸出中',
           outstandingCountLabel:'未返却',outstandingBorrowersLabel:'貸出先',availabilitySummaryLabel:'利用可能 / 全備品',
           outstandingBoardTitle:'未返却ボード',outstandingBoardLead:'誰が何を持っているかを貸出先ごとに確認します。返却操作もここから始められます。',
           allReturnedTitle:'すべて返却済みです',allReturnedBody:'未返却の備品はありません。',startCheckout:'貸し出す',firstCheckoutPrefix:'貸出開始',boardReturnAll:'すべて返却',boardPartialReturn:'一部返却',
+          historyTitle:'履歴',historyLead:'貸出・返却・取り消しを新しい順に確認できます。取り消せるのは現在の状態と整合する直前操作です。',
+          historySearchLabel:'履歴を検索',historySearchPlaceholder:'貸出先名・備品名・コードで検索',historyEmpty:'まだ操作履歴はありません。',historyNoMatch:'検索条件に一致する履歴はありません。',
+          historyCheckout:'貸出',historyReturn:'返却',historyUndoCheckout:'貸出を元に戻した',historyUndoReturn:'返却を元に戻した',undone:'取り消し済み',undo:'元に戻す',undoComplete:'操作を元に戻しました',undoUnavailable:'この操作は現在の状態では元に戻せません',
           checkoutTitle:'貸し出す',checkoutLead:'貸出先を選び、利用可能な備品をまとめて貸し出します。',checkoutBorrowerLabel:'貸出先',checkoutBorrowerPlaceholder:'名前・班名を検索または入力',checkoutBorrowerHint:'既存の貸出先を選ぶか、新しい名前をその場で追加できます。',
           selectedBorrowerLabel:'選択中の貸出先',clearSelection:'選択を解除',existingBorrower:'登録済み',addNewBorrowerPrefix:'新しい貸出先として追加',noBorrowerSuggestion:'名前や班名を入力してください。',
           checkoutItemsLabel:'貸し出す備品',checkoutItemPlaceholder:'備品名・カテゴリ・コードで検索',availableLabel:'利用可能',selectedLabel:'選択中',checkoutNoItems:'利用可能な備品がありません。返却すると再び選択できます。',checkoutNoMatch:'検索条件に一致する利用可能な備品がありません。',
@@ -828,18 +884,21 @@
           emptyItemsTitle:'まだ備品がありません',emptyItemsBody:'上のフォームから備品を追加すると、ここに一覧が表示されます。',emptyBorrowersTitle:'まだ貸出先がありません',emptyBorrowersBody:'名前や班名を追加すると、ここから確認・編集できます。',
           available:'利用可能',checkedOut:'貸出中',lentToPrefix:'貸出先',checkedOutAtPrefix:'貸出',categoryPrefix:'カテゴリ',codePrefix:'コード',borrowedItemsPrefix:'貸出中',
           edit:'編集',editItemTitle:'備品を編集',editBorrowerTitle:'貸出先を編集',cancel:'キャンセル',saveChanges:'変更を保存',itemAdded:'備品を追加しました',borrowerAdded:'貸出先を追加しました',itemUpdated:'備品を更新しました',borrowerUpdated:'貸出先を更新しました',close:'閉じる',
-          helpTitle:'使い方と注意事項',helpBasicsTitle:'v0.4.0の基本操作',helpStep1:'備品を貸し出すと、未返却ボードに貸出先ごとの未返却備品が自動で表示されます。',helpStep2:'未返却ボードから「すべて返却」するか、「一部返却」から返ってきた備品だけを選択します。',helpStep3:'すべて戻ると未返却が0になり、「すべて返却済みです」と表示されます。',
-          helpPrivacyTitle:'プライバシー',helpPrivacyBody:'入力内容、貸出状態、返却状態はブラウザー内で処理され、このアプリから外部サーバーへ送信されません。ランタイムの外部通信も行いません。',helpNotesTitle:'現在の制限',helpNoteStorage:'v0.4.0では備品・貸出先・貸出返却状態はメモリ上だけに保持され、再読み込みすると消えます。',helpNoteUndo:'貸出・返却のUndoと履歴画面はv0.5.0で追加予定です。',helpNoteData:'電話番号や住所など、貸出管理に不要な個人情報は入力しないことを推奨します。',helpOffline:'配布用HTMLは単体で開けます。必要なコードはHTML内に含まれます。',
+          helpTitle:'使い方と注意事項',helpBasicsTitle:'v0.5.0の基本操作',helpStep1:'貸出・返却を行うと、操作直後の通知に「元に戻す」が表示されます。',helpStep2:'履歴では貸出・返却・取り消しを新しい順に確認でき、貸出先名・備品名・コードで検索できます。',helpStep3:'履歴から取り消せるのは現在の状態と整合する直前操作だけです。任意の古い操作を直接取り消すことはできません。',
+          helpPrivacyTitle:'プライバシー',helpPrivacyBody:'入力内容、貸出状態、返却状態、操作履歴はブラウザー内で処理され、このアプリから外部サーバーへ送信されません。ランタイムの外部通信も行いません。',helpNotesTitle:'現在の制限',helpNoteStorage:'v0.5.0では備品・貸出先・貸出返却状態・履歴はメモリ上だけに保持され、再読み込みすると消えます。',helpNoteUndo:'Undoは履歴を削除せず、取り消しイベントを追加して状態を戻します。',helpNoteData:'電話番号や住所など、貸出管理に不要な個人情報は入力しないことを推奨します。',helpOffline:'配布用HTMLは単体で開けます。必要なコードはHTML内に含まれます。',
           buildInfo:'ビルド情報',appVersion:'アプリバージョン',builtAt:'生成日時',dependencies:'内包依存数',footer:'端末内で動作する単一HTMLアプリ'
         },
         en: {
-          brandMeta:'Fully local · Single HTML',introTitle:'See outstanding equipment at a glance',lead:'See who has what, grouped by borrower, and confirm when the outstanding count reaches zero.',localBadge:'Fully local processing',
-          devNotice:'v0.4.0 adds the outstanding board. Equipment, borrowers, and loan state are still kept in memory only and disappear on reload. Undo and History are planned for v0.5.0.',
-          boardNameLabel:'Board name',boardNamePlaceholder:'School Festival 2026',boardNameHint:'Use an event or operation name so it is clear which lending session this board represents.',milestoneStatus:'v0.4.0 Outstanding board',
+          brandMeta:'Fully local · Single HTML',introTitle:'Track checkout and return with confidence',lead:'Review checkout and return history and undo the most recent compatible operation, while keeping outstanding equipment visible at a glance.',localBadge:'Fully local processing',
+          devNotice:'v0.5.0 adds Undo and History. Equipment, borrowers, loan state, and history are still kept in memory only and disappear on reload. Item management improvements are planned for v0.6.0.',
+          boardNameLabel:'Board name',boardNamePlaceholder:'School Festival 2026',boardNameHint:'Use an event or operation name so it is clear which lending session this board represents.',milestoneStatus:'v0.5.0 Undo / History',
           itemsCountLabel:'Equipment',borrowersCountLabel:'Borrowers',checkedOutCountLabel:'Checked out',
           outstandingCountLabel:'Outstanding',outstandingBorrowersLabel:'Borrowers',availabilitySummaryLabel:'Available / total',
           outstandingBoardTitle:'Outstanding board',outstandingBoardLead:'See who currently has each item, grouped by borrower, and start return actions here.',
           allReturnedTitle:'Everything has been returned',allReturnedBody:'There is no outstanding equipment.',startCheckout:'Check out equipment',firstCheckoutPrefix:'First checkout',boardReturnAll:'Return all',boardPartialReturn:'Return some',
+          historyTitle:'History',historyLead:'Review checkout, return, and undo events newest first. Only the most recent compatible operation can be undone.',
+          historySearchLabel:'Search history',historySearchPlaceholder:'Search borrower, equipment, or code',historyEmpty:'No operation history yet.',historyNoMatch:'No history matches this search.',
+          historyCheckout:'Checkout',historyReturn:'Return',historyUndoCheckout:'Checkout undone',historyUndoReturn:'Return undone',undone:'Undone',undo:'Undo',undoComplete:'Operation undone',undoUnavailable:'This operation can no longer be undone from the current state',
           checkoutTitle:'Check out',checkoutLead:'Choose a borrower and check out multiple available items at once.',checkoutBorrowerLabel:'Borrower',checkoutBorrowerPlaceholder:'Search or enter a name / team',checkoutBorrowerHint:'Choose an existing borrower or add a new name here.',
           selectedBorrowerLabel:'Selected borrower',clearSelection:'Clear selection',existingBorrower:'Saved',addNewBorrowerPrefix:'Add as new borrower',noBorrowerSuggestion:'Enter a person or team name.',
           checkoutItemsLabel:'Equipment to check out',checkoutItemPlaceholder:'Search by item, category, or code',availableLabel:'Available',selectedLabel:'Selected',checkoutNoItems:'No equipment is currently available. Returned items become available again.',checkoutNoMatch:'No available equipment matches this search.',
@@ -854,8 +913,8 @@
           emptyItemsTitle:'No equipment yet',emptyItemsBody:'Add equipment with the form above and it will appear here.',emptyBorrowersTitle:'No borrowers yet',emptyBorrowersBody:'Add a person or team and it will appear here for review and editing.',
           available:'Available',checkedOut:'Checked out',lentToPrefix:'Borrower',checkedOutAtPrefix:'Checked out',categoryPrefix:'Category',codePrefix:'Code',borrowedItemsPrefix:'Checked out',
           edit:'Edit',editItemTitle:'Edit equipment',editBorrowerTitle:'Edit borrower',cancel:'Cancel',saveChanges:'Save changes',itemAdded:'Equipment added',borrowerAdded:'Borrower added',itemUpdated:'Equipment updated',borrowerUpdated:'Borrower updated',close:'Close',
-          helpTitle:'How to use & notes',helpBasicsTitle:'Basics in v0.4.0',helpStep1:'When equipment is checked out, the outstanding board automatically groups those items by borrower.',helpStep2:'Use Return all from the outstanding board, or Return some to choose only the items that came back.',helpStep3:'When everything is back, the outstanding count reaches zero and the board shows the completed state.',
-          helpPrivacyTitle:'Privacy',helpPrivacyBody:'Entries, checkout state, and return state are processed in the browser and are not sent to an external server. The runtime makes no external network request.',helpNotesTitle:'Current limitations',helpNoteStorage:'In v0.4.0, equipment, borrowers, and loan state exist only in memory and disappear on reload.',helpNoteUndo:'Checkout / return Undo and the history screen are planned for v0.5.0.',helpNoteData:'Avoid entering phone numbers, addresses, or other personal information that is unnecessary for lending.',helpOffline:'The distributable HTML opens by itself and includes the required code.',
+          helpTitle:'How to use & notes',helpBasicsTitle:'Basics in v0.5.0',helpStep1:'After a checkout or return, the notification includes an Undo action.',helpStep2:'History shows checkout, return, and undo events newest first and can be searched by borrower, equipment, or code.',helpStep3:'History can undo only the most recent operation that is compatible with the current state. Arbitrary older events cannot be directly undone.',
+          helpPrivacyTitle:'Privacy',helpPrivacyBody:'Entries, loan state, return state, and operation history are processed in the browser and are not sent to an external server. The runtime makes no external network request.',helpNotesTitle:'Current limitations',helpNoteStorage:'In v0.5.0, equipment, borrowers, loan state, and history exist only in memory and disappear on reload.',helpNoteUndo:'Undo keeps the original history and adds an undo event while restoring state.',helpNoteData:'Avoid entering phone numbers, addresses, or other personal information that is unnecessary for lending.',helpOffline:'The distributable HTML opens by itself and includes the required code.',
           buildInfo:'Build information',appVersion:'App version',builtAt:'Built at',dependencies:'Embedded dependencies',footer:'Single HTML app that runs on this device'
         }
       };
@@ -891,6 +950,55 @@
       function returnMessage(name,count,remaining){if(language==='ja')return name+'から'+count+'点を返却しました'+(remaining?'（残り'+remaining+'点）':'');return 'Returned '+count+' item'+(count===1?'':'s')+' from '+name+(remaining?' · '+remaining+' remaining':'');}
       function returnAllLabel(count){return language==='ja'?count+'点すべて返却':'Return all '+count+' item'+(count===1?'':'s');}
       function returnSelectedLabel(count){return language==='ja'?'選択した'+count+'点を返却':'Return '+count+' selected item'+(count===1?'':'s');}
+      function isEventUndone(eventId){return state.events.some(event=>event.type==='undo'&&event.relatedEventId===eventId);}
+      function lastUndoableEvent(){
+        const undone=new Set(state.events.filter(event=>event.type==='undo'&&event.relatedEventId).map(event=>event.relatedEventId));
+        for(let index=state.events.length-1;index>=0;index-=1){const event=state.events[index];if((event.type==='checkout'||event.type==='return')&&!undone.has(event.eventId))return event;}
+        return null;
+      }
+      function itemById(id){return state.items.find(item=>item.itemId===id)||null;}
+      function historyActionText(event){
+        if(event.type==='checkout')return t('historyCheckout');
+        if(event.type==='return')return t('historyReturn');
+        if(event.type==='undo')return event.reversedType==='return'?t('historyUndoReturn'):t('historyUndoCheckout');
+        return event.type;
+      }
+      function eventItemNames(event){return (event.itemIds||[]).map(id=>itemById(id)?.name||id);}
+      function historySearchText(event){
+        const borrower=borrowerById(event.borrowerId);
+        const itemTexts=(event.itemIds||[]).map(id=>{const item=itemById(id);return item?[item.name,item.category,item.code].filter(Boolean).join(' '):id;});
+        return normalizeSearch([historyActionText(event),borrower?.name||'',...itemTexts].join(' '));
+      }
+      function showUndoToast(message,eventId){
+        AppToast.show({message,actionLabel:t('undo'),onAction:()=>undoEvent(eventId),duration:5200});
+      }
+      function undoEvent(eventId){
+        const target=lastUndoableEvent();
+        if(!target||target.eventId!==eventId){showToast(t('undoUnavailable'));return false;}
+        const borrower=borrowerById(target.borrowerId);
+        if(!borrower){showToast(t('undoUnavailable'));return false;}
+        const items=(target.itemIds||[]).map(itemById).filter(Boolean);
+        if(items.length!==(target.itemIds||[]).length){showToast(t('undoUnavailable'));return false;}
+        const now=new Date().toISOString();
+
+        if(target.type==='checkout'){
+          const valid=items.every(item=>item.status==='checked-out'&&item.currentBorrowerId===target.borrowerId&&item.currentCheckoutAt===target.timestamp);
+          if(!valid){showToast(t('undoUnavailable'));return false;}
+          items.forEach(item=>{item.status='available';item.currentBorrowerId=null;item.currentCheckoutAt=null;item.updatedAt=now;});
+        }else if(target.type==='return'){
+          const snapshots=Array.isArray(target.itemSnapshots)?target.itemSnapshots:[];
+          const snapshotMap=new Map(snapshots.map(snapshot=>[snapshot.itemId,snapshot]));
+          const valid=items.every(item=>item.status==='available'&&snapshotMap.has(item.itemId));
+          if(!valid){showToast(t('undoUnavailable'));return false;}
+          items.forEach(item=>{const snapshot=snapshotMap.get(item.itemId);item.status='checked-out';item.currentBorrowerId=target.borrowerId;item.currentCheckoutAt=snapshot.checkoutAt||target.timestamp;item.updatedAt=now;});
+        }else{
+          showToast(t('undoUnavailable'));return false;
+        }
+
+        state.events.push({eventId:createId('event'),type:'undo',borrowerId:target.borrowerId,itemIds:[...(target.itemIds||[])],timestamp:now,note:'',relatedEventId:target.eventId,reversedType:target.type});
+        checkoutState.selectedItemIds.clear();returnState.partialMode=false;returnState.selectedItemIds.clear();
+        render();showToast(t('undoComplete'));return true;
+      }
 
       function applyLanguage(){
         document.documentElement.lang=language;document.title=language==='ja'?APP_CONFIG.nameJa:APP_CONFIG.name;$('#brandName').textContent=language==='ja'?APP_CONFIG.nameJa:APP_CONFIG.name;$('#footerName').textContent=language==='ja'?APP_CONFIG.nameJa:APP_CONFIG.name;
@@ -956,7 +1064,31 @@
         });
       }
       function renderReturn(){renderReturnBorrowers();renderReturnDetail();}
-      function render(){$('#boardName').value=state.board.name;updateCounts();renderOutstandingBoard();renderCheckout();renderReturn();renderItems();renderBorrowers();}
+      function renderHistory(){
+        const root=$('#historyList');root.replaceChildren();$('#historyCount').textContent=String(state.events.length);
+        if(!state.events.length){const empty=document.createElement('div');empty.className='history-empty';empty.textContent=t('historyEmpty');root.append(empty);return;}
+        const query=normalizeSearch($('#historySearch').value),latest=lastUndoableEvent();
+        const events=state.events.slice().reverse().filter(event=>!query||historySearchText(event).includes(query));
+        if(!events.length){const empty=document.createElement('div');empty.className='history-empty';empty.textContent=t('historyNoMatch');root.append(empty);return;}
+        events.forEach(event=>{
+          const row=document.createElement('article');row.className='history-row';
+          const time=document.createElement('div');time.className='history-time';time.textContent=formatDateTime(event.timestamp);
+          const main=document.createElement('div');main.className='history-main';
+          const titleLine=document.createElement('div');titleLine.className='history-title-line';
+          const action=document.createElement('span');action.className='history-action';action.textContent=historyActionText(event);titleLine.append(action);
+          const borrower=borrowerById(event.borrowerId);if(borrower){const borrowerEl=document.createElement('span');borrowerEl.className='history-borrower';borrowerEl.textContent=borrower.name;titleLine.append(borrowerEl);}
+          if(event.type==='undo'){const badge=document.createElement('span');badge.className='history-badge undo';badge.textContent=t('undo');titleLine.append(badge);}
+          else if(isEventUndone(event.eventId)){const badge=document.createElement('span');badge.className='history-badge undone';badge.textContent=t('undone');titleLine.append(badge);}
+          const items=document.createElement('div');items.className='history-items';items.textContent=eventItemNames(event).join(' · ');
+          main.append(titleLine,items);
+          const actions=document.createElement('div');actions.className='history-actions';
+          if(latest&&latest.eventId===event.eventId&&(event.type==='checkout'||event.type==='return')){
+            const undoButton=document.createElement('button');undoButton.className='button small';undoButton.type='button';undoButton.dataset.historyUndo=event.eventId;undoButton.textContent=t('undo');actions.append(undoButton);
+          }
+          row.append(time,main,actions);root.append(row);
+        });
+      }
+      function render(){$('#boardName').value=state.board.name;updateCounts();renderOutstandingBoard();renderCheckout();renderReturn();renderHistory();renderItems();renderBorrowers();}
       function trimmedValue(selector){return $(selector).value.trim();}
 
       $('#boardName').addEventListener('input',event=>{state.board.name=event.currentTarget.value;state.board.updatedAt=new Date().toISOString();});
@@ -967,7 +1099,7 @@
       $('#clearBorrowerSelection').addEventListener('click',()=>{checkoutState.selectedBorrowerId=null;$('#checkoutBorrowerQuery').value='';renderCheckout();$('#checkoutBorrowerQuery').focus();});
       $('#checkoutItemList').addEventListener('change',event=>{const cb=event.target.closest('[data-checkout-item]');if(!cb)return;if(cb.checked)checkoutState.selectedItemIds.add(cb.value);else checkoutState.selectedItemIds.delete(cb.value);renderCheckoutState();});
       $('#checkoutBorrowerSuggestions').addEventListener('click',event=>{const existing=event.target.closest('[data-checkout-borrower-id]');if(existing){const b=borrowerById(existing.dataset.checkoutBorrowerId);if(!b)return;checkoutState.selectedBorrowerId=b.borrowerId;$('#checkoutBorrowerQuery').value=b.name;renderCheckout();return;}const create=event.target.closest('[data-new-checkout-borrower]');if(create){const name=String(create.dataset.newCheckoutBorrower||'').trim();if(!name)return;const now=new Date().toISOString();const b={borrowerId:createId('borrower'),name,note:'',archived:false,createdAt:now,updatedAt:now};state.borrowers.push(b);checkoutState.selectedBorrowerId=b.borrowerId;$('#checkoutBorrowerQuery').value=b.name;render();showToast(t('borrowerAdded'));}});
-      $('#checkoutButton').addEventListener('click',()=>{const borrower=borrowerById(checkoutState.selectedBorrowerId);if(!borrower){$('#checkoutBorrowerQuery').focus();return;}const selected=state.items.filter(item=>checkoutState.selectedItemIds.has(item.itemId)&&!item.archived&&item.status==='available');if(!selected.length){renderCheckout();return;}const now=new Date().toISOString(),itemIds=selected.map(item=>item.itemId);selected.forEach(item=>{item.status='checked-out';item.currentBorrowerId=borrower.borrowerId;item.currentCheckoutAt=now;item.updatedAt=now;});state.events.push({eventId:createId('event'),type:'checkout',borrowerId:borrower.borrowerId,itemIds,timestamp:now,note:''});checkoutState.selectedItemIds.clear();checkoutState.selectedBorrowerId=null;$('#checkoutBorrowerQuery').value='';$('#checkoutItemSearch').value='';render();showToast(checkoutMessage(borrower.name,selected.length));$('#checkoutBorrowerQuery').focus();});
+      $('#checkoutButton').addEventListener('click',()=>{const borrower=borrowerById(checkoutState.selectedBorrowerId);if(!borrower){$('#checkoutBorrowerQuery').focus();return;}const selected=state.items.filter(item=>checkoutState.selectedItemIds.has(item.itemId)&&!item.archived&&item.status==='available');if(!selected.length){renderCheckout();return;}const now=new Date().toISOString(),itemIds=selected.map(item=>item.itemId),eventRecord={eventId:createId('event'),type:'checkout',borrowerId:borrower.borrowerId,itemIds,timestamp:now,note:''};selected.forEach(item=>{item.status='checked-out';item.currentBorrowerId=borrower.borrowerId;item.currentCheckoutAt=now;item.updatedAt=now;});state.events.push(eventRecord);checkoutState.selectedItemIds.clear();checkoutState.selectedBorrowerId=null;$('#checkoutBorrowerQuery').value='';$('#checkoutItemSearch').value='';render();showUndoToast(checkoutMessage(borrower.name,selected.length),eventRecord.eventId);$('#checkoutBorrowerQuery').focus();});
 
       $('#outstandingBoard').addEventListener('click',event=>{
         if(event.target.closest('[data-board-start-checkout]')){document.getElementById('checkoutSection').scrollIntoView({behavior:'smooth',block:'start'});requestAnimationFrame(()=>$('#checkoutBorrowerQuery').focus());return;}
@@ -986,11 +1118,14 @@
       });
       function commitReturn(borrower,items){
         const valid=items.filter(item=>item.status==='checked-out'&&item.currentBorrowerId===borrower.borrowerId);if(!valid.length){render();return;}
-        const now=new Date().toISOString(),itemIds=valid.map(item=>item.itemId);
+        const now=new Date().toISOString(),itemIds=valid.map(item=>item.itemId),itemSnapshots=valid.map(item=>({itemId:item.itemId,checkoutAt:item.currentCheckoutAt})),eventRecord={eventId:createId('event'),type:'return',borrowerId:borrower.borrowerId,itemIds,timestamp:now,note:'',itemSnapshots};
         valid.forEach(item=>{item.status='available';item.currentBorrowerId=null;item.currentCheckoutAt=null;item.updatedAt=now;});
-        state.events.push({eventId:createId('event'),type:'return',borrowerId:borrower.borrowerId,itemIds,timestamp:now,note:''});
-        const remaining=checkedOutItemsForBorrower(borrower.borrowerId).length;returnState.partialMode=false;returnState.selectedItemIds.clear();if(!remaining)returnState.selectedBorrowerId=null;render();showToast(returnMessage(borrower.name,valid.length,remaining));
+        state.events.push(eventRecord);
+        const remaining=checkedOutItemsForBorrower(borrower.borrowerId).length;returnState.partialMode=false;returnState.selectedItemIds.clear();if(!remaining)returnState.selectedBorrowerId=null;render();showUndoToast(returnMessage(borrower.name,valid.length,remaining),eventRecord.eventId);
       }
+
+      $('#historySearch').addEventListener('input',renderHistory);
+      $('#historyList').addEventListener('click',event=>{const button=event.target.closest('[data-history-undo]');if(!button)return;undoEvent(button.dataset.historyUndo);});
 
       function openItemEdit(id){const item=state.items.find(x=>x.itemId===id);if(!item)return;$('#editItemId').value=item.itemId;$('#editItemName').value=item.name;$('#editItemCategory').value=item.category;$('#editItemCode').value=item.code;$('#editItemNote').value=item.note;$('#itemEditDialog').showModal();requestAnimationFrame(()=>$('#editItemName').focus());}
       function openBorrowerEdit(id){const b=state.borrowers.find(x=>x.borrowerId===id);if(!b)return;$('#editBorrowerId').value=b.borrowerId;$('#editBorrowerName').value=b.name;$('#editBorrowerNote').value=b.note;$('#borrowerEditDialog').showModal();requestAnimationFrame(()=>$('#editBorrowerName').focus());}
