@@ -3,9 +3,9 @@
   "name": "Loan Board",
   "nameJa": "貸出・返却ボード",
   "slug": "loan-board",
-  "version": "0.4.0",
-  "description": "Track equipment checkout and return locally with an outstanding board grouped by borrower, including full and partial return actions.",
-  "descriptionJa": "未返却備品を貸出先ごとに一覧化し、誰が何を持っているかと未返却0をすぐ確認できるブラウザー内完結の貸出・返却ボードです。",
+  "version": "0.5.0",
+  "description": "Track equipment checkout and return locally with an outstanding board, searchable history, and safe undo for the latest checkout or return.",
+  "descriptionJa": "未返却ボードに加え、検索・絞り込み可能な履歴と、直前の貸出または返却だけを安全にUndoできるブラウザー内完結の貸出・返却ボードです。",
   "defaultLanguage": "auto",
   "repository": {
     "owner": "ttomohisa",
