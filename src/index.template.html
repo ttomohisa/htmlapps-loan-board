@@ -738,7 +738,7 @@
             <label class="field" for="itemStatusFilter">
               <span class="field-label" data-i18n="itemStatusFilterLabel">表示</span>
               <select class="history-select" id="itemStatusFilter">
-                <option value="active" data-i18n="itemFilterActive">使用中</option>
+                <option value="active" data-i18n="itemFilterActive">有効</option>
                 <option value="archived" data-i18n="itemFilterArchived">アーカイブ済み</option>
                 <option value="all" data-i18n="itemFilterAll">すべて</option>
               </select>
@@ -999,7 +999,7 @@
           noOutstandingTitle:'現在、貸出中の備品はありません',noOutstandingBody:'貸し出した備品があると、ここに返却する相手が表示されます。',selectReturnBorrower:'返却する貸出先を選択してください。',
           returnSelectedBorrower:'返却する貸出先',allReturn:'すべて返却',partialReturn:'一部だけ返却',cancelPartial:'部分返却をやめる',returnSelected:'選択した備品を返却',returnSelectedCount:'返却選択中',
           returnedAll:'すべて返却しました',returnedPartial:'点を返却しました',remainingPrefix:'残り',remainingSuffix:'点',returnItemHint:'返ってきた備品だけを選択してください。',
-          itemsTitle:'備品',itemsLead:'1件ずつの登録に加え、連番をまとめて登録できます。使わない備品は履歴を残したままアーカイブできます。',batchCreateTitle:'連番をまとめて登録',batchNamePrefixLabel:'備品名の共通部分 *',batchNamePrefixPlaceholder:'無線機',batchStartLabel:'開始番号',batchCountLabel:'登録数',batchDigitsLabel:'桁数',batchCodePrefixLabel:'管理コードの共通部分',batchCodePrefixPlaceholder:'RADIO-',batchCodePrefixHint:'空欄なら管理コードは付けません。入力すると番号を続けて付けます。',batchPreviewLabel:'登録予定',batchAdd:'まとめて追加',batchAdded:'件の備品を追加しました',batchInvalid:'共通名・開始番号・登録数・桁数を確認してください。',batchDuplicateCode:'生成される管理コードが既存の備品と重複します。',itemSearchLabel:'備品を検索',itemSearchPlaceholder:'備品名・カテゴリ・コード',itemStatusFilterLabel:'表示',itemFilterActive:'使用中',itemFilterArchived:'アーカイブ済み',itemFilterAll:'すべて',activeItemsLabel:'使用中',archivedItemsLabel:'アーカイブ',archived:'アーカイブ済み',archive:'アーカイブ',restore:'復帰',archiveBlocked:'貸出中の備品は返却してからアーカイブしてください。',archiveBlockedTitle:'貸出中はアーカイブできません',itemArchived:'備品をアーカイブしました',itemRestored:'備品を復帰しました',itemNoMatch:'条件に一致する備品はありません。',borrowersTitle:'貸出先',borrowersLead:'個人名、班名、部署名などを登録します。現在の貸出点数も確認できます。',
+          itemsTitle:'備品',itemsLead:'1件ずつの登録に加え、連番をまとめて登録できます。使わない備品は履歴を残したままアーカイブできます。',batchCreateTitle:'連番をまとめて登録',batchNamePrefixLabel:'備品名の共通部分 *',batchNamePrefixPlaceholder:'無線機',batchStartLabel:'開始番号',batchCountLabel:'登録数',batchDigitsLabel:'桁数',batchCodePrefixLabel:'管理コードの共通部分',batchCodePrefixPlaceholder:'RADIO-',batchCodePrefixHint:'空欄なら管理コードは付けません。入力すると番号を続けて付けます。',batchPreviewLabel:'登録予定',batchAdd:'まとめて追加',batchAdded:'件の備品を追加しました',batchInvalid:'共通名・開始番号・登録数・桁数を確認してください。',batchDuplicateCode:'生成される管理コードが既存の備品と重複します。',itemSearchLabel:'備品を検索',itemSearchPlaceholder:'備品名・カテゴリ・コード',itemStatusFilterLabel:'表示',itemFilterActive:'有効',itemFilterArchived:'アーカイブ済み',itemFilterAll:'すべて',activeItemsLabel:'有効',archivedItemsLabel:'アーカイブ',archived:'アーカイブ済み',archive:'アーカイブ',restore:'復帰',archiveBlocked:'貸出中の備品は返却してからアーカイブしてください。',archiveBlockedTitle:'貸出中はアーカイブできません',itemArchived:'備品をアーカイブしました',itemRestored:'備品を復帰しました',itemNoMatch:'条件に一致する備品はありません。',borrowersTitle:'貸出先',borrowersLead:'個人名、班名、部署名などを登録します。現在の貸出点数も確認できます。',
           itemNameLabel:'備品名 *',itemNamePlaceholder:'無線機 01',categoryLabel:'カテゴリ',categoryPlaceholder:'無線機',codeLabel:'管理コード',codePlaceholder:'RADIO-01',noteLabel:'メモ',itemNotePlaceholder:'受け渡し時に確認したいことなど',addItem:'備品を追加',
           borrowerNameLabel:'名前 / 班名 *',borrowerNamePlaceholder:'警備1班',borrowerNotePlaceholder:'担当者名など、必要最小限の補足',addBorrower:'貸出先を追加',
           emptyItemsTitle:'まだ備品がありません',emptyItemsBody:'上のフォームから備品を追加すると、ここに一覧が表示されます。',emptyBorrowersTitle:'まだ貸出先がありません',emptyBorrowersBody:'名前や班名を追加すると、ここから確認・編集できます。',
@@ -1069,7 +1069,7 @@
       function padNumber(value,digits){return String(value).padStart(digits,'0');}
       function batchValues(){
         const namePrefix=$('#batchNamePrefix').value.trim(),start=Number.parseInt($('#batchStartNumber').value,10),count=Number.parseInt($('#batchCount').value,10),digits=Number.parseInt($('#batchDigits').value,10),category=$('#batchCategory').value.trim(),codePrefix=$('#batchCodePrefix').value.trim();
-        const valid=Boolean(namePrefix)&&Number.isInteger(start)&&start>=0&&start<=999999&&Number.isInteger(count)&&count>=1&&count<=500&&Number.isInteger(digits)&&digits>=1&&digits<=6;
+        const valid=Boolean(namePrefix)&&Number.isInteger(start)&&start>=0&&start<=999999&&Number.isInteger(count)&&count>=1&&count<=500&&start+count-1<=999999&&Number.isInteger(digits)&&digits>=1&&digits<=6;
         return {namePrefix,start,count,digits,category,codePrefix,valid};
       }
       function generatedBatch(values){if(!values.valid)return[];return Array.from({length:values.count},(_,index)=>{const number=values.start+index,padded=padNumber(number,values.digits);return{name:values.namePrefix+' '+padded,category:values.category,code:values.codePrefix?values.codePrefix+padded:'',note:''};});}
