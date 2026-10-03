@@ -38,7 +38,7 @@ GitHub Pagesから最初のHTMLを読み込んだ後、備品・貸出先・貸�
 
 ### 単一HTMLを直接使う
 
-[loan-board.html](https://github.com/ttomohisa/htmlapps-loan-board/blob/main/loan-board.html) をリポジトリからダウンロードして、最新のChromiumベースブラウザ、Firefox、Safariで開いてください。
+[loan-board.html](loan-board.html) をリポジトリからダウンロードして、最新のChromiumベースブラウザ、Firefox、Safariで開いてください。
 
 ### 自分でビルドする
 
