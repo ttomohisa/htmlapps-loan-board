@@ -3,37 +3,44 @@
 ## 1. Product identity
 - **Name:** Loan Board / 貸出・返却ボード
 - **English helper:** Equipment Checkout & Return
-- **Version:** v0.3.0
-- **Purpose:** 誰に何を貸していて、最後に何が返ってきていないかを1台の端末ですぐ確認できる貸出・返却ボード。
-- **Primary users:** イベント受付、学校、撮影・舞台現場、部活・サークル、社内イベントなど。
+- **Version:** v0.4.0
+- **Purpose:** 誰に何を貸していて、最後に何が返ってきていないかを1台の端末ですぐ確認する。
+- **Primary outcome:** **未返却 0** を明確に確認できること。
 - **Release artifacts:** `dist/index.html`, `dist/index.self-extract.html`, `loan-board.html`.
 
-## 2. Product outcome
-高度な資産管理ではなく、最終的に **「未返却 0」** を確認するためのツールとする。
+## 2. v0.4.0 scope — Outstanding Board / 未返却ボード
 
-## 3. v0.3.0 scope — Return / 返却
-v0.2.0の貸出に加えて以下を実装する。
+v0.3.0までの貸出・全返却・部分返却に加えて、アプリの中心画面となる未返却ボードを実装する。
 
-- 現在Itemを借りているBorrowerだけを返却候補へ表示
-- Borrowerごとの現在貸出中Item一覧
-- 全返却
-- 部分返却
-- Return Event
-- 返却Itemを即時 `available` へ戻す
-- `currentBorrowerId` / `currentCheckoutAt` を返却時にクリア
-- 部分返却後は残っているItemだけを継続表示
-- 全返却後はBorrowerを返却候補から除外
-- 返却済みItemをCheckout候補へ即時復帰
-- 日本語 / 英語、PC / タブレット / スマートフォン
-- 完全ローカル処理、実行時外部通信なし、単一HTML
-- ヘッダーは最新 `htmlapps-template` UIを維持
+### Summary
+- 未返却Item数
+- 現在Itemを借りているBorrower数
+- 利用可能Item数 / 全Item数
 
-### Not included yet
-未返却専用ボード、Undo、履歴UI、連番登録、永続保存、JSONバックアップ、CSV、アーカイブ、QR / バーコード。
+### Outstanding board
+- 現在 `checked-out` のItemだけを表示
+- Borrower単位でグループ化
+- Borrower名
+- 未返却点数
+- 最初の貸出時刻
+- Item名
+- Itemカテゴリ / コード
+- Itemごとの貸出時刻
+- ボードから全返却
+- ボードから部分返却フローへ移動
 
-v0.3.0では業務データと貸出返却状態はメモリ上のみ。再読み込みで消える。言語設定のみローカル保存可。
+### Completion state
+未返却が0の場合は一覧を表示せず、次を明示する。
 
-## 4. Data model
+```text
+すべて返却済みです
+未返却の備品はありません。
+```
+
+そこから「貸し出す」でCheckoutへ移動できる。
+
+## 3. Data model
+
 ### Item
 `itemId`, `name`, `category`, `code`, `note`, `status`, `currentBorrowerId`, `currentCheckoutAt`, `archived`, `createdAt`, `updatedAt`
 
@@ -41,69 +48,67 @@ v0.3.0では業務データと貸出返却状態はメモリ上のみ。再読�
 `borrowerId`, `name`, `note`, `archived`, `createdAt`, `updatedAt`
 
 ### Event
-Checkout:
-`eventId`, `type: "checkout"`, `borrowerId`, `itemIds`, `timestamp`, `note`
+- `checkout`
+- `return`
 
-Return:
-`eventId`, `type: "return"`, `borrowerId`, `itemIds`, `timestamp`, `note`
+Undoイベントはv0.5.0で追加予定。
 
-## 5. Return rules
-- 返却候補は現在 `checked-out` Itemを1件以上持つBorrowerだけ。
-- 全返却は通常ケースとして主ボタンにする。
-- 「一部だけ返却」を選ぶまで個別チェックボックスを出さない。
-- 部分返却は1件以上を選択した場合のみ確定可能。
-- 返却確定時にも `status === checked-out` かつ `currentBorrowerId` 一致を再検証する。
-- 返却Itemは `available`、`currentBorrowerId = null`、`currentCheckoutAt = null`。
-- Return Eventは返却単位で1件生成する。
-- 部分返却後、残りがあるBorrowerは返却画面に残す。
-- 残り0になったBorrowerは返却画面から消す。
-- 返却ItemはCheckout候補へ即時復帰する。
+## 4. Outstanding-board rules
+- `checked-out` Itemだけを集計する。
+- 借りているItemが0件のBorrowerはボードに出さない。
+- Itemは必ず `currentBorrowerId` のBorrower配下へ表示する。
+- 全返却は既存のReturn処理を使用し、Return Eventを生成する。
+- 部分返却はReturnセクションの部分返却モードへ接続する。
+- 返却後は同じ描画サイクルで未返却数・Borrower数・利用可能数を更新する。
+- 未返却0になった瞬間に完了状態へ切り替える。
 
-## 6. Checkout rules
-- Borrower未選択では確定不可。
-- 既存Borrower検索とその場での新規追加。
-- `available` Itemだけを候補表示。
-- 複数選択。
-- 確定時にも状態を再検証し二重貸出を防ぐ。
+## 5. Checkout / Return invariants
+- `checked-out` Itemを二重貸出しない。
+- Return確定時にItemが対象Borrowerへ貸出中か再検証する。
+- Return後は `available` に戻し、Borrower / Checkout時刻をクリアする。
+- 部分返却では選択したItemだけを戻す。
 
-## 7. Header contract
-最新 `htmlapps-template` の現在UIを基準とする。
-- 左: canonical faviconと同じアイコン
-- アプリ名 + version badgeを同一行
-- 下段に短い補助文
-- 右: 言語切替 + ヘルプ
+## 6. Header contract
+作業時点の最新 `htmlapps-template` のヘッダー構造を維持する。
+- canonical faviconと同じアプリアイコン
+- アプリ名 + version badge
+- 補助文
+- 言語切替 + ヘルプ
 
-## 8. UX / accessibility
+## 7. UX / accessibility
+- 未返却ボードをページ上部に置く。
+- 未返却0を明確な完了状態として扱う。
 - 320px幅から利用可能。
-- 全返却を返却画面の主操作にする。
-- 部分返却は必要時だけ選択UIを開く。
-- 長い備品名・貸出先名でも横スクロールなし。
-- 十分なタップ領域。
+- 長い備品名・貸出先名で横スクロールを出さない。
+- スマートフォンでは返却操作ボタンを押しやすい幅にする。
 - 可視Focus、ラベル、Esc、reduced-motion。
 - 絵文字を主要UIアイコンにしない。
 
-## 9. Privacy / runtime
+## 8. Privacy / runtime
 Runtime CDN / API / analytics / telemetry / external font / user-data upload: none.
 CSPは `connect-src 'none'`。direct `file://` required。third-party runtime dependencies: none。
 
-## 10. v0.3.0 acceptance criteria
-- 貸出中Itemを持つBorrowerだけ返却候補に出る。
-- Borrower選択後、そのBorrowerが持つItemだけ表示。
-- 全返却を1操作で実行できる。
-- 部分返却モードへ切替できる。
-- 部分返却は選択Itemだけを返す。
-- Return Eventが生成される。
-- 返却Itemが `available` になる。
-- 返却Itemの現在Borrower / Checkout時刻がクリアされる。
-- 部分返却後は残りItemだけ表示。
-- 全返却後はBorrowerが返却候補から消える。
-- 返却ItemがCheckout候補へ即時復帰。
+v0.4.0では業務データはメモリ上だけに保持し、再読み込みで消える。
+
+## 9. v0.4.0 acceptance criteria
+- Checkoutすると未返却ボードへ即時表示される。
+- Borrower単位にItemがグループ化される。
+- 未返却Item数が正しい。
+- 現在借りているBorrower数が正しい。
+- 利用可能 / 全備品数が正しい。
+- Item名・貸出時刻を確認できる。
+- ボードから全返却できる。
+- ボードから部分返却へ移動できる。
+- 部分返却後は残りItemだけ表示される。
+- 全返却後はBorrowerグループが消える。
+- 未返却0で「すべて返却済みです」を表示する。
+- 完了状態からCheckoutへ移動できる。
 - 日本語 / 英語。
 - 360px幅で横スクロールなし。
 - standalone / self-extract / root HTML生成。
 - repository check成功。
 
-## 11. Roadmap
+## 10. Roadmap
 - **v0.1.0:** Core Data
 - **v0.2.0:** Checkout
 - **v0.3.0:** Return / partial return

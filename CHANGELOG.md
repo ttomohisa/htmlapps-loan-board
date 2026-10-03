@@ -2,6 +2,20 @@
 
 All notable Loan Board changes are recorded here.
 
+## [0.4.0] - 2026-10-03
+
+### Added
+- Outstanding board grouped by borrower.
+- Outstanding item, active borrower, and available / total summaries.
+- Checkout timestamp details on outstanding items.
+- Return-all action directly from each outstanding borrower group.
+- Partial-return shortcut from the outstanding board.
+- Completed state shown when all equipment has been returned.
+
+### Changed
+- The top of the app now prioritizes outstanding equipment instead of setup counts.
+- Bilingual help, README files, and product specification now describe the outstanding-board workflow.
+
 ## [0.3.0] - 2026-10-03
 
 ### Added

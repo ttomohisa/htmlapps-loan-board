@@ -161,6 +161,46 @@
     }
     .summary-value { display: block; font-size: 28px; font-weight: 850; color: var(--brand-strong); line-height: 1; }
     .summary-label { display: block; margin-top: 7px; color: var(--muted); font-size: 12px; font-weight: 700; }
+    .summary-card.outstanding.has-outstanding { border-color: #e6ca8e; background: var(--warning-soft); }
+    .summary-card.outstanding.has-outstanding .summary-value { color: var(--warning); }
+    .outstanding-board { margin-top: 18px; padding-top: 18px; border-top: 1px solid var(--line); }
+    .outstanding-board-head {
+      display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; margin-bottom: 12px;
+    }
+    .outstanding-board-head h3 { margin: 0; font-size: 18px; }
+    .outstanding-board-head p { margin: 5px 0 0; color: var(--muted); font-size: 13px; line-height: 1.5; }
+    .outstanding-list { display: grid; gap: 12px; }
+    .outstanding-group {
+      min-width: 0; border: 1px solid var(--line); border-radius: 14px; background: var(--surface-muted); overflow: hidden;
+    }
+    .outstanding-group-head {
+      display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;
+      padding: 13px 14px; border-bottom: 1px solid var(--line); background: var(--surface);
+    }
+    .outstanding-group-title { min-width: 0; }
+    .outstanding-group-title strong { display: block; font-size: 16px; overflow-wrap: anywhere; }
+    .outstanding-group-title span { display: block; margin-top: 3px; color: var(--muted); font-size: 11px; }
+    .outstanding-items { display: grid; }
+    .outstanding-item {
+      min-width: 0; display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 10px; align-items: center;
+      padding: 11px 14px; border-bottom: 1px solid var(--line);
+    }
+    .outstanding-item:last-child { border-bottom: 0; }
+    .outstanding-item-copy { min-width: 0; }
+    .outstanding-item-name { display: block; font-weight: 800; overflow-wrap: anywhere; }
+    .outstanding-item-meta { display: flex; flex-wrap: wrap; gap: 4px 9px; margin-top: 4px; color: var(--muted); font-size: 11px; }
+    .outstanding-item-time { flex: 0 0 auto; color: var(--muted); font-size: 11px; white-space: nowrap; }
+    .outstanding-actions {
+      display: flex; flex-wrap: wrap; gap: 9px; padding: 12px 14px; border-top: 1px solid var(--line); background: var(--surface);
+    }
+    .board-complete {
+      display: grid; place-items: center; min-height: 190px; padding: 24px 18px;
+      border: 1px solid #bdd7cf; border-radius: 14px; background: var(--brand-soft); text-align: center;
+    }
+    .board-complete svg { width: 42px; height: 42px; color: var(--brand); }
+    .board-complete strong { display: block; margin-top: 10px; color: var(--brand-strong); font-size: 18px; }
+    .board-complete p { margin: 6px 0 0; color: #45665d; font-size: 13px; line-height: 1.55; }
+    .board-complete .button { margin-top: 14px; }
     .workspace-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 18px; }
     .panel { min-width: 0; overflow: hidden; }
     .panel-head {
@@ -374,6 +414,10 @@
       .summary-grid { gap: 8px; }
       .summary-card { padding: 12px 10px; }
       .summary-value { font-size: 24px; }
+      .outstanding-board-head { display: block; }
+      .outstanding-item { grid-template-columns: 1fr; }
+      .outstanding-item-time { white-space: normal; }
+      .outstanding-actions .button { flex: 1 1 100%; }
       .panel-head, .panel-body, .checkout-body, .return-body { padding-left: 15px; padding-right: 15px; }
       .checkout-grid, .return-grid { grid-template-columns: 1fr; }
       .checkout-footer { align-items: stretch; flex-direction: column; }
@@ -408,7 +452,7 @@
           <img id="appBrandIcon" src="__APP_ICON_DATA_URI__" alt="">
         </div>
         <div class="brand-copy">
-          <p class="brand-name"><span id="brandName">貸出・返却ボード</span><span class="version-badge" id="versionBadge">v0.3.0</span></p>
+          <p class="brand-name"><span id="brandName">貸出・返却ボード</span><span class="version-badge" id="versionBadge">v0.4.0</span></p>
           <p class="brand-meta" data-i18n="brandMeta">完全ローカル処理 · 単一HTML</p>
         </div>
       </div>
@@ -424,8 +468,8 @@
   <main class="main">
     <section class="hero" aria-labelledby="heroTitle">
       <div>
-        <h2 id="heroTitle" data-i18n="introTitle">貸出と返却をその場で管理</h2>
-        <p data-i18n="lead">備品をまとめて貸し出し、返ってきた物は全返却または部分返却でその場ですぐ戻せます。</p>
+        <h2 id="heroTitle" data-i18n="introTitle">未返却をすぐ確認</h2>
+        <p data-i18n="lead">誰が何を持っているかを貸出先ごとにまとめ、最後に未返却が0になったことを確認できます。</p>
       </div>
       <div class="local-badge">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 5 6v5c0 4.6 2.8 8 7 10 4.2-2 7-5.4 7-10V6z"/><path d="m9 12 2 2 4-5"/></svg>
@@ -435,10 +479,10 @@
 
     <div class="version-note" role="note">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 10v6M12 7h.01"/></svg>
-      <span data-i18n="devNotice">v0.3.0では貸出と返却まで利用できます。登録内容と貸出状態はまだメモリ上だけに保持され、ページを再読み込みすると消えます。保存・復元はv0.7.0で追加予定です。</span>
+      <span data-i18n="devNotice">v0.4.0では未返却ボードまで利用できます。登録内容と貸出状態はまだメモリ上だけに保持され、ページを再読み込みすると消えます。Undo・履歴はv0.5.0で追加予定です。</span>
     </div>
 
-    <!-- APP:BEGIN Loan Board v0.3.0 return workspace -->
+    <!-- APP:BEGIN Loan Board v0.4.0 outstanding board workspace -->
     <section class="shell board-shell" aria-labelledby="boardTitle">
       <div class="board-top">
         <label class="field" for="boardName">
@@ -446,16 +490,25 @@
           <input class="input" id="boardName" type="text" maxlength="100" autocomplete="off" data-i18n-placeholder="boardNamePlaceholder" placeholder="2026年度 文化祭">
           <span class="field-hint" data-i18n="boardNameHint">イベント名や運用名を付けておくと、今どの貸出を管理しているか分かりやすくなります。</span>
         </label>
-        <span class="status-chip" data-i18n="milestoneStatus">v0.3.0 返却</span>
+        <span class="status-chip" data-i18n="milestoneStatus">v0.4.0 未返却ボード</span>
       </div>
       <div class="summary-grid" aria-live="polite">
-        <div class="summary-card"><strong class="summary-value" id="itemCount">0</strong><span class="summary-label" data-i18n="itemsCountLabel">備品</span></div>
-        <div class="summary-card"><strong class="summary-value" id="borrowerCount">0</strong><span class="summary-label" data-i18n="borrowersCountLabel">貸出先</span></div>
-        <div class="summary-card"><strong class="summary-value" id="checkedOutCount">0</strong><span class="summary-label" data-i18n="checkedOutCountLabel">貸出中</span></div>
+        <div class="summary-card outstanding" id="outstandingSummaryCard"><strong class="summary-value" id="outstandingCount">0</strong><span class="summary-label" data-i18n="outstandingCountLabel">未返却</span></div>
+        <div class="summary-card"><strong class="summary-value" id="outstandingBorrowerCount">0</strong><span class="summary-label" data-i18n="outstandingBorrowersLabel">貸出先</span></div>
+        <div class="summary-card"><strong class="summary-value" id="availableSummary">0 / 0</strong><span class="summary-label" data-i18n="availabilitySummaryLabel">利用可能 / 全備品</span></div>
+      </div>
+      <div class="outstanding-board">
+        <div class="outstanding-board-head">
+          <div>
+            <h3 data-i18n="outstandingBoardTitle">未返却ボード</h3>
+            <p data-i18n="outstandingBoardLead">誰が何を持っているかを貸出先ごとに確認します。返却操作もここから始められます。</p>
+          </div>
+        </div>
+        <div class="outstanding-list" id="outstandingBoard" aria-live="polite"></div>
       </div>
     </section>
 
-    <section class="shell checkout-shell" aria-labelledby="checkoutTitle">
+    <section class="shell checkout-shell" id="checkoutSection" aria-labelledby="checkoutTitle">
       <div class="panel-head">
         <div><h3 id="checkoutTitle" data-i18n="checkoutTitle">貸し出す</h3><p data-i18n="checkoutLead">貸出先を選び、利用可能な備品をまとめて貸し出します。</p></div>
         <span class="count-badge" id="availableCheckoutCount" aria-hidden="true">0</span>
@@ -489,7 +542,7 @@
       </div>
     </section>
 
-    <section class="shell return-shell" aria-labelledby="returnTitle">
+    <section class="shell return-shell" id="returnSection" aria-labelledby="returnTitle">
       <div class="panel-head">
         <div><h3 id="returnTitle" data-i18n="returnTitle">返却する</h3><p data-i18n="returnLead">現在借りている貸出先から選び、まとめて返却または一部だけ返却します。</p></div>
         <span class="count-badge" id="returnCheckedOutCount" aria-hidden="true">0</span>
@@ -628,18 +681,17 @@
       </div>
       <div class="dialog-body">
         <!-- APP:HELP:BEGIN -->
-        <h3 data-i18n="helpBasicsTitle">v0.3.0の基本操作</h3>
+        <h3 data-i18n="helpBasicsTitle">v0.4.0の基本操作</h3>
         <ol>
-          <li data-i18n="helpStep1">備品と貸出先を登録し、「貸し出す」で貸出先と備品を選んで貸出を確定します。</li>
-          <li data-i18n="helpStep2">「返却する」には現在借りている貸出先だけが表示されます。通常は「すべて返却」でまとめて戻せます。</li>
-          <li data-i18n="helpStep3">一部だけ戻ってきた場合は「一部だけ返却」を選び、返ってきた備品だけを選択して返却します。</li>
+          <li data-i18n="helpStep1">備品を貸し出すと、未返却ボードに貸出先ごとの未返却備品が自動で表示されます。</li>
+          <li data-i18n="helpStep2">未返却ボードから「すべて返却」するか、「一部返却」から返ってきた備品だけを選択します。</li>
+          <li data-i18n="helpStep3">すべて戻ると未返却が0になり、「すべて返却済みです」と表示されます。</li>
         </ol>
         <h3 data-i18n="helpPrivacyTitle">プライバシー</h3>
         <p data-i18n="helpPrivacyBody">入力内容、貸出状態、返却状態はブラウザー内で処理され、このアプリから外部サーバーへ送信されません。ランタイムの外部通信も行いません。</p>
         <h3 data-i18n="helpNotesTitle">現在の制限</h3>
         <ul>
-          <li data-i18n="helpNoteStorage">v0.3.0では備品・貸出先・貸出返却状態はメモリ上だけに保持され、再読み込みすると消えます。</li>
-          <li data-i18n="helpNoteBoard">未返却だけを集約する専用ボードはv0.4.0で追加予定です。</li>
+          <li data-i18n="helpNoteStorage">v0.4.0では備品・貸出先・貸出返却状態はメモリ上だけに保持され、再読み込みすると消えます。</li>
           <li data-i18n="helpNoteUndo">貸出・返却のUndoと履歴画面はv0.5.0で追加予定です。</li>
           <li data-i18n="helpNoteData">電話番号や住所など、貸出管理に不要な個人情報は入力しないことを推奨します。</li>
         </ul>
@@ -755,10 +807,13 @@
 
       const translations = {
         ja: {
-          brandMeta:'完全ローカル処理 · 単一HTML',introTitle:'貸出と返却をその場で管理',lead:'備品をまとめて貸し出し、返ってきた物は全返却または部分返却でその場ですぐ戻せます。',localBadge:'完全ローカル処理',
-          devNotice:'v0.3.0では貸出と返却まで利用できます。登録内容と貸出状態はまだメモリ上だけに保持され、ページを再読み込みすると消えます。保存・復元はv0.7.0で追加予定です。',
-          boardNameLabel:'ボード名',boardNamePlaceholder:'2026年度 文化祭',boardNameHint:'イベント名や運用名を付けておくと、今どの貸出を管理しているか分かりやすくなります。',milestoneStatus:'v0.3.0 返却',
+          brandMeta:'完全ローカル処理 · 単一HTML',introTitle:'未返却をすぐ確認',lead:'誰が何を持っているかを貸出先ごとにまとめ、最後に未返却が0になったことを確認できます。',localBadge:'完全ローカル処理',
+          devNotice:'v0.4.0では未返却ボードまで利用できます。登録内容と貸出状態はまだメモリ上だけに保持され、ページを再読み込みすると消えます。Undo・履歴はv0.5.0で追加予定です。',
+          boardNameLabel:'ボード名',boardNamePlaceholder:'2026年度 文化祭',boardNameHint:'イベント名や運用名を付けておくと、今どの貸出を管理しているか分かりやすくなります。',milestoneStatus:'v0.4.0 未返却ボード',
           itemsCountLabel:'備品',borrowersCountLabel:'貸出先',checkedOutCountLabel:'貸出中',
+          outstandingCountLabel:'未返却',outstandingBorrowersLabel:'貸出先',availabilitySummaryLabel:'利用可能 / 全備品',
+          outstandingBoardTitle:'未返却ボード',outstandingBoardLead:'誰が何を持っているかを貸出先ごとに確認します。返却操作もここから始められます。',
+          allReturnedTitle:'すべて返却済みです',allReturnedBody:'未返却の備品はありません。',startCheckout:'貸し出す',firstCheckoutPrefix:'貸出開始',boardReturnAll:'すべて返却',boardPartialReturn:'一部返却',
           checkoutTitle:'貸し出す',checkoutLead:'貸出先を選び、利用可能な備品をまとめて貸し出します。',checkoutBorrowerLabel:'貸出先',checkoutBorrowerPlaceholder:'名前・班名を検索または入力',checkoutBorrowerHint:'既存の貸出先を選ぶか、新しい名前をその場で追加できます。',
           selectedBorrowerLabel:'選択中の貸出先',clearSelection:'選択を解除',existingBorrower:'登録済み',addNewBorrowerPrefix:'新しい貸出先として追加',noBorrowerSuggestion:'名前や班名を入力してください。',
           checkoutItemsLabel:'貸し出す備品',checkoutItemPlaceholder:'備品名・カテゴリ・コードで検索',availableLabel:'利用可能',selectedLabel:'選択中',checkoutNoItems:'利用可能な備品がありません。返却すると再び選択できます。',checkoutNoMatch:'検索条件に一致する利用可能な備品がありません。',
@@ -773,15 +828,18 @@
           emptyItemsTitle:'まだ備品がありません',emptyItemsBody:'上のフォームから備品を追加すると、ここに一覧が表示されます。',emptyBorrowersTitle:'まだ貸出先がありません',emptyBorrowersBody:'名前や班名を追加すると、ここから確認・編集できます。',
           available:'利用可能',checkedOut:'貸出中',lentToPrefix:'貸出先',checkedOutAtPrefix:'貸出',categoryPrefix:'カテゴリ',codePrefix:'コード',borrowedItemsPrefix:'貸出中',
           edit:'編集',editItemTitle:'備品を編集',editBorrowerTitle:'貸出先を編集',cancel:'キャンセル',saveChanges:'変更を保存',itemAdded:'備品を追加しました',borrowerAdded:'貸出先を追加しました',itemUpdated:'備品を更新しました',borrowerUpdated:'貸出先を更新しました',close:'閉じる',
-          helpTitle:'使い方と注意事項',helpBasicsTitle:'v0.3.0の基本操作',helpStep1:'備品と貸出先を登録し、「貸し出す」で貸出先と備品を選んで貸出を確定します。',helpStep2:'「返却する」には現在借りている貸出先だけが表示されます。通常は「すべて返却」でまとめて戻せます。',helpStep3:'一部だけ戻ってきた場合は「一部だけ返却」を選び、返ってきた備品だけを選択して返却します。',
-          helpPrivacyTitle:'プライバシー',helpPrivacyBody:'入力内容、貸出状態、返却状態はブラウザー内で処理され、このアプリから外部サーバーへ送信されません。ランタイムの外部通信も行いません。',helpNotesTitle:'現在の制限',helpNoteStorage:'v0.3.0では備品・貸出先・貸出返却状態はメモリ上だけに保持され、再読み込みすると消えます。',helpNoteBoard:'未返却だけを集約する専用ボードはv0.4.0で追加予定です。',helpNoteUndo:'貸出・返却のUndoと履歴画面はv0.5.0で追加予定です。',helpNoteData:'電話番号や住所など、貸出管理に不要な個人情報は入力しないことを推奨します。',helpOffline:'配布用HTMLは単体で開けます。必要なコードはHTML内に含まれます。',
+          helpTitle:'使い方と注意事項',helpBasicsTitle:'v0.4.0の基本操作',helpStep1:'備品を貸し出すと、未返却ボードに貸出先ごとの未返却備品が自動で表示されます。',helpStep2:'未返却ボードから「すべて返却」するか、「一部返却」から返ってきた備品だけを選択します。',helpStep3:'すべて戻ると未返却が0になり、「すべて返却済みです」と表示されます。',
+          helpPrivacyTitle:'プライバシー',helpPrivacyBody:'入力内容、貸出状態、返却状態はブラウザー内で処理され、このアプリから外部サーバーへ送信されません。ランタイムの外部通信も行いません。',helpNotesTitle:'現在の制限',helpNoteStorage:'v0.4.0では備品・貸出先・貸出返却状態はメモリ上だけに保持され、再読み込みすると消えます。',helpNoteUndo:'貸出・返却のUndoと履歴画面はv0.5.0で追加予定です。',helpNoteData:'電話番号や住所など、貸出管理に不要な個人情報は入力しないことを推奨します。',helpOffline:'配布用HTMLは単体で開けます。必要なコードはHTML内に含まれます。',
           buildInfo:'ビルド情報',appVersion:'アプリバージョン',builtAt:'生成日時',dependencies:'内包依存数',footer:'端末内で動作する単一HTMLアプリ'
         },
         en: {
-          brandMeta:'Fully local · Single HTML',introTitle:'Manage checkout and return on the spot',lead:'Check out equipment in batches, then return everything or only the items that have come back.',localBadge:'Fully local processing',
-          devNotice:'v0.3.0 supports checkout and return. Equipment, borrowers, and loan state are still kept in memory only and disappear on reload. Persistence is planned for v0.7.0.',
-          boardNameLabel:'Board name',boardNamePlaceholder:'School Festival 2026',boardNameHint:'Use an event or operation name so it is clear which lending session this board represents.',milestoneStatus:'v0.3.0 Return',
+          brandMeta:'Fully local · Single HTML',introTitle:'See outstanding equipment at a glance',lead:'See who has what, grouped by borrower, and confirm when the outstanding count reaches zero.',localBadge:'Fully local processing',
+          devNotice:'v0.4.0 adds the outstanding board. Equipment, borrowers, and loan state are still kept in memory only and disappear on reload. Undo and History are planned for v0.5.0.',
+          boardNameLabel:'Board name',boardNamePlaceholder:'School Festival 2026',boardNameHint:'Use an event or operation name so it is clear which lending session this board represents.',milestoneStatus:'v0.4.0 Outstanding board',
           itemsCountLabel:'Equipment',borrowersCountLabel:'Borrowers',checkedOutCountLabel:'Checked out',
+          outstandingCountLabel:'Outstanding',outstandingBorrowersLabel:'Borrowers',availabilitySummaryLabel:'Available / total',
+          outstandingBoardTitle:'Outstanding board',outstandingBoardLead:'See who currently has each item, grouped by borrower, and start return actions here.',
+          allReturnedTitle:'Everything has been returned',allReturnedBody:'There is no outstanding equipment.',startCheckout:'Check out equipment',firstCheckoutPrefix:'First checkout',boardReturnAll:'Return all',boardPartialReturn:'Return some',
           checkoutTitle:'Check out',checkoutLead:'Choose a borrower and check out multiple available items at once.',checkoutBorrowerLabel:'Borrower',checkoutBorrowerPlaceholder:'Search or enter a name / team',checkoutBorrowerHint:'Choose an existing borrower or add a new name here.',
           selectedBorrowerLabel:'Selected borrower',clearSelection:'Clear selection',existingBorrower:'Saved',addNewBorrowerPrefix:'Add as new borrower',noBorrowerSuggestion:'Enter a person or team name.',
           checkoutItemsLabel:'Equipment to check out',checkoutItemPlaceholder:'Search by item, category, or code',availableLabel:'Available',selectedLabel:'Selected',checkoutNoItems:'No equipment is currently available. Returned items become available again.',checkoutNoMatch:'No available equipment matches this search.',
@@ -796,8 +854,8 @@
           emptyItemsTitle:'No equipment yet',emptyItemsBody:'Add equipment with the form above and it will appear here.',emptyBorrowersTitle:'No borrowers yet',emptyBorrowersBody:'Add a person or team and it will appear here for review and editing.',
           available:'Available',checkedOut:'Checked out',lentToPrefix:'Borrower',checkedOutAtPrefix:'Checked out',categoryPrefix:'Category',codePrefix:'Code',borrowedItemsPrefix:'Checked out',
           edit:'Edit',editItemTitle:'Edit equipment',editBorrowerTitle:'Edit borrower',cancel:'Cancel',saveChanges:'Save changes',itemAdded:'Equipment added',borrowerAdded:'Borrower added',itemUpdated:'Equipment updated',borrowerUpdated:'Borrower updated',close:'Close',
-          helpTitle:'How to use & notes',helpBasicsTitle:'Basics in v0.3.0',helpStep1:'Register equipment and borrowers, then use Check out to choose a borrower and equipment.',helpStep2:'Return shows only borrowers who currently hold equipment. Use Return all for the normal full-return case.',helpStep3:'If only some items came back, choose Return some and select only those items.',
-          helpPrivacyTitle:'Privacy',helpPrivacyBody:'Entries, checkout state, and return state are processed in the browser and are not sent to an external server. The runtime makes no external network request.',helpNotesTitle:'Current limitations',helpNoteStorage:'In v0.3.0, equipment, borrowers, and loan state exist only in memory and disappear on reload.',helpNoteBoard:'A dedicated outstanding-loan board is planned for v0.4.0.',helpNoteUndo:'Checkout / return Undo and the history screen are planned for v0.5.0.',helpNoteData:'Avoid entering phone numbers, addresses, or other personal information that is unnecessary for lending.',helpOffline:'The distributable HTML opens by itself and includes the required code.',
+          helpTitle:'How to use & notes',helpBasicsTitle:'Basics in v0.4.0',helpStep1:'When equipment is checked out, the outstanding board automatically groups those items by borrower.',helpStep2:'Use Return all from the outstanding board, or Return some to choose only the items that came back.',helpStep3:'When everything is back, the outstanding count reaches zero and the board shows the completed state.',
+          helpPrivacyTitle:'Privacy',helpPrivacyBody:'Entries, checkout state, and return state are processed in the browser and are not sent to an external server. The runtime makes no external network request.',helpNotesTitle:'Current limitations',helpNoteStorage:'In v0.4.0, equipment, borrowers, and loan state exist only in memory and disappear on reload.',helpNoteUndo:'Checkout / return Undo and the history screen are planned for v0.5.0.',helpNoteData:'Avoid entering phone numbers, addresses, or other personal information that is unnecessary for lending.',helpOffline:'The distributable HTML opens by itself and includes the required code.',
           buildInfo:'Build information',appVersion:'App version',builtAt:'Built at',dependencies:'Embedded dependencies',footer:'Single HTML app that runs on this device'
         }
       };
@@ -839,7 +897,11 @@
         document.querySelectorAll('[data-i18n]').forEach(el=>{el.textContent=t(el.dataset.i18n);});document.querySelectorAll('[data-i18n-title]').forEach(el=>{el.title=t(el.dataset.i18nTitle);});document.querySelectorAll('[data-i18n-aria-label]').forEach(el=>{el.setAttribute('aria-label',t(el.dataset.i18nAriaLabel));});document.querySelectorAll('[data-i18n-placeholder]').forEach(el=>{el.placeholder=t(el.dataset.i18nPlaceholder);});
         $('#languageButton').textContent=language==='ja'?'EN':'日本語';$('#languageButton').setAttribute('aria-label',language==='ja'?'英語に切り替え':'Switch to Japanese');render();
       }
-      function updateCounts(){const checked=state.items.filter(item=>item.status==='checked-out').length;$('#itemCount').textContent=String(state.items.length);$('#itemPanelCount').textContent=String(state.items.length);$('#borrowerCount').textContent=String(state.borrowers.length);$('#borrowerPanelCount').textContent=String(state.borrowers.length);$('#checkedOutCount').textContent=String(checked);$('#returnCheckedOutCount').textContent=String(checked);}
+      function updateCounts(){
+        const activeItems=state.items.filter(item=>!item.archived),checked=activeItems.filter(item=>item.status==='checked-out').length,activeBorrowers=borrowersWithOutstanding().length,available=activeItems.filter(item=>item.status==='available').length;
+        $('#outstandingCount').textContent=String(checked);$('#outstandingBorrowerCount').textContent=String(activeBorrowers);$('#availableSummary').textContent=available+' / '+activeItems.length;$('#outstandingSummaryCard').classList.toggle('has-outstanding',checked>0);
+        $('#itemPanelCount').textContent=String(state.items.length);$('#borrowerPanelCount').textContent=String(state.borrowers.length);$('#returnCheckedOutCount').textContent=String(checked);
+      }
       function makeEmptyState(titleKey,bodyKey,iconPath){const root=document.createElement('div');root.className='empty-state';const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');svg.setAttribute('viewBox','0 0 24 24');svg.setAttribute('fill','none');svg.setAttribute('stroke','currentColor');svg.setAttribute('stroke-width','1.8');svg.setAttribute('stroke-linecap','round');svg.setAttribute('stroke-linejoin','round');svg.setAttribute('aria-hidden','true');const path=document.createElementNS('http://www.w3.org/2000/svg','path');path.setAttribute('d',iconPath);svg.append(path);const strong=document.createElement('strong');strong.textContent=t(titleKey);const p=document.createElement('p');p.textContent=t(bodyKey);root.append(svg,strong,p);return root;}
       function metaPart(text){const span=document.createElement('span');span.textContent=text;return span;}
       function makeRecord({title,meta=[],note='',id,type,statusKey=''}){const root=document.createElement('article');root.className='record';const main=document.createElement('div');main.className='record-main';const heading=document.createElement('div');heading.className='record-title';heading.textContent=title;main.append(heading);const metaRow=document.createElement('div');metaRow.className='record-meta';if(statusKey){const status=document.createElement('span');status.className='record-status'+(statusKey==='checkedOut'?' checked-out':'');status.textContent=t(statusKey);metaRow.append(status);}meta.filter(Boolean).forEach(v=>metaRow.append(metaPart(v)));if(metaRow.childElementCount)main.append(metaRow);if(note){const noteEl=document.createElement('div');noteEl.className='record-note';noteEl.textContent=note;main.append(noteEl);}const actions=document.createElement('div');actions.className='record-actions';const edit=document.createElement('button');edit.className='button small';edit.type='button';edit.dataset.editType=type;edit.dataset.editId=id;edit.textContent=t('edit');actions.append(edit);root.append(main,actions);return root;}
@@ -876,8 +938,25 @@
         }
         detail.append(actions);root.append(detail);
       }
+      function renderOutstandingBoard(){
+        const root=$('#outstandingBoard');root.replaceChildren();const borrowers=borrowersWithOutstanding();
+        if(!borrowers.length){
+          const complete=document.createElement('div');complete.className='board-complete';
+          const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');svg.setAttribute('viewBox','0 0 24 24');svg.setAttribute('fill','none');svg.setAttribute('stroke','currentColor');svg.setAttribute('stroke-width','1.9');svg.setAttribute('stroke-linecap','round');svg.setAttribute('stroke-linejoin','round');svg.setAttribute('aria-hidden','true');const circle=document.createElementNS('http://www.w3.org/2000/svg','circle');circle.setAttribute('cx','12');circle.setAttribute('cy','12');circle.setAttribute('r','9');const path=document.createElementNS('http://www.w3.org/2000/svg','path');path.setAttribute('d','m8 12 2.6 2.6L16.5 9');svg.append(circle,path);
+          const title=document.createElement('strong');title.textContent=t('allReturnedTitle');const body=document.createElement('p');body.textContent=t('allReturnedBody');const button=document.createElement('button');button.className='button primary';button.type='button';button.dataset.boardStartCheckout='1';button.textContent=t('startCheckout');complete.append(svg,title,body,button);root.append(complete);return;
+        }
+        borrowers.forEach(borrower=>{
+          const items=checkedOutItemsForBorrower(borrower.borrowerId).slice().sort((a,b)=>String(a.currentCheckoutAt||'').localeCompare(String(b.currentCheckoutAt||'')));
+          const group=document.createElement('article');group.className='outstanding-group';
+          const head=document.createElement('div');head.className='outstanding-group-head';const title=document.createElement('div');title.className='outstanding-group-title';const name=document.createElement('strong');name.textContent=borrower.name;const first=document.createElement('span');const firstAt=items.map(item=>item.currentCheckoutAt).filter(Boolean).sort()[0];first.textContent=firstAt?t('firstCheckoutPrefix')+': '+formatDateTime(firstAt):'';title.append(name,first);const count=document.createElement('span');count.className='count-badge';count.textContent=String(items.length);head.append(title,count);group.append(head);
+          const itemList=document.createElement('div');itemList.className='outstanding-items';
+          items.forEach(item=>{const row=document.createElement('div');row.className='outstanding-item';const copy=document.createElement('div');copy.className='outstanding-item-copy';const itemName=document.createElement('span');itemName.className='outstanding-item-name';itemName.textContent=item.name;const meta=document.createElement('div');meta.className='outstanding-item-meta';if(item.category)meta.append(metaPart(t('categoryPrefix')+': '+item.category));if(item.code)meta.append(metaPart(t('codePrefix')+': '+item.code));copy.append(itemName);if(meta.childElementCount)copy.append(meta);const time=document.createElement('span');time.className='outstanding-item-time';time.textContent=item.currentCheckoutAt?formatDateTime(item.currentCheckoutAt):'';row.append(copy,time);itemList.append(row);});
+          group.append(itemList);
+          const actions=document.createElement('div');actions.className='outstanding-actions';const all=document.createElement('button');all.className='button primary';all.type='button';all.dataset.boardReturnAll=borrower.borrowerId;all.textContent=returnAllLabel(items.length);const partial=document.createElement('button');partial.className='button secondary-accent';partial.type='button';partial.dataset.boardPartialReturn=borrower.borrowerId;partial.textContent=t('boardPartialReturn');actions.append(all,partial);group.append(actions);root.append(group);
+        });
+      }
       function renderReturn(){renderReturnBorrowers();renderReturnDetail();}
-      function render(){$('#boardName').value=state.board.name;updateCounts();renderCheckout();renderReturn();renderItems();renderBorrowers();}
+      function render(){$('#boardName').value=state.board.name;updateCounts();renderOutstandingBoard();renderCheckout();renderReturn();renderItems();renderBorrowers();}
       function trimmedValue(selector){return $(selector).value.trim();}
 
       $('#boardName').addEventListener('input',event=>{state.board.name=event.currentTarget.value;state.board.updatedAt=new Date().toISOString();});
@@ -889,6 +968,12 @@
       $('#checkoutItemList').addEventListener('change',event=>{const cb=event.target.closest('[data-checkout-item]');if(!cb)return;if(cb.checked)checkoutState.selectedItemIds.add(cb.value);else checkoutState.selectedItemIds.delete(cb.value);renderCheckoutState();});
       $('#checkoutBorrowerSuggestions').addEventListener('click',event=>{const existing=event.target.closest('[data-checkout-borrower-id]');if(existing){const b=borrowerById(existing.dataset.checkoutBorrowerId);if(!b)return;checkoutState.selectedBorrowerId=b.borrowerId;$('#checkoutBorrowerQuery').value=b.name;renderCheckout();return;}const create=event.target.closest('[data-new-checkout-borrower]');if(create){const name=String(create.dataset.newCheckoutBorrower||'').trim();if(!name)return;const now=new Date().toISOString();const b={borrowerId:createId('borrower'),name,note:'',archived:false,createdAt:now,updatedAt:now};state.borrowers.push(b);checkoutState.selectedBorrowerId=b.borrowerId;$('#checkoutBorrowerQuery').value=b.name;render();showToast(t('borrowerAdded'));}});
       $('#checkoutButton').addEventListener('click',()=>{const borrower=borrowerById(checkoutState.selectedBorrowerId);if(!borrower){$('#checkoutBorrowerQuery').focus();return;}const selected=state.items.filter(item=>checkoutState.selectedItemIds.has(item.itemId)&&!item.archived&&item.status==='available');if(!selected.length){renderCheckout();return;}const now=new Date().toISOString(),itemIds=selected.map(item=>item.itemId);selected.forEach(item=>{item.status='checked-out';item.currentBorrowerId=borrower.borrowerId;item.currentCheckoutAt=now;item.updatedAt=now;});state.events.push({eventId:createId('event'),type:'checkout',borrowerId:borrower.borrowerId,itemIds,timestamp:now,note:''});checkoutState.selectedItemIds.clear();checkoutState.selectedBorrowerId=null;$('#checkoutBorrowerQuery').value='';$('#checkoutItemSearch').value='';render();showToast(checkoutMessage(borrower.name,selected.length));$('#checkoutBorrowerQuery').focus();});
+
+      $('#outstandingBoard').addEventListener('click',event=>{
+        if(event.target.closest('[data-board-start-checkout]')){document.getElementById('checkoutSection').scrollIntoView({behavior:'smooth',block:'start'});requestAnimationFrame(()=>$('#checkoutBorrowerQuery').focus());return;}
+        const all=event.target.closest('[data-board-return-all]');if(all){const borrower=borrowerById(all.dataset.boardReturnAll);if(borrower)commitReturn(borrower,checkedOutItemsForBorrower(borrower.borrowerId));return;}
+        const partial=event.target.closest('[data-board-partial-return]');if(partial){const borrower=borrowerById(partial.dataset.boardPartialReturn);if(!borrower)return;returnState.selectedBorrowerId=borrower.borrowerId;returnState.partialMode=true;returnState.selectedItemIds.clear();renderReturn();document.getElementById('returnSection').scrollIntoView({behavior:'smooth',block:'start'});requestAnimationFrame(()=>document.querySelector('[data-return-item]')?.focus());}
+      });
 
       $('#returnBorrowerList').addEventListener('click',event=>{const button=event.target.closest('[data-return-borrower-id]');if(!button)return;returnState.selectedBorrowerId=button.dataset.returnBorrowerId;returnState.partialMode=false;returnState.selectedItemIds.clear();renderReturn();});
       $('#returnDetail').addEventListener('change',event=>{const cb=event.target.closest('[data-return-item]');if(!cb)return;if(cb.checked)returnState.selectedItemIds.add(cb.value);else returnState.selectedItemIds.delete(cb.value);renderReturnDetail();});
