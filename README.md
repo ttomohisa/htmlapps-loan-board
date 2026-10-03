@@ -38,7 +38,7 @@ Just [open Loan Board on GitHub Pages](https://ttomohisa.github.io/htmlapps-loan
 
 ### Use the standalone HTML directly
 
-Download [loan-board.html](https://github.com/ttomohisa/htmlapps-loan-board/blob/main/loan-board.html) from this repository and open it in a current Chromium-based browser, Firefox, or Safari.
+Download [loan-board.html](loan-board.html) from this repository and open it in a current Chromium-based browser, Firefox, or Safari.
 
 ### Build it yourself
 
