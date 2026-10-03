@@ -127,6 +127,22 @@
       border-radius: var(--radius-sm); padding: 12px 14px; line-height: 1.55; font-size: 13px;
     }
     .version-note svg { width: 19px; height: 19px; flex: 0 0 auto; margin-top: 1px; }
+    .operation-nav {
+      margin-bottom: 18px; padding: 9px;
+      display: grid; grid-template-columns: repeat(6,minmax(0,1fr)); gap: 8px;
+    }
+    .operation-nav a {
+      min-width: 0; min-height: 46px; padding: 8px 9px;
+      border-radius: 11px; color: var(--text); text-decoration: none;
+      display: flex; align-items: center; justify-content: center; gap: 7px;
+      font-size: 12px; font-weight: 800; text-align: center; line-height: 1.25;
+      overflow-wrap: anywhere;
+    }
+    .operation-nav a:hover { background: var(--surface-hover); color: var(--brand-strong); }
+    .operation-nav svg { width: 17px; height: 17px; flex: 0 0 auto; }
+    #boardSection, #checkoutSection, #returnSection, #historySection, #managementSection, #dataSection {
+      scroll-margin-top: calc(var(--header-height) + 14px);
+    }
     .shell {
       background: var(--surface); border: 1px solid var(--line);
       border-radius: var(--radius); box-shadow: var(--shadow);
@@ -298,7 +314,7 @@
     .checkout-column { min-width: 0; display: grid; align-content: start; gap: 12px; }
     .suggestion-list { display: grid; gap: 7px; max-height: 220px; overflow: auto; }
     .suggestion-button {
-      width: 100%; min-height: 42px; border: 1px solid var(--line); border-radius: 11px;
+      width: 100%; min-height: 44px; border: 1px solid var(--line); border-radius: 11px;
       background: var(--surface-muted); color: var(--text); padding: 9px 11px;
       display: flex; align-items: center; justify-content: space-between; gap: 10px; text-align: left;
     }
@@ -315,7 +331,7 @@
     .selected-borrower-copy span { display: block; color: var(--muted); font-size: 11px; }
     .selected-borrower-copy strong { display: block; margin-top: 2px; overflow-wrap: anywhere; color: var(--brand-strong); }
     .clear-selection {
-      flex: 0 0 auto; width: 34px; height: 34px; border: 0; border-radius: 9px;
+      flex: 0 0 auto; width: 44px; height: 44px; border: 0; border-radius: 10px;
       background: transparent; color: var(--brand-strong); display: grid; place-items: center;
     }
     .clear-selection:hover { background: rgba(22,98,79,.09); }
@@ -473,7 +489,7 @@
       display: flex; align-items: center; justify-content: space-between; gap: 12px;
       padding: 14px 16px; border-bottom: 1px solid var(--line); background: #fff;
     }
-    .dialog-header h2 { margin: 0; font-size: 18px; }
+    .dialog-header h2 { min-width: 0; margin: 0; font-size: 18px; overflow-wrap: anywhere; }
     .dialog-body { overflow: auto; padding: 16px; overscroll-behavior: contain; }
     .dialog-body h3 { margin: 18px 0 7px; font-size: 15px; }
     .dialog-body h3:first-child { margin-top: 0; }
@@ -494,12 +510,15 @@
       opacity: 0; pointer-events: none; transition: .18s ease;
     }
     .app-toast.show { opacity: 1; transform: translate(-50%, 0); pointer-events: auto; }
+    .app-toast span { min-width: 0; overflow-wrap: anywhere; }
     .app-toast button {
-      border: 0; background: transparent; color: #bfe8dc; font-weight: 800; padding: 5px;
+      flex: 0 0 auto; min-height: 40px; border: 0; border-radius: 9px;
+      background: transparent; color: #bfe8dc; font-weight: 800; padding: 8px 7px;
     }
     @media (max-width: 820px) {
       .workspace-grid { grid-template-columns: 1fr; }
       .board-top { grid-template-columns: 1fr; align-items: start; }
+      .operation-nav { grid-template-columns: repeat(3,minmax(0,1fr)); }
     }
     @media (max-width: 620px) {
       .header-inner { padding: 9px 14px; }
@@ -524,6 +543,7 @@
       .form-row, .batch-grid, .batch-number-grid, .item-management-tools { grid-template-columns: 1fr; }
       .record { grid-template-columns: 1fr; align-items: start; }
       .record-actions .button { width: 100%; }
+      .button.small { min-height: 44px; }
       .data-actions, .csv-actions { display: grid; grid-template-columns: 1fr; }
       .data-actions .button, .csv-actions .button { width: 100%; }
       .history-toolbar { grid-template-columns: 1fr; align-items: stretch; }
@@ -540,6 +560,7 @@
       .dialog-actions { padding-bottom: max(13px, env(safe-area-inset-bottom)); }
     }
     @media (max-width: 380px) {
+      .operation-nav { grid-template-columns: repeat(2,minmax(0,1fr)); }
       .summary-grid { grid-template-columns: 1fr; }
       .summary-card { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
       .summary-label { margin-top: 0; }
@@ -558,7 +579,7 @@
           <img id="appBrandIcon" src="__APP_ICON_DATA_URI__" alt="">
         </div>
         <div class="brand-copy">
-          <p class="brand-name"><span id="brandName">貸出・返却ボード</span><span class="version-badge" id="versionBadge">v0.8.0</span></p>
+          <p class="brand-name"><span id="brandName">貸出・返却ボード</span><span class="version-badge" id="versionBadge">v0.9.0</span></p>
           <p class="brand-meta" data-i18n="brandMeta">完全ローカル処理 · 単一HTML</p>
         </div>
       </div>
@@ -574,8 +595,8 @@
   <main class="main">
     <section class="hero" aria-labelledby="heroTitle">
       <div>
-        <h2 id="heroTitle" data-i18n="introTitle">未返却・履歴・備品をCSV出力</h2>
-        <p data-i18n="lead">未返却一覧・操作履歴・備品一覧をCSVで保存し、Excelなどで確認・集計できます。</p>
+        <h2 id="heroTitle" data-i18n="introTitle">貸出・返却と未返却を1台で管理</h2>
+        <p data-i18n="lead">誰に何を貸しているかを確認し、返却漏れを未返却0まで管理できます。データはこのブラウザー内で処理します。</p>
       </div>
       <div class="local-badge">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 5 6v5c0 4.6 2.8 8 7 10 4.2-2 7-5.4 7-10V6z"/><path d="m9 12 2 2 4-5"/></svg>
@@ -585,18 +606,44 @@
 
     <div class="version-note" role="note">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 10v6M12 7h.01"/></svg>
-      <span data-i18n="devNotice">v0.8.0では未返却・履歴・備品をCSV出力できます。CSVは確認・集計用で、完全復元にはJSONバックアップを使用してください。</span>
+      <span data-i18n="devNotice">v0.9.0はリリース候補です。主要機能は揃っており、v1.0.0に向けてPC / スマートフォン、日本語 / 英語、保存・バックアップ・CSVを含む最終回帰を行います。</span>
     </div>
 
-    <!-- APP:BEGIN Loan Board v0.8.0 csv export workspace -->
-    <section class="shell board-shell" aria-labelledby="boardTitle">
+    <!-- APP:BEGIN Loan Board v0.9.0 release candidate workspace -->
+    <nav class="shell operation-nav" data-i18n-aria-label="quickNavLabel" aria-label="主要操作">
+      <a href="#boardSection">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16v14H4zM8 9h8M8 13h8"/></svg>
+        <span data-i18n="quickNavBoard">ボード</span>
+      </a>
+      <a href="#checkoutSection">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h11M12 7l5 5-5 5M19 5v14"/></svg>
+        <span data-i18n="quickNavCheckout">貸出</span>
+      </a>
+      <a href="#returnSection">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H8M12 7l-5 5 5 5M5 5v14"/></svg>
+        <span data-i18n="quickNavReturn">返却</span>
+      </a>
+      <a href="#historySection">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 8v5l3 2"/></svg>
+        <span data-i18n="quickNavHistory">履歴</span>
+      </a>
+      <a href="#managementSection">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 7h14v12H5zM8 4h8v3M8 11h8M8 15h5"/></svg>
+        <span data-i18n="quickNavManage">登録・管理</span>
+      </a>
+      <a href="#dataSection">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v11M8 10l4 4 4-4M5 18h14v3H5z"/></svg>
+        <span data-i18n="quickNavData">データ</span>
+      </a>
+    </nav>
+    <section class="shell board-shell" id="boardSection" aria-labelledby="boardTitle">
       <div class="board-top">
         <label class="field" for="boardName">
           <span class="field-label" id="boardTitle" data-i18n="boardNameLabel">ボード名</span>
           <input class="input" id="boardName" type="text" maxlength="100" autocomplete="off" data-i18n-placeholder="boardNamePlaceholder" placeholder="2026年度 文化祭">
           <span class="field-hint" data-i18n="boardNameHint">イベント名や運用名を付けておくと、今どの貸出を管理しているか分かりやすくなります。</span>
         </label>
-        <span class="status-chip" data-i18n="milestoneStatus">v0.8.0 CSV出力</span>
+        <span class="status-chip" data-i18n="milestoneStatus">v0.9.0 リリース候補</span>
       </div>
       <div class="summary-grid" aria-live="polite">
         <div class="summary-card outstanding" id="outstandingSummaryCard"><strong class="summary-value" id="outstandingCount">0</strong><span class="summary-label" data-i18n="outstandingCountLabel">未返却</span></div>
@@ -664,7 +711,7 @@
       </div>
     </section>
 
-    <section class="shell history-shell" aria-labelledby="historyTitle">
+    <section class="shell history-shell" id="historySection" aria-labelledby="historyTitle">
       <div class="panel-head">
         <div>
           <h3 id="historyTitle" data-i18n="historyTitle">履歴</h3>
@@ -699,7 +746,7 @@
       </div>
     </section>
 
-    <div class="workspace-grid">
+    <div class="workspace-grid" id="managementSection">
       <section class="shell panel" aria-labelledby="itemsTitle">
         <div class="panel-head">
           <div>
@@ -932,11 +979,11 @@
       </div>
       <div class="dialog-body">
         <!-- APP:HELP:BEGIN -->
-        <h3 data-i18n="helpBasicsTitle">v0.8.0の基本操作</h3>
+        <h3 data-i18n="helpBasicsTitle">v0.9.0の基本操作</h3>
         <ol>
-          <li data-i18n="helpStep1">未返却一覧CSVは、現在貸出中の備品を1備品1行で出力します。</li>
-          <li data-i18n="helpStep2">操作履歴CSVは1イベント×1備品を1行として出力し、備品一覧CSVは現在の全備品を出力します。</li>
-          <li data-i18n="helpStep3">CSVはExcel等での確認・集計用です。Loan Board全体の復元にはJSONバックアップを使用してください。</li>
+          <li data-i18n="helpStep1">画面上部の操作ナビから、未返却ボード・貸出・返却・履歴・登録管理・データ管理へ移動できます。</li>
+          <li data-i18n="helpStep2">貸出・返却・Undo・自動保存・JSONバックアップ・CSV出力の機能はv1.0.0候補として維持し、v0.9.0では操作性と回帰確認を優先しています。</li>
+          <li data-i18n="helpStep3">スマートフォンでは主要ボタンのタップ領域とダイアログ表示を調整しています。固定の下部UIは追加していません。</li>
         </ol>
         <h3 data-i18n="helpPrivacyTitle">プライバシー</h3>
         <p data-i18n="helpPrivacyBody">入力内容、貸出状態、返却状態、操作履歴はブラウザー内で処理され、このアプリから外部サーバーへ送信されません。ランタイムの外部通信も行いません。</p>
@@ -1058,9 +1105,9 @@
 
       const translations = {
         ja: {
-          brandMeta:'完全ローカル処理 · 単一HTML',introTitle:'未返却・履歴・備品をCSV出力',lead:'未返却一覧・操作履歴・備品一覧をCSVで保存し、Excelなどで確認・集計できます。',localBadge:'完全ローカル処理',
-          devNotice:'v0.8.0では未返却・履歴・備品をCSV出力できます。CSVは確認・集計用で、完全復元にはJSONバックアップを使用してください。',
-          boardNameLabel:'ボード名',boardNamePlaceholder:'2026年度 文化祭',boardNameHint:'イベント名や運用名を付けておくと、今どの貸出を管理しているか分かりやすくなります。',milestoneStatus:'v0.8.0 CSV出力',
+          brandMeta:'完全ローカル処理 · 単一HTML',introTitle:'貸出・返却と未返却を1台で管理',lead:'誰に何を貸しているかを確認し、返却漏れを未返却0まで管理できます。データはこのブラウザー内で処理します。',localBadge:'完全ローカル処理',
+          devNotice:'v0.9.0はリリース候補です。主要機能は揃っており、v1.0.0に向けてPC / スマートフォン、日本語 / 英語、保存・バックアップ・CSVを含む最終回帰を行います。',
+          quickNavLabel:'主要操作',quickNavBoard:'ボード',quickNavCheckout:'貸出',quickNavReturn:'返却',quickNavHistory:'履歴',quickNavManage:'登録・管理',quickNavData:'データ',boardNameLabel:'ボード名',boardNamePlaceholder:'2026年度 文化祭',boardNameHint:'イベント名や運用名を付けておくと、今どの貸出を管理しているか分かりやすくなります。',milestoneStatus:'v0.9.0 リリース候補',
           itemsCountLabel:'備品',borrowersCountLabel:'貸出先',checkedOutCountLabel:'貸出中',
           outstandingCountLabel:'未返却',outstandingBorrowersLabel:'貸出先',availabilitySummaryLabel:'利用可能 / 全備品',
           outstandingBoardTitle:'未返却ボード',outstandingBoardLead:'誰が何を持っているかを貸出先ごとに確認します。返却操作もここから始められます。',
@@ -1082,14 +1129,14 @@
           emptyItemsTitle:'まだ備品がありません',emptyItemsBody:'上のフォームから備品を追加すると、ここに一覧が表示されます。',emptyBorrowersTitle:'まだ貸出先がありません',emptyBorrowersBody:'名前や班名を追加すると、ここから確認・編集できます。',
           available:'利用可能',checkedOut:'貸出中',lentToPrefix:'貸出先',checkedOutAtPrefix:'貸出',categoryPrefix:'カテゴリ',codePrefix:'コード',borrowedItemsPrefix:'貸出中',
           edit:'編集',editItemTitle:'備品を編集',editBorrowerTitle:'貸出先を編集',cancel:'キャンセル',saveChanges:'変更を保存',itemAdded:'備品を追加しました',borrowerAdded:'貸出先を追加しました',itemUpdated:'備品を更新しました',borrowerUpdated:'貸出先を更新しました',close:'閉じる',
-          helpTitle:'使い方と注意事項',helpBasicsTitle:'v0.8.0の基本操作',helpStep1:'未返却一覧CSVは、現在貸出中の備品を1備品1行で出力します。',helpStep2:'操作履歴CSVは1イベント×1備品を1行として出力し、備品一覧CSVは現在の全備品を出力します。',helpStep3:'CSVはExcel等での確認・集計用です。Loan Board全体の復元にはJSONバックアップを使用してください。',
+          helpTitle:'使い方と注意事項',helpBasicsTitle:'v0.9.0の基本操作',helpStep1:'画面上部の操作ナビから、未返却ボード・貸出・返却・履歴・登録管理・データ管理へ移動できます。',helpStep2:'貸出・返却・Undo・自動保存・JSONバックアップ・CSV出力の機能はv1.0.0候補として維持し、v0.9.0では操作性と回帰確認を優先しています。',helpStep3:'スマートフォンでは主要ボタンのタップ領域とダイアログ表示を調整しています。固定の下部UIは追加していません。',
           helpPrivacyTitle:'プライバシー',helpPrivacyBody:'入力内容、貸出状態、返却状態、操作履歴はブラウザー内で処理され、このアプリから外部サーバーへ送信されません。ランタイムの外部通信も行いません。',helpNotesTitle:'現在の制限',helpNoteStorage:'自動保存はブラウザー内の保存領域を使います。サイトデータ削除やブラウザー設定などで消える場合があるため、重要なデータはJSONバックアップも保存してください。',helpNoteUndo:'Undoは履歴を削除せず、取り消しイベントを追加して状態を戻します。',helpNoteData:'電話番号や住所など、貸出管理に不要な個人情報は入力しないことを推奨します。',helpOffline:'配布用HTMLは単体で開けます。必要なコードはHTML内に含まれます。',
           dataTitle:'データ管理',dataLead:'自動保存・JSONバックアップと、確認・集計用のCSV出力を管理します。',backupGroupTitle:'バックアップ / 復元',backupGroupLead:'Loan Board全体を復元する用途にはJSONバックアップを使用します。',csvGroupTitle:'CSV出力',csvGroupLead:'Excelなどで確認・集計するための出力です。CSVからLoan Board全体を復元することはできません。',exportOutstandingCsv:'未返却一覧CSV',exportHistoryCsv:'操作履歴CSV',exportItemsCsv:'備品一覧CSV',csvExported:'CSVを保存しました',downloadBackup:'JSONバックアップを保存',restoreBackup:'JSONバックアップから復元',resetData:'新しいボードにリセット',storageNote:'自動保存データはこのブラウザー内に保存されます。ブラウザーのサイトデータ削除、プライベートブラウズ、ファイルの開き方や保存場所の変更などで利用できなくなる場合があります。重要な運用ではJSONバックアップを併用してください。',storageReadyTitle:'自動保存を利用できます',storageReadyBody:'変更するとこのブラウザーへ自動保存されます。',storageSavingTitle:'保存中…',storageSavingBody:'このブラウザーへ変更内容を保存しています。',storageSavedTitle:'このブラウザーに保存済み',storageSavedBody:'最終保存',storageUnavailableTitle:'自動保存を利用できません',storageUnavailableBody:'このブラウザーの保存領域へ書き込めません。JSONバックアップをご利用ください。',storageLoadErrorTitle:'保存データを読み込めませんでした',storageLoadErrorBody:'既存の自動保存データは上書きしていません。JSONバックアップから復元するか、新しいボードにリセットしてください。',restoredOnLoad:'前回の自動保存データを復元しました',backupSaved:'JSONバックアップを保存しました',backupInvalid:'このファイルはLoan Boardの有効なJSONバックアップではありません。',backupTooLarge:'バックアップファイルが大きすぎます。',restoreConfirm:'現在のボード全体をバックアップ内容で置き換えます。復元しますか？',restoreComplete:'JSONバックアップから復元しました',resetConfirm:'備品・貸出先・貸出状態・履歴をすべて削除して、新しいボードにしますか？',resetComplete:'新しいボードにリセットしました',selectedBackupFile:'選択したファイル',buildInfo:'ビルド情報',appVersion:'アプリバージョン',builtAt:'生成日時',dependencies:'内包依存数',footer:'端末内で動作する単一HTMLアプリ'
         },
         en: {
-          brandMeta:'Fully local · Single HTML',introTitle:'Export outstanding, history, and equipment as CSV',lead:'Save outstanding equipment, operation history, and equipment lists as CSV for review or analysis in spreadsheet apps.',localBadge:'Fully local processing',
-          devNotice:'v0.8.0 adds CSV exports for outstanding equipment, operation history, and equipment. CSV is for review and analysis; use JSON backup for full restoration.',
-          boardNameLabel:'Board name',boardNamePlaceholder:'School Festival 2026',boardNameHint:'Use an event or operation name so it is clear which lending session this board represents.',milestoneStatus:'v0.8.0 CSV Export',
+          brandMeta:'Fully local · Single HTML',introTitle:'Manage checkout, return, and outstanding equipment on one device',lead:'See who has what, record returns, and work toward zero outstanding items. Data is processed in this browser.',localBadge:'Fully local processing',
+          devNotice:'v0.9.0 is the release candidate. Core features are in place while final regression checks cover desktop / mobile, Japanese / English, persistence, backup, and CSV before v1.0.0.',
+          quickNavLabel:'Main operations',quickNavBoard:'Board',quickNavCheckout:'Checkout',quickNavReturn:'Return',quickNavHistory:'History',quickNavManage:'Manage',quickNavData:'Data',boardNameLabel:'Board name',boardNamePlaceholder:'School Festival 2026',boardNameHint:'Use an event or operation name so it is clear which lending session this board represents.',milestoneStatus:'v0.9.0 Release Candidate',
           itemsCountLabel:'Equipment',borrowersCountLabel:'Borrowers',checkedOutCountLabel:'Checked out',
           outstandingCountLabel:'Outstanding',outstandingBorrowersLabel:'Borrowers',availabilitySummaryLabel:'Available / total',
           outstandingBoardTitle:'Outstanding board',outstandingBoardLead:'See who currently has each item, grouped by borrower, and start return actions here.',
@@ -1111,7 +1158,7 @@
           emptyItemsTitle:'No equipment yet',emptyItemsBody:'Add equipment with the form above and it will appear here.',emptyBorrowersTitle:'No borrowers yet',emptyBorrowersBody:'Add a person or team and it will appear here for review and editing.',
           available:'Available',checkedOut:'Checked out',lentToPrefix:'Borrower',checkedOutAtPrefix:'Checked out',categoryPrefix:'Category',codePrefix:'Code',borrowedItemsPrefix:'Checked out',
           edit:'Edit',editItemTitle:'Edit equipment',editBorrowerTitle:'Edit borrower',cancel:'Cancel',saveChanges:'Save changes',itemAdded:'Equipment added',borrowerAdded:'Borrower added',itemUpdated:'Equipment updated',borrowerUpdated:'Borrower updated',close:'Close',
-          helpTitle:'How to use & notes',helpBasicsTitle:'Basics in v0.8.0',helpStep1:'Outstanding CSV exports one row per currently checked-out item.',helpStep2:'History CSV exports one row per event-item pair, while Equipment CSV exports every current equipment item.',helpStep3:'CSV is for spreadsheet review and analysis. Use JSON backup to restore the complete Loan Board state.',
+          helpTitle:'How to use & notes',helpBasicsTitle:'Basics in v0.9.0',helpStep1:'Use the operation navigation near the top to jump to the board, checkout, return, history, registration / management, or data management.',helpStep2:'Checkout, return, Undo, autosave, JSON backup, and CSV remain the v1.0.0 candidate feature set; v0.9.0 prioritizes usability and regression coverage.',helpStep3:'Mobile layouts increase touch targets for key actions and keep dialogs within the viewport without adding a fixed bottom bar.',
           helpPrivacyTitle:'Privacy',helpPrivacyBody:'Entries, loan state, return state, and operation history are processed in the browser and are not sent to an external server. The runtime makes no external network request.',helpNotesTitle:'Current limitations',helpNoteStorage:'Autosave uses browser storage, which can be cleared by browser settings or become unavailable depending on how the file is opened. Keep JSON backups for important data.',helpNoteUndo:'Undo keeps the original history and adds an undo event while restoring state.',helpNoteData:'Avoid entering phone numbers, addresses, or other personal information that is unnecessary for lending.',helpOffline:'The distributable HTML opens by itself and includes the required code.',
           dataTitle:'Data management',dataLead:'Manage autosave, JSON backup / restore, and CSV exports for review and analysis.',backupGroupTitle:'Backup / restore',backupGroupLead:'Use JSON backup when you need to restore the complete Loan Board state.',csvGroupTitle:'CSV export',csvGroupLead:'These files are for review and analysis in spreadsheet apps. CSV cannot restore the complete Loan Board state.',exportOutstandingCsv:'Outstanding CSV',exportHistoryCsv:'Operation history CSV',exportItemsCsv:'Equipment CSV',csvExported:'CSV saved',downloadBackup:'Save JSON backup',restoreBackup:'Restore JSON backup',resetData:'Reset to a new board',storageNote:'Autosave is stored in this browser. It can become unavailable after clearing site data, in private browsing, or depending on how or where a local file is opened. Keep JSON backups for important operations.',storageReadyTitle:'Autosave is available',storageReadyBody:'Changes will be saved automatically in this browser.',storageSavingTitle:'Saving…',storageSavingBody:'Saving changes in this browser.',storageSavedTitle:'Saved in this browser',storageSavedBody:'Last saved',storageUnavailableTitle:'Autosave is unavailable',storageUnavailableBody:'This browser cannot write to its local storage. Use JSON backups instead.',storageLoadErrorTitle:'Saved data could not be loaded',storageLoadErrorBody:'The existing autosave data has not been overwritten. Restore a JSON backup or reset to a new board.',restoredOnLoad:'Restored the previous autosave data',backupSaved:'JSON backup saved',backupInvalid:'This file is not a valid Loan Board JSON backup.',backupTooLarge:'The backup file is too large.',restoreConfirm:'Replace the entire current board with this backup?',restoreComplete:'Restored from JSON backup',resetConfirm:'Delete all equipment, borrowers, loan state, and history and start a new board?',resetComplete:'Reset to a new board',selectedBackupFile:'Selected file',buildInfo:'Build information',appVersion:'App version',builtAt:'Built at',dependencies:'Embedded dependencies',footer:'Single HTML app that runs on this device'
         }

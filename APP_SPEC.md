@@ -1,210 +1,179 @@
 # Loan Board / 貸出・返却ボード — APP_SPEC
 
 ## 1. Product identity
+
 - **Name:** Loan Board / 貸出・返却ボード
 - **English helper:** Equipment Checkout & Return
-- **Version:** v0.8.0
-- **Purpose:** 誰に何を貸していて、何が返ってきていないかを確認し、必要な情報を表計算ソフト等へ持ち出せるようにする。
+- **Version:** v0.9.0
+- **Status:** Release Candidate
+- **Purpose:** 誰に何を貸していて、何がまだ返ってきていないかを1台の端末で管理する。
 - **Primary outcome:** **未返却 0** を明確に確認できること。
+- **Primary environment:** 受付等で使う1台のPC / タブレット / スマートフォン。
 - **Release artifacts:** `dist/index.html`, `dist/index.self-extract.html`, `loan-board.html`.
 
-## 2. v0.8.0 scope — CSV Export
+## 2. v0.9.0 scope — UX / Release Candidate
 
-v0.7.0までの貸出・返却・未返却ボード・Undo・履歴・備品管理・自動保存・JSONバックアップに加えて、確認・集計用途のCSV出力を実装する。
+v0.8.0までで予定していたv1.0.0向け主要機能は揃っている。
 
-CSVは復元形式ではない。**完全復元はJSONバックアップを使用する。**
+v0.9.0では新しい業務機能を増やさず、次を優先する。
 
-出力:
-1. 未返却一覧CSV
-2. 操作履歴CSV
-3. 備品一覧CSV
+- 主要操作への移動
+- PC / スマートフォンの操作性
+- タップ領域
+- 長い名前 / メモ
+- 空状態 / 完了状態 / エラー状態
+- ダイアログの収まり
+- 日本語 / 英語
+- 自動保存 / JSON backup / restore
+- CSV export
+- Undo / History
+- standalone / self-extract
+- runtime external network block
+- v1.0.0向け回帰確認
 
-## 3. CSV common rules
+## 3. Main navigation
 
-- UTF-8 with BOM
-- line ending: CRLF
-- comma separated
-- every cell quoted
-- embedded double quote is escaped as `""`
-- filename includes app slug, board name, export kind, timestamp
-- UI languageが日本語なら日本語header、日本語向け値
-- UI languageがEnglishならEnglish header / values
-- CSV生成・ダウンロードは端末内で完結
-- 外部送信なし
+Heroと未返却ボードの間に、固定ではない主要操作ナビを置く。
 
-### Spreadsheet formula injection protection
-
-備品名、貸出先名、メモ等はユーザー入力のため、CSVをExcel等で開いた際に式として評価されないよう保護する。
-
-セル文字列が空白等を含めて次の記号から始まる場合:
-- `=`
-- `+`
-- `-`
-- `@`
-- tab / CR / LF
-
-先頭へ `'` を追加して数式評価を避ける。
-
-CSV quotingだけではformula injection対策にならないため、別途この処理を行う。
-
-## 4. Filename
-
-形式:
-
-```text
-loan-board-{board}-{kind}-{timestamp}.csv
-```
-
-kind:
-- `outstanding`
-- `history`
-- `equipment`
-
-例:
-
-```text
-loan-board-2026年度-文化祭-outstanding-20261003T111500Z.csv
-```
-
-## 5. Outstanding CSV
-
-現在 `checked-out` かつ `archived === false` のItemだけを出力する。
-
-**1 Item = 1 row**
-
-日本語columns:
-- ボード名
-- 貸出先
-- 貸出先メモ
-- 備品名
-- カテゴリ
-- 管理コード
-- 貸出日時
-- 備品メモ
-
-English columns:
-- Board
-- Borrower
-- Borrower note
-- Equipment
-- Category
-- Item code
-- Checked out at
-- Equipment note
-
-貸出日時はISO-8601値を出力する。
-
-未返却0の場合もheaderのみの有効なCSVを生成できる。
-
-## 6. Operation History CSV
-
-Checkout / Return / Undo Eventを出力する。
-
-**1 Event × 1 Item = 1 row**
-
-複数ItemのCheckout / Returnは、Item単位で複数行になる。
-
-columns:
-- Board
-- Event ID
-- Action
-- Timestamp
-- Borrower
-- Equipment
-- Category
-- Item code
-- Source event undone
-- Related event ID
-
-### Action
-UI languageに応じて:
+項目:
+- Board / ボード
 - Checkout / 貸出
 - Return / 返却
-- Checkout undone / 貸出を元に戻した
-- Return undone / 返却を元に戻した
+- History / 履歴
+- Manage / 登録・管理
+- Data / データ
 
-### Source event undone
-元のCheckout / Return Eventが後続Undo Eventによって取り消されているかをYes / Noまたは はい / いいえ で出力する。
+### Rules
+- fixed bottom barにはしない。
+- コンテンツを隠さない。
+- 6項目をPCでは6列。
+- 820px以下では3列。
+- 380px以下では2列。
+- 各ターゲットへanchor navigation。
+- sticky header分を `scroll-margin-top` で補正。
+- 1項目あたり最低46pxの高さ。
+- アイコンはSVG。
+- 日本語 / 英語を切り替える。
 
-### Related event ID
-Undo Eventの場合に元Event IDを出力する。
+## 4. Mobile / touch polish
 
-## 7. Equipment CSV
+### Touch targets
+- 通常button: 44px以上を維持。
+- mobileのsmall button: 44px以上。
+- Checkout貸出先suggestion: 44px以上。
+- 貸出先選択解除button: 44×44px。
+- ToastのUndo action: 40px以上。
 
-**1 Item = 1 row**
+### Dialogs
+- mobileではbottom-sheet形式を維持。
+- `100vw`。
+- 最大 `90dvh`。
+- bodyのみscroll可能。
+- footer actionはsafe-areaを考慮。
+- 長いdialog titleは折り返せる。
 
-active / archivedを含む全Itemを出力する。
+## 5. Core feature set frozen for v1.0.0 candidate
 
-columns:
-- Board
-- Equipment
-- Category
-- Item code
-- Note
-- Status
-- Archived
-- Current borrower
-- Checked out at
-- Created at
-- Updated at
+### Setup / item management
+- Board名
+- Item単品登録
+- Item連番一括登録
+- category / code / note
+- Item archive / restore
+- checked-out Itemのarchive禁止
+- Borrower登録 / 編集
 
-Status:
-- Available / 利用可能
-- Checked out / 貸出中
-- Archived / アーカイブ済み
+### Checkout
+- 既存Borrower選択
+- Checkout中にBorrower新規作成
+- 複数Item選択
+- double-checkout禁止
+- Checkout Event
 
-Archived:
-- Yes / No
-- はい / いいえ
+### Return
+- 現在借りているBorrowerだけ表示
+- Return all
+- Partial return
+- Return Event
+- Return後にItemをavailableへ戻す
 
-## 8. JSON backupとの違い
+### Outstanding board
+- Outstanding count
+- Borrower count
+- available / total
+- Borrower単位group
+- Return all
+- Partial returnへの導線
+- outstanding 0 complete state
 
-### JSON
-目的:
-- Loan Board全体の完全復元
+### Undo / History
+- 最後の整合するCheckout / ReturnだけUndo
+- 元Eventを削除せずUndo Event追加
+- Return Undoで元checkout time復元
+- History search
+- Action filter
+- Newest / oldest order
 
-含む:
-- Board
-- Items
-- Borrowers
-- Events
-- IDs
-- archive state
-- current checkout state
+### Persistence
+- browser local autosave
+- validated startup restore
+- corrupt autosaveを自動上書きしない
+- JSON backup / restore
+- restore validation
+- destructive reset confirmation
 
 ### CSV
-目的:
-- Excel等で閲覧
-- 集計
-- 共有用データ作成
-- 記録の確認
+- Outstanding CSV
+- Operation History CSV
+- Equipment CSV
+- UTF-8 BOM
+- CRLF
+- quote escaping
+- formula injection protection
+- CSVはrestore formatではない
 
-CSVからのImport / Restoreはv0.8.0では実装しない。
+## 6. Empty / success / failure states
 
-UIとREADMEで「CSVはバックアップではない」と明示する。
+必須状態:
+- Item 0
+- Borrower 0
+- available Item 0
+- outstanding 0
+- Return対象0
+- History 0
+- History filter no-match
+- Item filter no-match
+- Batch invalid
+- Batch code duplicate
+- Autosave unavailable
+- Autosave load-error
+- Backup invalid
+- Backup too large
+- Backup restore complete
+- Reset complete
+- Checkout complete
+- Return complete
+- Undo complete
 
-## 9. Existing persistence rules
-- Browser autosaveを継続。
-- autosave破損時は自動上書きしない。
-- JSON restore validationを継続。
-- JSON restore前の置換確認を継続。
-- Reset前の破壊的確認を継続。
+エラー時に業務dataを不要に破棄しない。
 
-CSV exportはstateを変更しないためautosaveを発生させる必要はない。
+## 7. Long-content rules
 
-## 10. Existing operational invariants
-- checked-out Itemを二重貸出しない。
-- archived Itemを貸し出さない。
-- checked-out Itemをアーカイブしない。
-- Return時にBorrower一致を再検証。
-- Undoは最後の整合するCheckout / Returnだけ。
-- archived ItemをUndoでchecked-outへ戻さない。
-- History参照を維持する。
+以下は横スクロールの原因にしない。
+- Board name
+- Item name
+- Borrower name
+- category
+- code
+- note
+- selected backup filename
+- History item list
+- Dialog title
 
-## 11. Header contract
-作業時点の最新 `htmlapps-template` のヘッダー構造を維持する。
+必要箇所は `min-width: 0` / `overflow-wrap: anywhere` / wrapping layoutを使う。
 
-## 12. Privacy / runtime
+## 8. Privacy / runtime
+
 - Runtime CDN: none
 - API: none
 - analytics: none
@@ -212,35 +181,88 @@ CSV exportはstateを変更しないためautosaveを発生させる必要はな
 - external font: none
 - user-data upload: none
 - CSP: `connect-src 'none'`
-- direct `file://`: required
 - third-party runtime dependencies: none
+- direct `file://`: supported target
 
-CSVはBlobとしてブラウザー内で生成し、ダウンロードする。
+Autosave、JSON、CSVは端末内で処理する。
 
-## 13. v0.8.0 acceptance criteria
-- 未返却一覧CSVを出力できる。
-- 未返却は1 Item 1 row。
-- 未返却0でもheaderだけのCSVを出力できる。
-- 操作履歴CSVを出力できる。
-- 履歴は1 Event × 1 Item 1 row。
-- Undo元Eventの取消状態を確認できる。
-- Undo Eventのrelated event IDを確認できる。
-- 備品一覧CSVを出力できる。
-- archived Itemも備品CSVへ含まれる。
-- current borrower / checkout timeを備品CSVへ含める。
-- UTF-8 BOM付き。
-- CRLF。
-- 全セルをquoteする。
-- CSV Formula Injection対策を行う。
-- Board名をファイル名へ含める。
-- timestampをファイル名へ含める。
-- CSVとJSONバックアップの役割をUIで区別する。
-- 日本語 / 英語。
-- 360px幅で横スクロールなし。
-- standalone / self-extract / root HTML生成。
-- repository check成功。
+「完全ローカル処理」の説明は、実行時にユーザーデータを外部へ送信しない実装を前提とする。
 
-## 14. Roadmap
+## 9. Persistence caveat
+
+Browser autosaveはcloud syncではない。
+
+- browser site data削除で消える可能性がある。
+- private browsingでは永続化されない場合がある。
+- `file://` のstorage behaviorはbrowser / file location等で差があり得る。
+- 別端末同期はしない。
+- 重要な運用はJSON backupを併用する。
+
+## 10. Release Candidate regression matrix
+
+### Desktop
+- 1280px前後
+- Japanese
+- English
+- long content
+- keyboard focus
+- dialogs
+- JSON / CSV download
+
+### Mobile
+- 360px
+- 320px minimum layout
+- Japanese
+- English
+- no horizontal page scroll
+- buttons / touch targets
+- dialog overflow
+- safe-area
+- long filename
+- outstanding / checkout / return flow
+
+### State transitions
+- empty → register → checkout → partial return → full return
+- checkout → Undo
+- return → Undo
+- archive / restore
+- reload restore
+- JSON backup → reset → JSON restore
+- corrupt autosave protection
+- invalid JSON rejection
+- 3 CSV exports
+
+### Build
+- PowerShell syntax / encoding
+- repository check
+- readable standalone
+- self-extract
+- root HTML copy
+- CSP / network block
+- canonical favicon / header icon
+- Cloudflare PR Preview HTTP 200
+
+Detailed manual checks are maintained in `RELEASE_CHECKLIST.md`.
+
+## 11. v0.9.0 acceptance criteria
+
+- v0.8.0 features remain available.
+- Main operation navigation reaches all six primary areas.
+- Navigation wraps without horizontal page scrolling at mobile widths.
+- Sticky header does not cover anchor targets.
+- Key mobile touch targets meet the intended sizes.
+- Dialog title can wrap.
+- Long names / notes / filenames do not force page overflow.
+- Japanese / English labels exist for new RC UI.
+- Autosave / JSON / CSV behavior is unchanged functionally.
+- Header remains aligned with current `htmlapps-template`.
+- 360px and 320px layout rules are represented in CSS.
+- standalone / self-extract / root HTML generation succeeds.
+- repository check succeeds.
+- PR Preview returns HTTP 200.
+
+## 12. Roadmap
+
 - **v0.1.0:** Core Data
 - **v0.2.0:** Checkout
 - **v0.3.0:** Return / partial return
