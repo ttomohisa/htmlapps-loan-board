@@ -5,7 +5,8 @@ This checklist is the final regression matrix for Loan Board v1.0.0.
 ## Automated checks
 
 - [ ] `scripts/check-powershell-syntax.ps1`
-- [ ] `scripts/check-repository.ps1`
+- [ ] `scripts/check-repository.ps1` (PowerShell and Node.js 18+)
+- [ ] actual-source synthetic return regressions pass for source, root HTML, readable build, and decoded self-extract build
 - [ ] readable standalone build generated
 - [ ] self-extract build generated
 - [ ] repository-root `loan-board.html` matches readable standalone
@@ -27,6 +28,12 @@ This checklist is the final regression matrix for Loan Board v1.0.0.
 - [ ] double checkout prevented
 - [ ] outstanding board updates immediately
 - [ ] partial return
+- [ ] search partial-return items by name, category, and code in both languages
+- [ ] search excludes other borrowers and available items
+- [ ] zero search matches does not imply all loans were returned
+- [ ] selected IDs survive search; hidden-selected count and Return total agree
+- [ ] typing and checkbox changes preserve keyboard focus
+- [ ] borrower change, cancel, successful return, Undo, reset, and restore clear search/selection
 - [ ] full return
 - [ ] outstanding 0 completion state
 - [ ] checkout Undo
@@ -70,6 +77,7 @@ This checklist is the final regression matrix for Loan Board v1.0.0.
 - [ ] small buttons meet the intended mobile touch target
 - [ ] return borrower list fits
 - [ ] partial-return item selection is usable
+- [ ] search label, field, zero-match state, and hidden-selection summary fit at 320px / 360px
 - [ ] History rows fit
 - [ ] registration forms fit
 - [ ] batch registration form fits
@@ -120,6 +128,9 @@ Verify:
 - [ ] restored references remain valid
 - [ ] archived items remain archived after reload / restore
 - [ ] outstanding loan state remains correct after reload / restore
+- [ ] archived borrower with active loans remains visible and returnable after restore
+- [ ] full return removes that borrower from outstanding views; Undo restores exact loan timestamps
+- [ ] archived borrower stays archived and excluded from new checkout suggestions
 
 ## CSV safety
 

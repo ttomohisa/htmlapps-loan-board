@@ -299,3 +299,10 @@ if (-not $webrtcReadyText.Contains("options.requireReadyChannelOpen!==false&&(!r
   throw "WebRTC application-ready must wait for the designated DataChannel to open."
 }
 
+
+# Execute the actual application source and each generated variant with synthetic state.
+if (-not (Get-Command node -ErrorAction SilentlyContinue)) { throw "Node.js 18 or newer is required for application regression checks." }
+& node --test (Join-Path $Root "tests\return-runner.test.cjs")
+if ($LASTEXITCODE -ne 0) { throw "Loan Board regression runner checks failed." }
+& node (Join-Path $Root "scripts\test-return-search.cjs")
+if ($LASTEXITCODE -ne 0) { throw "Loan Board return regression checks failed." }
