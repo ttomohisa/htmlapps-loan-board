@@ -382,6 +382,7 @@
     .return-detail-title { min-width: 0; }
     .return-detail-title span { display: block; color: var(--muted); font-size: 11px; }
     .return-detail-title strong { display: block; margin-top: 3px; font-size: 17px; overflow-wrap: anywhere; }
+    .return-search { margin-top: 12px; }
     .return-list { display: grid; gap: 8px; margin-top: 12px; }
     .return-item {
       display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 10px; align-items: center;
@@ -978,6 +979,8 @@
         <ol>
           <li data-i18n="helpStep1">画面上部の操作ナビから、未返却ボード・貸出・返却・履歴・登録管理・データ管理へ移動できます。</li>
           <li data-i18n="helpStep2">貸出・返却・Undo・自動保存・JSONバックアップ・CSV出力を、1台の端末で利用できます。</li>
+          <li data-i18n="helpReturnSearch">一部返却では備品名・カテゴリ・コードで検索できます。検索で隠れた選択も返却件数に含まれます。</li>
+          <li data-i18n="helpArchivedLoans">復元データのアーカイブ済み貸出先も、未返却があればボードと返却欄に表示されます。</li>
           <li data-i18n="helpStep3">CSVは確認・集計用です。Loan Board全体を復元する場合はJSONバックアップを使用してください。</li>
         </ol>
         <h3 data-i18n="helpPrivacyTitle">プライバシー</h3>
@@ -999,7 +1002,7 @@
       'use strict';
 
       const APP_CONFIG = {"$schema":"./schemas/app-config.schema.json","name":"Loan Board","nameJa":"貸出・返却ボード","slug":"loan-board","version":"1.0.0","description":"Manage equipment checkout, returns, outstanding items, history, autosave, backups, and CSV exports locally on one device.","descriptionJa":"備品の貸出・返却、未返却、履歴、自動保存、バックアップ、CSV出力を1台の端末内で管理する貸出・返却ボードです。","defaultLanguage":"auto","repository":{"owner":"ttomohisa","name":"htmlapps-loan-board"},"build":{"output":"dist/index.html","blockRuntimeNetwork":true,"selfExtract":{"enabled":true,"output":"dist/index.self-extract.html"},"sizeBudget":{"readableWarningMb":25,"selfExtractWarningMb":12}}};
-      const BUILD_MANIFEST = {"schemaVersion":2,"builder":"single-html-app-template/1.3","generatedAtUtc":"2026-10-03T18:23:05.6553348Z","app":{"name":"Loan Board","slug":"loan-board","version":"1.0.0"},"dependencies":[]};
+      const BUILD_MANIFEST = {"schemaVersion":2,"builder":"single-html-app-template/1.3","generatedAtUtc":"2026-10-06T01:03:22.1227257Z","app":{"name":"Loan Board","slug":"loan-board","version":"1.0.0"},"dependencies":[]};
       const assetBundle = {"schemaVersion":2,"dependencies":{}};
       const blobUrls = new Set();
       const assetByteCache = new Map();
@@ -1117,6 +1120,7 @@
           returnTitle:'返却する',returnLead:'現在借りている貸出先から選び、まとめて返却または一部だけ返却します。',returnBorrowerLabel:'現在借りている貸出先',
           noOutstandingTitle:'現在、貸出中の備品はありません',noOutstandingBody:'貸し出した備品があると、ここに返却する相手が表示されます。',selectReturnBorrower:'返却する貸出先を選択してください。',
           returnSelectedBorrower:'返却する貸出先',allReturn:'すべて返却',partialReturn:'一部だけ返却',cancelPartial:'部分返却をやめる',returnSelected:'選択した備品を返却',returnSelectedCount:'返却選択中',
+          returnSearchLabel:'返却する備品を検索',returnSearchPlaceholder:'備品名・カテゴリ・コードで検索',returnNoMatch:'検索条件に一致する未返却の備品はありません。',returnMatchingCount:'検索結果',returnHiddenSelectedCount:'検索で非表示の選択済み',
           returnedAll:'すべて返却しました',returnedPartial:'点を返却しました',remainingPrefix:'残り',remainingSuffix:'点',returnItemHint:'返ってきた備品だけを選択してください。',
           itemsTitle:'備品',itemsLead:'1件ずつの登録に加え、連番をまとめて登録できます。使わない備品は履歴を残したままアーカイブできます。',batchCreateTitle:'連番をまとめて登録',batchNamePrefixLabel:'備品名の共通部分 *',batchNamePrefixPlaceholder:'無線機',batchStartLabel:'開始番号',batchCountLabel:'登録数',batchDigitsLabel:'桁数',batchCodePrefixLabel:'管理コードの共通部分',batchCodePrefixPlaceholder:'RADIO-',batchCodePrefixHint:'空欄なら管理コードは付けません。入力すると番号を続けて付けます。',batchPreviewLabel:'登録予定',batchAdd:'まとめて追加',batchAdded:'件の備品を追加しました',batchInvalid:'共通名・開始番号・登録数・桁数を確認してください。',batchDuplicateCode:'生成される管理コードが既存の備品と重複します。',itemSearchLabel:'備品を検索',itemSearchPlaceholder:'備品名・カテゴリ・コード',itemStatusFilterLabel:'表示',itemFilterActive:'有効',itemFilterArchived:'アーカイブ済み',itemFilterAll:'すべて',activeItemsLabel:'有効',archivedItemsLabel:'アーカイブ',archived:'アーカイブ済み',archive:'アーカイブ',restore:'復帰',archiveBlocked:'貸出中の備品は返却してからアーカイブしてください。',archiveBlockedTitle:'貸出中はアーカイブできません',itemArchived:'備品をアーカイブしました',itemRestored:'備品を復帰しました',itemNoMatch:'条件に一致する備品はありません。',borrowersTitle:'貸出先',borrowersLead:'個人名、班名、部署名などを登録します。現在の貸出点数も確認できます。',
           itemNameLabel:'備品名 *',itemNamePlaceholder:'無線機 01',categoryLabel:'カテゴリ',categoryPlaceholder:'無線機',codeLabel:'管理コード',codePlaceholder:'RADIO-01',noteLabel:'メモ',itemNotePlaceholder:'受け渡し時に確認したいことなど',addItem:'備品を追加',
@@ -1125,6 +1129,7 @@
           available:'利用可能',checkedOut:'貸出中',lentToPrefix:'貸出先',checkedOutAtPrefix:'貸出',categoryPrefix:'カテゴリ',codePrefix:'コード',borrowedItemsPrefix:'貸出中',
           edit:'編集',editItemTitle:'備品を編集',editBorrowerTitle:'貸出先を編集',cancel:'キャンセル',saveChanges:'変更を保存',itemAdded:'備品を追加しました',borrowerAdded:'貸出先を追加しました',itemUpdated:'備品を更新しました',borrowerUpdated:'貸出先を更新しました',close:'閉じる',
           helpTitle:'使い方と注意事項',helpBasicsTitle:'基本操作',helpStep1:'画面上部の操作ナビから、未返却ボード・貸出・返却・履歴・登録管理・データ管理へ移動できます。',helpStep2:'貸出・返却・Undo・自動保存・JSONバックアップ・CSV出力を、1台の端末で利用できます。',helpStep3:'CSVは確認・集計用です。Loan Board全体を復元する場合はJSONバックアップを使用してください。',
+          helpReturnSearch:'一部返却では備品名・カテゴリ・コードで検索できます。検索で隠れた選択も返却件数に含まれます。貸出先の変更やキャンセルで選択と検索を解除します。',helpArchivedLoans:'復元データのアーカイブ済み貸出先も、未返却があればボードと返却欄に表示されます。新たな貸出の候補には表示されません。',
           helpPrivacyTitle:'プライバシー',helpPrivacyBody:'入力内容、貸出状態、返却状態、操作履歴はブラウザー内で処理され、このアプリから外部サーバーへ送信されません。ランタイムの外部通信も行いません。',helpNotesTitle:'現在の制限',helpNoteStorage:'自動保存はブラウザー内の保存領域を使います。サイトデータ削除やブラウザー設定などで消える場合があるため、重要なデータはJSONバックアップも保存してください。',helpNoteUndo:'Undoは履歴を削除せず、取り消しイベントを追加して状態を戻します。',helpNoteData:'電話番号や住所など、貸出管理に不要な個人情報は入力しないことを推奨します。',helpOffline:'配布用HTMLは単体で開けます。必要なコードはHTML内に含まれます。',
           dataTitle:'データ管理',dataLead:'自動保存・JSONバックアップと、確認・集計用のCSV出力を管理します。',backupGroupTitle:'バックアップ / 復元',backupGroupLead:'Loan Board全体を復元する用途にはJSONバックアップを使用します。',csvGroupTitle:'CSV出力',csvGroupLead:'Excelなどで確認・集計するための出力です。CSVからLoan Board全体を復元することはできません。',exportOutstandingCsv:'未返却一覧CSV',exportHistoryCsv:'操作履歴CSV',exportItemsCsv:'備品一覧CSV',csvExported:'CSVを保存しました',downloadBackup:'JSONバックアップを保存',restoreBackup:'JSONバックアップから復元',resetData:'新しいボードにリセット',storageNote:'自動保存データはこのブラウザー内に保存されます。ブラウザーのサイトデータ削除、プライベートブラウズ、ファイルの開き方や保存場所の変更などで利用できなくなる場合があります。重要な運用ではJSONバックアップを併用してください。',storageReadyTitle:'自動保存を利用できます',storageReadyBody:'変更するとこのブラウザーへ自動保存されます。',storageSavingTitle:'保存中…',storageSavingBody:'このブラウザーへ変更内容を保存しています。',storageSavedTitle:'このブラウザーに保存済み',storageSavedBody:'最終保存',storageUnavailableTitle:'自動保存を利用できません',storageUnavailableBody:'このブラウザーの保存領域へ書き込めません。JSONバックアップをご利用ください。',storageLoadErrorTitle:'保存データを読み込めませんでした',storageLoadErrorBody:'既存の自動保存データは上書きしていません。JSONバックアップから復元するか、新しいボードにリセットしてください。',restoredOnLoad:'前回の自動保存データを復元しました',backupSaved:'JSONバックアップを保存しました',backupInvalid:'このファイルはLoan Boardの有効なJSONバックアップではありません。',backupTooLarge:'バックアップファイルが大きすぎます。',restoreConfirm:'現在のボード全体をバックアップ内容で置き換えます。復元しますか？',restoreComplete:'JSONバックアップから復元しました',resetConfirm:'備品・貸出先・貸出状態・履歴をすべて削除して、新しいボードにしますか？',resetComplete:'新しいボードにリセットしました',selectedBackupFile:'選択したファイル',buildInfo:'ビルド情報',appVersion:'アプリバージョン',builtAt:'生成日時',dependencies:'内包依存数',footer:'端末内で動作する単一HTMLアプリ'
         },
@@ -1146,6 +1151,7 @@
           returnTitle:'Return',returnLead:'Choose a borrower who currently has equipment, then return everything or only selected items.',returnBorrowerLabel:'Borrowers with equipment',
           noOutstandingTitle:'No equipment is currently checked out',noOutstandingBody:'Borrowers with checked-out equipment will appear here.',selectReturnBorrower:'Choose a borrower to return equipment.',
           returnSelectedBorrower:'Borrower to return',allReturn:'Return all',partialReturn:'Return some',cancelPartial:'Cancel partial return',returnSelected:'Return selected items',returnSelectedCount:'Selected for return',
+          returnSearchLabel:'Search items to return',returnSearchPlaceholder:'Equipment, category, or code',returnNoMatch:'No outstanding items match this search.',returnMatchingCount:'Matches',returnHiddenSelectedCount:'Selected items hidden by search',
           returnedAll:'All items returned',returnedPartial:' item(s) returned',remainingPrefix:'Remaining',remainingSuffix:' item(s)',returnItemHint:'Select only the items that have been returned.',
           itemsTitle:'Equipment',itemsLead:'Add equipment one at a time or create numbered items in a batch. Archive unused items without removing their history.',batchCreateTitle:'Add numbered equipment in a batch',batchNamePrefixLabel:'Shared equipment name *',batchNamePrefixPlaceholder:'Radio',batchStartLabel:'Start number',batchCountLabel:'Quantity',batchDigitsLabel:'Digits',batchCodePrefixLabel:'Item-code prefix',batchCodePrefixPlaceholder:'RADIO-',batchCodePrefixHint:'Leave blank for no item code. When entered, the number is appended.',batchPreviewLabel:'Preview',batchAdd:'Add batch',batchAdded:' equipment item(s) added',batchInvalid:'Check the shared name, start number, quantity, and digits.',batchDuplicateCode:'A generated item code conflicts with existing equipment.',itemSearchLabel:'Search equipment',itemSearchPlaceholder:'Equipment, category, or code',itemStatusFilterLabel:'Show',itemFilterActive:'Active',itemFilterArchived:'Archived',itemFilterAll:'All',activeItemsLabel:'Active',archivedItemsLabel:'Archived',archived:'Archived',archive:'Archive',restore:'Restore',archiveBlocked:'Return checked-out equipment before archiving it.',archiveBlockedTitle:'Checked-out equipment cannot be archived',itemArchived:'Equipment archived',itemRestored:'Equipment restored',itemNoMatch:'No equipment matches the current filters.',borrowersTitle:'Borrowers',borrowersLead:'Register a person, team, or department and see the number of items they currently hold.',
           itemNameLabel:'Equipment name *',itemNamePlaceholder:'Radio 01',categoryLabel:'Category',categoryPlaceholder:'Radio',codeLabel:'Item code',codePlaceholder:'RADIO-01',noteLabel:'Notes',itemNotePlaceholder:'Anything to verify when handing over the item',addItem:'Add equipment',
@@ -1154,6 +1160,7 @@
           available:'Available',checkedOut:'Checked out',lentToPrefix:'Borrower',checkedOutAtPrefix:'Checked out',categoryPrefix:'Category',codePrefix:'Code',borrowedItemsPrefix:'Checked out',
           edit:'Edit',editItemTitle:'Edit equipment',editBorrowerTitle:'Edit borrower',cancel:'Cancel',saveChanges:'Save changes',itemAdded:'Equipment added',borrowerAdded:'Borrower added',itemUpdated:'Equipment updated',borrowerUpdated:'Borrower updated',close:'Close',
           helpTitle:'How to use & notes',helpBasicsTitle:'Basics',helpStep1:'Use the operation navigation near the top to jump to the board, checkout, return, history, registration / management, or data management.',helpStep2:'Checkout, return, Undo, autosave, JSON backup, and CSV export are available on one device.',helpStep3:'CSV is for review and analysis. Use JSON backup when you need to restore the complete Loan Board state.',
+          helpReturnSearch:'In partial return, search equipment names, categories, or codes. Selected items hidden by search are still included in the return total. Changing borrower or cancelling clears the search and selection.',helpArchivedLoans:'Archived borrowers in restored data remain on the board and return list while they have outstanding loans. They are not offered for new checkouts.',
           helpPrivacyTitle:'Privacy',helpPrivacyBody:'Entries, loan state, return state, and operation history are processed in the browser and are not sent to an external server. The runtime makes no external network request.',helpNotesTitle:'Current limitations',helpNoteStorage:'Autosave uses browser storage, which can be cleared by browser settings or become unavailable depending on how the file is opened. Keep JSON backups for important data.',helpNoteUndo:'Undo keeps the original history and adds an undo event while restoring state.',helpNoteData:'Avoid entering phone numbers, addresses, or other personal information that is unnecessary for lending.',helpOffline:'The distributable HTML opens by itself and includes the required code.',
           dataTitle:'Data management',dataLead:'Manage autosave, JSON backup / restore, and CSV exports for review and analysis.',backupGroupTitle:'Backup / restore',backupGroupLead:'Use JSON backup when you need to restore the complete Loan Board state.',csvGroupTitle:'CSV export',csvGroupLead:'These files are for review and analysis in spreadsheet apps. CSV cannot restore the complete Loan Board state.',exportOutstandingCsv:'Outstanding CSV',exportHistoryCsv:'Operation history CSV',exportItemsCsv:'Equipment CSV',csvExported:'CSV saved',downloadBackup:'Save JSON backup',restoreBackup:'Restore JSON backup',resetData:'Reset to a new board',storageNote:'Autosave is stored in this browser. It can become unavailable after clearing site data, in private browsing, or depending on how or where a local file is opened. Keep JSON backups for important operations.',storageReadyTitle:'Autosave is available',storageReadyBody:'Changes will be saved automatically in this browser.',storageSavingTitle:'Saving…',storageSavingBody:'Saving changes in this browser.',storageSavedTitle:'Saved in this browser',storageSavedBody:'Last saved',storageUnavailableTitle:'Autosave is unavailable',storageUnavailableBody:'This browser cannot write to its local storage. Use JSON backups instead.',storageLoadErrorTitle:'Saved data could not be loaded',storageLoadErrorBody:'The existing autosave data has not been overwritten. Restore a JSON backup or reset to a new board.',restoredOnLoad:'Restored the previous autosave data',backupSaved:'JSON backup saved',backupInvalid:'This file is not a valid Loan Board JSON backup.',backupTooLarge:'The backup file is too large.',restoreConfirm:'Replace the entire current board with this backup?',restoreComplete:'Restored from JSON backup',resetConfirm:'Delete all equipment, borrowers, loan state, and history and start a new board?',resetComplete:'Reset to a new board',selectedBackupFile:'Selected file',buildInfo:'Build information',appVersion:'App version',builtAt:'Built at',dependencies:'Embedded dependencies',footer:'Single HTML app that runs on this device'
         }
@@ -1171,7 +1178,7 @@
       let persistTimer=0;
       let state=loadInitialState();
       const checkoutState={selectedBorrowerId:null,selectedItemIds:new Set()};
-      const returnState={selectedBorrowerId:null,partialMode:false,selectedItemIds:new Set()};
+      const returnState={selectedBorrowerId:null,partialMode:false,selectedItemIds:new Set(),query:''};
 
       function createId(prefix){if(globalThis.crypto&&typeof globalThis.crypto.randomUUID==='function')return prefix+'-'+globalThis.crypto.randomUUID();return prefix+'-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,10);}
       function readLanguage(){try{const saved=localStorage.getItem(languageKey);if(saved==='ja'||saved==='en')return saved;}catch{}return(navigator.language||'').toLowerCase().startsWith('ja')?'ja':'en';}
@@ -1235,7 +1242,7 @@
         if(storageControl.blocked){renderStorageStatus();return;}
         clearTimeout(persistTimer);storageControl.mode='saving';renderStorageStatus();persistTimer=window.setTimeout(persistState,220);
       }
-      function clearUiSelections(){checkoutState.selectedBorrowerId=null;checkoutState.selectedItemIds.clear();returnState.selectedBorrowerId=null;returnState.partialMode=false;returnState.selectedItemIds.clear();$('#checkoutBorrowerQuery').value='';$('#checkoutItemSearch').value='';$('#historySearch').value='';$('#itemManagementSearch').value='';}
+      function clearUiSelections(){checkoutState.selectedBorrowerId=null;checkoutState.selectedItemIds.clear();returnState.selectedBorrowerId=null;returnState.partialMode=false;returnState.selectedItemIds.clear();returnState.query='';$('#checkoutBorrowerQuery').value='';$('#checkoutItemSearch').value='';$('#historySearch').value='';$('#itemManagementSearch').value='';}
       function safeFilePart(value){return String(value||'').trim().replace(/[\\/:*?"<>|]+/g,'-').replace(/\s+/g,'-').replace(/-+/g,'-').replace(/^-|-$/g,'').slice(0,48);}
       function backupFilename(){const stamp=new Date().toISOString().replace(/[-:]/g,'').replace(/\.\d{3}Z$/,'Z'),board=safeFilePart(state.board.name)||'board';return APP_CONFIG.slug+'-'+board+'-'+stamp+'.json';}
       function downloadJsonBackup(){
@@ -1312,7 +1319,7 @@
       function borrowerById(id){return state.borrowers.find(b=>b.borrowerId===id)||null;}
       function availableItems(){return state.items.filter(item=>!item.archived&&item.status==='available');}
       function checkedOutItemsForBorrower(id){return state.items.filter(item=>!item.archived&&item.status==='checked-out'&&item.currentBorrowerId===id);}
-      function borrowersWithOutstanding(){return state.borrowers.filter(b=>!b.archived&&checkedOutItemsForBorrower(b.borrowerId).length>0);}
+      function borrowersWithOutstanding(){return state.borrowers.filter(b=>checkedOutItemsForBorrower(b.borrowerId).length>0);}
       function createItem({name,category='',code='',note=''}){const now=new Date().toISOString();const item={itemId:createId('item'),name,category,code,note,status:'available',currentBorrowerId:null,currentCheckoutAt:null,archived:false,createdAt:now,updatedAt:now};state.items.push(item);return item;}
       function padNumber(value,digits){return String(value).padStart(digits,'0');}
       function batchValues(){
@@ -1387,7 +1394,7 @@
         }
 
         state.events.push({eventId:createId('event'),type:'undo',borrowerId:target.borrowerId,itemIds:[...(target.itemIds||[])],timestamp:now,note:'',relatedEventId:target.eventId,reversedType:target.type});
-        checkoutState.selectedItemIds.clear();returnState.partialMode=false;returnState.selectedItemIds.clear();
+        checkoutState.selectedItemIds.clear();returnState.partialMode=false;returnState.selectedItemIds.clear();returnState.query='';
         render();showToast(t('undoComplete'));return true;
       }
 
@@ -1432,27 +1439,58 @@
 
       function renderReturnBorrowers(){
         const list=$('#returnBorrowerList');list.replaceChildren();const borrowers=borrowersWithOutstanding();
-        if(!borrowers.length){returnState.selectedBorrowerId=null;returnState.partialMode=false;returnState.selectedItemIds.clear();list.append(makeEmptyState('noOutstandingTitle','noOutstandingBody','M5 12l4 4L19 6'));return;}
-        if(returnState.selectedBorrowerId&&!borrowers.some(b=>b.borrowerId===returnState.selectedBorrowerId)){returnState.selectedBorrowerId=null;returnState.partialMode=false;returnState.selectedItemIds.clear();}
+        if(!borrowers.length){returnState.selectedBorrowerId=null;returnState.partialMode=false;returnState.selectedItemIds.clear();returnState.query='';list.append(makeEmptyState('noOutstandingTitle','noOutstandingBody','M5 12l4 4L19 6'));return;}
+        if(returnState.selectedBorrowerId&&!borrowers.some(b=>b.borrowerId===returnState.selectedBorrowerId)){returnState.selectedBorrowerId=null;returnState.partialMode=false;returnState.selectedItemIds.clear();returnState.query='';}
         borrowers.forEach(b=>{const count=checkedOutItemsForBorrower(b.borrowerId).length;const button=document.createElement('button');button.className='return-borrower-button'+(returnState.selectedBorrowerId===b.borrowerId?' active':'');button.type='button';button.dataset.returnBorrowerId=b.borrowerId;const strong=document.createElement('strong');strong.textContent=b.name;const badge=document.createElement('span');badge.textContent=String(count);button.append(strong,badge);list.append(button);});
+      }
+      function currentReturnItems(){
+        const items=checkedOutItemsForBorrower(returnState.selectedBorrowerId),ids=new Set(items.map(item=>item.itemId));
+        // Search hides rows; it must never discard a still-valid selected loan.
+        Array.from(returnState.selectedItemIds).forEach(id=>{if(!ids.has(id))returnState.selectedItemIds.delete(id);});
+        return items;
+      }
+      function matchingReturnItems(items){
+        const query=normalizeSearch(returnState.query);
+        return items.filter(item=>!query||[item.name,item.category,item.code].some(value=>normalizeSearch(value).includes(query)));
+      }
+      function appendReturnItems(list,items){
+        items.forEach(item=>{if(returnState.partialMode){const row=document.createElement('label');row.className='return-item selectable';const cb=document.createElement('input');cb.type='checkbox';cb.value=item.itemId;cb.dataset.returnItem=item.itemId;cb.checked=returnState.selectedItemIds.has(item.itemId);const copy=document.createElement('span');copy.className='return-item-copy';const itemName=document.createElement('span');itemName.className='return-item-name';itemName.textContent=item.name;const meta=document.createElement('span');meta.className='return-item-meta';if(item.category)meta.append(metaPart(t('categoryPrefix')+': '+item.category));if(item.code)meta.append(metaPart(t('codePrefix')+': '+item.code));copy.append(itemName);if(meta.childElementCount)copy.append(meta);row.append(cb,copy);list.append(row);}else{const row=document.createElement('div');row.className='return-item';const copy=document.createElement('span');copy.className='return-item-copy';const itemName=document.createElement('span');itemName.className='return-item-name';itemName.textContent=item.name;const meta=document.createElement('span');meta.className='return-item-meta';if(item.currentCheckoutAt)meta.append(metaPart(t('checkedOutAtPrefix')+': '+formatDateTime(item.currentCheckoutAt)));copy.append(itemName);if(meta.childElementCount)copy.append(meta);row.append(copy);list.append(row);}});
+      }
+      function renderReturnSelection(){
+        const button=$('#returnSelectedButton'),summary=$('#returnSelectionSummary');if(!button||!summary)return;
+        const items=currentReturnItems(),matches=matchingReturnItems(items),visibleIds=new Set(matches.map(item=>item.itemId)),selectedCount=returnState.selectedItemIds.size;
+        const hiddenCount=Array.from(returnState.selectedItemIds).filter(id=>!visibleIds.has(id)).length;
+        button.disabled=selectedCount<1;button.textContent=returnSelectedLabel(selectedCount);
+        summary.textContent=t('returnItemHint')+' '+t('returnMatchingCount')+': '+matches.length+' / '+items.length+' · '+t('returnSelectedCount')+': '+selectedCount+(hiddenCount?' · '+t('returnHiddenSelectedCount')+': '+hiddenCount:'');
+      }
+      function renderPartialReturnItems(){
+        const list=$('#returnItemList');if(!list||!returnState.partialMode)return;
+        const items=matchingReturnItems(currentReturnItems());list.replaceChildren();
+        if(items.length)appendReturnItems(list,items);
+        else{const empty=document.createElement('div');empty.className='checkout-empty';empty.textContent=t('returnNoMatch');list.append(empty);}
+        renderReturnSelection();
       }
       function renderReturnDetail(){
         const root=$('#returnDetail');root.replaceChildren();const borrower=borrowerById(returnState.selectedBorrowerId);
         if(!borrower){const empty=document.createElement('div');empty.className='checkout-empty';empty.textContent=t('selectReturnBorrower');root.append(empty);return;}
-        const items=checkedOutItemsForBorrower(borrower.borrowerId);if(!items.length){returnState.selectedBorrowerId=null;returnState.partialMode=false;returnState.selectedItemIds.clear();const empty=document.createElement('div');empty.className='checkout-empty';empty.textContent=t('selectReturnBorrower');root.append(empty);return;}
-        Array.from(returnState.selectedItemIds).forEach(id=>{if(!items.some(item=>item.itemId===id))returnState.selectedItemIds.delete(id);});
+        const items=currentReturnItems();if(!items.length){returnState.selectedBorrowerId=null;returnState.partialMode=false;returnState.selectedItemIds.clear();returnState.query='';const empty=document.createElement('div');empty.className='checkout-empty';empty.textContent=t('selectReturnBorrower');root.append(empty);return;}
         const detail=document.createElement('div');detail.className='return-detail';
         const head=document.createElement('div');head.className='return-detail-head';const title=document.createElement('div');title.className='return-detail-title';const label=document.createElement('span');label.textContent=t('returnSelectedBorrower');const name=document.createElement('strong');name.textContent=borrower.name;title.append(label,name);const badge=document.createElement('span');badge.className='count-badge';badge.textContent=String(items.length);head.append(title,badge);detail.append(head);
-        const list=document.createElement('div');list.className='return-list';
-        items.forEach(item=>{if(returnState.partialMode){const row=document.createElement('label');row.className='return-item selectable';const cb=document.createElement('input');cb.type='checkbox';cb.value=item.itemId;cb.dataset.returnItem=item.itemId;cb.checked=returnState.selectedItemIds.has(item.itemId);const copy=document.createElement('span');copy.className='return-item-copy';const itemName=document.createElement('span');itemName.className='return-item-name';itemName.textContent=item.name;const meta=document.createElement('span');meta.className='return-item-meta';if(item.category)meta.append(metaPart(t('categoryPrefix')+': '+item.category));if(item.code)meta.append(metaPart(t('codePrefix')+': '+item.code));copy.append(itemName);if(meta.childElementCount)copy.append(meta);row.append(cb,copy);list.append(row);}else{const row=document.createElement('div');row.className='return-item';const copy=document.createElement('span');copy.className='return-item-copy';const itemName=document.createElement('span');itemName.className='return-item-name';itemName.textContent=item.name;const meta=document.createElement('span');meta.className='return-item-meta';if(item.currentCheckoutAt)meta.append(metaPart(t('checkedOutAtPrefix')+': '+formatDateTime(item.currentCheckoutAt)));copy.append(itemName);if(meta.childElementCount)copy.append(meta);row.append(copy);list.append(row);}});
-        detail.append(list);
+        if(returnState.partialMode){
+          const field=document.createElement('div');field.className='field return-search';const searchLabel=document.createElement('label');searchLabel.id='returnItemSearchLabel';searchLabel.className='field-label';searchLabel.htmlFor='returnItemSearch';searchLabel.textContent=t('returnSearchLabel');
+          const search=document.createElement('input');search.id='returnItemSearch';search.className='input';search.type='search';search.value=returnState.query;search.placeholder=t('returnSearchPlaceholder');search.setAttribute('aria-describedby','returnSelectionSummary');field.append(searchLabel,search);detail.append(field);
+        }
+        const list=document.createElement('div');list.className='return-list';list.id='returnItemList';detail.append(list);
         const actions=document.createElement('div');actions.className='return-actions';
         if(returnState.partialMode){
-          const selectedCount=returnState.selectedItemIds.size;const confirm=document.createElement('button');confirm.className='button primary';confirm.type='button';confirm.id='returnSelectedButton';confirm.disabled=selectedCount<1;confirm.textContent=returnSelectedLabel(selectedCount);const cancel=document.createElement('button');cancel.className='button';cancel.type='button';cancel.id='cancelPartialReturn';cancel.textContent=t('cancelPartial');actions.append(confirm,cancel);const note=document.createElement('div');note.className='return-selected-note';note.textContent=t('returnItemHint')+' '+t('returnSelectedCount')+': '+selectedCount;detail.append(note);
+          const confirm=document.createElement('button');confirm.className='button primary';confirm.type='button';confirm.id='returnSelectedButton';const cancel=document.createElement('button');cancel.className='button';cancel.type='button';cancel.id='cancelPartialReturn';cancel.textContent=t('cancelPartial');actions.append(confirm,cancel);
+          const note=document.createElement('div');note.className='return-selected-note';note.id='returnSelectionSummary';note.setAttribute('role','status');detail.append(note);
         }else{
+          appendReturnItems(list,items);
           const all=document.createElement('button');all.className='button primary';all.type='button';all.id='returnAllButton';all.textContent=returnAllLabel(items.length);const partial=document.createElement('button');partial.className='button secondary-accent';partial.type='button';partial.id='startPartialReturn';partial.textContent=t('partialReturn');actions.append(all,partial);
         }
         detail.append(actions);root.append(detail);
+        if(returnState.partialMode)renderPartialReturnItems();
       }
       function renderOutstandingBoard(){
         const root=$('#outstandingBoard');root.replaceChildren();const borrowers=borrowersWithOutstanding();
@@ -1519,14 +1557,16 @@
       $('#outstandingBoard').addEventListener('click',event=>{
         if(event.target.closest('[data-board-start-checkout]')){document.getElementById('checkoutSection').scrollIntoView({behavior:'smooth',block:'start'});requestAnimationFrame(()=>$('#checkoutBorrowerQuery').focus());return;}
         const all=event.target.closest('[data-board-return-all]');if(all){const borrower=borrowerById(all.dataset.boardReturnAll);if(borrower)commitReturn(borrower,checkedOutItemsForBorrower(borrower.borrowerId));return;}
-        const partial=event.target.closest('[data-board-partial-return]');if(partial){const borrower=borrowerById(partial.dataset.boardPartialReturn);if(!borrower)return;returnState.selectedBorrowerId=borrower.borrowerId;returnState.partialMode=true;returnState.selectedItemIds.clear();renderReturn();document.getElementById('returnSection').scrollIntoView({behavior:'smooth',block:'start'});requestAnimationFrame(()=>document.querySelector('[data-return-item]')?.focus());}
+        const partial=event.target.closest('[data-board-partial-return]');if(partial){const borrower=borrowerById(partial.dataset.boardPartialReturn);if(!borrower)return;returnState.selectedBorrowerId=borrower.borrowerId;returnState.partialMode=true;returnState.selectedItemIds.clear();returnState.query='';renderReturn();document.getElementById('returnSection').scrollIntoView({behavior:'smooth',block:'start'});requestAnimationFrame(()=>$('#returnItemSearch')?.focus());}
       });
 
-      $('#returnBorrowerList').addEventListener('click',event=>{const button=event.target.closest('[data-return-borrower-id]');if(!button)return;returnState.selectedBorrowerId=button.dataset.returnBorrowerId;returnState.partialMode=false;returnState.selectedItemIds.clear();renderReturn();});
-      $('#returnDetail').addEventListener('change',event=>{const cb=event.target.closest('[data-return-item]');if(!cb)return;if(cb.checked)returnState.selectedItemIds.add(cb.value);else returnState.selectedItemIds.delete(cb.value);renderReturnDetail();});
+      $('#returnBorrowerList').addEventListener('click',event=>{const button=event.target.closest('[data-return-borrower-id]');if(!button)return;returnState.selectedBorrowerId=button.dataset.returnBorrowerId;returnState.partialMode=false;returnState.selectedItemIds.clear();returnState.query='';renderReturn();});
+      // Keep the search input and focused checkbox in place during local UI updates.
+      $('#returnDetail').addEventListener('input',event=>{if(!event.target.closest('#returnItemSearch'))return;returnState.query=event.target.value;renderPartialReturnItems();});
+      $('#returnDetail').addEventListener('change',event=>{const cb=event.target.closest('[data-return-item]');if(!cb)return;if(cb.checked)returnState.selectedItemIds.add(cb.value);else returnState.selectedItemIds.delete(cb.value);renderReturnSelection();});
       $('#returnDetail').addEventListener('click',event=>{
-        if(event.target.closest('#startPartialReturn')){returnState.partialMode=true;returnState.selectedItemIds.clear();renderReturnDetail();return;}
-        if(event.target.closest('#cancelPartialReturn')){returnState.partialMode=false;returnState.selectedItemIds.clear();renderReturnDetail();return;}
+        if(event.target.closest('#startPartialReturn')){returnState.partialMode=true;returnState.selectedItemIds.clear();returnState.query='';renderReturnDetail();$('#returnItemSearch')?.focus();return;}
+        if(event.target.closest('#cancelPartialReturn')){returnState.partialMode=false;returnState.selectedItemIds.clear();returnState.query='';renderReturnDetail();$('#startPartialReturn')?.focus();return;}
         const borrower=borrowerById(returnState.selectedBorrowerId);if(!borrower)return;
         if(event.target.closest('#returnAllButton')){const items=checkedOutItemsForBorrower(borrower.borrowerId);commitReturn(borrower,items);return;}
         if(event.target.closest('#returnSelectedButton')){const items=checkedOutItemsForBorrower(borrower.borrowerId).filter(item=>returnState.selectedItemIds.has(item.itemId));if(items.length)commitReturn(borrower,items);}
@@ -1536,7 +1576,7 @@
         const now=new Date().toISOString(),itemIds=valid.map(item=>item.itemId),itemSnapshots=valid.map(item=>({itemId:item.itemId,checkoutAt:item.currentCheckoutAt})),eventRecord={eventId:createId('event'),type:'return',borrowerId:borrower.borrowerId,itemIds,timestamp:now,note:'',itemSnapshots};
         valid.forEach(item=>{item.status='available';item.currentBorrowerId=null;item.currentCheckoutAt=null;item.updatedAt=now;});
         state.events.push(eventRecord);
-        const remaining=checkedOutItemsForBorrower(borrower.borrowerId).length;returnState.partialMode=false;returnState.selectedItemIds.clear();if(!remaining)returnState.selectedBorrowerId=null;render();showUndoToast(returnMessage(borrower.name,valid.length,remaining),eventRecord.eventId);
+        const remaining=checkedOutItemsForBorrower(borrower.borrowerId).length;returnState.partialMode=false;returnState.selectedItemIds.clear();returnState.query='';if(!remaining)returnState.selectedBorrowerId=null;render();showUndoToast(returnMessage(borrower.name,valid.length,remaining),eventRecord.eventId);
       }
 
       $('#historySearch').addEventListener('input',renderHistory);

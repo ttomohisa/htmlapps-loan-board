@@ -20,7 +20,7 @@ GitHub Pages delivers the initial HTML. After it loads, equipment, borrowers, lo
 
 - **See who still has equipment** — The outstanding board groups currently checked-out items by borrower.
 - **Check out multiple items at once** — Choose a borrower and several available items in one operation.
-- **Return everything or only what came back** — Full and partial return flows support real front-desk handoffs.
+- **Return everything or only what came back** — Search partial-return items by name, category, or code. Selections stay selected when hidden by the search, with a visible hidden-selection count.
 - **Work toward a clear outstanding-zero state** — The board shows a distinct completion state when everything has been returned.
 - **Create numbered equipment in batches** — Register sets such as Radio 01–20 with configurable numbering and optional item-code prefixes.
 - **Undo the latest compatible operation** — Checkout / Return / Undo remain visible in history; Undo does not erase the original event.
@@ -56,7 +56,7 @@ The v1.0.0 runtime has no third-party library dependency, so the normal app buil
 3. Add borrowers as needed, or create a new borrower directly during checkout.
 4. In Checkout, choose a borrower and one or more available items.
 5. Use the outstanding board to see who currently has each item.
-6. Return everything at once or select only the items that came back.
+6. Return everything at once or select only the items that came back. In partial return, search within that borrower’s current loans; the Return button includes all selected items, even those hidden by the search. Changing borrower or cancelling clears the search and selection.
 7. Finish by confirming that the outstanding count is zero.
 
 ### Undo
@@ -70,6 +70,8 @@ Undo keeps the original history entry and adds a separate Undo event rather than
 Archive equipment you no longer use instead of deleting it.
 
 Archived equipment is removed from checkout choices while its previous history remains available. Checked-out equipment must be returned before it can be archived.
+
+If a restored backup contains an archived borrower with outstanding loans, those loans remain visible and returnable until returned. The borrower stays archived and is not offered for new checkouts.
 
 ## Persistence and backup
 
@@ -135,12 +137,14 @@ Published URL:
    └─ deploy-pages.yml           # main → GitHub Pages
 ```
 
-Run local validation:
+Run local validation with PowerShell and Node.js 18 or newer:
 
 ```powershell
 powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -File .\scripts\check-powershell-syntax.ps1
 powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -File .\scripts\check-repository.ps1
 ```
+
+The repository check also runs synthetic state/DOM regressions against the source, root HTML, readable build, and decoded self-extract build. These checks do not replace browser keyboard, layout, download, or offline testing.
 
 The build generates `dist/index.html`, `dist/index.self-extract.html`, and `loan-board.html`, then verifies external runtime references, unresolved placeholders, CSP, and the canonical favicon / header icon.
 

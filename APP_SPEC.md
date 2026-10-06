@@ -53,6 +53,10 @@
 - 現在借りているBorrowerだけ表示
 - 全返却
 - 部分返却
+- 部分返却では選択中の貸出先の未返却備品だけを名前 / category / codeで検索
+- 検索は一時的なUI状態。備品IDによる選択を保持し、検索で非表示になった選択数と返却総数を表示
+- 検索中とチェック操作中に入力 / 選択controlを作り直さずfocusを保持
+- 貸出先変更 / 部分返却cancel / 返却成功 / Undo / reset / restoreで検索と選択を解除
 - Return Event記録
 - Itemをavailableへ戻す
 
@@ -166,6 +170,8 @@ Historyは削除せず、Undoもeventとして残す。
 - checked-out Itemをarchiveしない。
 - Return時にBorrower一致を再検証する。
 - Outstanding boardはactive + checked-out Itemだけを表示する。
+- 復元されたBorrowerがarchivedでも未返却Itemを持つ間はOutstanding / Returnに表示する。新たなCheckout候補には含めず、archive flagやbackup schemaは変更しない。
+- 検索結果0件は未返却0の完了状態と区別する。
 - Undoは履歴の最後にある現在stateと整合するCheckout / Returnだけ。
 - archived ItemをUndoでchecked-outへ戻さない。
 - EventからItem / Borrowerを追跡できる状態を維持する。

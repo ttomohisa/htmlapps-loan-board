@@ -2,6 +2,17 @@
 
 All notable Loan Board changes are recorded here.
 
+## [Unreleased]
+
+### Added
+- Search equipment names, categories, and codes while choosing a partial return, scoped to the selected borrower's current loans.
+- Preserve item-ID selections across search changes and show both the matching count and the number of selected items hidden by search.
+- Actual-source regression coverage for search, selection/focus identity, reset/restore boundaries, return/Undo, backup validation, and CSV invariants across standalone variants.
+
+### Fixed
+- Accepted schema-v1 backups with archived borrowers and active loans no longer hide those loans or show a false all-returned state. Archived borrowers remain excluded from new-checkout suggestions, without changing archive flags or backup validation.
+- Partial-return checkbox changes retain keyboard focus instead of recreating the focused row.
+
 ## [1.0.0] - 2026-10-04
 
 ### Added
