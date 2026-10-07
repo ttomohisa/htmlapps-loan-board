@@ -26,7 +26,7 @@ function data(archived = false) {
 function envelope(d, format = 'browser-kitty-loan-board-state') { return { format, schemaVersion: 1, appSlug: 'loan-board', savedAt: stamp, data: d }; }
 // The real script and delegated handlers execute unchanged. This small DOM/storage
 // model tests state and node identity, not browser layout, IME, or accessibility APIs.
-function harness({ language = 'en', initial = data(), raw } = {}) {
+function harness({ language = 'en', initial = data(), raw, appVersion } = {}) {
   const writes = [], downloads = [], blobs = [], timers = new Map(); let timerId = 0, active = null;
   const storage = new Map([['loan-board:language', language]]);
   if (raw !== undefined) storage.set('loan-board:state:v1', raw);
@@ -58,11 +58,19 @@ function harness({ language = 'en', initial = data(), raw } = {}) {
   }
   const body = new Element('body');
   for (const m of html.matchAll(/<([\w-]+)\b[^>]*\bid="([^"]+)"[^>]*>/g)) { const el = new Element(m[1]); el.id = m[2]; el.value = m[0].match(/\bvalue="([^"]*)"/)?.[1] || ''; body.append(el); }
+  for (const m of html.matchAll(/<([\w-]+)\b[^>]*\bdata-i18n="([^"]+)"[^>]*>/g)) {
+    if (/\bid=/.test(m[0])) continue;
+    const el = new Element(m[1]); el.dataset.i18n = m[2]; body.append(el);
+  }
   const document = { body, documentElement: {}, querySelector: s => body.querySelector(s), querySelectorAll: s => body.querySelectorAll(s), getElementById: id => body.querySelector('#' + id), createElement: tag => new Element(tag), createElementNS: (_, tag) => new Element(tag), createTextNode: text => { const e = new Element('text'); e.textContent = text; return e; }, addEventListener() {}, get activeElement() { return active; } };
   const c = vm.createContext({ document, navigator: { language }, localStorage: { getItem: k => storage.get(k) ?? null, setItem: (k, v) => { writes.push([k, v]); storage.set(k, v); }, removeItem: k => storage.delete(k) }, console, Blob, TextDecoder, Uint8Array, Intl, Date, atob, requestAnimationFrame: fn => fn(), clearTimeout: id => timers.delete(id), setTimeout: fn => { timers.set(++timerId, fn); return timerId; }, URL: { createObjectURL: b => { blobs.push(b); return 'blob:synthetic'; }, revokeObjectURL() {} } });
   c.window = c; c.addEventListener = () => {}; c.confirm = () => true;
   const exposed = `globalThis.api={get state(){return state},get ui(){return returnState},get checkout(){return checkoutState},get storageControl(){return storageControl},render,renderReturn,renderOutstandingBoard,renderBorrowerSuggestions,updateCounts,parseStateEnvelope,restoreState,resetAllData,restoreBackupFile,commitReturn,undoEvent,borrowersWithOutstanding,checkedOutItemsForBorrower,backupEnvelope,persistState,exportOutstandingCsv,exportHistoryCsv,csvText,t};`;
-  const executable = code.replace('__APP_CONFIG_JSON__', fs.readFileSync(path.join(root, 'app.config.json'), 'utf8')).replace('__BUILD_MANIFEST_JSON__', '{}').replace('__EMBEDDED_ASSET_BUNDLE_JSON__', '{}').replace(/\}\)\(\);\s*$/, exposed + '\n})();');
+  let executable = code.replace('__APP_CONFIG_JSON__', fs.readFileSync(path.join(root, 'app.config.json'), 'utf8')).replace('__BUILD_MANIFEST_JSON__', '{}').replace('__EMBEDDED_ASSET_BUNDLE_JSON__', '{}').replace(/\}\)\(\);\s*$/, exposed + '\n})();');
+  if (appVersion) {
+    const config = { ...JSON.parse(fs.readFileSync(path.join(root, 'app.config.json'), 'utf8')), version: appVersion };
+    executable = executable.replace(/const APP_CONFIG = [^;]+;/, 'const APP_CONFIG = ' + JSON.stringify(config) + ';');
+  }
   vm.runInContext(executable, c, { filename: sourcePath });
   const get = s => document.querySelector(s);
   const open = (id = 'a') => { get(`[data-return-borrower-id="${id}"]`).click(); get('#startPartialReturn').click(); };
@@ -191,4 +199,26 @@ test('EN / JA language round trip keeps localized targets and loaded loans, sear
     assert.deepEqual(ids(h), ['light']);
     assert.equal(h.get('#returnSelectedButton').disabled, false);
   }
+});
+
+
+for (const appVersion of [undefined, '9.8.7']) {
+  test(`all current release labels follow canonical config through JA / EN (${appVersion || 'release'})`, () => {
+    const version = appVersion || JSON.parse(fs.readFileSync(path.join(root, 'app.config.json'), 'utf8')).version;
+    const h = harness({ language: 'ja', appVersion });
+    const before = JSON.stringify(h.api.state);
+    for (const language of ['ja', 'en', 'ja']) {
+      if (h.document.documentElement.lang !== language) h.get('#languageButton').click();
+      assert.equal(h.get('#versionBadge').textContent, 'v' + version);
+      assert.equal(h.get('#buildVersion').textContent, version);
+      assert.equal(h.get('[data-i18n="milestoneStatus"]').textContent, 'v' + version);
+      assert.equal(h.api.t('devNotice'), 'v' + version + (language === 'ja' ? ' 正式版' : ' stable release'));
+      assert.equal(JSON.stringify(h.api.state), before);
+    }
+  });
+}
+
+test('release badge markup cannot flash a stale hard-coded version before initialization', () => {
+  assert.equal(html.match(/id="versionBadge">([^<]*)<\/span>/)?.[1], '');
+  assert.equal(html.match(/data-i18n="milestoneStatus">([^<]*)<\/span>/)?.[1], '');
 });

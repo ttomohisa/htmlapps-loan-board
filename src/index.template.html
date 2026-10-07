@@ -580,7 +580,7 @@
           <img id="appBrandIcon" src="__APP_ICON_DATA_URI__" alt="">
         </div>
         <div class="brand-copy">
-          <p class="brand-name"><span id="brandName">貸出・返却ボード</span><span class="version-badge" id="versionBadge">v1.0.0</span></p>
+          <p class="brand-name"><span id="brandName">貸出・返却ボード</span><span class="version-badge" id="versionBadge"></span></p>
           <p class="brand-meta" data-i18n="brandMeta">完全ローカル処理 · 単一HTML</p>
         </div>
       </div>
@@ -639,7 +639,7 @@
           <input class="input" id="boardName" type="text" maxlength="100" autocomplete="off" data-i18n-placeholder="boardNamePlaceholder" placeholder="2026年度 文化祭">
           <span class="field-hint" data-i18n="boardNameHint">イベント名や運用名を付けておくと、今どの貸出を管理しているか分かりやすくなります。</span>
         </label>
-        <span class="status-chip" data-i18n="milestoneStatus">v1.0.0</span>
+        <span class="status-chip" data-i18n="milestoneStatus"></span>
       </div>
       <div class="summary-grid" aria-live="polite">
         <div class="summary-card outstanding" id="outstandingSummaryCard"><strong class="summary-value" id="outstandingCount">0</strong><span class="summary-label" data-i18n="outstandingCountLabel">未返却</span></div>
@@ -1105,8 +1105,8 @@
       const translations = {
         ja: {
           brandMeta:'完全ローカル処理 · 単一HTML',introTitle:'貸出・返却と未返却を1台で管理',lead:'誰に何を貸しているかを確認し、返却漏れを未返却0まで管理できます。データはこのブラウザー内で処理します。',localBadge:'完全ローカル処理',
-          devNotice:'v1.0.0 正式版',
-          quickNavLabel:'主要操作',quickNavBoard:'ボード',quickNavCheckout:'貸出',quickNavReturn:'返却',quickNavHistory:'履歴',quickNavManage:'登録・管理',quickNavData:'データ',boardNameLabel:'ボード名',boardNamePlaceholder:'2026年度 文化祭',boardNameHint:'イベント名や運用名を付けておくと、今どの貸出を管理しているか分かりやすくなります。',milestoneStatus:'v1.0.0',
+          devNotice:'v'+APP_CONFIG.version+' 正式版',
+          quickNavLabel:'主要操作',quickNavBoard:'ボード',quickNavCheckout:'貸出',quickNavReturn:'返却',quickNavHistory:'履歴',quickNavManage:'登録・管理',quickNavData:'データ',boardNameLabel:'ボード名',boardNamePlaceholder:'2026年度 文化祭',boardNameHint:'イベント名や運用名を付けておくと、今どの貸出を管理しているか分かりやすくなります。',milestoneStatus:'v'+APP_CONFIG.version,
           itemsCountLabel:'備品',borrowersCountLabel:'貸出先',checkedOutCountLabel:'貸出中',
           outstandingCountLabel:'未返却',outstandingBorrowersLabel:'貸出先',availabilitySummaryLabel:'利用可能 / 全備品',
           outstandingBoardTitle:'未返却ボード',outstandingBoardLead:'誰が何を持っているかを貸出先ごとに確認します。返却操作もここから始められます。',
@@ -1137,8 +1137,8 @@
         },
         en: {
           brandMeta:'Fully local · Single HTML',introTitle:'Manage checkout, return, and outstanding equipment on one device',lead:'See who has what, record returns, and work toward zero outstanding items. Data is processed in this browser.',localBadge:'Fully local processing',
-          devNotice:'v1.0.0 stable release',
-          quickNavLabel:'Main operations',quickNavBoard:'Board',quickNavCheckout:'Checkout',quickNavReturn:'Return',quickNavHistory:'History',quickNavManage:'Manage',quickNavData:'Data',boardNameLabel:'Board name',boardNamePlaceholder:'School Festival 2026',boardNameHint:'Use an event or operation name so it is clear which lending session this board represents.',milestoneStatus:'v1.0.0',
+          devNotice:'v'+APP_CONFIG.version+' stable release',
+          quickNavLabel:'Main operations',quickNavBoard:'Board',quickNavCheckout:'Checkout',quickNavReturn:'Return',quickNavHistory:'History',quickNavManage:'Manage',quickNavData:'Data',boardNameLabel:'Board name',boardNamePlaceholder:'School Festival 2026',boardNameHint:'Use an event or operation name so it is clear which lending session this board represents.',milestoneStatus:'v'+APP_CONFIG.version,
           itemsCountLabel:'Equipment',borrowersCountLabel:'Borrowers',checkedOutCountLabel:'Checked out',
           outstandingCountLabel:'Outstanding',outstandingBorrowersLabel:'Borrowers',availabilitySummaryLabel:'Available / total',
           outstandingBoardTitle:'Outstanding board',outstandingBoardLead:'See who currently has each item, grouped by borrower, and start return actions here.',

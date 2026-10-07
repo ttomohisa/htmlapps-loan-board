@@ -17,6 +17,7 @@ All notable Loan Board changes are recorded here.
 
 ### Fixed
 
+- Read the board release chip and localized release notice from the canonical app version, and omit stale pre-initialization badge text.
 - Standardize the header language target to EN / JA, with localized target-language accessible labels and matching tooltips. Preserve the exact local-processing badge and adjacent Help.
 - Add regression coverage for the JA → EN → JA round trip without losing loans, partial-return search, or hidden item selections.
 
