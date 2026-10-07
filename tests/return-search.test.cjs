@@ -164,3 +164,31 @@ test('no selection or no matches leaves Return 0 disabled and business data unch
   const h = harness(); h.open(); const before = JSON.stringify(h.api.state); h.search('<script>'); assert.equal(h.get('#returnSelectedButton').disabled, true); assert.match(h.get('#returnSelectedButton').textContent, /0/);
   h.get('#returnSelectedButton').click(); assert.equal(JSON.stringify(h.api.state), before); h.search(''); h.select('radio-1'); h.select('radio-1', false); assert.equal(h.get('#returnSelectedButton').disabled, true); assert.equal(h.api.ui.selectedItemIds.size, 0);
 });
+
+
+test('language control initially describes its EN target in Japanese', () => {
+  const button = html.match(/<button\b[^>]*id="languageButton"[^>]*>EN<\/button>/)?.[0];
+  assert(button, 'Initial EN language control exists');
+  assert.match(button, /aria-label="英語に切り替え"/);
+  assert.match(button, /title="英語に切り替え"/);
+});
+
+test('EN / JA language round trip keeps localized targets and loaded loans, search, and hidden selections', () => {
+  const h = harness({ language: 'ja' }); h.open(); h.select('radio-1'); h.search('LIGHT');
+  const before = JSON.stringify(h.api.state), state = h.api.state;
+  for (const [language, visible, target] of [['ja', 'EN', '英語に切り替え'], ['en', 'JA', 'Switch to Japanese'], ['ja', 'EN', '英語に切り替え']]) {
+    if (h.document.documentElement.lang !== language) h.get('#languageButton').click();
+    assert.equal(h.document.documentElement.lang, language);
+    assert.equal(h.get('#languageButton').textContent, visible);
+    assert.equal(h.get('#languageButton').getAttribute('aria-label'), target);
+    assert.equal(h.get('#languageButton').title, target);
+    assert.equal(h.api.t('localBadge'), language === 'ja' ? '完全ローカル処理' : 'Fully local processing');
+    assert.equal(h.api.t('helpTitle'), language === 'ja' ? '使い方と注意事項' : 'How to use & notes');
+    assert.equal(h.api.state, state); assert.equal(JSON.stringify(h.api.state), before);
+    assert.equal(h.api.ui.query, 'LIGHT'); assert.equal(h.api.ui.partialMode, true);
+    assert.equal(h.api.ui.selectedBorrowerId, 'a');
+    assert.deepEqual(Array.from(h.api.ui.selectedItemIds), ['radio-1']);
+    assert.deepEqual(ids(h), ['light']);
+    assert.equal(h.get('#returnSelectedButton').disabled, false);
+  }
+});

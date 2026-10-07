@@ -4,7 +4,7 @@
 
 - **Name:** Loan Board / 貸出・返却ボード
 - **English helper:** Equipment Checkout & Return
-- **Version:** v1.0.0
+- **Version:** v1.0.1
 - **Status:** Stable Release
 - **Purpose:** 誰に何を貸していて、何がまだ返ってきていないかを1台の端末で管理する。
 - **Primary outcome:** **未返却 0** を明確に確認できること。
@@ -94,6 +94,9 @@
 
 ### UI / language
 - Japanese / English
+- 言語ボタンは日本語UIで切替先 `EN`、英語UIで `JA` を表示し、`aria-label` / `title` はそれぞれ `英語に切り替え` / `Switch to Japanese`。
+- JA→EN→JAでも貸出状態・一部返却の検索・備品IDによる選択を保持。
+- プライバシー表示 `完全ローカル処理` / `Fully local processing` と隣接するHelpを維持。
 - desktop / tablet / smartphone
 - operation navigation
 - 320px minimum layout target

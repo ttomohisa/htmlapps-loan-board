@@ -51,6 +51,8 @@ The v1.0.0 runtime has no third-party library dependency, so the normal app buil
 
 ## Usage
 
+Use EN / JA in the header to switch languages. Loans and partial-return search and selections stay unchanged.
+
 1. Give the board an event or operation name.
 2. Register equipment under Manage. Use numbered batch creation for sets of similar physical items.
 3. Add borrowers as needed, or create a new borrower directly during checkout.
