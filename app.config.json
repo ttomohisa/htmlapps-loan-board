@@ -3,7 +3,7 @@
   "name": "Loan Board",
   "nameJa": "貸出・返却ボード",
   "slug": "loan-board",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Manage equipment checkout, returns, outstanding items, history, autosave, backups, and CSV exports locally on one device.",
   "descriptionJa": "備品の貸出・返却、未返却、履歴、自動保存、バックアップ、CSV出力を1台の端末内で管理する貸出・返却ボードです。",
   "defaultLanguage": "auto",

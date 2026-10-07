@@ -13,6 +13,14 @@ All notable Loan Board changes are recorded here.
 - Accepted schema-v1 backups with archived borrowers and active loans no longer hide those loans or show a false all-returned state. Archived borrowers remain excluded from new-checkout suggestions, without changing archive flags or backup validation.
 - Partial-return checkbox changes retain keyboard focus instead of recreating the focused row.
 
+## [1.0.1] - 2026-10-07
+
+### Fixed
+
+- Read the board release chip and localized release notice from the canonical app version, and omit stale pre-initialization badge text.
+- Standardize the header language target to EN / JA, with localized target-language accessible labels and matching tooltips. Preserve the exact local-processing badge and adjacent Help.
+- Add regression coverage for the JA → EN → JA round trip without losing loans, partial-return search, or hidden item selections.
+
 ## [1.0.0] - 2026-10-04
 
 ### Added
