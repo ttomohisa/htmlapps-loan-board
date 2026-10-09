@@ -4,7 +4,7 @@
 
 - **Name:** Loan Board / 貸出・返却ボード
 - **English helper:** Equipment Checkout & Return
-- **Version:** v1.0.1
+- **Version:** v1.0.2
 - **Status:** Stable Release
 - **Purpose:** 誰に何を貸していて、何がまだ返ってきていないかを1台の端末で管理する。
 - **Primary outcome:** **未返却 0** を明確に確認できること。
@@ -289,3 +289,9 @@ v1.0.0で対象外:
 Semantic Versioning.
 
 **v1.0.0** freezes the first stable Loan Board data model and user workflow described in this specification.
+
+## v1.0.2 icon consistency
+
+- The canonical icon background and matching green details use `#16624f`.
+- Background corner radii are exactly 25% of their corresponding width and height; existing bounds, padding, and foreground artwork are preserved.
+- Header, favicon, and self-extract loader inherit the canonical `assets/favicon.svg`.
