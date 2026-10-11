@@ -1,5 +1,7 @@
 # Loan Board / 貸出・返却ボード
 
+ダイアログを開いている間は背景ページのスクロールが止まります。
+
 [![GitHub Pages](https://github.com/ttomohisa/htmlapps-loan-board/actions/workflows/deploy-pages.yml/badge.svg)](https://github.com/ttomohisa/htmlapps-loan-board/actions/workflows/deploy-pages.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Single HTML](https://img.shields.io/badge/distribution-single%20HTML-0ea5e9)](https://ttomohisa.github.io/htmlapps-loan-board/)
