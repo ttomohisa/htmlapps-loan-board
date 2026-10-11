@@ -2,6 +2,11 @@
 
 All notable Loan Board changes are recorded here.
 
+## 1.0.3 - 2026-10-11
+
+- Lock root/body background scrolling while native dialogs are open, preserving their existing layouts and workflow behavior.
+- Add Japanese/English Help guidance and modal/shield regression checks.
+
 ## [1.0.2] - 2026-10-09
 
 ### Fixed

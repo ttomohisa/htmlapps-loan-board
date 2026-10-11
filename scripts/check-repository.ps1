@@ -306,3 +306,13 @@ if (-not (Get-Command node -ErrorAction SilentlyContinue)) { throw "Node.js 18 o
 if ($LASTEXITCODE -ne 0) { throw "Loan Board regression runner checks failed." }
 & node (Join-Path $Root "scripts\test-return-search.cjs")
 if ($LASTEXITCODE -ne 0) { throw "Loan Board return regression checks failed." }
+
+# Apply modal-layout contracts to source and all shipped representations.
+$previousLoanSource = $env:LOAN_BOARD_SOURCE
+try {
+  foreach ($runtimePath in @("src/index.template.html", "loan-board.html", "dist/index.html", "dist/index.self-extract.html")) {
+    $env:LOAN_BOARD_SOURCE = $runtimePath
+    & node --test (Join-Path $Root "tests/modal-layout.test.cjs")
+    if ($LASTEXITCODE -ne 0) { throw "Modal-layout regression tests failed: $runtimePath" }
+  }
+} finally { $env:LOAN_BOARD_SOURCE = $previousLoanSource }
