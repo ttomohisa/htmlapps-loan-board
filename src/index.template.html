@@ -502,6 +502,11 @@
       border-top: 1px solid var(--line); background: #fff;
     }
     .edit-form { display: grid; gap: 12px; }
+    :is(#itemEditDialog, #borrowerEditDialog)[open] { display: flex; flex-direction: column; overflow: hidden; }
+    :is(#itemEditDialog, #borrowerEditDialog) > .dialog-shell { min-height: 0; flex: 1 1 auto; max-height: none; }
+    :is(#itemEditDialog, #borrowerEditDialog) form { display: flex; flex-direction: column; min-height: 0; flex: 1 1 auto; }
+    :is(#itemEditDialog, #borrowerEditDialog) .dialog-body { min-height: 0; flex: 1 1 auto; }
+    :is(#itemEditDialog, #borrowerEditDialog) .dialog-actions { flex: 0 0 auto; }
     .app-toast {
       position: fixed; left: 50%; bottom: max(18px, env(safe-area-inset-bottom));
       transform: translate(-50%, 18px); z-index: 50;

@@ -20,3 +20,32 @@ test('the existing decorative local-processing shield is retained', () => {
   assert.match(badge, /d="M12 3 5 6v5c0 4\.6 2\.8 8 7 10 4\.2-2 7-5\.4 7-10V6z"/);
   assert.match(badge, /d="m9 12 2 2 4-5"/);
 });
+
+const editors = ':is(#itemEditDialog, #borrowerEditDialog)';
+function declaration(selector) {
+  const start = html.indexOf(selector + ' {');
+  return start < 0 ? '' : html.slice(start, html.indexOf('}', start));
+}
+test('editor dialogs bound an open-only flex column without outer scrolling', () => {
+  const css = declaration(editors + '[open]');
+  assert.match(css, /display:\s*flex/);
+  assert.match(css, /flex-direction:\s*column/);
+  assert.match(css, /overflow:\s*hidden/);
+});
+test('editor shell and form can shrink within the dialog height', () => {
+  for (const selector of [editors + ' > .dialog-shell', editors + ' form']) {
+    const css = declaration(selector);
+    assert.match(css, /min-height:\s*0/);
+    assert.match(css, /flex:\s*1 1 auto/);
+  }
+  assert.match(declaration(editors + ' > .dialog-shell'), /max-height:\s*none/);
+  assert.match(declaration(editors + ' form'), /display:\s*flex/);
+  assert.match(declaration(editors + ' form'), /flex-direction:\s*column/);
+});
+test('editor fields scroll inside the shell while actions do not shrink', () => {
+  const body = declaration(editors + ' .dialog-body');
+  assert.match(body, /min-height:\s*0/);
+  assert.match(body, /flex:\s*1 1 auto/);
+  assert.match(declaration(editors + ' .dialog-actions'), /flex:\s*0 0 auto/);
+  assert.match(html, /\.dialog-body\s*\{[^}]*overflow:\s*auto/);
+});
