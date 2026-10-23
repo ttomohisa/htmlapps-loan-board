@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Hide only the informational footer at the existing 620px phone breakpoint; preserve functional controls and canonical Fully local processing wording. Move unchanged build metadata to the final Help content, retaining IDs and existing visibility conditions.
+
+
 - Clarify Japanese and English help by removing internal layout, implementation, and audit commentary while preserving usage guidance and cautions.
 
 All notable Loan Board changes are recorded here.
