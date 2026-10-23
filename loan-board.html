@@ -576,7 +576,12 @@
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; }
     }
-  </style>
+  
+    @media (max-width: 620px) { body > footer { display: none; } }
+#helpDialog .help-build { margin-top: 18px; color: var(--muted); font-size: 11px; box-shadow: none; }
+#helpDialog .help-build summary { font: inherit; }
+#helpDialog .help-build .build-item strong { font-size: 11px; font-weight: 400; }
+</style>
 </head>
 <body>
   <header class="app-header">
@@ -888,14 +893,7 @@
 
     <!-- APP:END -->
 
-    <details class="shell build-details">
-      <summary data-i18n="buildInfo">ビルド情報</summary>
-      <div class="build-grid">
-        <div class="build-item"><span data-i18n="appVersion">アプリバージョン</span><strong id="buildVersion">—</strong></div>
-        <div class="build-item"><span data-i18n="builtAt">生成日時</span><strong id="builtAt">—</strong></div>
-        <div class="build-item"><span data-i18n="dependencies">内包依存数</span><strong id="dependencyCount">0</strong></div>
-      </div>
-    </details>
+    
   </main>
 
   <footer><span id="footerName">貸出・返却ボード</span> · MIT License · <span data-i18n="footer">端末内で動作する単一HTMLアプリ</span></footer>
@@ -1000,6 +998,14 @@
         </ul>
         <p data-i18n="helpOffline">配布用HTMLは単体で開けます。必要なコードはHTML内に含まれます。</p>
         <!-- APP:HELP:END -->
+<details class="shell build-details help-build">
+      <summary data-i18n="buildInfo">ビルド情報</summary>
+      <div class="build-grid">
+        <div class="build-item"><span data-i18n="appVersion">アプリバージョン</span><strong id="buildVersion">—</strong></div>
+        <div class="build-item"><span data-i18n="builtAt">生成日時</span><strong id="builtAt">—</strong></div>
+        <div class="build-item"><span data-i18n="dependencies">内包依存数</span><strong id="dependencyCount">0</strong></div>
+      </div>
+    </details>
       </div>
     </div>
   </dialog>
@@ -1009,7 +1015,7 @@
       'use strict';
 
       const APP_CONFIG = {"$schema":"./schemas/app-config.schema.json","name":"Loan Board","nameJa":"貸出・返却ボード","slug":"loan-board","version":"1.0.3","description":"Manage equipment checkout, returns, outstanding items, history, autosave, backups, and CSV exports locally on one device.","descriptionJa":"備品の貸出・返却、未返却、履歴、自動保存、バックアップ、CSV出力を1台の端末内で管理する貸出・返却ボードです。","defaultLanguage":"auto","repository":{"owner":"ttomohisa","name":"htmlapps-loan-board"},"build":{"output":"dist/index.html","blockRuntimeNetwork":true,"selfExtract":{"enabled":true,"output":"dist/index.self-extract.html"},"sizeBudget":{"readableWarningMb":25,"selfExtractWarningMb":12}}};
-      const BUILD_MANIFEST = {"schemaVersion":2,"builder":"single-html-app-template/1.3","generatedAtUtc":"2026-10-11T22:21:09.1919371Z","app":{"name":"Loan Board","slug":"loan-board","version":"1.0.3"},"dependencies":[]};
+      const BUILD_MANIFEST = {"schemaVersion":2,"builder":"single-html-app-template/1.3","generatedAtUtc":"2026-10-23T11:19:21.4045757Z","app":{"name":"Loan Board","slug":"loan-board","version":"1.0.3"},"dependencies":[]};
       const assetBundle = {"schemaVersion":2,"dependencies":{}};
       const blobUrls = new Set();
       const assetByteCache = new Map();
@@ -1611,7 +1617,7 @@
       $('#itemEditForm').addEventListener('submit',event=>{event.preventDefault();const item=state.items.find(x=>x.itemId===$('#editItemId').value),name=trimmedValue('#editItemName');if(!item||!name)return;item.name=name;item.category=trimmedValue('#editItemCategory');item.code=trimmedValue('#editItemCode');item.note=trimmedValue('#editItemNote');item.updatedAt=new Date().toISOString();$('#itemEditDialog').close();render();showToast(t('itemUpdated'));});
       $('#borrowerEditForm').addEventListener('submit',event=>{event.preventDefault();const b=state.borrowers.find(x=>x.borrowerId===$('#editBorrowerId').value),name=trimmedValue('#editBorrowerName');if(!b||!name)return;b.name=name;b.note=trimmedValue('#editBorrowerNote');b.updatedAt=new Date().toISOString();$('#borrowerEditDialog').close();render();showToast(t('borrowerUpdated'));});
       function closeDialogFromBackdrop(dialog,event){const rect=dialog.getBoundingClientRect(),outside=event.clientX<rect.left||event.clientX>rect.right||event.clientY<rect.top||event.clientY>rect.bottom;if(outside)dialog.close();}
-      ['itemEditDialog','borrowerEditDialog','helpDialog'].forEach(id=>{const dialog=document.getElementById(id);dialog.addEventListener('click',event=>closeDialogFromBackdrop(dialog,event));});
+      ['itemEditDialog','borrowerEditDialog','helpDialog'].forEach(id=>{const dialog=document.getElementById(id);dialog.addEventListener('click',event=>{if(id==='helpDialog'&&event.target!==dialog)return;closeDialogFromBackdrop(dialog,event);});});
       const helpDialog=$('#helpDialog');$('#helpButton').addEventListener('click',()=>helpDialog.showModal());$('#closeHelpButton').addEventListener('click',()=>helpDialog.close());
       window.addEventListener('pagehide',()=>{if(persistTimer)persistState();});
       $('#languageButton').addEventListener('click',()=>{language=language==='ja'?'en':'ja';saveLanguage();applyLanguage();});

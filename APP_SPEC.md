@@ -301,3 +301,7 @@ Semantic Versioning.
 Native modal dialogs lock background page scrolling while open. Existing Help and editing/confirmation shells, workflow state and local-processing shield are preserved.
 
 Item and borrower editors keep their header and actions outside the shrinkable fields scroller on short screens. Their existing form validation and save/cancel semantics are unchanged.
+
+## Shared phone layout
+
+- Hide only the informational footer at the existing 620px phone breakpoint; preserve functional controls and canonical Fully local processing wording. Move unchanged build metadata to the final Help content, retaining IDs and existing visibility conditions.
