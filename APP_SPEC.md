@@ -4,7 +4,7 @@
 
 - **Name:** Loan Board / 貸出・返却ボード
 - **English helper:** Equipment Checkout & Return
-- **Version:** v1.0.3
+- **Version:** v1.0.4
 - **Status:** Stable Release
 - **Purpose:** 誰に何を貸していて、何がまだ返ってきていないかを1台の端末で管理する。
 - **Primary outcome:** **未返却 0** を明確に確認できること。

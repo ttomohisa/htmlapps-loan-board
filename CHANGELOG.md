@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.4 - 2026-10-27
+
+- Keep the header version badge visible at narrow widths by truncating only the app title.
+- Remove redundant language-switching instructions from Japanese and English Help. Preserve the adjacent state-retention, accessibility, and dialog guidance where present.
+
+
 ## Unreleased
 
 - Hide only the informational footer at the existing 620px phone breakpoint; preserve functional controls and canonical Fully local processing wording. Move unchanged build metadata to the final Help content, retaining IDs and existing visibility conditions.
