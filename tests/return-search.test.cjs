@@ -26,9 +26,10 @@ function data(archived = false) {
 function envelope(d, format = 'browser-kitty-loan-board-state') { return { format, schemaVersion: 1, appSlug: 'loan-board', savedAt: stamp, data: d }; }
 // The real script and delegated handlers execute unchanged. This small DOM/storage
 // model tests state and node identity, not browser layout, IME, or accessibility APIs.
-function harness({ language = 'en', initial = data(), raw, appVersion } = {}) {
+function harness({ language = 'en', initial = data(), raw, appVersion, sharedLanguage, url = 'https://example.test/' } = {}) {
   const writes = [], downloads = [], blobs = [], timers = new Map(); let timerId = 0, active = null;
   const storage = new Map([['loan-board:language', language]]);
+  if (sharedLanguage) storage.set('browser-kitty:ui-language:v1', sharedLanguage);
   if (raw !== undefined) storage.set('loan-board:state:v1', raw);
   else if (initial) storage.set('loan-board:state:v1', JSON.stringify(envelope(initial)));
   function matches(el, selector) {
@@ -50,6 +51,8 @@ function harness({ language = 'en', initial = data(), raw, appVersion } = {}) {
     querySelectorAll(s) { return this.children.flatMap(c => [...(matches(c, s) ? [c] : []), ...c.querySelectorAll(s)]); }
     querySelector(s) { return this.querySelectorAll(s)[0] || null; }
     closest(s) { return matches(this, s) ? this : this.parentNode?.closest(s) || null; }
+    removeAttribute(k) { delete this.attributes[k]; }
+    getBoundingClientRect() { return { left: 0, top: 0, right: 400, bottom: 300 }; }
     setAttribute(k, v) { this.attributes[k] = String(v); } getAttribute(k) { return this.attributes[k] ?? null; }
     addEventListener(k, fn) { this.listeners.set(k, [...(this.listeners.get(k) || []), fn]); }
     trigger(k, more = {}) { const e = { target: this, preventDefault() {}, ...more }; let el = this; while (el) { e.currentTarget = el; (el.listeners.get(k) || []).forEach(fn => fn(e)); el = el.parentNode; } }
@@ -63,7 +66,7 @@ function harness({ language = 'en', initial = data(), raw, appVersion } = {}) {
     const el = new Element(m[1]); el.dataset.i18n = m[2]; body.append(el);
   }
   const document = { body, documentElement: {}, querySelector: s => body.querySelector(s), querySelectorAll: s => body.querySelectorAll(s), getElementById: id => body.querySelector('#' + id), createElement: tag => new Element(tag), createElementNS: (_, tag) => new Element(tag), createTextNode: text => { const e = new Element('text'); e.textContent = text; return e; }, addEventListener() {}, get activeElement() { return active; } };
-  const c = vm.createContext({ document, navigator: { language }, localStorage: { getItem: k => storage.get(k) ?? null, setItem: (k, v) => { writes.push([k, v]); storage.set(k, v); }, removeItem: k => storage.delete(k) }, console, Blob, TextDecoder, Uint8Array, Intl, Date, atob, requestAnimationFrame: fn => fn(), clearTimeout: id => timers.delete(id), setTimeout: fn => { timers.set(++timerId, fn); return timerId; }, URL: { createObjectURL: b => { blobs.push(b); return 'blob:synthetic'; }, revokeObjectURL() {} } });
+  const c = vm.createContext({ document, navigator: { language }, localStorage: { getItem: k => storage.get(k) ?? null, setItem: (k, v) => { writes.push([k, v]); storage.set(k, v); }, removeItem: k => storage.delete(k) }, console, Blob, HTMLElement: Element, location: { href: url }, history: { state: null, replaceState(_state, _title, value) { this.url = value; } }, TextDecoder, Uint8Array, Intl, Date, atob, requestAnimationFrame: fn => fn(), clearTimeout: id => timers.delete(id), setTimeout: fn => { timers.set(++timerId, fn); return timerId; }, URL: class extends URL { static createObjectURL(b) { blobs.push(b); return 'blob:synthetic'; } static revokeObjectURL() {} } });
   c.window = c; c.addEventListener = () => {}; c.confirm = () => true;
   const exposed = `globalThis.api={get state(){return state},get ui(){return returnState},get checkout(){return checkoutState},get storageControl(){return storageControl},render,renderReturn,renderOutstandingBoard,renderBorrowerSuggestions,updateCounts,parseStateEnvelope,restoreState,resetAllData,restoreBackupFile,commitReturn,undoEvent,borrowersWithOutstanding,checkedOutItemsForBorrower,backupEnvelope,persistState,exportOutstandingCsv,exportHistoryCsv,csvText,t};`;
   let executable = code.replace('__APP_CONFIG_JSON__', fs.readFileSync(path.join(root, 'app.config.json'), 'utf8')).replace('__BUILD_MANIFEST_JSON__', '{}').replace('__EMBEDDED_ASSET_BUNDLE_JSON__', '{}').replace(/\}\)\(\);\s*$/, exposed + '\n})();');
@@ -71,14 +74,81 @@ function harness({ language = 'en', initial = data(), raw, appVersion } = {}) {
     const config = { ...JSON.parse(fs.readFileSync(path.join(root, 'app.config.json'), 'utf8')), version: appVersion };
     executable = executable.replace(/const APP_CONFIG = [^;]+;/, 'const APP_CONFIG = ' + JSON.stringify(config) + ';');
   }
+  const embeddedUI=[...html.matchAll(/<script>([\s\S]*?)<\/script>/g)].map(match=>match[1]).find(script=>script!==code&&script.includes('BrowserKittyUI'));
+  vm.runInContext(embeddedUI||fs.readFileSync(path.join(root, 'components/ui-conventions.js'), 'utf8'), c);
   vm.runInContext(executable, c, { filename: sourcePath });
   const get = s => document.querySelector(s);
   const open = (id = 'a') => { get(`[data-return-borrower-id="${id}"]`).click(); get('#startPartialReturn').click(); };
   const search = q => { const e = get('#returnItemSearch'); assert(e, 'Partial return search exists'); e.value = q; e.trigger('input'); return e; };
   const select = (id, checked = true) => { const e = get(`[data-return-item="${id}"]`); assert(e, 'Visible checkbox for ' + id); e.checked = checked; e.trigger('change'); return e; };
-  return { api: c.api, c, get, open, search, select, document, writes, downloads, blobs, storage };
+  return { api: c.api, c, get, open, search, select, document, writes, downloads, blobs, storage, flush() { for (const [id, fn] of Array.from(timers)) { timers.delete(id); fn(); } }, async confirm(pending, accepted = true) { for(let attempt=0;attempt<10&&!get('#appConfirmDialog').open;attempt++) await Promise.resolve(); assert.equal(get('#appConfirmDialog').open,true,'Confirmation must open before responding'); get(accepted ? '#appConfirmOk' : '#appConfirmCancel').click(); return await pending; } };
 }
 const ids = h => h.document.querySelectorAll('[data-return-item]').map(n => n.value);
+test('autosave does not write on startup or language changes and only shows confirmed saves', () => {
+  const h = harness(); h.flush(); assert.equal(h.writes.length, 0);
+  h.get('#languageButton').click(); h.flush();
+  assert.equal(h.writes.filter(([key]) => key === 'loan-board:state:v1').length, 0);
+  h.get('#boardName').value = 'Changed board'; h.get('#boardName').trigger('input');
+  assert.equal(h.get('#storageStatusTitle').textContent, '未保存の変更があります');
+  h.flush(); assert.equal(h.api.storageControl.mode, 'saved');
+  assert.equal(JSON.parse(h.storage.get('loan-board:state:v1')).data.board.name, 'Changed board');
+});
+test('autosave failure preserves work, saved time and raw storage, then retry confirms newest contents', () => {
+  const h = harness(); const savedAt = h.api.storageControl.lastSavedAt;
+  h.c.localStorage.setItem = () => { throw Error('quota'); };
+  h.get('#boardName').value = 'Retained work'; h.get('#boardName').trigger('input'); h.flush();
+  assert.equal(h.api.state.board.name, 'Retained work'); assert.equal(h.api.storageControl.lastSavedAt, savedAt);
+  assert.equal(h.get('#storageStatusTitle').textContent, 'Could not save in this browser');
+  assert.equal(h.get('#retrySaveButton').hidden, false);
+  assert.equal(JSON.parse(h.storage.get('loan-board:state:v1')).data.board.name, 'Synthetic board');
+  h.c.localStorage.setItem = (key, value) => h.storage.set(key, value);
+  h.get('#retrySaveButton').click();
+  assert.equal(h.api.storageControl.mode, 'saved');
+  assert.equal(JSON.parse(h.storage.get('loan-board:state:v1')).data.board.name, 'Retained work');
+});
+test('explicit shared language priority never promotes legacy and keeps pending data unchanged', () => {
+  const h = harness({ language: 'ja', sharedLanguage: 'en', url: 'https://example.test/?lang=ja' });
+  assert.equal(h.document.documentElement.lang, 'ja'); assert.equal(h.writes.length, 0);
+  h.get('#languageButton').click(); assert.equal(h.document.documentElement.lang, 'en');
+  assert.equal(h.storage.get('browser-kitty:ui-language:v1'), 'en'); assert.equal(h.storage.get('loan-board:language'), 'ja');
+  assert.equal(h.c.history.url, 'https://example.test/?lang=en');
+  assert.equal(h.writes.filter(([key]) => key === 'loan-board:state:v1').length, 0);
+});
+test('destructive reset cancellation restores focus and acceptance cannot resurrect pending old state', async () => {
+  const h = harness(); const trigger = h.get('#resetDataButton'); trigger.focus();
+  h.get('#boardName').value = 'Pending old state'; h.get('#boardName').trigger('input');
+  const before = JSON.stringify(h.api.state); const pending = h.api.resetAllData();
+  assert.equal(h.document.activeElement?.id, 'appConfirmCancel');
+  assert.equal(JSON.stringify(h.api.state), before);
+  assert.match(h.get('#appConfirmMessage').textContent, /5.*2.*2/);
+  h.get('#appConfirmDialog').trigger('cancel'); await pending;
+  assert.equal(h.document.activeElement?.id, trigger.id); assert.equal(JSON.stringify(h.api.state), before);
+  await h.confirm(h.api.resetAllData()); h.flush();
+  const restored = JSON.parse(h.storage.get('loan-board:state:v1'));
+  assert.equal(restored.data.items.length, 0); assert.equal(restored.data.events.length, 0);
+  assert.equal(h.storage.get('loan-board:language'), 'en');
+});
+test('invalid restore never asks for confirmation and valid restore survives pending saves', async () => {
+  const h = harness(); const original = JSON.stringify(h.api.state);
+  await h.api.restoreBackupFile({ name: 'bad.json', size: 4, text: async () => 'bad' });
+  assert.equal(h.get('#appConfirmDialog').open, undefined); assert.equal(JSON.stringify(h.api.state), original);
+  h.get('#boardName').value = 'Old pending'; h.get('#boardName').trigger('input');
+  await h.confirm(h.api.restoreBackupFile({ name: 'backup.json', size: 1, text: async () => JSON.stringify(envelope(data(true), 'browser-kitty-loan-board-backup')) }));
+  h.flush(); const restored = JSON.parse(h.storage.get('loan-board:state:v1'));
+  assert.equal(restored.data.board.name, 'Synthetic board'); assert.equal(restored.data.borrowers[0].archived, true);
+});
+test('backup and CSV preserve old payloads with user-edited safe filenames and download-start notices', async () => {
+  const h = harness();
+  assert(h.get('#backupFilenameInput'), 'Backup filename can be edited');
+  h.get('#backupFilenameInput').value='My backup<>.json'; h.get('#downloadBackupButton').click();
+  assert.equal(h.downloads[0].name,'My backup--.json');
+  assert.equal(h.get('#appToastMessage').textContent,'Download started');
+  const exported=JSON.parse(await h.blobs[0].text());
+  assert.equal(exported.schemaVersion,1); assert.equal(exported.format,'browser-kitty-loan-board-backup');
+  assert.equal(JSON.stringify(exported.data),JSON.stringify(h.api.backupEnvelope().data));
+  h.get('#csvFilenameInput').value='review.csv';h.api.exportOutstandingCsv();
+  assert.equal(h.downloads[1].name,'review.csv'); assert.match(h.get('#appToastMessage').textContent,/Download started/);
+});
 for (const language of ['en', 'ja']) {
   test(`${language}: partial return searches name/category/code only within selected borrower's loans`, () => {
     const h = harness({ language }); h.open();
@@ -105,14 +175,14 @@ test('selected return includes hidden IDs exactly once, preserves identity/times
   const count = h.api.state.events.length; h.api.commitReturn(h.api.state.borrowers[0], [originals[0], originals[2], originals[3]]); assert.equal(h.api.state.events.length, count);
   assert.equal(h.api.undoEvent(event.eventId), true); assert.equal(originals[0].currentCheckoutAt, stamp); assert.equal(originals[2].currentCheckoutAt, stamp); assert.equal(originals[0].currentBorrowerId, 'a'); assert.equal(h.api.state.events.length, count + 1); assert.equal(h.api.state.events.at(-1).type, 'undo'); assert.equal(h.api.undoEvent(event.eventId), false);
 });
-test('borrower change, cancel, return, reset and restore clear transient query and selections', () => {
+test('borrower change, cancel, return, reset and restore clear transient query and selections', async () => {
   const h = harness();
   const seed = () => { h.open(); h.select('radio-1'); h.search('RAD'); };
   const cleared = () => { assert.equal(h.api.ui.query, ''); assert.equal(h.api.ui.selectedItemIds.size, 0); assert.equal(h.api.ui.partialMode, false); };
   seed(); h.get('[data-return-borrower-id="b"]').click(); cleared();
   seed(); h.get('#cancelPartialReturn').click(); cleared();
   seed(); h.api.restoreState(h.api.parseStateEnvelope(envelope(data(), 'browser-kitty-loan-board-backup'), 'browser-kitty-loan-board-backup')); cleared();
-  seed(); h.api.resetAllData(); cleared(); assert.equal(h.api.state.items.length, 0);
+  seed(); await h.confirm(h.api.resetAllData()); cleared(); assert.equal(h.api.state.items.length, 0);
 });
 test('board shortcut starts a fresh query and selection for the chosen borrower', () => {
   const h = harness(); h.open(); h.select('radio-1'); h.search('RAD'); h.get('[data-board-partial-return="b"]').click();
@@ -157,11 +227,11 @@ test('search labels, live count, local CSP, and bilingual help are present', () 
 });
 
 test('cancelled reset/restore and invalid backups preserve pending query and selections', async () => {
-  const h = harness(); h.open(); h.select('radio-1'); h.search('RAD'); const before = JSON.stringify(h.api.state); h.c.confirm = () => false;
-  h.api.resetAllData(); await h.api.restoreBackupFile({ name: 'synthetic.json', size: 1, text: async () => JSON.stringify(envelope(data(true), 'browser-kitty-loan-board-backup')) });
+  const h = harness(); h.open(); h.select('radio-1'); h.search('RAD'); const before = JSON.stringify(h.api.state);
+  await h.confirm(h.api.resetAllData(), false); await h.confirm(h.api.restoreBackupFile({ name: 'synthetic.json', size: 1, text: async () => JSON.stringify(envelope(data(true), 'browser-kitty-loan-board-backup')) }), false);
   await h.api.restoreBackupFile({ name: 'invalid.json', size: 1, text: async () => 'invalid' });
   assert.equal(h.api.ui.query, 'RAD'); assert.deepEqual(Array.from(h.api.ui.selectedItemIds), ['radio-1']); assert.equal(JSON.stringify(h.api.state), before);
-  h.c.confirm = () => true; await h.api.restoreBackupFile({ name: 'synthetic.json', size: 1, text: async () => JSON.stringify(envelope(data(true), 'browser-kitty-loan-board-backup')) });
+  await h.confirm(h.api.restoreBackupFile({ name: 'synthetic.json', size: 1, text: async () => JSON.stringify(envelope(data(true), 'browser-kitty-loan-board-backup')) }));
   assert.equal(h.api.ui.query, ''); assert.equal(h.api.ui.selectedItemIds.size, 0); assert.equal(h.api.state.borrowers[0].archived, true); assert(h.get('[data-return-borrower-id="a"]'));
 });
 test('Undo clears pending search/selection and invalidates the return UI safely', () => {

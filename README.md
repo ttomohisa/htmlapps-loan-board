@@ -83,6 +83,8 @@ If a restored backup contains an archived borrower with outstanding loans, those
 
 Board, equipment, borrowers, current loan state, history, and archive state are automatically saved in this browser.
 
+The status below the board name distinguishes unsaved changes, saving, confirmed saved data, and failure. Failed saves retain the current work; use **Retry save** or save a JSON backup before closing the tab. Opening the board or switching languages does not rewrite its saved data. Explicit language choice is remembered for the same site when browser storage is available.
+
 If stored data is malformed, Loan Board does not automatically overwrite it with an empty state. Restore a JSON backup or explicitly reset to a new board.
 
 ### JSON backup
@@ -90,6 +92,8 @@ If stored data is malformed, Loan Board does not automatically overwrite it with
 JSON is the **full-state restore format**.
 
 Restore validates the backup format, schema, IDs, references, and loan state before asking for confirmation to replace the current board.
+
+Restore and Delete saved board show the affected equipment, borrower and event counts. Cancel, Escape and backdrop clicks leave the board unchanged. Shared language preferences and other tools are preserved. Export scope is shown beside the controls; edit the backup or CSV filename if needed. A download-start notice means the file was handed to the browser.
 
 ### CSV
 

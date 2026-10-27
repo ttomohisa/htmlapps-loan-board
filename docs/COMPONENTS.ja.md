@@ -1,5 +1,15 @@
 # 再利用UIコンポーネント
 
+## Loan Boardの共通UI接続
+
+htmlapps-template正本の `components/ui-conventions.js` と `.css` 1.0.0を変更せず取り込み、`components/ui-conventions.lock.json` で固定します。`scripts/embed-ui-conventions.ps1` はファイルhashと `__BK_UI_JS__`・`__BK_UI_CSS__` 各1個を確認してHTMLへ内包します。LF改行を維持し、版更新は正本の両ファイルと確認済みlockを一緒に取り込んでください。
+
+`BrowserKittyUI.resolveLanguage({legacyKeys:[languageKey]})` と明示操作の `chooseLanguage()` を利用し、言語の書込み先は共通キーだけです。`setSaveStatus` は実際の同期localStorage書込み結果、`setButtonState` は明示した処理中・無効ボタンに接続します。データ形式、検証、CSV・バックアップ処理、debounce timerはアプリが所有します。起動・言語切替の `render(false)` ではデータ保存を予約しません。
+
+ボード削除・バックアップ復元はテンプレートの `AppConfirm` を利用し、件数、危険操作、キャンセル初期フォーカス、明示した復帰先を渡します。Esc・背景クリックは取消し、起点が消えた場合はボード名へ復帰します。検証と確認後に予約保存を取消して受理したデータだけを同期保存します。既存 `AppToast` と業務Undoを維持します。
+
+`scripts/check-repository.ps1` はhash・マーカー・ビルド検証と、ソース・ルートHTML・readable・自己解凍版の動作回帰を実行します。実ブラウザーでの表示、フォーカス制御、ダウンロード動作は別途確認します。
+
 `components/` には、このテンプレートから新しい単一HTMLアプリを作るときに再利用できるUI部品を置きます。
 
 これらはビルダーが自動で読み込むライブラリではありません。必要な部品を `src/index.template.html` にコピーまたは組み込み、アプリの翻訳・状態・操作へ合わせて調整してください。最終成果物はこれまでどおり1つのHTMLです。多くは依存なしですが、WebRTC QRペアリングは既存のAsset Pipelineで固定バージョンのQRライブラリを内包する依存ありコンポーネントです。

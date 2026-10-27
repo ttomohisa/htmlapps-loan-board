@@ -8,6 +8,11 @@
 
 ## Unreleased
 
+- Embed pinned Browser Kitty UI 1.0.0 with exact hash verification. Add explicit shared language choice and URL handling without writing legacy preferences or autosaving on startup/language-only renders.
+- Move confirmed autosave status below the board name; preserve work and last successful save time on failure and offer retry. Protect corrupt stored data and retain schema-v1 compatibility.
+- Replace native reset/restore confirmation with cancel-first app dialogs showing affected counts, focus restoration and pending-save cancellation. Validate backups before confirmation and guard competing replacement operations.
+- Show backup/CSV output scope, provide editable safe filenames, and report downloads as started. Connect explicit shared button/header styles and expand source/generated-variant behavioral regression tests.
+
 - Hide only the informational footer at the existing 620px phone breakpoint; preserve functional controls and canonical Fully local processing wording. Move unchanged build metadata to the final Help content, retaining IDs and existing visibility conditions.
 
 

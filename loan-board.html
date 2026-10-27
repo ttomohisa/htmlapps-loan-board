@@ -583,6 +583,142 @@
 #helpDialog .help-build summary { font: inherit; }
 #helpDialog .help-build .build-item strong { font-size: 11px; font-weight: 400; }
 </style>
+<style>
+  .app-confirm-dialog {
+    width: min(420px, calc(100% - 24px));
+    max-width: 100%;
+    padding: 0;
+    overflow: hidden;
+    border: 1px solid var(--line, #dadbd6);
+    border-radius: 17px;
+    background: var(--surface, #fff);
+    color: var(--text, #20211f);
+    box-shadow: var(--shadow-md, 0 12px 34px rgba(25, 28, 24, .10));
+  }
+  .app-confirm-dialog::backdrop {
+    background: rgba(15, 17, 14, .48);
+    backdrop-filter: blur(3px);
+  }
+  .app-confirm-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 15px 18px 13px;
+    border-bottom: 1px solid var(--line, #dadbd6);
+  }
+  .app-confirm-title { margin: 0; font-size: 17px; letter-spacing: -.01em; }
+  .app-confirm-close {
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    border: 0;
+    border-radius: 10px;
+    background: transparent;
+    color: var(--text, #20211f);
+    cursor: pointer;
+  }
+  .app-confirm-close:hover { background: var(--surface-hover, #e9e9e5); }
+  .app-confirm-close svg { width: 19px; height: 19px; }
+  .app-confirm-body { padding: 18px; }
+  .app-confirm-message {
+    margin: 0;
+    color: var(--muted, #666963);
+    font-size: 13px;
+    line-height: 1.7;
+    overflow-wrap: anywhere;
+  }
+  .app-confirm-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    margin-top: 18px;
+  }
+  .app-confirm-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 8px 12px;
+    border: 1px solid var(--line, #dadbd6);
+    border-radius: 11px;
+    background: var(--surface, #fff);
+    color: var(--text, #20211f);
+    font: inherit;
+    font-size: 12px;
+    font-weight: 760;
+    cursor: pointer;
+  }
+  .app-confirm-button:hover {
+    border-color: var(--line-strong, #bfc1ba);
+    background: var(--surface-hover, #e9e9e5);
+  }
+  .app-confirm-button.primary {
+    border-color: var(--accent, #16624f);
+    background: var(--accent, #16624f);
+    color: #fff;
+  }
+  .app-confirm-button.primary:hover {
+    border-color: var(--accent-hover, #0e503f);
+    background: var(--accent-hover, #0e503f);
+  }
+  .app-confirm-button.danger {
+    border-color: var(--danger, #b3261e);
+    background: var(--danger, #b3261e);
+    color: #fff;
+  }
+  .app-confirm-button:focus-visible,
+  .app-confirm-close:focus-visible {
+    outline: 3px solid color-mix(in srgb, var(--focus, #4d8bc7) 55%, transparent);
+    outline-offset: 2px;
+  }
+
+  @media (max-width: 520px) {
+    .app-confirm-dialog {
+      width: 100%;
+      max-width: none;
+      margin: auto 0 0;
+      border-width: 1px 0 0;
+      border-radius: 22px 22px 0 0;
+    }
+    .app-confirm-dialog::backdrop {
+      background: rgba(0, 0, 0, .42);
+      backdrop-filter: blur(2px);
+    }
+    .app-confirm-header { padding: 14px 18px 12px; }
+    .app-confirm-body { padding: 12px 18px calc(env(safe-area-inset-bottom) + 18px); }
+    .app-confirm-message { font-size: 14px; line-height: 1.75; }
+    .app-confirm-actions { grid-template-columns: 1fr; gap: 10px; margin-top: 16px; }
+    .app-confirm-button { min-height: 48px; font-size: 14px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .app-confirm-dialog, .app-confirm-button, .app-confirm-close { transition: none !important; }
+  }
+</style>
+<style>.app-confirm-dialog[open] { display:flex;flex-direction:column; } .app-confirm-header { flex:0 0 auto; } .app-confirm-body { min-height:0;overflow:auto;overscroll-behavior:contain; }</style>
+<style>/* Browser Kitty shared UI conventions 1.0.0. Explicit opt-in only. */
+[data-bk-button] { min-height: 44px; border: 1px solid #BFC1BA; background: #FFFFFF; color: #202823; cursor: pointer; opacity: 1; }
+[data-bk-button][data-bk-variant="primary"] { background: #16624F; border-color: #16624F; color: #FFFFFF; }
+[data-bk-button][data-bk-variant="primary"]:hover:not(:disabled) { background: #0E503F; border-color: #0E503F; }
+[data-bk-button][data-bk-variant="secondary"] { background: #FFFFFF; color: #202823; border-color: #BFC1BA; }
+[data-bk-button][data-bk-variant="secondary"]:hover:not(:disabled) { background: #FFFFFF; color: #202823; border-color: #BFC1BA; }
+[data-bk-button][data-bk-variant="danger"] { background: #B3261E; border-color: #B3261E; color: #FFFFFF; }
+[data-bk-button][data-bk-variant="danger"]:hover:not(:disabled) { background: #8C1D18; border-color: #8C1D18; color: #FFFFFF; }
+[data-bk-button]:focus-visible, [data-bk-header-action]:focus-visible { outline: 2px solid #16624F; outline-offset: 2px; }
+[data-bk-button]:disabled, [data-bk-button]:disabled:hover, [data-bk-button]:disabled:active { background: #E7EBE7; color: #59635C; border-color: #E7EBE7; cursor: not-allowed; opacity: 1; transform: none; }
+[data-bk-button][data-bk-state="busy"], [data-bk-button][data-bk-state="stopping"], [data-bk-button][data-bk-state="busy"]:hover, [data-bk-button][data-bk-state="stopping"]:hover { background: #E1F0EA; color: #16624F; border-color: #E1F0EA; cursor: wait; opacity: 1; }
+[data-bk-button][data-bk-state="busy"]::before, [data-bk-button][data-bk-state="stopping"]::before { content: ''; display: inline-block; width: .85em; height: .85em; margin-inline-end: .45em; border: 2px solid currentColor; border-right-color: transparent; border-radius: 50%; vertical-align: -.1em; animation: bk-ui-spin .85s linear infinite; }
+[data-bk-header-action] { min-width: 44px; min-height: 44px; }
+[data-bk-save-status] { display: block; font-size: .85rem; color: #59635C; overflow-wrap: anywhere; }
+[data-bk-save-status="error"] { color: #B3261E; }
+@keyframes bk-ui-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { [data-bk-button] { transition: none; } [data-bk-button]::before { animation: none !important; } }
+</style>
+<meta name="browser-kitty-ui-version" content="1.0.0">
+<meta name="browser-kitty-ui-rules-version" content="1.0.0">
 </head>
 <body>
   <header class="app-header">
@@ -597,8 +733,8 @@
         </div>
       </div>
       <div class="header-actions">
-        <button class="language-button" id="languageButton" type="button" aria-label="英語に切り替え" title="英語に切り替え">EN</button>
-        <button class="icon-button header-icon-button" id="helpButton" type="button" data-i18n-title="helpTitle" data-i18n-aria-label="helpTitle" title="使い方と注意事項" aria-label="使い方と注意事項">
+        <button class="language-button" data-bk-header-action id="languageButton" type="button" aria-label="英語に切り替え" title="英語に切り替え">EN</button>
+        <button class="icon-button header-icon-button" data-bk-header-action id="helpButton" type="button" data-i18n-title="helpTitle" data-i18n-aria-label="helpTitle" title="使い方と注意事項" aria-label="使い方と注意事項">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.8 9a2.35 2.35 0 1 1 3.72 1.9c-.92.67-1.52 1.12-1.52 2.1"/><path d="M12 17h.01"/></svg>
         </button>
       </div>
@@ -653,6 +789,15 @@
         </label>
         <span class="status-chip" data-i18n="milestoneStatus"></span>
       </div>
+        <div class="storage-status" id="storageStatus">
+          <span class="storage-status-dot" aria-hidden="true"></span>
+          <div class="storage-status-copy">
+            <strong id="storageStatusTitle" role="status" aria-live="polite"></strong>
+            <p id="storageStatusBody"></p>
+            <button class="button" data-bk-button data-bk-variant="secondary" data-bk-button data-bk-variant="secondary" id="retrySaveButton" type="button" data-i18n="retrySave" hidden>Retry save</button>
+          </div>
+        </div>
+
       <div class="summary-grid" aria-live="polite">
         <div class="summary-card outstanding" id="outstandingSummaryCard"><strong class="summary-value" id="outstandingCount">0</strong><span class="summary-label" data-i18n="outstandingCountLabel">未返却</span></div>
         <div class="summary-card"><strong class="summary-value" id="outstandingBorrowerCount">0</strong><span class="summary-label" data-i18n="outstandingBorrowersLabel">貸出先</span></div>
@@ -698,7 +843,7 @@
         </div>
         <div class="checkout-footer">
           <div class="checkout-summary" id="checkoutSummary" aria-live="polite" data-i18n="checkoutSummaryEmpty">貸出先と備品を選択してください。</div>
-          <button class="button primary" id="checkoutButton" type="button" disabled data-i18n="checkoutButtonEmpty">貸出先と備品を選択</button>
+          <button class="button primary" data-bk-button data-bk-variant="primary" id="checkoutButton" type="button" disabled data-i18n="checkoutButtonEmpty">貸出先と備品を選択</button>
         </div>
       </div>
     </section>
@@ -772,7 +917,7 @@
                 <label class="field" for="itemCode"><span class="field-label" data-i18n="codeLabel">管理コード</span><input class="input" id="itemCode" name="itemCode" type="text" maxlength="80" autocomplete="off" data-i18n-placeholder="codePlaceholder" placeholder="RADIO-01"></label>
               </div>
               <label class="field" for="itemNote"><span class="field-label" data-i18n="noteLabel">メモ</span><textarea class="textarea" id="itemNote" name="itemNote" maxlength="500" data-i18n-placeholder="itemNotePlaceholder" placeholder="受け渡し時に確認したいことなど"></textarea></label>
-              <div class="button-row"><button class="button primary" type="submit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span data-i18n="addItem">備品を追加</span></button></div>
+              <div class="button-row"><button class="button primary" data-bk-button data-bk-variant="primary" type="submit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span data-i18n="addItem">備品を追加</span></button></div>
             </form>
 
             <details class="batch-create" id="batchCreateDetails">
@@ -809,7 +954,7 @@
                 </label>
                 <div class="batch-preview" id="batchPreview" aria-live="polite"></div>
                 <div class="button-row">
-                  <button class="button primary" id="batchAddButton" type="submit" disabled data-i18n="batchAdd">まとめて追加</button>
+                  <button class="button primary" data-bk-button data-bk-variant="primary" id="batchAddButton" type="submit" disabled data-i18n="batchAdd">まとめて追加</button>
                 </div>
               </form>
             </details>
@@ -840,7 +985,7 @@
           <form class="form-grid" id="borrowerForm">
             <label class="field" for="borrowerName"><span class="field-label" data-i18n="borrowerNameLabel">名前 / 班名 *</span><input class="input" id="borrowerName" name="borrowerName" type="text" maxlength="120" required autocomplete="off" data-i18n-placeholder="borrowerNamePlaceholder" placeholder="警備1班"></label>
             <label class="field" for="borrowerNote"><span class="field-label" data-i18n="noteLabel">メモ</span><textarea class="textarea" id="borrowerNote" name="borrowerNote" maxlength="500" data-i18n-placeholder="borrowerNotePlaceholder" placeholder="担当者名など、必要最小限の補足"></textarea></label>
-            <div class="button-row"><button class="button primary" type="submit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span data-i18n="addBorrower">貸出先を追加</span></button></div>
+            <div class="button-row"><button class="button primary" data-bk-button data-bk-variant="primary" type="submit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span data-i18n="addBorrower">貸出先を追加</span></button></div>
           </form>
           <div class="list-divider"></div><div class="list" id="borrowerList"></div>
         </div>
@@ -854,25 +999,20 @@
         </div>
       </div>
       <div class="data-body">
-        <div class="storage-status" id="storageStatus" role="status" aria-live="polite">
-          <span class="storage-status-dot" aria-hidden="true"></span>
-          <div class="storage-status-copy">
-            <strong id="storageStatusTitle"></strong>
-            <p id="storageStatusBody"></p>
-          </div>
-        </div>
-
+        <p id="backupScope"></p>
         <div class="data-group">
           <div class="data-group-head">
             <h4 data-i18n="backupGroupTitle">バックアップ / 復元</h4>
             <p data-i18n="backupGroupLead">Loan Board全体を復元する用途にはJSONバックアップを使用します。</p>
           </div>
+          <label class="field" for="backupFilenameInput"><span class="field-label" data-i18n="backupFilenameLabel">Backup filename (.json)</span><input class="input" id="backupFilenameInput" type="text" maxlength="120" autocomplete="off" data-i18n-placeholder="filenameDefault" placeholder="Automatic name if blank"></label>
           <div class="data-actions">
-            <button class="button primary" id="downloadBackupButton" type="button" data-i18n="downloadBackup">JSONバックアップを保存</button>
-            <button class="button" id="restoreBackupButton" type="button" data-i18n="restoreBackup">JSONバックアップから復元</button>
+            <button class="button primary" data-bk-button data-bk-variant="primary" id="downloadBackupButton" type="button" data-i18n="downloadBackup">JSONバックアップを保存</button>
+            <button class="button" data-bk-button data-bk-variant="secondary" id="restoreBackupButton" type="button" data-i18n="restoreBackup">JSONバックアップから復元</button>
             <input class="sr-only" id="restoreBackupInput" type="file" accept=".json,application/json">
-            <button class="button danger" id="resetDataButton" type="button" data-i18n="resetData">新しいボードにリセット</button>
+            <button class="button danger" data-bk-button data-bk-variant="danger" id="resetDataButton" type="button" data-i18n="resetData">新しいボードにリセット</button>
           </div>
+          <p id="dataBusyReason" role="status" hidden></p>
           <div class="data-file-name" id="restoreFileName" hidden></div>
         </div>
 
@@ -881,10 +1021,12 @@
             <h4 data-i18n="csvGroupTitle">CSV出力</h4>
             <p data-i18n="csvGroupLead">Excelなどで確認・集計するための出力です。CSVからLoan Board全体を復元することはできません。</p>
           </div>
+          <p id="csvScope"></p>
+          <label class="field" for="csvFilenameInput"><span class="field-label" data-i18n="csvFilenameLabel">CSV filename (.csv)</span><input class="input" id="csvFilenameInput" type="text" maxlength="120" autocomplete="off" data-i18n-placeholder="filenameDefault" placeholder="Automatic name if blank"></label>
           <div class="csv-actions">
-            <button class="button" id="exportOutstandingCsvButton" type="button" data-i18n="exportOutstandingCsv">未返却一覧CSV</button>
-            <button class="button" id="exportHistoryCsvButton" type="button" data-i18n="exportHistoryCsv">操作履歴CSV</button>
-            <button class="button" id="exportItemsCsvButton" type="button" data-i18n="exportItemsCsv">備品一覧CSV</button>
+            <button class="button" data-bk-button data-bk-variant="secondary" id="exportOutstandingCsvButton" type="button" data-i18n="exportOutstandingCsv">未返却一覧CSV</button>
+            <button class="button" data-bk-button data-bk-variant="secondary" id="exportHistoryCsvButton" type="button" data-i18n="exportHistoryCsv">操作履歴CSV</button>
+            <button class="button" data-bk-button data-bk-variant="secondary" id="exportItemsCsvButton" type="button" data-i18n="exportItemsCsv">備品一覧CSV</button>
           </div>
         </div>
 
@@ -904,6 +1046,23 @@
     <button id="appToastAction" type="button" hidden></button>
   </div>
 
+<dialog class="app-confirm-dialog" id="appConfirmDialog" aria-labelledby="appConfirmTitle" aria-describedby="appConfirmMessage">
+  <div class="app-confirm-header">
+    <h2 class="app-confirm-title" id="appConfirmTitle">Confirm</h2>
+    <button class="app-confirm-close" id="appConfirmClose" type="button" aria-label="Close">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+        <path d="M6 6l12 12M18 6 6 18"/>
+      </svg>
+    </button>
+  </div>
+  <div class="app-confirm-body">
+    <p class="app-confirm-message" id="appConfirmMessage"></p>
+    <div class="app-confirm-actions">
+      <button class="app-confirm-button" id="appConfirmCancel" autofocus data-bk-button data-bk-variant="secondary" type="button">Cancel</button>
+      <button class="app-confirm-button primary" id="appConfirmOk" data-bk-button data-bk-variant="danger" type="button">OK</button>
+    </div>
+  </div>
+</dialog>
   <dialog id="itemEditDialog" aria-labelledby="itemEditTitle">
     <div class="dialog-shell">
       <div class="dialog-header">
@@ -935,8 +1094,8 @@
           </label>
         </div>
         <div class="dialog-actions">
-          <button class="button" type="button" data-dialog-close="itemEditDialog" data-i18n="cancel">キャンセル</button>
-          <button class="button primary" type="submit" data-i18n="saveChanges">変更を保存</button>
+          <button class="button" data-bk-button data-bk-variant="secondary" type="button" data-dialog-close="itemEditDialog" data-i18n="cancel">キャンセル</button>
+          <button class="button primary" data-bk-button data-bk-variant="primary" type="submit" data-i18n="saveChanges">変更を保存</button>
         </div>
       </form>
     </div>
@@ -963,8 +1122,8 @@
           </label>
         </div>
         <div class="dialog-actions">
-          <button class="button" type="button" data-dialog-close="borrowerEditDialog" data-i18n="cancel">キャンセル</button>
-          <button class="button primary" type="submit" data-i18n="saveChanges">変更を保存</button>
+          <button class="button" data-bk-button data-bk-variant="secondary" type="button" data-dialog-close="borrowerEditDialog" data-i18n="cancel">キャンセル</button>
+          <button class="button primary" data-bk-button data-bk-variant="primary" type="submit" data-i18n="saveChanges">変更を保存</button>
         </div>
       </form>
     </div>
@@ -993,6 +1152,7 @@
         <p data-i18n="helpPrivacyBody">入力内容、貸出状態、返却状態、操作履歴はブラウザー内で処理され、このアプリから外部サーバーへ送信されません。</p>
         <h3 data-i18n="helpNotesTitle">現在の制限</h3>
         <ul>
+          <li data-i18n="helpPersistence">保存状態はボード名の下で確認できます。保存失敗時は再試行かJSONバックアップを利用し、出力範囲とファイル名を確認してください。</li>
           <li data-i18n="helpNoteStorage">自動保存はブラウザー内の保存領域を使います。サイトデータ削除やブラウザー設定などで消える場合があるため、重要なデータはJSONバックアップも保存してください。</li>
           <li data-i18n="helpNoteUndo">Undoは履歴を削除せず、取り消しイベントを追加して状態を戻します。</li>
           <li data-i18n="helpNoteData">電話番号や住所など、貸出管理に不要な個人情報は入力しないことを推奨します。</li>
@@ -1011,12 +1171,106 @@
     </div>
   </dialog>
 
+  <script>/* Browser Kitty shared UI conventions 1.0.0. Build-time embed only; no network. */
+(function (root) {
+  'use strict';
+  const version = '1.0.0';
+  const languageKey = 'browser-kitty:ui-language:v1';
+  const validLanguage = value => value === 'ja' || value === 'en';
+  function safely(read, fallback) { try { return read(); } catch (_) { return fallback; } }
+  function dependency(options, key, readDefault, fallback) {
+    return safely(() => Object.prototype.hasOwnProperty.call(options, key) ? options[key] : readDefault(), fallback);
+  }
+  function storageFrom(options) { return dependency(options, 'storage', () => root.localStorage, null); }
+  function urlFrom(options) { return dependency(options, 'url', () => root.location.href, ''); }
+  function parseUrl(value) { return safely(() => new URL(String(value), 'https://browser-kitty.invalid/'), null); }
+  function readLanguage(storage, key) { return safely(() => storage && storage.getItem(key), null); }
+  function resolveLanguage(options = {}) {
+    const url = parseUrl(urlFrom(options));
+    const query = url && url.searchParams.get('lang');
+    if (validLanguage(query)) return query;
+    const storage = storageFrom(options);
+    const shared = readLanguage(storage, languageKey);
+    if (validLanguage(shared)) return shared;
+    for (const key of options.legacyKeys || []) {
+      const legacy = readLanguage(storage, key);
+      if (validLanguage(legacy)) return legacy;
+    }
+    const languages = dependency(options, 'languages', () => root.navigator.languages || [root.navigator.language], []);
+    for (const value of languages || []) {
+      const language = String(value).toLowerCase().split('-')[0];
+      if (validLanguage(language)) return language;
+    }
+    return 'en';
+  }
+  function chooseLanguage(language, options = {}) {
+    if (!validLanguage(language)) throw new TypeError('Unsupported language: ' + language);
+    const storage = storageFrom(options);
+    const persisted = safely(() => { if (!storage) return false; storage.setItem(languageKey, language); return true; }, false);
+    const url = parseUrl(urlFrom(options));
+    const history = dependency(options, 'history', () => root.history, null);
+    const urlUpdated = safely(() => {
+      if (!url || !url.searchParams.has('lang') || !history) return false;
+      url.searchParams.set('lang', language);
+      history.replaceState(history.state, '', url.href);
+      return true;
+    }, false);
+    return { language, persisted, urlUpdated };
+  }
+  const copy = {
+    en: {
+      sessionOnly: 'Your work will be lost when this tab closes',
+      manualSave: 'Your work is not saved automatically. Save a project file to continue editing later.',
+      dirty: 'Unsaved changes', saving: 'Saving…', saved: 'Saved in this browser',
+      saveFailed: 'Could not save in this browser', downloadStarted: 'Download started',
+      previousResult: 'Previous result', stopping: 'Stopping…', stopProcessing: 'Stop processing', cancel: 'Cancel',
+      languageSessionOnly: 'Language applies to this screen only'
+    },
+    ja: {
+      sessionOnly: '作業内容はこのタブを閉じると消えます',
+      manualSave: '自動保存されません。続きの編集には作業ファイルを保存してください',
+      dirty: '未保存の変更があります', saving: '保存しています…', saved: 'このブラウザーに保存済み',
+      saveFailed: 'このブラウザーに保存できませんでした', downloadStarted: '保存を開始しました',
+      previousResult: '前回の結果', stopping: '中止しています…', stopProcessing: '処理を中止', cancel: 'キャンセル',
+      languageSessionOnly: '言語はこの画面だけに適用されます'
+    }
+  };
+  function text(key, language = 'en', values = {}) {
+    const locale = validLanguage(language) ? language : 'en';
+    let value = copy[locale][key] || copy.en[key] || String(key);
+    if (key === 'saved' && values.time) value += (locale === 'ja' ? '・' : ' · ') + String(values.time);
+    return value.replace(/\{([a-zA-Z0-9_]+)\}/g, (match, name) => Object.prototype.hasOwnProperty.call(values, name) ? String(values[name]) : match);
+  }
+  function setButtonState(button, state) {
+    if (!['ready', 'unavailable', 'busy', 'stopping'].includes(state)) throw new TypeError('Unsupported button state: ' + state);
+    button.disabled = state !== 'ready';
+    button.setAttribute('data-bk-state', state);
+    if (state === 'busy' || state === 'stopping') button.setAttribute('aria-busy', 'true');
+    else button.removeAttribute('aria-busy');
+  }
+  function setSaveStatus(element, options = {}) {
+    const mode = options.mode || 'session';
+    const state = options.state || 'dirty';
+    if (!['session', 'manual', 'autosave'].includes(mode)) throw new TypeError('Unsupported save mode: ' + mode);
+    if (!['dirty', 'saving', 'saved', 'error'].includes(state)) throw new TypeError('Unsupported save state: ' + state);
+    const key = mode === 'session' ? 'sessionOnly' : mode === 'manual' ? 'manualSave' : state === 'error' ? 'saveFailed' : state;
+    element.textContent = text(key, options.language, { time: options.time });
+    element.setAttribute('role', 'status');
+    element.setAttribute('aria-live', 'polite');
+    element.setAttribute('data-bk-save-status', state);
+    element.setAttribute('data-bk-save-mode', mode);
+  }
+  const api = Object.freeze({ version, languageKey, resolveLanguage, chooseLanguage, text, setButtonState, setSaveStatus });
+  root.BrowserKittyUI = api;
+  if (typeof module === 'object' && module.exports) module.exports = api;
+})(typeof globalThis === 'object' ? globalThis : window);
+</script>
   <script>
     (() => {
       'use strict';
 
       const APP_CONFIG = {"$schema":"./schemas/app-config.schema.json","name":"Loan Board","nameJa":"貸出・返却ボード","slug":"loan-board","version":"1.0.4","description":"Manage equipment checkout, returns, outstanding items, history, autosave, backups, and CSV exports locally on one device.","descriptionJa":"備品の貸出・返却、未返却、履歴、自動保存、バックアップ、CSV出力を1台の端末内で管理する貸出・返却ボードです。","defaultLanguage":"auto","repository":{"owner":"ttomohisa","name":"htmlapps-loan-board"},"build":{"output":"dist/index.html","blockRuntimeNetwork":true,"selfExtract":{"enabled":true,"output":"dist/index.self-extract.html"},"sizeBudget":{"readableWarningMb":25,"selfExtractWarningMb":12}}};
-      const BUILD_MANIFEST = {"schemaVersion":2,"builder":"single-html-app-template/1.3","generatedAtUtc":"2026-10-27T03:21:09.8209121Z","app":{"name":"Loan Board","slug":"loan-board","version":"1.0.4"},"dependencies":[]};
+      const BUILD_MANIFEST = {"schemaVersion":2,"builder":"single-html-app-template/1.3","generatedAtUtc":"2026-10-27T05:45:23.8090910Z","app":{"name":"Loan Board","slug":"loan-board","version":"1.0.4"},"dependencies":[]};
       const assetBundle = {"schemaVersion":2,"dependencies":{}};
       const blobUrls = new Set();
       const assetByteCache = new Map();
@@ -1142,11 +1396,13 @@
           emptyItemsTitle:'まだ備品がありません',emptyItemsBody:'上のフォームから備品を追加すると、ここに一覧が表示されます。',emptyBorrowersTitle:'まだ貸出先がありません',emptyBorrowersBody:'名前や班名を追加すると、ここから確認・編集できます。',
           available:'利用可能',checkedOut:'貸出中',lentToPrefix:'貸出先',checkedOutAtPrefix:'貸出',categoryPrefix:'カテゴリ',codePrefix:'コード',borrowedItemsPrefix:'貸出中',
           edit:'編集',editItemTitle:'備品を編集',editBorrowerTitle:'貸出先を編集',cancel:'キャンセル',saveChanges:'変更を保存',itemAdded:'備品を追加しました',borrowerAdded:'貸出先を追加しました',itemUpdated:'備品を更新しました',borrowerUpdated:'貸出先を更新しました',close:'閉じる',
+          backupFilenameLabel:'バックアップのファイル名（.json）',csvFilenameLabel:'CSVのファイル名（.csv）',filenameDefault:'空欄ならボード名と日時から自動命名',helpPersistence:'保存状態はボード名の下に表示します。保存失敗時は再試行かJSONバックアップで作業を保持できます。削除・復元の確認は取消できます。出力範囲を確認し、必要ならファイル名を編集してください。通常の保存通知はダウンロード開始を意味します。',
+          retrySave:'保存を再試行',readingBackup:'バックアップを読み込んでいます…',dataBusyReason:'バックアップの読込みまたは確認が終わるまでデータの置き換えは使えません。',backupScope:'バックアップ範囲：ボード全体（備品 / 貸出先 / 履歴）',csvScope:'CSV範囲：検索に関係なく全件（未返却備品 / 履歴の備品行 / 全備品・アーカイブ含む）',confirmScope:'備品 / 貸出先 / 履歴：',preferencesRemain:'この操作は元に戻せません。共通言語設定と他ツールのデータは残ります。元ファイルは削除しません。',
           helpLanguage:'表示言語を変更しても、貸出状態と一部返却の検索・選択は保持されます。',
           helpTitle:'使い方と注意事項',helpBasicsTitle:'基本操作',helpStep1:'画面上部の操作ナビから、未返却ボード・貸出・返却・履歴・登録管理・データ管理へ移動できます。',helpStep2:'貸出・返却・Undo・自動保存・JSONバックアップ・CSV出力を、1台の端末で利用できます。',helpStep3:'CSVは確認・集計用です。Loan Board全体を復元する場合はJSONバックアップを使用してください。',
           helpReturnSearch:'一部返却では備品名・カテゴリ・コードで検索できます。検索で隠れた選択も返却件数に含まれます。貸出先の変更やキャンセルで選択と検索を解除します。',helpArchivedLoans:'復元データのアーカイブ済み貸出先も、未返却があればボードと返却欄に表示されます。新たな貸出の候補には表示されません。',
           helpPrivacyTitle:'プライバシー',helpPrivacyBody: "入力内容、貸出状態、返却状態、操作履歴はブラウザー内で処理され、このアプリから外部サーバーへ送信されません。",helpNotesTitle:'現在の制限',helpNoteStorage:'自動保存はブラウザー内の保存領域を使います。サイトデータ削除やブラウザー設定などで消える場合があるため、重要なデータはJSONバックアップも保存してください。',helpNoteUndo:'Undoは履歴を削除せず、取り消しイベントを追加して状態を戻します。',helpNoteData:'電話番号や住所など、貸出管理に不要な個人情報は入力しないことを推奨します。',helpOffline:'配布用HTMLは単体で開けます。必要なコードはHTML内に含まれます。',
-          dataTitle:'データ管理',dataLead:'自動保存・JSONバックアップと、確認・集計用のCSV出力を管理します。',backupGroupTitle:'バックアップ / 復元',backupGroupLead:'Loan Board全体を復元する用途にはJSONバックアップを使用します。',csvGroupTitle:'CSV出力',csvGroupLead:'Excelなどで確認・集計するための出力です。CSVからLoan Board全体を復元することはできません。',exportOutstandingCsv:'未返却一覧CSV',exportHistoryCsv:'操作履歴CSV',exportItemsCsv:'備品一覧CSV',csvExported:'CSVを保存しました',downloadBackup:'JSONバックアップを保存',restoreBackup:'JSONバックアップから復元',resetData:'新しいボードにリセット',storageNote:'自動保存データはこのブラウザー内に保存されます。ブラウザーのサイトデータ削除、プライベートブラウズ、ファイルの開き方や保存場所の変更などで利用できなくなる場合があります。重要な運用ではJSONバックアップを併用してください。',storageReadyTitle:'自動保存を利用できます',storageReadyBody:'変更するとこのブラウザーへ自動保存されます。',storageSavingTitle:'保存中…',storageSavingBody:'このブラウザーへ変更内容を保存しています。',storageSavedTitle:'このブラウザーに保存済み',storageSavedBody:'最終保存',storageUnavailableTitle:'自動保存を利用できません',storageUnavailableBody:'このブラウザーの保存領域へ書き込めません。JSONバックアップをご利用ください。',storageLoadErrorTitle:'保存データを読み込めませんでした',storageLoadErrorBody:'既存の自動保存データは上書きしていません。JSONバックアップから復元するか、新しいボードにリセットしてください。',restoredOnLoad:'前回の自動保存データを復元しました',backupSaved:'JSONバックアップを保存しました',backupInvalid:'このファイルはLoan Boardの有効なJSONバックアップではありません。',backupTooLarge:'バックアップファイルが大きすぎます。',restoreConfirm:'現在のボード全体をバックアップ内容で置き換えます。復元しますか？',restoreComplete:'JSONバックアップから復元しました',resetConfirm:'備品・貸出先・貸出状態・履歴をすべて削除して、新しいボードにしますか？',resetComplete:'新しいボードにリセットしました',selectedBackupFile:'選択したファイル',buildInfo:'ビルド情報',appVersion:'アプリバージョン',builtAt:'生成日時',dependencies:'内包依存数',footer:'端末内で動作する単一HTMLアプリ'
+          dataTitle:'データ管理',dataLead:'自動保存・JSONバックアップと、確認・集計用のCSV出力を管理します。',backupGroupTitle:'バックアップ / 復元',backupGroupLead:'Loan Board全体を復元する用途にはJSONバックアップを使用します。',csvGroupTitle:'CSV出力',csvGroupLead:'Excelなどで確認・集計するための出力です。CSVからLoan Board全体を復元することはできません。',exportOutstandingCsv:'未返却一覧CSV',exportHistoryCsv:'操作履歴CSV',exportItemsCsv:'備品一覧CSV',csvExported:'CSVを保存しました',downloadBackup:'JSONバックアップを保存',restoreBackup:'JSONバックアップから復元',resetData:'保存済みボードを削除',storageNote:'自動保存データはこのブラウザー内に保存されます。ブラウザーのサイトデータ削除、プライベートブラウズ、ファイルの開き方や保存場所の変更などで利用できなくなる場合があります。重要な運用ではJSONバックアップを併用してください。',storageReadyTitle:'自動保存を利用できます',storageReadyBody:'変更するとこのブラウザーへ自動保存されます。',storageSavingTitle:'保存中…',storageSavingBody:'このブラウザーへ変更内容を保存しています。',storageSavedTitle:'このブラウザーに保存済み',storageSavedBody:'最終保存',storageUnavailableTitle:'自動保存を利用できません',storageUnavailableBody:'現在の作業はこの画面に保持しています。閉じる前に再試行するかJSONバックアップを保存してください。',storageLoadErrorTitle:'保存データを読み込めませんでした',storageLoadErrorBody:'既存の自動保存データは上書きしていません。JSONバックアップから復元するか、新しいボードにリセットしてください。',restoredOnLoad:'前回の自動保存データを復元しました',backupSaved:'JSONバックアップを保存しました',backupInvalid:'このファイルはLoan Boardの有効なJSONバックアップではありません。',backupTooLarge:'バックアップファイルが大きすぎます。',restoreConfirm:'現在のボード全体をバックアップ内容で置き換えます。復元しますか？',restoreComplete:'JSONバックアップから復元しました',resetConfirm:'備品・貸出先・貸出状態・履歴をすべて削除して、新しいボードにしますか？',resetComplete:'新しいボードにリセットしました',selectedBackupFile:'選択したファイル',buildInfo:'ビルド情報',appVersion:'アプリバージョン',builtAt:'生成日時',dependencies:'内包依存数',footer:'端末内で動作する単一HTMLアプリ'
         },
         en: {
           brandMeta:'Fully local · Single HTML',introTitle:'Manage checkout, return, and outstanding equipment on one device',lead:'See who has what, record returns, and work toward zero outstanding items. Data is processed in this browser.',localBadge:'Fully local processing',
@@ -1174,11 +1430,13 @@
           emptyItemsTitle:'No equipment yet',emptyItemsBody:'Add equipment with the form above and it will appear here.',emptyBorrowersTitle:'No borrowers yet',emptyBorrowersBody:'Add a person or team and it will appear here for review and editing.',
           available:'Available',checkedOut:'Checked out',lentToPrefix:'Borrower',checkedOutAtPrefix:'Checked out',categoryPrefix:'Category',codePrefix:'Code',borrowedItemsPrefix:'Checked out',
           edit:'Edit',editItemTitle:'Edit equipment',editBorrowerTitle:'Edit borrower',cancel:'Cancel',saveChanges:'Save changes',itemAdded:'Equipment added',borrowerAdded:'Borrower added',itemUpdated:'Equipment updated',borrowerUpdated:'Borrower updated',close:'Close',
+          backupFilenameLabel:'Backup filename (.json)',csvFilenameLabel:'CSV filename (.csv)',filenameDefault:'Leave blank for board name and timestamp',helpPersistence:'Browser-save status appears below the board name. Retry or save a JSON backup after a failure. Delete and restore confirmations can be cancelled. Review the output scope and edit filenames if needed. Ordinary save notices mean the download has started.',
+          retrySave:'Retry save',readingBackup:'Reading backup…',dataBusyReason:'Wait until backup reading or confirmation finishes before replacing board data.',backupScope:'Backup scope: the entire board (equipment / borrowers / events)',csvScope:'CSV scope ignores search filters: all outstanding equipment / event item rows / all equipment including archived',confirmScope:'Equipment / borrowers / events:',preferencesRemain:'This cannot be undone. Shared language and other tools remain. Original files are not deleted.',
           helpLanguage:'Changing the interface language keeps loans and partial-return search and selections unchanged.',
           helpTitle:'How to use & notes',helpBasicsTitle:'Basics',helpStep1:'Use the operation navigation near the top to jump to the board, checkout, return, history, registration / management, or data management.',helpStep2:'Checkout, return, Undo, autosave, JSON backup, and CSV export are available on one device.',helpStep3:'CSV is for review and analysis. Use JSON backup when you need to restore the complete Loan Board state.',
           helpReturnSearch:'In partial return, search equipment names, categories, or codes. Selected items hidden by search are still included in the return total. Changing borrower or cancelling clears the search and selection.',helpArchivedLoans:'Archived borrowers in restored data remain on the board and return list while they have outstanding loans. They are not offered for new checkouts.',
           helpPrivacyTitle:'Privacy',helpPrivacyBody: "Entries, loan state, return state, and operation history are processed in the browser and are not sent to an external server.",helpNotesTitle:'Current limitations',helpNoteStorage:'Autosave uses browser storage, which can be cleared by browser settings or become unavailable depending on how the file is opened. Keep JSON backups for important data.',helpNoteUndo:'Undo keeps the original history and adds an undo event while restoring state.',helpNoteData:'Avoid entering phone numbers, addresses, or other personal information that is unnecessary for lending.',helpOffline:'The distributable HTML opens by itself and includes the required code.',
-          dataTitle:'Data management',dataLead:'Manage autosave, JSON backup / restore, and CSV exports for review and analysis.',backupGroupTitle:'Backup / restore',backupGroupLead:'Use JSON backup when you need to restore the complete Loan Board state.',csvGroupTitle:'CSV export',csvGroupLead:'These files are for review and analysis in spreadsheet apps. CSV cannot restore the complete Loan Board state.',exportOutstandingCsv:'Outstanding CSV',exportHistoryCsv:'Operation history CSV',exportItemsCsv:'Equipment CSV',csvExported:'CSV saved',downloadBackup:'Save JSON backup',restoreBackup:'Restore JSON backup',resetData:'Reset to a new board',storageNote:'Autosave is stored in this browser. It can become unavailable after clearing site data, in private browsing, or depending on how or where a local file is opened. Keep JSON backups for important operations.',storageReadyTitle:'Autosave is available',storageReadyBody:'Changes will be saved automatically in this browser.',storageSavingTitle:'Saving…',storageSavingBody:'Saving changes in this browser.',storageSavedTitle:'Saved in this browser',storageSavedBody:'Last saved',storageUnavailableTitle:'Autosave is unavailable',storageUnavailableBody:'This browser cannot write to its local storage. Use JSON backups instead.',storageLoadErrorTitle:'Saved data could not be loaded',storageLoadErrorBody:'The existing autosave data has not been overwritten. Restore a JSON backup or reset to a new board.',restoredOnLoad:'Restored the previous autosave data',backupSaved:'JSON backup saved',backupInvalid:'This file is not a valid Loan Board JSON backup.',backupTooLarge:'The backup file is too large.',restoreConfirm:'Replace the entire current board with this backup?',restoreComplete:'Restored from JSON backup',resetConfirm:'Delete all equipment, borrowers, loan state, and history and start a new board?',resetComplete:'Reset to a new board',selectedBackupFile:'Selected file',buildInfo:'Build information',appVersion:'App version',builtAt:'Built at',dependencies:'Embedded dependencies',footer:'Single HTML app that runs on this device'
+          dataTitle:'Data management',dataLead:'Manage autosave, JSON backup / restore, and CSV exports for review and analysis.',backupGroupTitle:'Backup / restore',backupGroupLead:'Use JSON backup when you need to restore the complete Loan Board state.',csvGroupTitle:'CSV export',csvGroupLead:'These files are for review and analysis in spreadsheet apps. CSV cannot restore the complete Loan Board state.',exportOutstandingCsv:'Outstanding CSV',exportHistoryCsv:'Operation history CSV',exportItemsCsv:'Equipment CSV',csvExported:'CSV saved',downloadBackup:'Save JSON backup',restoreBackup:'Restore JSON backup',resetData:'Delete saved board',storageNote:'Autosave is stored in this browser. It can become unavailable after clearing site data, in private browsing, or depending on how or where a local file is opened. Keep JSON backups for important operations.',storageReadyTitle:'Autosave is available',storageReadyBody:'Changes will be saved automatically in this browser.',storageSavingTitle:'Saving…',storageSavingBody:'Saving changes in this browser.',storageSavedTitle:'Saved in this browser',storageSavedBody:'Last saved',storageUnavailableTitle:'Autosave is unavailable',storageUnavailableBody:'Your current work remains on this screen. Retry saving or save a JSON backup before closing the tab.',storageLoadErrorTitle:'Saved data could not be loaded',storageLoadErrorBody:'The existing autosave data has not been overwritten. Restore a JSON backup or reset to a new board.',restoredOnLoad:'Restored the previous autosave data',backupSaved:'JSON backup saved',backupInvalid:'This file is not a valid Loan Board JSON backup.',backupTooLarge:'The backup file is too large.',restoreConfirm:'Replace the entire current board with this backup?',restoreComplete:'Restored from JSON backup',resetConfirm:'Delete all equipment, borrowers, loan state, and history and start a new board?',resetComplete:'Reset to a new board',selectedBackupFile:'Selected file',buildInfo:'Build information',appVersion:'App version',builtAt:'Built at',dependencies:'Embedded dependencies',footer:'Single HTML app that runs on this device'
         }
       };
 
@@ -1189,7 +1447,8 @@
       const BACKUP_FORMAT='browser-kitty-loan-board-backup';
       const STORAGE_SCHEMA_VERSION=1;
       const MAX_BACKUP_BYTES=10*1024*1024;
-      let language=readLanguage();
+      let language=BrowserKittyUI.resolveLanguage({legacyKeys:[languageKey]});
+      let destructivePending=false;
       const storageControl={mode:'ready',lastSavedAt:null,blocked:false,loaded:false};
       let persistTimer=0;
       let state=loadInitialState();
@@ -1197,8 +1456,6 @@
       const returnState={selectedBorrowerId:null,partialMode:false,selectedItemIds:new Set(),query:''};
 
       function createId(prefix){if(globalThis.crypto&&typeof globalThis.crypto.randomUUID==='function')return prefix+'-'+globalThis.crypto.randomUUID();return prefix+'-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,10);}
-      function readLanguage(){try{const saved=localStorage.getItem(languageKey);if(saved==='ja'||saved==='en')return saved;}catch{}return(navigator.language||'').toLowerCase().startsWith('ja')?'ja':'en';}
-      function saveLanguage(){try{localStorage.setItem(languageKey,language);}catch{}}
       function t(key){return translations[language]?.[key]??translations.en[key]??key;}
 
       function createInitialState(){
@@ -1239,31 +1496,38 @@
       function backupEnvelope(){const exportedAt=new Date().toISOString();return{format:BACKUP_FORMAT,schemaVersion:STORAGE_SCHEMA_VERSION,appSlug:APP_CONFIG.slug,appVersion:APP_CONFIG.version,exportedAt,data:snapshotState()};}
       function renderStorageStatus(){
         const root=$('#storageStatus');if(!root)return;
-        const title=$('#storageStatusTitle'),body=$('#storageStatusBody');
-        root.classList.toggle('error',storageControl.mode==='unavailable'||storageControl.mode==='load-error');
-        if(storageControl.mode==='saving'){title.textContent=t('storageSavingTitle');body.textContent=t('storageSavingBody');return;}
-        if(storageControl.mode==='saved'){title.textContent=t('storageSavedTitle');body.textContent=t('storageSavedBody')+(storageControl.lastSavedAt?' · '+formatDateTime(storageControl.lastSavedAt):'');return;}
-        if(storageControl.mode==='unavailable'){title.textContent=t('storageUnavailableTitle');body.textContent=t('storageUnavailableBody');return;}
-        if(storageControl.mode==='load-error'){title.textContent=t('storageLoadErrorTitle');body.textContent=t('storageLoadErrorBody');return;}
-        title.textContent=t('storageReadyTitle');body.textContent=t('storageReadyBody');
+        const title=$('#storageStatusTitle'),body=$('#storageStatusBody'),mode=storageControl.mode;
+        root.classList.toggle('error',mode==='unavailable'||mode==='load-error');
+        $('#retrySaveButton').hidden=mode!=='unavailable';
+        if(mode==='load-error'){title.textContent=t('storageLoadErrorTitle');body.textContent=t('storageLoadErrorBody');return;}
+        const status=mode==='unavailable'?'error':mode==='saved'?'saved':mode==='saving'?'saving':'dirty';
+        BrowserKittyUI.setSaveStatus(title,{mode:'autosave',state:status,language,time:mode==='saved'&&storageControl.lastSavedAt?formatDateTime(storageControl.lastSavedAt):''});
+        body.textContent=mode==='unavailable'?t('storageUnavailableBody'):t('storageReadyBody');
       }
       function persistState(){
         clearTimeout(persistTimer);persistTimer=0;
         if(storageControl.blocked){renderStorageStatus();return false;}
+        storageControl.mode='saving';renderStorageStatus();
         const savedAt=new Date().toISOString();
         try{localStorage.setItem(storageKey,JSON.stringify(storageEnvelope(savedAt)));storageControl.mode='saved';storageControl.lastSavedAt=savedAt;renderStorageStatus();return true;}
         catch{storageControl.mode='unavailable';storageControl.blocked=true;renderStorageStatus();return false;}
       }
       function schedulePersist(){
         if(storageControl.blocked){renderStorageStatus();return;}
-        clearTimeout(persistTimer);storageControl.mode='saving';renderStorageStatus();persistTimer=window.setTimeout(persistState,220);
+        clearTimeout(persistTimer);storageControl.mode='dirty';renderStorageStatus();persistTimer=window.setTimeout(persistState,220);
       }
       function clearUiSelections(){checkoutState.selectedBorrowerId=null;checkoutState.selectedItemIds.clear();returnState.selectedBorrowerId=null;returnState.partialMode=false;returnState.selectedItemIds.clear();returnState.query='';$('#checkoutBorrowerQuery').value='';$('#checkoutItemSearch').value='';$('#historySearch').value='';$('#itemManagementSearch').value='';}
       function safeFilePart(value){return String(value||'').trim().replace(/[\\/:*?"<>|]+/g,'-').replace(/\s+/g,'-').replace(/-+/g,'-').replace(/^-|-$/g,'').slice(0,48);}
+      function editedFilename(inputId,extension,fallback){
+        const cleaned=$('#'+inputId).value.trim().replace(/[\\/:*?"<>|\u0000-\u001f]/g,'-').replace(/\.+$/g,'').trim();
+        const base=cleaned.replace(new RegExp('\\.'+extension+'$','i'),'').slice(0,120);
+        if(!base)return fallback;
+        return (/^(con|prn|aux|nul|com[1-9]|lpt[1-9])$/i.test(base)?base+'-file':base)+'.'+extension;
+      }
       function backupFilename(){const stamp=new Date().toISOString().replace(/[-:]/g,'').replace(/\.\d{3}Z$/,'Z'),board=safeFilePart(state.board.name)||'board';return APP_CONFIG.slug+'-'+board+'-'+stamp+'.json';}
       function downloadJsonBackup(){
         const json=JSON.stringify(backupEnvelope(),null,2),url=URL.createObjectURL(new Blob([json],{type:'application/json;charset=utf-8'})),link=document.createElement('a');
-        link.href=url;link.download=backupFilename();document.body.append(link);link.click();link.remove();window.setTimeout(()=>URL.revokeObjectURL(url),0);showToast(t('backupSaved'));
+        link.href=url;link.download=editedFilename('backupFilenameInput','json',backupFilename());document.body.append(link);link.click();link.remove();window.setTimeout(()=>URL.revokeObjectURL(url),0);showToast(BrowserKittyUI.text('downloadStarted',language));
       }
       function csvSafeValue(value){
         let text=value==null?'':String(value).replace(/\u0000/g,'');
@@ -1276,7 +1540,7 @@
       function csvFilename(kind){const board=safeFilePart(state.board.name)||'board';return APP_CONFIG.slug+'-'+board+'-'+kind+'-'+csvTimestamp()+'.csv';}
       function downloadCsv(kind,headers,rows){
         const url=URL.createObjectURL(new Blob([csvText(headers,rows)],{type:'text/csv;charset=utf-8'})),link=document.createElement('a');
-        link.href=url;link.download=csvFilename(kind);document.body.append(link);link.click();link.remove();window.setTimeout(()=>URL.revokeObjectURL(url),0);showToast(t('csvExported')+' · '+rows.length);
+        link.href=url;link.download=editedFilename('csvFilenameInput','csv',csvFilename(kind));document.body.append(link);link.click();link.remove();window.setTimeout(()=>URL.revokeObjectURL(url),0);showToast(BrowserKittyUI.text('downloadStarted',language)+' · '+rows.length);
       }
       function csvYesNo(value){return language==='ja'?(value?'はい':'いいえ'):(value?'Yes':'No');}
       function csvStatus(item){if(item.archived)return language==='ja'?'アーカイブ済み':'Archived';return item.status==='checked-out'?(language==='ja'?'貸出中':'Checked out'):(language==='ja'?'利用可能':'Available');}
@@ -1309,21 +1573,112 @@
         downloadCsv('equipment',headers,rows);
       }
       function restoreState(nextState){state=nextState;clearUiSelections();storageControl.blocked=false;storageControl.mode='ready';storageControl.lastSavedAt=null;render();persistState();}
-      function resetAllData(){
-        if(!window.confirm(t('resetConfirm')))return;
-        try{localStorage.removeItem(storageKey);}catch{}
-        state=createInitialState();clearUiSelections();storageControl.blocked=false;storageControl.mode='ready';storageControl.lastSavedAt=null;render();persistState();showToast(t('resetComplete'));
+      function dataCounts(data){return data.items.length+' / '+data.borrowers.length+' / '+data.events.length;}
+      function renderDataScope(){
+        $('#backupScope').textContent=t('backupScope')+' '+dataCounts(state);
+        $('#csvScope').textContent=t('csvScope')+' '+state.items.filter(item=>!item.archived&&item.status==='checked-out').length+' / '+state.events.reduce((count,event)=>count+(event.itemIds||[]).length,0)+' / '+state.items.length;
+      }
+      function setDataBusy(busy){
+        destructivePending=busy;
+        BrowserKittyUI.setButtonState($('#restoreBackupButton'),busy?'busy':'ready');
+        BrowserKittyUI.setButtonState($('#resetDataButton'),busy?'unavailable':'ready');
+        $('#restoreBackupButton').textContent=t(busy?'readingBackup':'restoreBackup');
+        $('#dataBusyReason').hidden=!busy;$('#dataBusyReason').textContent=t('dataBusyReason');
+      }
+      async function resetAllData(){
+        if(destructivePending)return;
+        setDataBusy(true);
+        try{
+          const ok=await AppConfirm.ask({title:t('resetData'),returnFocus:$('#resetDataButton'),message:t('resetConfirm')+' '+t('confirmScope')+' '+dataCounts(state)+'. '+t('preferencesRemain'),confirmLabel:t('resetData'),cancelLabel:t('cancel'),tone:'danger'});
+          if(!ok)return;
+          clearTimeout(persistTimer);persistTimer=0;
+          state=createInitialState();clearUiSelections();storageControl.blocked=false;storageControl.mode='dirty';storageControl.lastSavedAt=null;render(false);persistState();showToast(t('resetComplete'));
+        }finally{setDataBusy(false);}
       }
       async function restoreBackupFile(file){
+        if(destructivePending)return;
         $('#restoreFileName').hidden=false;$('#restoreFileName').textContent=t('selectedBackupFile')+': '+file.name;
         if(file.size>MAX_BACKUP_BYTES){showToast(t('backupTooLarge'));return;}
+        setDataBusy(true);
+        let nextState;
+        try{const envelope=JSON.parse(await file.text());nextState=parseStateEnvelope(envelope,BACKUP_FORMAT);}
+        catch{setDataBusy(false);showToast(t('backupInvalid'));return;}
         try{
-          const envelope=JSON.parse(await file.text()),nextState=parseStateEnvelope(envelope,BACKUP_FORMAT);
-          if(!window.confirm(t('restoreConfirm')))return;
+          const ok=await AppConfirm.ask({title:t('restoreBackup'),returnFocus:$('#restoreBackupButton'),message:file.name+' — '+t('restoreConfirm')+' '+t('confirmScope')+' '+dataCounts(state)+' → '+dataCounts(nextState)+'. '+t('preferencesRemain'),confirmLabel:t('restoreBackup'),cancelLabel:t('cancel'),tone:'danger'});
+          if(!ok)return;
+          clearTimeout(persistTimer);persistTimer=0;
           restoreState(nextState);showToast(t('restoreComplete'));
-        }catch{showToast(t('backupInvalid'));}
+        }finally{setDataBusy(false);}
       }
 
+
+      const AppConfirm=(() => {
+    'use strict';
+
+    const dialog = document.getElementById('appConfirmDialog');
+    const title = document.getElementById('appConfirmTitle');
+    const message = document.getElementById('appConfirmMessage');
+    const closeButton = document.getElementById('appConfirmClose');
+    const cancelButton = document.getElementById('appConfirmCancel');
+    const okButton = document.getElementById('appConfirmOk');
+    let resolver = null;
+    let restoreFocus = null;
+
+    function defaults() {
+      const ja = (document.documentElement.lang || navigator.language || '').toLowerCase().startsWith('ja');
+      return ja
+        ? { title: '確認', confirmLabel: '実行する', cancelLabel: 'キャンセル' }
+        : { title: 'Confirm', confirmLabel: 'Continue', cancelLabel: 'Cancel' };
+    }
+
+    function finish(result) {
+      if (!dialog.open) return;
+      const currentResolver = resolver;
+      resolver = null;
+      dialog.close();
+      setDataBusy(false);
+      const target=restoreFocus instanceof HTMLElement&&restoreFocus.isConnected&&!restoreFocus.disabled?restoreFocus:$('#boardName');
+      target.focus({preventScroll:true});
+      restoreFocus = null;
+      if (currentResolver) currentResolver(result);
+    }
+
+    function ask(options = {}) {
+      if (dialog.open) finish(false);
+      const fallback = defaults();
+      title.textContent = options.title || fallback.title;
+      message.textContent = options.message || '';
+      cancelButton.textContent = options.cancelLabel || fallback.cancelLabel;
+      okButton.textContent = options.confirmLabel || fallback.confirmLabel;
+      closeButton.setAttribute('aria-label',t('cancel'));
+      okButton.classList.toggle('danger', options.tone === 'danger');
+      okButton.classList.toggle('primary', options.tone !== 'danger');
+      restoreFocus = options.returnFocus || document.activeElement;
+
+      return new Promise(resolve => {
+        resolver = resolve;
+        dialog.showModal();
+        requestAnimationFrame(() => cancelButton.focus({ preventScroll: true }));
+      });
+    }
+
+    closeButton.addEventListener('click', () => finish(false));
+    cancelButton.addEventListener('click', () => finish(false));
+    okButton.addEventListener('click', () => finish(true));
+    dialog.addEventListener('cancel', event => {
+      event.preventDefault();
+      finish(false);
+    });
+    dialog.addEventListener('click', event => {
+      const rect = dialog.getBoundingClientRect();
+      const outside = event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom;
+      if (outside) finish(false);
+    });
+
+    return Object.freeze({ ask });
+  })();
+
+      window.AppConfirm=AppConfirm;
       const AppToast=(()=>{const root=$('#appToast'),message=$('#appToastMessage'),action=$('#appToastAction');let timer=0,actionHandler=null;
         function dismiss(){clearTimeout(timer);timer=0;root.classList.remove('show');actionHandler=null;}
         function show({message:text='',actionLabel='',onAction=null,duration=3200}={}){clearTimeout(timer);message.textContent=String(text);actionHandler=typeof onAction==='function'?onAction:null;action.textContent=actionLabel||'';action.hidden=!actionHandler||!actionLabel;root.classList.add('show');if(duration>0)timer=window.setTimeout(dismiss,duration);return Object.freeze({dismiss});}
@@ -1421,7 +1776,9 @@
         const languageTarget=language==='ja'?'英語に切り替え':'Switch to Japanese';
         languageButton.textContent=language==='ja'?'EN':'JA';
         languageButton.setAttribute('aria-label',languageTarget);languageButton.title=languageTarget;
-        render();
+        render(false);
+        renderDataScope();
+        if(destructivePending)setDataBusy(true);
       }
       function updateCounts(){
         const activeItems=state.items.filter(item=>!item.archived),checked=activeItems.filter(item=>item.status==='checked-out').length,activeBorrowers=borrowersWithOutstanding().length,available=activeItems.filter(item=>item.status==='available').length;
@@ -1430,7 +1787,7 @@
       }
       function makeEmptyState(titleKey,bodyKey,iconPath){const root=document.createElement('div');root.className='empty-state';const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');svg.setAttribute('viewBox','0 0 24 24');svg.setAttribute('fill','none');svg.setAttribute('stroke','currentColor');svg.setAttribute('stroke-width','1.8');svg.setAttribute('stroke-linecap','round');svg.setAttribute('stroke-linejoin','round');svg.setAttribute('aria-hidden','true');const path=document.createElementNS('http://www.w3.org/2000/svg','path');path.setAttribute('d',iconPath);svg.append(path);const strong=document.createElement('strong');strong.textContent=t(titleKey);const p=document.createElement('p');p.textContent=t(bodyKey);root.append(svg,strong,p);return root;}
       function metaPart(text){const span=document.createElement('span');span.textContent=text;return span;}
-      function makeRecord({title,meta=[],note='',id,type,statusKey='',archived=false,archiveDisabled=false}){const root=document.createElement('article');root.className='record'+(archived?' archived':'');const main=document.createElement('div');main.className='record-main';const heading=document.createElement('div');heading.className='record-title';heading.textContent=title;main.append(heading);const metaRow=document.createElement('div');metaRow.className='record-meta';if(statusKey){const status=document.createElement('span');status.className='record-status'+(statusKey==='checkedOut'?' checked-out':statusKey==='archived'?' archived':'');status.textContent=t(statusKey);metaRow.append(status);}meta.filter(Boolean).forEach(v=>metaRow.append(metaPart(v)));if(metaRow.childElementCount)main.append(metaRow);if(note){const noteEl=document.createElement('div');noteEl.className='record-note';noteEl.textContent=note;main.append(noteEl);}const actions=document.createElement('div');actions.className='record-actions';const edit=document.createElement('button');edit.className='button small';edit.type='button';edit.dataset.editType=type;edit.dataset.editId=id;edit.textContent=t('edit');actions.append(edit);if(type==='item'){const stateButton=document.createElement('button');stateButton.className='button small '+(archived?'restore-action':'archive-action');stateButton.type='button';if(archived){stateButton.dataset.restoreItem=id;stateButton.textContent=t('restore');}else{stateButton.dataset.archiveItem=id;stateButton.textContent=t('archive');stateButton.disabled=archiveDisabled;if(archiveDisabled){stateButton.title=t('archiveBlockedTitle');stateButton.setAttribute('aria-label',t('archiveBlockedTitle'));}}actions.append(stateButton);}root.append(main,actions);return root;}
+      function makeRecord({title,meta=[],note='',id,type,statusKey='',archived=false,archiveDisabled=false}){const root=document.createElement('article');root.className='record'+(archived?' archived':'');const main=document.createElement('div');main.className='record-main';const heading=document.createElement('div');heading.className='record-title';heading.textContent=title;main.append(heading);const metaRow=document.createElement('div');metaRow.className='record-meta';if(statusKey){const status=document.createElement('span');status.className='record-status'+(statusKey==='checkedOut'?' checked-out':statusKey==='archived'?' archived':'');status.textContent=t(statusKey);metaRow.append(status);}meta.filter(Boolean).forEach(v=>metaRow.append(metaPart(v)));if(metaRow.childElementCount)main.append(metaRow);if(note){const noteEl=document.createElement('div');noteEl.className='record-note';noteEl.textContent=note;main.append(noteEl);}const actions=document.createElement('div');actions.className='record-actions';const edit=document.createElement('button');edit.setAttribute('data-bk-button','');edit.setAttribute('data-bk-variant','secondary');edit.className='button small';edit.type='button';edit.dataset.editType=type;edit.dataset.editId=id;edit.textContent=t('edit');actions.append(edit);if(type==='item'){const stateButton=document.createElement('button');stateButton.setAttribute('data-bk-button','');stateButton.setAttribute('data-bk-variant','secondary');stateButton.className='button small '+(archived?'restore-action':'archive-action');stateButton.type='button';if(archived){stateButton.dataset.restoreItem=id;stateButton.textContent=t('restore');}else{stateButton.dataset.archiveItem=id;stateButton.textContent=t('archive');stateButton.disabled=archiveDisabled;if(archiveDisabled){const reason=document.createElement('span');reason.className='field-hint';reason.textContent=t('archiveBlocked');actions.append(reason);stateButton.title=t('archiveBlockedTitle');stateButton.setAttribute('aria-label',t('archiveBlockedTitle'));}}actions.append(stateButton);}root.append(main,actions);return root;}
 
       function renderBatchPreview(){
         const preview=$('#batchPreview'),button=$('#batchAddButton'),values=batchValues(),items=generatedBatch(values);
@@ -1480,7 +1837,7 @@
         const button=$('#returnSelectedButton'),summary=$('#returnSelectionSummary');if(!button||!summary)return;
         const items=currentReturnItems(),matches=matchingReturnItems(items),visibleIds=new Set(matches.map(item=>item.itemId)),selectedCount=returnState.selectedItemIds.size;
         const hiddenCount=Array.from(returnState.selectedItemIds).filter(id=>!visibleIds.has(id)).length;
-        button.disabled=selectedCount<1;button.textContent=returnSelectedLabel(selectedCount);
+        BrowserKittyUI.setButtonState(button,selectedCount<1?'unavailable':'ready');button.textContent=returnSelectedLabel(selectedCount);
         summary.textContent=t('returnItemHint')+' '+t('returnMatchingCount')+': '+matches.length+' / '+items.length+' · '+t('returnSelectedCount')+': '+selectedCount+(hiddenCount?' · '+t('returnHiddenSelectedCount')+': '+hiddenCount:'');
       }
       function renderPartialReturnItems(){
@@ -1503,11 +1860,11 @@
         const list=document.createElement('div');list.className='return-list';list.id='returnItemList';detail.append(list);
         const actions=document.createElement('div');actions.className='return-actions';
         if(returnState.partialMode){
-          const confirm=document.createElement('button');confirm.className='button primary';confirm.type='button';confirm.id='returnSelectedButton';const cancel=document.createElement('button');cancel.className='button';cancel.type='button';cancel.id='cancelPartialReturn';cancel.textContent=t('cancelPartial');actions.append(confirm,cancel);
+          const confirm=document.createElement('button');confirm.setAttribute('data-bk-button','');confirm.setAttribute('data-bk-variant','primary');confirm.className='button primary';confirm.type='button';confirm.id='returnSelectedButton';const cancel=document.createElement('button');cancel.setAttribute('data-bk-button','');cancel.setAttribute('data-bk-variant','secondary');cancel.className='button';cancel.type='button';cancel.id='cancelPartialReturn';cancel.textContent=t('cancelPartial');actions.append(confirm,cancel);
           const note=document.createElement('div');note.className='return-selected-note';note.id='returnSelectionSummary';note.setAttribute('role','status');detail.append(note);
         }else{
           appendReturnItems(list,items);
-          const all=document.createElement('button');all.className='button primary';all.type='button';all.id='returnAllButton';all.textContent=returnAllLabel(items.length);const partial=document.createElement('button');partial.className='button secondary-accent';partial.type='button';partial.id='startPartialReturn';partial.textContent=t('partialReturn');actions.append(all,partial);
+          const all=document.createElement('button');all.setAttribute('data-bk-button','');all.setAttribute('data-bk-variant','primary');all.className='button primary';all.type='button';all.id='returnAllButton';all.textContent=returnAllLabel(items.length);const partial=document.createElement('button');partial.setAttribute('data-bk-button','');partial.setAttribute('data-bk-variant','secondary');partial.className='button secondary-accent';partial.type='button';partial.id='startPartialReturn';partial.textContent=t('partialReturn');actions.append(all,partial);
         }
         detail.append(actions);root.append(detail);
         if(returnState.partialMode)renderPartialReturnItems();
@@ -1517,7 +1874,7 @@
         if(!borrowers.length){
           const complete=document.createElement('div');complete.className='board-complete';
           const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');svg.setAttribute('viewBox','0 0 24 24');svg.setAttribute('fill','none');svg.setAttribute('stroke','currentColor');svg.setAttribute('stroke-width','1.9');svg.setAttribute('stroke-linecap','round');svg.setAttribute('stroke-linejoin','round');svg.setAttribute('aria-hidden','true');const circle=document.createElementNS('http://www.w3.org/2000/svg','circle');circle.setAttribute('cx','12');circle.setAttribute('cy','12');circle.setAttribute('r','9');const path=document.createElementNS('http://www.w3.org/2000/svg','path');path.setAttribute('d','m8 12 2.6 2.6L16.5 9');svg.append(circle,path);
-          const title=document.createElement('strong');title.textContent=t('allReturnedTitle');const body=document.createElement('p');body.textContent=t('allReturnedBody');const button=document.createElement('button');button.className='button primary';button.type='button';button.dataset.boardStartCheckout='1';button.textContent=t('startCheckout');complete.append(svg,title,body,button);root.append(complete);return;
+          const title=document.createElement('strong');title.textContent=t('allReturnedTitle');const body=document.createElement('p');body.textContent=t('allReturnedBody');const button=document.createElement('button');button.setAttribute('data-bk-button','');button.setAttribute('data-bk-variant','primary');button.className='button primary';button.type='button';button.dataset.boardStartCheckout='1';button.textContent=t('startCheckout');complete.append(svg,title,body,button);root.append(complete);return;
         }
         borrowers.forEach(borrower=>{
           const items=checkedOutItemsForBorrower(borrower.borrowerId).slice().sort((a,b)=>String(a.currentCheckoutAt||'').localeCompare(String(b.currentCheckoutAt||'')));
@@ -1526,7 +1883,7 @@
           const itemList=document.createElement('div');itemList.className='outstanding-items';
           items.forEach(item=>{const row=document.createElement('div');row.className='outstanding-item';const copy=document.createElement('div');copy.className='outstanding-item-copy';const itemName=document.createElement('span');itemName.className='outstanding-item-name';itemName.textContent=item.name;const meta=document.createElement('div');meta.className='outstanding-item-meta';if(item.category)meta.append(metaPart(t('categoryPrefix')+': '+item.category));if(item.code)meta.append(metaPart(t('codePrefix')+': '+item.code));copy.append(itemName);if(meta.childElementCount)copy.append(meta);const time=document.createElement('span');time.className='outstanding-item-time';time.textContent=item.currentCheckoutAt?formatDateTime(item.currentCheckoutAt):'';row.append(copy,time);itemList.append(row);});
           group.append(itemList);
-          const actions=document.createElement('div');actions.className='outstanding-actions';const all=document.createElement('button');all.className='button primary';all.type='button';all.dataset.boardReturnAll=borrower.borrowerId;all.textContent=returnAllLabel(items.length);const partial=document.createElement('button');partial.className='button secondary-accent';partial.type='button';partial.dataset.boardPartialReturn=borrower.borrowerId;partial.textContent=t('boardPartialReturn');actions.append(all,partial);group.append(actions);root.append(group);
+          const actions=document.createElement('div');actions.className='outstanding-actions';const all=document.createElement('button');all.setAttribute('data-bk-button','');all.setAttribute('data-bk-variant','primary');all.className='button primary';all.type='button';all.dataset.boardReturnAll=borrower.borrowerId;all.textContent=returnAllLabel(items.length);const partial=document.createElement('button');partial.setAttribute('data-bk-button','');partial.setAttribute('data-bk-variant','secondary');partial.className='button secondary-accent';partial.type='button';partial.dataset.boardPartialReturn=borrower.borrowerId;partial.textContent=t('boardPartialReturn');actions.append(all,partial);group.append(actions);root.append(group);
         });
       }
       function renderReturn(){renderReturnBorrowers();renderReturnDetail();}
@@ -1550,12 +1907,12 @@
           main.append(titleLine,items);
           const actions=document.createElement('div');actions.className='history-actions';
           if(latest&&latest.eventId===event.eventId&&(event.type==='checkout'||event.type==='return')){
-            const undoButton=document.createElement('button');undoButton.className='button small';undoButton.type='button';undoButton.dataset.historyUndo=event.eventId;undoButton.textContent=t('undo');actions.append(undoButton);
+            const undoButton=document.createElement('button');undoButton.setAttribute('data-bk-button','');undoButton.setAttribute('data-bk-variant','secondary');undoButton.className='button small';undoButton.type='button';undoButton.dataset.historyUndo=event.eventId;undoButton.textContent=t('undo');actions.append(undoButton);
           }
           row.append(time,main,actions);root.append(row);
         });
       }
-      function render(){$('#boardName').value=state.board.name;updateCounts();renderOutstandingBoard();renderCheckout();renderReturn();renderHistory();renderBatchPreview();renderItems();renderBorrowers();renderStorageStatus();schedulePersist();}
+      function render(persist=true){$('#boardName').value=state.board.name;updateCounts();renderOutstandingBoard();renderCheckout();renderReturn();renderHistory();renderBatchPreview();renderItems();renderBorrowers();renderStorageStatus();renderDataScope();if(persist)schedulePersist();}
       function trimmedValue(selector){return $(selector).value.trim();}
 
       $('#boardName').addEventListener('input',event=>{state.board.name=event.currentTarget.value;state.board.updatedAt=new Date().toISOString();schedulePersist();});
@@ -1621,7 +1978,8 @@
       ['itemEditDialog','borrowerEditDialog','helpDialog'].forEach(id=>{const dialog=document.getElementById(id);dialog.addEventListener('click',event=>{if(id==='helpDialog'&&event.target!==dialog)return;closeDialogFromBackdrop(dialog,event);});});
       const helpDialog=$('#helpDialog');$('#helpButton').addEventListener('click',()=>helpDialog.showModal());$('#closeHelpButton').addEventListener('click',()=>helpDialog.close());
       window.addEventListener('pagehide',()=>{if(persistTimer)persistState();});
-      $('#languageButton').addEventListener('click',()=>{language=language==='ja'?'en':'ja';saveLanguage();applyLanguage();});
+      $('#languageButton').addEventListener('click',()=>{const choice=BrowserKittyUI.chooseLanguage(language==='ja'?'en':'ja');language=choice.language;applyLanguage();if(!choice.persisted)showToast(BrowserKittyUI.text('languageSessionOnly',language));});
+      $('#retrySaveButton').addEventListener('click',()=>{if(storageControl.mode==='load-error')return;storageControl.blocked=false;persistState();});
 
       $('#versionBadge').textContent = 'v' + APP_CONFIG.version;
       $('#buildVersion').textContent = APP_CONFIG.version;

@@ -63,6 +63,8 @@ The update checker is a repository-maintenance network operation. It does not ru
 
 ## Build placeholders
 
+Loan Board also embeds fixed Browser Kitty UI 1.0.0 through `__BK_UI_JS__` and `__BK_UI_CSS__`. `scripts/embed-ui-conventions.ps1` requires exactly one of each and validates `components/ui-conventions.lock.json` before substitution. The final HTML records component/rules versions and remains offline. App-specific persistence and confirmations stay in the source application script.
+
 The source template contains exactly one of each data placeholder:
 
 - `__APP_CONFIG_JSON__`

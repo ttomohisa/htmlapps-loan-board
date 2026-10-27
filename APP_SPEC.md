@@ -188,6 +188,9 @@ Autosaveは `localStorage` を使用する。
 - pagehide時にpending saveをflush
 - load時にformat / schema / appSlug / references / stateをvalidation
 - load error時は既存storageを自動上書きしない
+- 保存状態はボード名の直下に表示。変更待ちは未保存、書込み中は保存中、現在内容の書込み確認後だけ成功と最終保存時刻を表示する。
+- 保存失敗時は作業と前回成功時刻を維持し、「保存を再試行」とJSONバックアップを利用できる。壊れた自動保存には再試行で上書きせず、明示した復元・削除だけを許可する。
+- 起動・言語切替だけでは保存しない。変更時の220ms debounceとpagehide flushを維持し、削除・復元の確定時は予約保存を取消してから同期書込みする。
 
 Autosaveはcloud syncではない。
 
@@ -214,6 +217,10 @@ Restore:
 - restored stateをautosave
 
 CSVはbackup replacementではない。
+
+削除・復元は `AppConfirm` のアプリ内確認を使う。対象の備品・貸出先・履歴件数と、言語設定・他ツール・元ファイルを変更しないことを表示する。初期フォーカスはキャンセル。Esc・背景クリックは取消し、終了時は起点へ戻す（起点がなければボード名）。ファイルの検証は確認より前に行う。読込みと確認の間は競合する置換操作を無効にし、作業を保持する。
+
+JSONバックアップとCSVには編集可能なファイル名を提供する。空欄は従来のボード名・出力種別・日時による自動名を維持。拡張子を補正し、パス記号・制御文字を除去する。出力対象件数を表示し、ダウンロード開始を通知する。端末への保存完了は主張しない。
 
 ## 8. CSV export
 
@@ -289,6 +296,14 @@ v1.0.0で対象外:
 Semantic Versioning.
 
 **v1.0.0** freezes the first stable Loan Board data model and user workflow described in this specification.
+
+## Shared UI conventions 1.0.0
+
+`components/ui-conventions.js` / `.css` はhtmlapps-templateの正本をそのまま取り込み、lockのSHA-256をビルド時に検証してHTMLへ内包する。規約・部品版をHTMLに記録し、実行時依存は追加しない。
+
+言語は有効なURL `lang` → 共通キー `browser-kitty:ui-language:v1` → 旧 `loan-board:language` → ブラウザー一覧で最初のja/en → en。起動は読取りのみ。明示した切替だけ共通キーに保存し、既存URLのlangを履歴追加なしで更新する。記憶できなければ画面内のみと通知する。貸出・返却・入力・選択を保持し、別タブの設定変更で編集中の言語を切り替えない。
+
+対象ボタンを属性で明示して共通の色とdisabled/busy状態へ接続する。無効理由は近くに示し、ヘッダーの言語・ヘルプは44px以上の操作領域を持つ。
 
 ## v1.0.3 icon consistency
 

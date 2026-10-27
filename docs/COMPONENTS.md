@@ -1,5 +1,15 @@
 # Reusable UI components
 
+## Loan Board shared UI integration
+
+Loan Board vendors the exact htmlapps-template `components/ui-conventions.js` and `.css`, version 1.0.0, with `components/ui-conventions.lock.json`. `scripts/embed-ui-conventions.ps1` verifies the byte hashes and requires exactly one `__BK_UI_JS__` and `__BK_UI_CSS__` before embedding. Keep LF asset line endings. Update both canonical assets and their reviewed pin together; never edit vendored code independently.
+
+The app uses `BrowserKittyUI.resolveLanguage({legacyKeys:[languageKey]})` and explicit `chooseLanguage()`; only the shared language preference is written. `setSaveStatus` displays actual synchronous localStorage results and `setButtonState` handles explicit busy/disabled controls. Application state, validation, CSV/backup serialization and debounce timers remain application-owned. Startup and language-only renders call `render(false)` and never schedule data writes.
+
+The existing template `AppConfirm` is embedded for irreversible board deletion and backup replacement. Both pass localized text, affected counts, a danger action, Cancel-first focus and an explicit return-focus target. It cancels on Escape/backdrop and falls back to the board name when the trigger disappears. Replacement work waits for validation and confirmation, cancels scheduled saves, then synchronously writes only the accepted state. The existing `AppToast` and domain Undo behavior are retained.
+
+Run `scripts/check-repository.ps1` for hash/marker regressions, build/static checks, and source/root/readable/self-extract behavior tests. Browser layout, native focus containment and download handoff still require browser QA.
+
 `components/` contains UI snippets that can be reused when creating a new single-HTML app from this template.
 
 They are not automatically loaded by the builder. Copy or adapt the component into `src/index.template.html` so the release remains one self-contained HTML file. Most components are dependency-free; the WebRTC QR pairing component is dependency-aware and uses pinned assets through the existing standalone asset pipeline.
