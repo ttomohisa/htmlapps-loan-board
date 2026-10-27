@@ -7,6 +7,11 @@ const evidence=path.resolve('test-results/mobile-layout');
 async function bounds(locator,width,height,label,vertical=true){const r=await locator.boundingBox();assert.ok(r&&r.x>=-1&&r.x+r.width<=width+1&&(!vertical||(r.y>=-1&&r.y+r.height<=height+1)),label+': bounds '+JSON.stringify(r));}
 // Check rendered geometry, including clipping by an ancestor (isVisible alone misses it).
 async function auditHeader(page, label) {
+  for (const selector of ['#retrySaveButton','#restoreBackupInput','#dataBusyReason','#restoreFileName','#appToastAction','#restoreError']) {
+    const state=await page.locator(selector).evaluate(el=>({hidden:el.hidden,display:getComputedStyle(el).display}));
+    assert.equal(state.hidden,true,label+': initially hidden '+selector);
+    assert.equal(state.display,'none',label+': hidden semantics override authored display '+selector);
+  }
   const badge = page.locator('header #versionBadge');
   assert.equal(await badge.textContent(), 'v' + require('../app.config.json').version, label + ': current header version');
   assert.equal(await badge.isVisible(), true, label + ': version visible');

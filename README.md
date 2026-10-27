@@ -93,6 +93,8 @@ JSON is the **full-state restore format**.
 
 Restore validates the backup format, schema, IDs, references, and loan state before asking for confirmation to replace the current board.
 
+If a file is too large, unreadable, or invalid, a persistent message beside Restore explains how to recover. Your board remains unchanged. Choose another valid JSON backup or keep working and back up the current board.
+
 Restore and Delete saved board show the affected equipment, borrower and event counts. Cancel, Escape and backdrop clicks leave the board unchanged. Shared language preferences and other tools are preserved. Export scope is shown beside the controls; edit the backup or CSV filename if needed. A download-start notice means the file was handed to the browser.
 
 ### CSV

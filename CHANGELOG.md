@@ -8,6 +8,8 @@
 
 ## Unreleased
 
+- Preserve native hidden semantics over button layout styles, keep file-picker inputs hidden, and remove duplicate retry-button attributes. Failed backup restores now show persistent localized size/read/validation errors with recovery guidance while preserving the current board.
+
 - Embed pinned Browser Kitty UI 1.0.0 with exact hash verification. Add explicit shared language choice and URL handling without writing legacy preferences or autosaving on startup/language-only renders.
 - Move confirmed autosave status below the board name; preserve work and last successful save time on failure and offer retry. Protect corrupt stored data and retain schema-v1 compatibility.
 - Replace native reset/restore confirmation with cancel-first app dialogs showing affected counts, focus restoration and pending-save cancellation. Validate backups before confirmation and guard competing replacement operations.

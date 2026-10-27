@@ -60,7 +60,7 @@ function harness({ language = 'en', initial = data(), raw, appVersion, sharedLan
     click() { if (this.tagName === 'A') downloads.push({ name: this.download, href: this.href }); else if (!this.disabled) this.trigger('click'); }
   }
   const body = new Element('body');
-  for (const m of html.matchAll(/<([\w-]+)\b[^>]*\bid="([^"]+)"[^>]*>/g)) { const el = new Element(m[1]); el.id = m[2]; el.value = m[0].match(/\bvalue="([^"]*)"/)?.[1] || ''; body.append(el); }
+  for (const m of html.matchAll(/<([\w-]+)\b[^>]*\bid="([^"]+)"[^>]*>/g)) { const el = new Element(m[1]); el.id = m[2]; for(const attr of m[0].matchAll(/\b(role|aria-live)="([^"]*)"/g))el.setAttribute(attr[1],attr[2]); el.value = m[0].match(/\bvalue="([^"]*)"/)?.[1] || ''; body.append(el); }
   for (const m of html.matchAll(/<([\w-]+)\b[^>]*\bdata-i18n="([^"]+)"[^>]*>/g)) {
     if (/\bid=/.test(m[0])) continue;
     const el = new Element(m[1]); el.dataset.i18n = m[2]; body.append(el);
@@ -149,6 +149,34 @@ test('backup and CSV preserve old payloads with user-edited safe filenames and d
   h.get('#csvFilenameInput').value='review.csv';h.api.exportOutstandingCsv();
   assert.equal(h.downloads[1].name,'review.csv'); assert.match(h.get('#appToastMessage').textContent,/Download started/);
 });
+for (const language of ['en','ja']) {
+  test(`${language}: restore errors remain visible after toast expiry, preserve work and relocalize`, async () => {
+    const h=harness({language}); h.open(); h.select('radio-1'); h.search('RAD');
+    const before=JSON.stringify(h.api.state),raw=h.storage.get('loan-board:state:v1');
+    const error=h.get('#restoreError');assert(error,'Persistent restore error region exists');
+    const cases=[
+      ['backupTooLarge',{name:'large.json',size:10*1024*1024+1,text:async()=>{throw Error('must not read');}}],
+      ['backupReadFailed',{name:'unreadable.json',size:1,text:async()=>{throw Error('read denied');}}],
+      ['backupInvalid',{name:'invalid.json',size:1,text:async()=>'not json'}]
+    ];
+    for(const [key,file] of cases){
+      await h.api.restoreBackupFile(file);h.flush();
+      assert.equal(error.hidden,false);assert.equal(error.getAttribute('role'),'alert');
+      assert.equal(error.textContent,h.api.t(key)+' '+h.api.t('restoreRecovery'));
+      assert.equal(JSON.stringify(h.api.state),before);assert.equal(h.storage.get('loan-board:state:v1'),raw);
+      assert.equal(h.api.ui.query,'RAD');assert.deepEqual(Array.from(h.api.ui.selectedItemIds),['radio-1']);
+    }
+    h.get('#languageButton').click();
+    assert.equal(error.textContent,h.api.t('backupInvalid')+' '+h.api.t('restoreRecovery'));
+    let release;
+    const pending=h.api.restoreBackupFile({name:'valid.json',size:1,text:()=>new Promise(resolve=>{release=resolve;})});
+    assert.equal(error.hidden,true,'New attempt clears the old error immediately');
+    release(JSON.stringify(envelope(data(true),'browser-kitty-loan-board-backup')));
+    await h.confirm(pending);
+    assert.equal(error.hidden,true);assert.equal(error.textContent,'');
+    assert.equal(h.api.state.borrowers[0].archived,true);
+  });
+}
 for (const language of ['en', 'ja']) {
   test(`${language}: partial return searches name/category/code only within selected borrower's loans`, () => {
     const h = harness({ language }); h.open();
